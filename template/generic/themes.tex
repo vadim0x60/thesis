@@ -1,0 +1,82 @@
+%----------------------------------------------------------------------------------------
+%   SOLVE CONFLICTS
+%----------------------------------------------------------------------------------------
+\PassOptionsToPackage{table}{xcolor}
+
+%----------------------------------------------------------------------------------------
+%   COLORS
+%----------------------------------------------------------------------------------------
+\usepackage[table]{xcolor} % Required for specifying colors by name
+\usepackage{pagecolor} % dark theme
+
+\definecolor{tuescarlet}{HTML}{C81919}
+
+%----------------------------------------------------------------------------------------
+%   MAKE BOLD STAND OUT
+%----------------------------------------------------------------------------------------
+\let\oldtextbf\textbf
+
+%----------------------------------------------------------------------------------------
+%   DARK THEME
+%----------------------------------------------------------------------------------------
+\newcommand{\togglethemedark}{
+%----------------------------------------------------------------------------------------
+\colorlet{accent}{tuescarlet}
+\colorlet{fg}{white}
+\colorlet{fgalt}{lightgray}
+\colorlet{fgacc}{white}
+\colorlet{bg}{black}
+\colorlet{bgalt}{darkgray}
+\colorlet{bgacc}{tuescarlet}
+\colorlet{border}{white}
+\colorlet{borderalt}{lightgray}
+\colorlet{borderacc}{tuescarlet}
+%----------------------------------------------------------------------------------------
+\pagecolor{bg}
+\color{fgalt}
+\renewcommand{\textbf}[1]{\oldtextbf{\color{fg}##1}}
+}
+
+%----------------------------------------------------------------------------------------
+%   LIGHT THEME
+%----------------------------------------------------------------------------------------
+\newcommand{\togglethemelight}{
+%----------------------------------------------------------------------------------------
+\colorlet{accent}{tuescarlet}
+\colorlet{fg}{black}
+\colorlet{fgalt}{darkgray}
+\colorlet{fgacc}{black}
+\colorlet{bg}{white}
+\colorlet{bgalt}{lightgray}
+\colorlet{bgacc}{tuescarlet}
+\colorlet{border}{black}
+\colorlet{borderalt}{darkgray}
+\colorlet{borderacc}{tuescarlet}
+%----------------------------------------------------------------------------------------
+\pagecolor{bg}
+\color{fgalt}
+\renewcommand{\textbf}[1]{\oldtextbf{\color{fg}##1}}
+}
+
+%----------------------------------------------------------------------------------------
+%   FORTA THEME
+%----------------------------------------------------------------------------------------
+\newcommand{\togglethemeforta}{
+%----------------------------------------------------------------------------------------
+\colorlet{accent}{white}
+\colorlet{fg}{white}
+\colorlet{fgalt}{lightgray}
+\colorlet{fgacc}{black}
+\colorlet{bg}{black}
+\colorlet{bgalt}{darkgray}
+\colorlet{bgacc}{white}
+\colorlet{border}{white}
+\colorlet{borderalt}{lightgray}
+\colorlet{borderacc}{white}
+%----------------------------------------------------------------------------------------
+\pagecolor{bg}
+\color{fgalt}
+\renewcommand{\textbf}[1]{\oldtextbf{\color{fg}##1}}
+}
+
+\togglethemedark

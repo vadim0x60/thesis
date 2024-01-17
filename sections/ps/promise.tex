@@ -1,0 +1,209 @@
+\section{The Quest of Automatic Programming \cite{liventsevTaxonomyAutomaticProgramming2023}}
+\label{sec:quest}
+
+\emph{Automatic programming} or \emph{program synthesis} refers to any technological setup wherein the task of writing computer programs is automated. 
+First introduced in science fiction \cite{jenkinsLogicNamedJoe1946}, it is now an active area of technical research.
+Program synthesis systems are defined by what type of task \emph{specification} they admit, whether and how the generated programs are verified, whether and how pre-existing programs are incorporated \cite{gulwaniDimensionsProgramSynthesis2010}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{ap.png}
+    \caption{Automatic programming system, schematic definition}
+    \label{fig:ap}
+\end{figure}
+
+This definition is purposefully broad and includes, for example, the compiler \cite{penjamDeductiveInductiveMethods2003,patrickmckenzie[@patio11]GlibLineHave2023}: a program synthesis system that admits a specification in the form of a program in a high-level programming language designed for ease of use by humans and generates a program in a low-level programming language designed for ease of deployment on a computer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{compiler.png}
+    \caption{Compiler, schematic definition}
+    \label{fig:compiler}
+\end{figure}
+
+
+The ambition of the field, however, extends far beyond compilers \cite{campbellAutomatedCodingQuest2020}.
+The goal is to impose as few constraints as possible onto the \emph{specification} and ultimately automate the generation of programs for any free-form specification, such as a short textual \cite{zanLargeLanguageModels2023} prompt or a diagram \cite{koziolekLLMbasedControlCode2023}, even a hand-drawn sketch \cite{chatgptmodderChatgptCanNow2023}.
+
+% TODO: examples for the above
+
+\newpage
+\section{Taxonomy of tasks \cite{liventsevTaxonomyAutomaticProgramming2023}}
+\label{sec:taxonomy}
+
+\paragraph{Code translation}
+
+The humble compiler from section \ref{sec:quest} is an instance of a \emph{code translation} system: a \emph{program synthesis} system where the specification is given as text, either in a natural language (\emph{NL2Code translation} \cite{wangNaturalLanguageCode2023, zanLargeLanguageModels2023}) or in a programming language (\emph{code2code translation} \cite{radfordImprovingLanguageUnderstanding})
+Code to natural language translation is studied as well \cite[section 5.1]{leDeepLearningSource2020}, but it is less common and out-of-scope for this work.
+Intelligent conversational assistants (\href{https://chat.openai.com/}{ChatGPT}, \href{https://bard.google.com/}{Bard}, \href{https://claude.ai/}{Claude}, \href{https://pi.ai/}{Pi}) with program synthesis functionality operate in the translation paradigm as they translate a text specification into code.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{nl2ml.png}
+    \caption{Code translation, schematic definition}
+    \label{fig:nl2ml}
+\end{figure}
+
+\paragraph{Programming by example}
+
+Another approach to specification is specifying the expected output of the program. Or, since in most interesting programs the output depends on the input, \emph{input-output pairs}. This task is known as \emph{programming by example} \cite{halbertProgrammingExample1984, psb2}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{pbe.png}
+    \caption{Programming by example, schematic definition}
+    \label{fig:pbe}
+\end{figure}
+
+The goal of a programming by example system is to find a program $f$ such that $\outputvec=f(\inputvec)$ for a given vector of input-output pairs $(\inputvec,\outputvec)$. 
+Note that this is exactly the definition of \emph{supervised learning}~\cite{cunninghamSupervisedLearning2008}.
+Indeed, \emph{programming by example} is an unusual type of \emph{supervised learning}, one where the trained model is expressed as source code.
+
+The prime application of \emph{programming by example} is \emph{data wrangling} tools such as Microsoft Excel \cite{gulwaniProgrammingExamplesandIts2016} where it is used as a data extrapolation tool: if a formula $f$ can be synthesized that satisfies $\outputvec=f(\inputvec)$, one can generate $\outputvec'=f(\inputvec')$ for future values $\inputex'$.
+\emph{Programming by example} is also used in scientific domains to generate formulas that fit experimental observations, where it is known as \emph{symbolic regression} \cite{makkeInterpretableScientificDiscovery2022}.
+
+\paragraph{PIRL}
+
+Not every task, however, can be easily described with input-output examples. 
+Take chess: it's relatively simple to evaluate the performance of a chess-playing program, but what are the \emph{correct} moves? 
+That is simply not known in advance.
+Given enough trial and error it's still possible to generate a correct program with such black box specification, a task known as \emph{Programmatically Interpretable Reinforcement Learning} \cite{pirl}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{pirl.png}
+    \caption{Programmatically Interpretable Reinforcement Learning, schematic definition}
+    \label{fig:pirl}
+\end{figure}
+
+In this setting, a program gets generated and deployed in an environment that responds with positive and negative rewards. 
+The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{pomdp1,pomdp2}: when at step $i$ the agent takes action $a_i \in \rlactionspace$ it has an impact on  the state of the environment $s_i \in \rlstatespace$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
+State is a latent variable that the agent cannot observe.
+Instead, the agent can see an observation $o_i \in \rlobsspace$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
+$\rlactionspace$, $\rlstatespace$ and $\rlobsspace$ are sets of all possible actions, states and observations respectively.
+Finally, at every step the agent observes a reward $\rlrewardf$
+
+Given this limited toolset, without full (or any) prior knowledge of how the agent's actions influence the the environment (distributions $\rlstatedistr$ and $\rlobsdistr$), the agent has to come up with a strategy that will maximize $n$-step return $R_n=\sum_{t=i}^{n} r_t$ where $n$ is the agent's planning horizon. It is, in the general sense, a hyperparameter, however if an environment has a limit on how many steps an episode can last, it is reasonable to set $n$ equal to the step limit. 
+
+\newpage
+\section{Why not just use Machine Learning?}
+
+As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{PIRL} are  used in settings where more traditional machine learning methods that don't involve code generation could also be used.
+What are then the advantages conferred by this programmatic representation?
+
+\paragraph{Expressiveness and performance}
+
+Programming languages benefit from decades of research dedicated to making them \textcolor{accent}{expressive} - able to efficiently represent any algorithm one can design - and \textcolor{accent}{performant} - making those algorithms executable with minimal requirements of time and hardware.
+Machine learning models don't have this advantage - they are designed to make the space of possible models easy to search and optimize in, often at the expense of expressivity and performance: an equivalent program typically solves the task better and faster than a machine learning model, to the point where representing algorithms as neural networks has become a setup of programmer humor \cite{JoelGrusFizz}:
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c}
+         Language &  \\
+         Size &
+         Execution time & 
+    \end{tabular}
+    \caption{FizzBuzz algorithm implemented in top-5 TIOBE programming languages vs a neural network}
+    \label{tab:fizzbuzz}
+\end{table}
+
+Program synthesis is the "best of both worlds" approach: data-driven and trainable, but using an expressive an performant representation.
+ 
+\paragraph{Import and export of knowledge}
+
+Besides, programs as a representation for decision-making of a model have a chance to become the \emph{lingua franca} \cite{samarinLinguaFranca1987b} for representing decision processes as they can be understood both by a wide variety of artificial intelligence systems including machine learning models and by humans, enabling humans and robots trying to tackle a problem to learn from each other.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{mlvsautocode.png}
+    \caption{Program synthesis allows for shared knowledge between models}
+    \label{fig:mlvsautocode}
+\end{figure}
+
+The search in a space of possible programmatic solutions to a problem can be initialized with an existing program that has been developed by an expert in the field (perhaps with the  use of AI tools), thus \textcolor{accent}{importing existing knowledge} from previous efforts of solving the same problem.
+This process is not dissimilar to what is known in deep learning as \emph{fine-tuning}: initializing the optimization process of model parameters with a model already trained on a similar task, but it has the additional advantage that the initial code can be generated by a model of a completely different architecture or by a human.
+
+After the search process has been concluded, all of the knowledge incorporated into the resulting system can be \textcolor{accent}{examined and verified}. 
+Unlike the black-box model, the approach makes it trivial to answer questions like "Does this model include factor X in its decision-making on topic Y?".
+This offers us an additional way of verifying the decision system before its final deployment. 
+And, unlike the numerous methods of machine learning interpretability, this approach involves a strong guarantee that the explanation does not diverge from the behavior.
+
+Of course, the external observers of a program synthesis system can be not only teachers, but also students. 
+Even if the resulting program is never deployed, one can read it and \textcolor{accent}{export the knowledge} and incorporate it into future systems, as well as textbooks and other didactic materials for humans.
+
+\newpage
+\section{Broader impacts}
+
+\epigraph{The Future's So Bright, \\ I Gotta Wear Shades}{Timbuk 3}
+
+\paragraph{Capability}
+
+The \emph{expressivity and peformance} of programming languages can lead to \emph{decision support systems}, also known as \emph{digital assistants}, that are more capable, better able to make predictions and provide advice.
+
+The ability to \emph{import, verify and export knowledge} into or out of a decision suport system can reduce or even eliminate the amount of \emph{knowledge silos} that exists in the ecosystem of these agents, where each separate system has been trained on some data set of its own and some expert knowledge of its own and each incorporates some small part of existing knowledge about the field. 
+
+Insufficient capability in digital assistants can be a major safety risk, especially when they're deployed fully autonomously. For example, misidentification of obstacles in autonomous driving or wrongful diagnosis in healthcare could easily be a matter of life and death.
+
+\paragraph{Alignment}
+
+Now, highly capable digital assistants present their own family of safety risks. If perverse incentives are present in the optimization goals of the decision system, then a highly capable decision system can bring about harmful situations intentionally: 
+\begin{itemize}
+\item Metrics of success are often imperfect proxies of the outcomes we value. An optimization process can 
+\item Naively implemented performance metrics reward either solving problems well or solving easy problems. This creates an incentive to ignore hard problems entirely while they are likely to be the most important ones.
+\item Misguided fairness metrics incentivize decision systems to intentionally harm people from healthier demographic groups in order to advance equality of outcomes ("equity") \cite{longFairnessMachineLearning2021}. 
+\end{itemize}
+To name a few examples (mostly from Healthcare):
+\begin{enumerate}
+    \item A common metric in healthcare systems is \emph{length of hospital stay}.  
+Shorter hospital stays utilize less of the hospital resources, be it the beds, the staff, or the medications, but they are also better for the patients, as most patients would prefer to return to their normal life as fast as possible. 
+However, if one optimizes for shorter hospital stays directly, this can lead to negative outcomes, such as under treatment and discharge out of hospital before the necessary treatments have been administered. 
+    \item Patient readmissions are considered a negative outcome in healthcare, because that implies that something went wrong with the treatment process in the previous mission. 
+But that incentive has negative outcomes as well. 
+It might incentivize hospitals to make readmissions harder and to potentially just refuse to readmit patients. 
+\end{enumerate}
+
+These issues are, of course, present in the healthcare system \cite{nestianPerverseIncentiveGeneral2017} and in society at large with or without artificial intelligence, they are studied in economics under the umbrella of the \emph{principal agent problem} \cite{pandaAgencyTheoryReview2017}. 
+However, powerful optimization algorithms hold potential to exacerbate those issues \cite{hadfield-menellIncompleteContractingAI2019}. 
+And while the first line of defense is, of course, improving the incentives, one can be skeptical as to whether the incentives can ever represent their designers' intentions perfectly.
+
+In fact, the instrumental convergence theory \cite{benson-tilsenFormalizingConvergentInstrumental} posits that perverse incentives are inherent to any reinforcement learning context, because optimizing for any goal can be aided by increasing the amount of control over one's environment the agent has, and thus any optimization of agents creates incentives to maximize their own power and control. 
+First introduced in science fiction \cite{clarke2001SpaceOdyssey2016, ellisonHaveNoMouth1967, jonesColossus2019}, this theory is now an active area of technical research \cite{jiAIAlignmentComprehensive2024}.
+Estimates of the potential dangers of misaligned artificial intelligence range from non-trivial to existential.
+
+The interpretability afforded by the program synthesis approach provides a second line of defense against perverse incentives, namely examining the control program and trying to establish whether any of the modules in that program are attempting to game the optimization metrics, manually or with the use of AI tools.
+As the field of artificial intelligence advances, this advances both the generative tools and the verification tools, thus making program synthesis a viable approach to scalable oversight \cite[section 5]{amodeiConcreteProblemsAI2016}.
+
+
+\paragraph{Human-Machine Collaboration}
+
+Transparency is a foremost principle of effective teamwork: every member of the team is supposed to know what and why every other member is doing. 
+The most rigorous studies of this principle come from aviation where most modern commercial airliners happen to be co-piloted by a pair of people but it's just as true in a surgical theater or a company. 
+The lack of transparency is an important roadblock for integration of black box decision systems in safety critical domains. 
+When conflict arises between the opinion of the expert and the opinion of the system, a black box system offers no additional information for the resolution of the conflict. 
+A program, on the other hand, offers the experts a way to explicitly examine why a certain advice is given and use this information to take or not take the advice into account. 
+Consequently, a black box system can only be used to completely replace a certain job.
+Any setting where a collaboration is required between a human and decision system requires some degree of transparency that can be afforded by technology like program synthesis. 
+This ensures synergistic decision-making where the analysis of every participant is taken into account of the final decision.
+
+\paragraph{Compliance}
+
+Both individual organizations and regulatory authorities often impose requirements onto their decision systems that assume their transparency. 
+An audit has to be able to establish whether the system displays any illegal patterns such as unauthorized discrimination in insurance and lending. 
+Such requirements have had a chilling effect on the real world deployment of deep learning systems. 
+A program, on the other hand, can be audited and proven to be compliant. 
+Program synthesis can thus bring all the advantages of big data-driven systems into such fields without necessitating a regulatory reform.
+
+\paragraph{Privacy}
+
+The ineffiency of inference of current machine learning models is (along with competitive pressures) a core reason of the "cloudification" of artificial intelligence: as of late 2023, the most powerful products of machine learning are distributed as remote services that can be interacted with, but not fully copied, via the Internet.
+Asking a state of the art decision support system for advice means sending the (potentially sensitive) request to the model provider and making both requests and responses known to said provider.
+Programs, in contrast, are easier to distribute and performant enough to run on most devices most of the time.
+The advent of program synthesis can pave the way to more privacy-preserving decision support: even if the generative model remains in the cloud, one can first use the model to synthesize the program, download it and then submit the sensitive data to the program locally.
+
+
+\paragraph{Scientific discovery}
+
+Lastly, export of knowledge out of a automatic programming system can be a powerful tool of scientific discovery. 
+Symbolic regression is already widely used in physics in order to find formulas that fit empirical observations. 
+In fact, it is not unreasonable to claim that all of physics is a set of symbolic regression problems, historically solved manually, but increasingly with some application of algorithms. 
+The same can be said about biology, economics or any field that develops formulas based on series of empirical observations.

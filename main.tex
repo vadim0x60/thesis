@@ -1,0 +1,96 @@
+\usepackage{lipsum}
+
+\begin{document}
+
+% =======================================================================================
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+% =======================================================================================
+%                                   PREAMBLE
+% =======================================================================================
+\coverpage{\TITLE}{\SUBTITLE}{\AUTHOR}{\DATE}{\SUBJECT}
+%----------------------------------------------------------------------------------------
+\newpage
+\tableofcontents
+
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+
+\addcontentsline{toc}{section}{List of Tables}
+\listoftables
+
+\addcontentsline{toc}{section}{Nomenclature}
+\input{nomenclature}
+\printnomenclature
+
+% =======================================================================================
+%                                   PART I
+% =======================================================================================
+\part{Program Induction}
+%----------------------------------------------------------------------------------------
+\newpage
+\chapter{The Promise} \label{ch:ps-motiv}
+\input{sections/ps/promise}
+%----------------------------------------------------------------------------------------
+\newpage
+\chapter{The History}\label{ch:ps-sota}
+\input{sections/ps/history}
+
+\newpage
+\chapter{The Domain-Specific Languages}\label{ch:ps-dsl}
+\input{sections/ps/bfpp}
+\input{sections/ps/neurogenetic}
+
+\newpage
+\chapter{The Autoencoder Models}\label{ch:ps-autoenc}
+\input{sections/ps/autoenc}
+
+\newpage
+\chapter{The Autoregressive Models}\label{ch:ps-autoregr}
+\input{sections/ps/autoregr}
+
+% =======================================================================================
+%                                   PART II
+% =======================================================================================
+\part{For Personal Health}
+%----------------------------------------------------------------------------------------
+\newpage
+\chapter{The Promise} \label{ch:health-motiv}
+\input{sections/health/promise}
+
+\newpage
+\chapter{The History} \label{ch:health-sota}
+\input{sections/health/history}
+
+\newpage
+\chapter{The Humble Thermostat} \label{ch:boptest}
+\input{sections/health/boptest}
+
+\newpage
+\chapter{The Artificial Sonographer} \label{ch:imagym}
+\input{sections/health/imagym}
+
+\newpage
+\chapter{The Aritifical Paramedic} \label{ch:virtu-als}
+\input{sections/health/virtu-als}
+
+\newpage
+\chapter{The Aritifical Doctor} \label{ch:mimicseq}
+%\input{sections/health/mimicseq}
+
+\part{Conclusion}
+
+\newpage
+\chapter{The Future} \label{ch:future}
+
+\newpage
+\chapter{Appendices}
+
+\newpage
+\chapter{Acknowledgments}
+
+Parts of this text were converted from spoken audio with the use of English-only medium size OpenAI Whisper model \cite{radfordRobustSpeechRecognition2022}
+
+\printbibliography
+
+\end{document}
