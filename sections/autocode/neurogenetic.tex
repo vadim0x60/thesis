@@ -290,12 +290,14 @@ Hence the probability of $c_\text{child}$ being born out of \emph{one-point cros
 \emph{Two-point crossover} is similar, but instead of swapping the trailing ends of programs, a section in the middle of the programs is chosen, determined by randomly selected cut-off indices $k_1$ and $k_2$ and swapped:
 
 \begin{equation}
-    p_\text{2ptcx}(c_\text{child}|c_1,c_2) =
+\begin{split}
+    p_\text{2ptcx}(c_\text{child}|c_1,c_2) = // =
         \frac{2 \mathbb{I}[|c_\text{child}|=|c_1|]}{(|c_1,c_2|-2)(|c_1,c_2|-1)}
         \sum\limits_{k_1=2}^{|c_1,c_2|-1}
         \sum\limits_{k_2=k_1+1}^{|c_1,c_2|} \\
         \prod\limits_{i=1}^{k_1-1} \mathbb{I}[c_\text{child}^{(i)} = c_1^{(i)}] \prod\limits_{i=k_1}^{k_2-1} \mathbb{I}[c_\text{child}^{(i)} = c_2^{(i)}]
         \prod\limits_{i=k_2}^{|c_1|} \mathbb{I}[c_\text{child}^{(i)} = c_1^{(i)}]
+\end{split}
 \end{equation}
 
 \emph{Uniform crossover} mirrors \emph{uniform mutation} in that a loaded coin is tossed for each token in $c_1$. With probability $p_\text{ind}$ the token is replaced, but the replacement is not drawn randomly from the alphabet. Instead, the replacement comes from $c_2$:
@@ -322,6 +324,7 @@ In \emph{messy crossover}, one parent is cut at index $k_1$, another is cut at i
 \end{figure}
 
 \begin{table}
+    \centering
     \begin{tabular}{r|l}
          Parent 1 & \color{blue}\verb|ae>>>>>34+| \\
          Parent 2 & \color{red}\verb|a[e>-a-]b[e>>-b-]| \\
@@ -465,6 +468,7 @@ Genetic developers are denoted as $\text{gen}(p_\text{ind},\epsilon)$, see secio
 $T_\text{small}$ and $T_\text{large}$ are recommended configurations while $T_\text{genetic}$, $T_\text{neural}$ are \emph{ablation studies} to prove that combination of neural and genetic methods is useful.
 
 \begin{table}[H]
+\centering
 \begin{tabular}{r|c|c|c|c}
      Developer & $T_\text{small}$ & $T_\text{large}$ & $T_\text{genetic}$ & $T_\text{neural}$  \\
      $\text{lstm}(10)$ & & \checkmark & & \\
@@ -504,29 +508,7 @@ Each BF++ command is represented with a single character, thus the only way to t
 \subsection{Tasks}
 \label{sec:tasks}
 
-\begin{figure*}[t]
-    \centering
-    \subfloat[CartPole-v1]{
-        \centering
-        \includegraphics[height=1.3in]{Cartpole1.png}
-    }
-    \subfloat[MountainCarContinuous-v0]{
-        \centering
-        \includegraphics[height=1.3in]{MountainCar0.jpeg}
-    }
-    \subfloat[Taxi-v3]{
-        \centering
-        \includegraphics[height=1.3in]{Taxi3.png}
-    }
-    \subfloat[BipedalWalker-v2]{
-        \centering
-        \includegraphics[height=1.3in]{BipedalWalker2.png}
-    }
-    \caption{Selected tasks, visualized}
-    \label{fig:envs}
-\end{figure*}
-
-Following from \cite{bf++} we synthesize programs for \textbf{CartPole-v1} \cite{cartpole}, \textbf{MountainCarContinuous-v0} \cite{mountain_car}, \textbf{Taxi-v3} \cite{taxi} \textbf{BipedalWalker-v2}  OpenAI Gym \cite{gym} environments, see figure \ref{fig:envs}.
+Following from the previous chapter we synthesize programs for \textbf{CartPole-v1} \cite{cartpole}, MountainCarContinuous-v0 (\textbf{MCC-v0}) \cite{mountain_car}, \textbf{Taxi-v3} \cite{taxi} BipedalWalker-v2 (\textbf{BW-v2})  OpenAI Gym \cite{gym} environments, see figure \ref{fig:envs}.
 
 \subsection{Initial populations}
 

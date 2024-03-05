@@ -10,7 +10,11 @@
 % =======================================================================================
 \coverpage{\TITLE}{\SUBTITLE}{\AUTHOR}{\DATE}{\SUBJECT}
 %----------------------------------------------------------------------------------------
+
 \newpage
+
+\input{abstract}
+
 \tableofcontents
 
 \addcontentsline{toc}{section}{List of Figures}
@@ -29,25 +33,28 @@
 \part{Program Induction}
 %----------------------------------------------------------------------------------------
 \newpage
-\chapter{The Promise} \label{ch:ps-motiv}
-\input{sections/ps/promise}
+\chapter{The Promise} \label{ch:autocode-motiv}
+\input{sections/autocode/promise}
 %----------------------------------------------------------------------------------------
-\newpage
-\chapter{The History}\label{ch:ps-sota}
-\input{sections/ps/history}
+%\newpage
+%\chapter{The State of the Art}\label{ch:autocode-sota}
+%\input{sections/autocode/history}
 
 \newpage
-\chapter{The Domain-Specific Languages}\label{ch:ps-dsl}
-\input{sections/ps/bfpp}
-\input{sections/ps/neurogenetic}
+\chapter{BF++: a Novel Language for Programmatically Interpretable Reinforcement Learning}\label{ch:autocode-dsl}
+\input{sections/autocode/bfpp}
 
 \newpage
-\chapter{The Autoencoder Models}\label{ch:ps-autoenc}
-\input{sections/ps/autoenc}
+\chapter{A Neurogenetic Programming Framework}
+\input{sections/autocode/neurogenetic}
 
 \newpage
-\chapter{The Autoregressive Models}\label{ch:ps-autoregr}
-\input{sections/ps/autoregr}
+\chapter{A Tree Variational Autoencoder for Code}\label{ch:autocode-autoenc}
+\input{sections/autocode/autoenc}
+
+\newpage
+\chapter{A Multiagent Framework for Programming with Large Language Models}\label{ch:autocode-autoregr}
+\input{sections/autocode/autoregr}
 
 % =======================================================================================
 %                                   PART II
@@ -58,33 +65,29 @@
 \chapter{The Promise} \label{ch:health-motiv}
 \input{sections/health/promise}
 
-\newpage
-\chapter{The History} \label{ch:health-sota}
-\input{sections/health/history}
+%\newpage
+%\chapter{The State of the Art} \label{ch:health-sota}
+%\input{sections/health/history}
 
 \newpage
-\chapter{The Humble Thermostat} \label{ch:boptest}
-\input{sections/health/boptest}
+\chapter{An Artificial Paramedic} \label{ch:virtu-als}
+\input{sections/health/virtu-als}
+
 
 \newpage
-\chapter{The Artificial Sonographer} \label{ch:imagym}
+\chapter{An Artificial Sonographer} \label{ch:imagym}
 \input{sections/health/imagym}
 
 \newpage
-\chapter{The Aritifical Paramedic} \label{ch:virtu-als}
-\input{sections/health/virtu-als}
-
-\newpage
-\chapter{The Aritifical Doctor} \label{ch:mimicseq}
+\chapter{An Artificial Doctor} \label{ch:mimicseq}
 %\input{sections/health/mimicseq}
-
-\part{Conclusion}
-
-\newpage
-\chapter{The Future} \label{ch:future}
 
 \newpage
 \chapter{Appendices}
+
+\input{sections/appendices/repr}
+
+\input{sections/appendices/ack}
 
 \newpage
 \chapter{Acknowledgments}

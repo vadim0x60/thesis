@@ -1,57 +1,3 @@
-\section{Introduction}
-\label{sec:intro}
-
-Reinforcement Learning (RL) has been applied successfully in fields like Energy, Finance and Robotics \cite{rl-applications}.
-However, traditional approaches to Reinforcement Learning involve black box models that preclude any exchange of knowledge between experts and ML algorithms.
-In safety-critical fieldslike Healthcare \cite{healthcare-rl} the ability to understand the decision algorithms induced by artificial intelligence, as well as to initialize the system using expert knowledge for an acceptable baseline performance, is required for acceptability.
-
-In this work we focus on an alternative approach for RL based on program induction, known as Programmatically Interpretable Reinforcement Learning \cite{pirl}. 
-We introduce \textbf{BF++}, a new programming language tailor-made for this approach (section \ref{sec:bf}). 
-We then demonstrate that neural program synthesis with \textbf{BF++} can solve arbitrary reinforcement learning challenges and gives us an avenue for knowledge sharing between domain experts and data-driven models via the mechanism of \emph{expert inspiration} (section \ref{sec:methodology}).
-
-
-\section{Background}
-
-
-Conventional solutions \cite{thebook} introduce a parametrized \emph{policy function} $\pi_\phi(a|s)$ that defines agent's behavior as a probability distribution over actions and/or function $Q_\phi(a|s)$ that defines what $R_n$ the agent is expecting to receive if they take action $a$.
-Parameters $\phi$ are learned empirically, using gradient descent or evolutionary methods \cite{deeprl-survey1,deeprl-survey2}.
-
-This approach has been applied extensively and with great success \cite{rl-survey} in Partially Observable Markov Decision Process (POMDP) settings, however it does have major limitations:
-\begin{enumerate}
-    \item The agent is defined as stateless. As such, when making a decision $a_i$ the agent is unable to take into account any observations it made prior to step $i$. Long-term dependencies like "this patient should not receive this drug since she has shown signs of allergy when this drug was administered to her 17 iterations ago" cannot be captured by a memoryless model.
-    \item The agent is represented as a set of model weights $\phi$, often with millions of parameters. Such a program can be used as a black box decision system, but domain experts are unable to understand and/or make their contributions to the agent's programming.
-\end{enumerate}
-
-% Why Program Induction
-In this paper, we address these limitations by representing an RL agent with a program in a specialized language, to be introduced in section \ref{sec:bf}, as opposed to $\pi_\phi$ and $Q_\phi$
-
-\section{Related work}
-\label{sec:review}
-
-Despite Program Synthesis being one of the most challenging tasks in Computer Science, many solutions exist, see \cite{synthesis-review}.
-They can be roughly classified by specification modality: how are the requirements for a program to be synthesized communicated to the generative model?
-
-The most advanced program synthesis technology to date is deep neural network-based language modeling \cite{codex}. 
-This models are autocomplete engines that given a fragment of a program, also known as a prompt, predict the fragment to follow afterwards.
-Such models can be very powerful, however, the prompt is a suboptimal form of specification, creating an open problem of prompt engineering - generating the first fragment of the program in such a way that it encourages the language model to write a particular prompt \cite{unreasonable}.
-
-% Learning from code examples
-If the requirements are specified as a natural language description of what a program should do, program synthesis becomes a machine translation task \cite{sqlnet}.
-A neural model can be pre-trained as a language model and fine-tuned on a translation dataset like CoNaLa \cite{conala} or, in the case of AlphaCode \cite{alphacode}, a dataset of competitive programming tasks and submitted solutions.
-
-% Learning from input-output examples
-If the requirements are specified as a set of inputs to the program along with expected outputs, the task is known as programming by example \cite{nps-review,flashmeta} using techniques like neural-guided program search \cite{neural-guided}.
-One can also generate input-output pairs artificially \cite{io-synthesis}.
-% Implicit programs
-Models like Neural Turing Machines \cite{neural-turing}, Memory Networks \cite{memorynets} and Neural Random Access Machines \cite{neural-ram} are also trained with input-output pairs and even though they don't explicitly generate code, they fit the definition of program.
-
-% Learning with no examples
-In this work our goal is to synthesize programs with no explicit specification - only an environment where the program can be tested. 
-This task is typically tackled with neural program synthesis \cite{pirl,brain-coder} or genetic programming \cite{genprog-applications} in a domain-specific language, where the reward function of the POMDP is known as the \emph{fitness function}.
-However, to the best of our knowledge, there is no programming language for POMDP settings specifically.
-Because of this, applications of genetic programming for Reinforcement Learning challenges have been limited and \cite{brain-coder}, for example, only supports non-interactive programs, i.e. a program is a mapping from an input string to an output string.
-
-
 \section{BF++}
 \label{sec:language}
 
@@ -355,38 +301,27 @@ Hence we
 \label{sec:envs}
 %TODO: add table of action and observation spaces
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \begin{subfigure}[b]{0.22\linewidth}
+    \subfloat[CartPole-v1]{
         \centering
-        \includegraphics[height=0.18\linewidth]{Cartpole1.png}
-        \caption{CartPole-v1}
-        \label{fig:cartpole}
-    \end{subfigure}
-    \hfill % Optional: to add space between the subfigures
-    \begin{subfigure}[b]{0.22\linewidth}
+        \includegraphics[height=1in]{Cartpole1.png}
+    }
+    \subfloat[MCC-v0]{
         \centering
-        \includegraphics[height=0.18\linewidth]{MountainCar0.jpeg}
-        \caption{MountainCarContinuous-v0}
-        \label{fig:mountaincar}
-    \end{subfigure}
-    \hfill % Optional: to add space between the subfigures
-    \begin{subfigure}[b]{0.22\linewidth}
+        \includegraphics[height=1in]{MountainCar0.jpeg}
+    }
+    \subfloat[Taxi-v3]{
         \centering
-        \includegraphics[height=0.18\linewidth]{Taxi3.png}
-        \caption{Taxi-v3}
-        \label{fig:taxi}
-    \end{subfigure}
-    \hfill % Optional: to add space between the subfigures
-    \begin{subfigure}[b]{0.22\linewidth}
+        \includegraphics[height=1in]{Taxi3.png}
+    }
+    \subfloat[BW-v2]{
         \centering
-        \includegraphics[height=0.18\linewidth]{BipedalWalker2.png}
-        \caption{BipedalWalker-v2}
-        \label{fig:bipedalwalker}
-    \end{subfigure}
-    \caption{Selected environments, visualized}
+        \includegraphics[height=1in]{BipedalWalker2.png}
+    }
+    \caption{Selected tasks}
     \label{fig:envs}
-\end{figure*}
+\end{figure}
 
 We evaluate our framework on 4 low-dimensional (see section \ref{sec:summary}) POMDPs sampled from OpenAI Gym \cite{openai-gym} leaderboard\footnote{\url{https://github.com/openai/gym/wiki/Leaderboard}}:
 
@@ -397,13 +332,13 @@ The agent observes cart position, cart velocity, pole angle and pole velocity at
 The goal is to keep the pole upright by applying force between -1 and 1 to the cart.
 At every step the agent receives a +1 reward for survival.
 The episode terminates when the pole inclines too far.
-\item \textbf{MountainCarContinuous-v0} \cite{mountain_car}.
+\item MountainCarContinuous-v0 (\textbf{MCC-v0})\cite{mountain_car}.
 A car is on a one-dimensional track, positioned between two "mountains". 
 The goal is to drive up the mountain consuming a minimal amount of fuel by controlling the engine, setting it's torque in the range $[-1;1]$; however, the engine is not strong enough to scale the mountain in a single pass.
 Therefore, the only way to succeed is to drive back and forth to build up momentum. 
 We picked MountainCarContinuous-v0 as opposed to MountainCar-v0 to demonstrate the performance of our discretization system.
 \item \textbf{Taxi-v3} \cite{taxi}. There are 4 locations (labeled by different letters) and the goal is to pick up the passenger at one location and drop him off in another in as few timesteps as possible spending as little fuel as possible.
-\item \textbf{BipedalWalker-v2}. A simulated 2D robot with legs has to learn how to walk. 
+\item BipedalWalker-v2 (\textbf{BW-v2}). A simulated 2D robot with legs has to learn how to walk. 
 Moving rightwards is rewarded, falling is penalized.
 Observation vector consists of speeds, angular speeds and joint positions collected by the robot's sensors.
 These observations do not, however, include any global coordinates - they can only be inferred from sensor inputs.
@@ -534,12 +469,12 @@ GPU resources weren't used, because the performance bottleneck of the system is 
 
 \section{Results}
 
-\begin{table*}[tb]
+\begin{table}[H]
   \caption{Total episode reward $Q$ achieved by best programs found, averaged over 100 episodes}
   \label{tab:quality}
   \centering
   \begin{tabular}{lcccc}
-    Environment     & CartPole-v1     & MountainCarContinuous-v0 & Taxi-v3 & BipedalWalker-v2 \\
+    Environment     & CartPole-v1     & MCC-v0 & Taxi-v3 & BW-v2 \\
     \midrule
     Random agent & 9.3 & 0 & -200 & -91.92  \\
     \midrule
@@ -553,11 +488,11 @@ GPU resources weren't used, because the performance bottleneck of the system is 
     Leaderboard threshold & 195 & 90 & 0 & 300 \\
     \bottomrule
   \end{tabular}
-\end{table*}
+\end{table}
 
 \subsection{Quantitative results}
 
-Table \ref{tab:quality} presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
+The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
 Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it wasn't possible to implement expert inspiration with limited command sets.
 
 These results support (see section \ref{sec:exgoals}) hypothesis $H_1$ - we have obtained functional programs for all environments, $H_2$ - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and $H_4$ - ablation studies for optional operators do indeed show that those operators are useful.
