@@ -4,9 +4,9 @@
 Patient simulators have been applied extensively in nursing education \cite{didactic-sims1,didactic-sims2,didactic-sims3}, both as physical mannequins and as digital patient simulation software \cite{didactic-virtual}.
 However, patient simulators have another important application: they can be used to predict how patients' health would respond to various treatments and thus evaluate proposals for novel treatment strategies.
 And now, with the advent of artificial intelligence, one can use reinforcement learning \cite{healthcare-rl}, genetic programming \cite{gp,healthcare-gp} or both \cite{neurogenetic} to generate treatment strategies that lead to the best outcomes for the patient according to a certain simulator.
-In this paper we review the field of interactive patient simulators and evaluate their potential to be used for automated treatment discovery.
+In this chapter we review the field of interactive patient simulators and evaluate their potential to be used for automated treatment discovery.
 
-The contributions of this paper are as follows:
+The contributions of this chapter are as follows:
 \begin{itemize}
     \item A systematic review of patient simulators in Healthcare Informatics 
     \item \emph{Auto-ALS} - a learning aid for junior healthcare professionals adapted to reinforcement learning 
@@ -23,7 +23,7 @@ This survey only includes interactive patient simulators where a (human or softw
     \item \emph{Rewards} or punishes (negatively rewards) that judges if the result of the treatment is positive or negative. The model can be as simple as just negatively rewarding patient deaths or as complex as using the predictions of the \emph{prediction model} to help the agent recognize during the episode whether they are on the right track to a positive outcome.
 \end{enumerate}
 
-Any interactive simulator with a prediction model and a reward model (and thus, all simulators in this paper) can be represented as {\em Episodic Partially Observable Markov Decision Process} (EPOMDP) as described in \cite{neurogenetic}:
+Any interactive simulator with a prediction model and a reward model (and thus, all simulators in this chapter) can be represented as {\em Episodic Partially Observable Markov Decision Process} (EPOMDP) as described in \cite{neurogenetic}:
 
 \begin{multline}
 M = (\mathcal{S}_{nt}, \mathcal{S}_t, \mathcal{A}, \mathcal{O}, p_o(o | s, a), p_s(s_\text{next} | s_\text{prev}, a), p_r(r | s, a), p_\text{init}(s))
@@ -33,7 +33,7 @@ Here, $\mathcal{S}_{nt}$ is the set of {\em non-terminal patient states}. $\math
 $\mathcal{A}$ is the set of {\em actions} that the learning agent can perform, and $\mathcal{O}$ is the set of {\em observations} about the current state that the agent can make. 
 Distributions $p_o$, $p_s$ and $p_\text{init}$ represent the simulator's prediction model, while $p_r$ represents the reward model.
 
-Markov Decision Processes are a standard formalism in the field of Reinforcement Learning \cite{thebook}, so standard RL algorithms can be used in conjunction with any simulator from this paper for treatment discovery.
+Markov Decision Processes are a standard formalism in the field of Reinforcement Learning \cite{thebook}, so standard RL algorithms can be used in conjunction with any simulator from this chapter for treatment discovery.
 
 There are 2 notable examples of systems that can be referred to as patient simulators, but do not make it easy to evaluate treatment strategies and fall outside the scope of this survey: 
 \begin{enumerate}
@@ -42,7 +42,7 @@ There are 2 notable examples of systems that can be referred to as patient simul
 \end{enumerate}
 
 They former are tools like HumMod \cite{hummod} that help predict how change in one variable of patient health can affect another, for instance, how digoxin intake affects blood pressure.
-A reward model is absolutely necessary for the application area that we focus on in this paper - development and validation of treatment strategies.
+A reward model is absolutely necessary for the application area that we focus on in this chapter - development and validation of treatment strategies.
 Developing it is also a non-trivial problem in its own right - which health outcomes are considered \emph{good} depends on severity of the patient's condition (\emph{alive} is a sufficiently successful outcome for the most severe conditions, but not for others) as well as the patient's own preferences \cite{patpreferences1,patpreferences2}.
 Thus, we view prediction models as components that can be used to develop a full simulator in the future.
 

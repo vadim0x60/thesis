@@ -10,18 +10,18 @@ Automatic program synthesis is an approach that has been studied since the dawn 
 
 One of the main challenges when addressing the performance of this type of advanced control strategies is performing a fair comparison among them. Most of the research studies found in the literature demonstrate the improved operation of the building with the optimized technique individually, against a certain baseline scenario. But comparison among different advanced control techniques and developed case studies is lacking. In this regard, the Building Optimization Testing Framework (BOPTEST) \cite{Blum2021} was developed to address this challenge and provide a simulation-based benchmarking platform to compare the control algorithms on some common emulators.
 
-\subsection{Contributions of the paper}
+\subsection{Contributions of the chapter}
 \label{sec:contribution}
-The contributions of this paper, with respect to the literature and previous studies, are:
+The contributions of this chapter, with respect to the literature and previous studies, are:
 \begin{itemize}
   \item Implementation of an Model Predictive Control with the Moving Horizon Estimator technique for online recalibration of the model and internal heat gains estimation.
   \item Application of program synthesis with large language models to the control of a building.
   \item Addressing and comparing the performance of two advanced control strategies using a benchmarking framework, having a preliminary assessment/comparison between the most predominant advanced control technique (MPC) and a promising one (Program synthesis) considering results on other fields.
 \end{itemize}
 
-\subsection{Organization of the paper}
+\subsection{Organization of the chapter}
 Section \label{sec:organization}
-The paper is organized as follows. Section \ref{sec:method}  describes the emulator from BOPTEST that is chosen for the comparison, the implementation of the MPC problem for the building and the application of program synthesis with large language models. Section \ref{sec:results} shows the results of the comparison of the MPC and the program synthesis with emulator of the BOPTEST. Section \ref{sec:discussion} analyses the simulation results and KPI comparison, and presents the advantages and limitations of each approach. Finally, section \ref{sec:conclusion} reports on the conclusions and future research.
+The chapter is organized as follows. Section \ref{sec:method}  describes the emulator from BOPTEST that is chosen for the comparison, the implementation of the MPC problem for the building and the application of program synthesis with large language models. Section \ref{sec:results} shows the results of the comparison of the MPC and the program synthesis with emulator of the BOPTEST. Section \ref{sec:discussion} analyses the simulation results and KPI comparison, and presents the advantages and limitations of each approach. Finally, section \ref{sec:conclusion} reports on the conclusions and future research.
 
 \section{Method}
 \label{sec:method}
@@ -79,7 +79,7 @@ As stated in Section \ref{sec:intro}, the model embeded in the MPC is a key aspe
 
 \paragraph{Reduced order building model integrated in the MPC} 
 
-The system model incorporated in an MPC plays a crucial role in its development, since the accuracy of the model directly affects the reliability of system predictions and the achievement of control and optimization objectives. One of the main challenges lies in achieving a balance between the precision of the model, which accurately and comprehensively represents the intricacies and dynamics of the system, and the computational load. This is important as the optimization problem needs to be solved within a timeframe that enables real-time implementation, as is the case for the application discussed in this paper, where updates are required every 15 minutes.
+The system model incorporated in an MPC plays a crucial role in its development, since the accuracy of the model directly affects the reliability of system predictions and the achievement of control and optimization objectives. One of the main challenges lies in achieving a balance between the precision of the model, which accurately and comprehensively represents the intricacies and dynamics of the system, and the computational load. This is important as the optimization problem needs to be solved within a timeframe that enables real-time implementation, as is the case for the application discussed in this chapter, where updates are required every 15 minutes.
 The model embedded in the MPC considers two main components. First, a model of the thermal zone that represents the indoor of the house, and secondly the heat pumps model.
 Regarding the indoor house model, it considers many factors including the thermal building envelope, internal heat gains, and heat losses resulting from heat conduction, convection, and ventilation. Modelling is supported by the utilization of calibrated reduced-order data-driven grey box models. The employed grey-box model is derived from a Resistance-Capacitance (RC) network, as described in \cite{Kim2018_2}, to represent a thermal zone. This model takes into account the relevant physical properties and disturbances associated with unmeasured inputs. Nevertheless, it can be calibrated using other measured variables. The experimental demonstration of the model's performance has been presented in the referenced literature \cite{Kim2016}.
 
@@ -241,7 +241,7 @@ The SEID loop for BOPTEST case is as follows:
   \item Go to step 2.
 \end{enumerate}
 
-In this paper’s experiments both the coding assistant language model and the report summarization language model are GPT-4.
+In this chapter’s experiments both the coding assistant language model and the report summarization language model are GPT-4.
 
 The same testing scenario is used as in the MPC case, however, preliminary experiments have shown that running the full 7 day experiment at each iteration of the feedback loop is not necessary to achieve convergence. Instead, the control episodes are truncated to a shorter time period according to the following truncation schedule shown in Table \ref{tab:1}.
 
@@ -461,9 +461,9 @@ There are some additional aspects, apart from the results obtained in the simula
 The first aspect to be analyzed is who is required for the development of each approach. 
 Developing an MPC for building applications demands a multidisciplinary skill set, particularly a profound understanding of energy systems encompassing buildings, heat/cold production units, and HVAC. The ability to intricately model these systems is paramount. Simultaneously, a grasp of building dynamics and physics is vital. Expertise in control and dynamic optimization is also essential. Despite the emergence of user-friendly tools aiding in optimization and MPC, some programming skills remain necessary. 
 
-In contrast, program synthesis for building control leans heavily on skills related to computer science, software engineering, and formal methods. Unlike MPC, extensive knowledge of the specific building system is not mandatory. Deploying a program synthesis solution, as described in this paper, demands a comparable amount of effort and time to MPC development due to its innovative nature.
+In contrast, program synthesis for building control leans heavily on skills related to computer science, software engineering, and formal methods. Unlike MPC, extensive knowledge of the specific building system is not mandatory. Deploying a program synthesis solution, as described in this chapter, demands a comparable amount of effort and time to MPC development due to its innovative nature.
 
-The difference in the development effort may rely on the replication of the solution for a different building. Even if future research needs to be conducted to further investigate this point, some preliminary conclusions can be extracted from this work. Implementing MPC is time-consuming, requiring adaptation to each unique use case. Although recent efforts have focused on addressing this issue, replication and scalability remains a significant challenge in MPC for buildings. In the case of program synthesis, the way to build the program through a more comprehensive description makes it easier to be replicated for different use cases once the configuration to build the program is ready. The major change when using the methodology applied in this paper to a different emulator is the description of the desired program.
+The difference in the development effort may rely on the replication of the solution for a different building. Even if future research needs to be conducted to further investigate this point, some preliminary conclusions can be extracted from this work. Implementing MPC is time-consuming, requiring adaptation to each unique use case. Although recent efforts have focused on addressing this issue, replication and scalability remains a significant challenge in MPC for buildings. In the case of program synthesis, the way to build the program through a more comprehensive description makes it easier to be replicated for different use cases once the configuration to build the program is ready. The major change when using the methodology applied in this chapter to a different emulator is the description of the desired program.
 
 \paragraph{Deployment requirements}
 Deploying an MPC requires a considerable computational capacity, as a dynamic optimization problem is solved at each execution step, that is, usually every 15 minutes or one hour. Sufficient computational resources, including processing power and memory, are necessary to perform these calculations in real-time. This implies additional deployment cost and resources.
@@ -472,7 +472,7 @@ In the case of program synthesis, the execution performed to calculate the progr
 
 \section{Conclusions}
 \label{sec:conclusion}
-This paper presents a comparison between a widely used technique in research of buildings optimal operation, that is, MPC, and program synthesis with large language model, a promising technique which has been applied to other fields but has not been tested for buildings yet. The comparison is performed using the BOPTEST framework, which enables simulating different controllers with the same testbench and boundary conditions, obtaining KPIs that are directly comparable. As a test case, a bested hydronic heat pump for a single thermal zone dwelling is chosen, with a peak heat time period of one week and a dynamic pricing scenario. The MPC is developed using a grey-box reduced order model that is recalibrated at each step with the latest available measurements of the system using the MHE estimation technique. The cost function of the MPC tackles to reduce the energy cost as well as assuring the thermal comfort. 
+This chapter presents a comparison between a widely used technique in research of buildings optimal operation, that is, MPC, and program synthesis with large language model, a promising technique which has been applied to other fields but has not been tested for buildings yet. The comparison is performed using the BOPTEST framework, which enables simulating different controllers with the same testbench and boundary conditions, obtaining KPIs that are directly comparable. As a test case, a bested hydronic heat pump for a single thermal zone dwelling is chosen, with a peak heat time period of one week and a dynamic pricing scenario. The MPC is developed using a grey-box reduced order model that is recalibrated at each step with the latest available measurements of the system using the MHE estimation technique. The cost function of the MPC tackles to reduce the energy cost as well as assuring the thermal comfort. 
 
 The MPC exhibits a notable capacity to enhance thermal comfort within the confines of a typical heat demand week, achieving enhancements of up to 96.62\%. Additionally, MPC yields substantial reductions in energy costs, ranging between 30.8\% and 35.5\%, contingent upon the specific price scheme employed. The most significant reduction in energy costs is observed in the highly dynamic price scenario. In simulations with extreme heat conditions, MPC successfully improves thermal comfort, albeit with a marginal increase in both energy use and associated costs.
 

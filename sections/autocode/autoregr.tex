@@ -22,7 +22,7 @@ This is followed by a program repair step to fix the identified errors.
 
 Another relevant innovation is instruction fine-tuned large language models~\cite{ouyang2022:training}. Instruction fine-tuned models use human feedback in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, i.e., "summarize" or "translate to Python".
 These models have been shown to be highly successful in automatic program repair~\cite{fan2023:automated}. 
-However, given the free-form nature of these instructions\footnote{Throughout this paper we avoid other definitions of \emph{instruction}, such as \emph{an individual operation in code}, to prevent ambiguity.} how one should engineer instructions that maximize repair performance is an open question. 
+However, given the free-form nature of these instructions\footnote{Throughout this chapter we avoid other definitions of \emph{instruction}, such as \emph{an individual operation in code}, to prevent ambiguity.} how one should engineer instructions that maximize repair performance is an open question. 
 
 Section~\ref{sec:methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction fine-tuned Large Language Models in agents for solving programming tasks in an autonomous fashion. 
 We discuss related work in Section~\ref{sec:related-work}, introduce experiments to establish optimal search and prompting strategies for this framework in Section~\ref{sec:eval}. 
@@ -671,7 +671,7 @@ PushGP & C++ &  -   &    -            &       - &        - &      (\underline{17
 
 \begin{table}
     \centering
-    \caption{Percentage of solved tasks for HumanEval-X using \method{} with different LLMs. The best results among \method{}-only experiments at each $k$ are highlighted in bold. The best overall scores are underlined. If pass@100 is not available, the best reported results are mentioned as in the corresponding papers. }\small
+    \caption{Percentage of solved tasks for HumanEval-X using \method{} with different LLMs. The best results among \method{}-only experiments at each $k$ are highlighted in bold. The best overall scores are underlined. If pass@100 is not available, the best reported results are mentioned as in the corresponding chapters. }\small
     \label{tab:generalisability-he}\vspace*{-4mm}
 \begin{tabular}{llllrrr}
 \toprule
