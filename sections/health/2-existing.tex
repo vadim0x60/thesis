@@ -37,7 +37,7 @@ The prediction model of GYMIC simulator is defined as a solution to the followin
 The dataset of clinical histories is produced by a preprocessing algorithm combining together all clinical records from MIMIC that relate to sepsis patients.
 
 Autoregressive tasks of this nature arise in many fields like stock market prediction \cite{stonks1,stonks2} or language modelling \cite{langmodels} where state of the art solutions can be found.
-The authors of \emph{GYMIC} solve it with an LSTM \cite{lstm} neural network with 2 additional dense layers attached, see figure \ref{fig:gymic} for the diagram.
+The authors of \emph{GYMIC} solve it with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network with 2 additional dense layers attached, see figure \ref{fig:gymic} for the diagram.
 Faced with some of the mode collapse issues described in section \ref{sec:gymic-results} the authors also experimented with semi-supervised learning \cite{semi-supervised}: they trained a variational autoencoder \cite{vae} on all patient states to replace the 46-vector representations of patient state $s$ with learned representations from the latent space of the VAE $\text{encoder}(s)$.
 The issues persisted.
 

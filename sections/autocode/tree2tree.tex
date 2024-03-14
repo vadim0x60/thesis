@@ -5,7 +5,7 @@
 
 
 
-Given these challenges, research in machine learning on source code~\cite{allamanis2018:survey} tends to focus on restricted domain-specific languages~\cite{chen2021:latent,polozov2015:flashmeta,liventsev2021:bf} or automating specific parts\footnote{~similarly to autonomous driving~\cite{grigorescu2020:survey,marcano2020:review}} of the software development process~\cite{lu2021:codexglue,niu2023:crosscodebench} such as code search~\cite{husain2020:codesearchnet}, code translation~\cite{roziere2020:unsupervised}, detection of issues~\cite{fernandes2016:reviewbased,chakraborty2021:deep}, improvement~\cite{petke2018:genetic} and repair~\cite{legoues2019:automated} rather than fully autonomous programming in a programming language popular with human developers~\cite{:tiobe}.
+Given these challenges, research in machine learning on source code~\cite{allamanis2018:survey} tends to focus on restricted domain-specific languages~\cite{chen2021:latent,flashmeta,liventsev2021:bf} or automating specific parts\footnote{~similarly to autonomous driving~\cite{grigorescu2020:survey,marcano2020:review}} of the software development process~\cite{lu2021:codexglue,niu2023:crosscodebench} such as code search~\cite{husain2020:codesearchnet}, code translation~\cite{roziere2020:unsupervised}, detection of issues~\cite{fernandes2016:reviewbased,chakraborty2021:deep}, improvement~\cite{petke2018:genetic} and repair~\cite{legoues2019:automated} rather than fully autonomous programming in a programming language popular with human developers~\cite{:tiobe}.
 However, two recent innovations potentially make the latter task tractable.
 
 \begin{figure*}
@@ -15,8 +15,8 @@ However, two recent innovations potentially make the latter task tractable.
     \label{fig:method}
 \end{figure*}
 
-One is \emph{Synthesize, Execute, Debug}~\cite{gupta2020:synthesize}, a framework that attempts to bridge the "last mile" gap by introducing program repair into the program synthesis algorithm. 
-A programming task is specified using both a natural language description and a set of input/output (I/O) pairs demonstrating what output is expected of the program, thereby combining text to code ~\cite{iyer2018:mapping} and programming by example~\cite{halbert1984:programming,gulwani2016:programming} paradigms typical for competitive programming~\cite{zavershynskyi2018:naps}.
+One is \emph{Synthesize, Execute, Debug}~\cite{guptaSynthesizeExecuteDebug2020}, a framework that attempts to bridge the "last mile" gap by introducing program repair into the program synthesis algorithm. 
+A programming task is specified using both a natural language description and a set of input/output (I/O) pairs demonstrating what output is expected of the program, thereby combining text to code ~\cite{iyer2018:mapping} and programming by example~\cite{halbertProgrammingExample1984,gulwani2016:programming} paradigms typical for competitive programming~\cite{zavershynskyi2018:naps}.
 \emph{Synthesize, Execute, Debug} creates a first draft program using a generative model, compiles and executes it with given input examples.
 This is followed by a program repair step to fix the identified errors.
 
@@ -73,7 +73,7 @@ In the implementation-related sections further, we explain how we vary with the 
 The framework starts with the \synthesize{} agent, which is responsible for generating initial draft solutions to programming tasks to be repaired in the later stages of \method{}.
 We start with a basic template for a chosen programming language that contains a number of standard library imports as shown in figure~\ref{fig:template}.
 We populate this template with a comment indicating a text description of a task at hand and several I/O examples from the prompt training set.
-We design the templates with prompt engineering guidelines\footnote{\url{https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results}}$^{,}$ and prior work~\cite{debruin2021:autoencoders} in mind.
+We design the templates with prompt engineering guidelines\footnote{\url{https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results}}$^{,}$ and prior work (chapter \ref{ch:tree2tree} in mind.
 We then sample $\treearitydraft{}$ programs from \synthmodel{}, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
 We use temperature sampling with a monotonically increasing temperature schedule where $i$-th program is sampled with temperature $t_i \approx \frac{i}{\treearitydraft{}}$ (approximate equality enables efficient implementation by means of batching, i.e., generating several inputs with the same input pair of (code, descr)).
 Thus, the sampling procedure for the first programs approximates deterministic maximum likelihood estimation.
@@ -196,7 +196,7 @@ Observe that a mutation-only genetic algorithm with population size $\beamwidth{
 Until recently, the tasks of program synthesis \cite{gulwaniProgramSynthesis2017} and program repair \cite{gouesAutomatedProgramRepair2019, petke2018:genetic} have been considered separately.
 However, a number of important studies bridging this gap in the application of Large Language Models have been carried out concurrently with this work, listed below.
 
-\cite{fanAutomatedRepairPrograms2023} incorporate a program repair step into a program synthesis pipeline where the initial synthesis is done by the Codex model \cite{chen2021:evaluating} and for program repair both Codex and state of the art specialized repair tools such as TBar and Recoder \cite{Defects4JDatabaseExisting} are considered and compared. \cite{zhangSelfEditFaultAwareCode2023} do the same, but fine-tune PyCodeGPT-110M \cite{zanCERTContinualPretraining2022} to use it as a repair model. The resulting framework is a two-step process (1 draft step and 1 debug step), while iterative evolution and search are not explored. 
+\cite{fanAutomatedRepairPrograms2023} incorporate a program repair step into a program synthesis pipeline where the initial synthesis is done by the Codex model \cite{chenEvaluatingLargeLanguage2021} and for program repair both Codex and state of the art specialized repair tools such as TBar and Recoder \cite{Defects4JDatabaseExisting} are considered and compared. \cite{zhangSelfEditFaultAwareCode2023} do the same, but fine-tune PyCodeGPT-110M \cite{zanCERTContinualPretraining2022} to use it as a repair model. The resulting framework is a two-step process (1 draft step and 1 debug step), while iterative evolution and search are not explored. 
 
 Evolution through Large Models (ELM) \cite{lehmanEvolutionLargeModels2022} proposes using a language model in place of a mutation operator within a traditional genetic programming framework \cite{koza1994:genetic}. They use an type of instruction fine-tuned model trained on git commit messages known as a diff model \cite{DiffModelsNew2023}. However, the model is not directed to solve the programming problem at hand nor to fix bugs, instead, it is provided with generic instructions such as "Change function f". This approach is meant for fields where creative open-endedness~\cite{stanleyWhyGreatnessCannot2015a}, rather then satisfying concrete requirements, is encouraged.
 
@@ -246,7 +246,7 @@ Therefore, we only have the validation and test phases.
 We will refer to training test cases in the PSB terminology as validation test cases in this study. 
 
 \subsubsection{HumanEval-X}
-The second dataset we use is a development from the original set of human-written programming tasks in HumanEval~\cite{chen2021:evaluating}, which a standard code generation benchmark for LLMs.
+The second dataset we use is a development from the original set of human-written programming tasks in HumanEval~\cite{chenEvaluatingLargeLanguage2021}, which a standard code generation benchmark for LLMs.
 HumanEval consists of 164 problems with a docstring representing problem description, a function signature, a correct solution and unit tests in Python. 
 HumanEval-X is a result of translation of correct programs and unit tests to five programming languages. 
 We use HumanEval-Python for experiments in Python to ensure comparison with other models in the setup without \method{}. 

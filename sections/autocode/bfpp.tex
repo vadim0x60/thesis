@@ -323,7 +323,7 @@ Hence we
     \label{fig:envs}
 \end{figure}
 
-We evaluate our framework on 4 low-dimensional (see section \ref{sec:summary}) POMDPs sampled from OpenAI Gym \cite{openai-gym} leaderboard\footnote{\url{https://github.com/openai/gym/wiki/Leaderboard}}:
+We evaluate our framework on 4 low-dimensional (see section \ref{sec:summary}) POMDPs sampled from OpenAI Gym \cite{gym} leaderboard\footnote{\url{https://github.com/openai/gym/wiki/Leaderboard}}:
 
 \begin{enumerate}
 \item \textbf{CartPole-v1} \cite{cartpole}.
@@ -408,7 +408,7 @@ Every character of a program is an action taken by the \emph{writer agent}, the 
 When the NULL character is written, a \emph{BF++ agent} is created in the target POMDP environment (e.g. CartPole) and sum total of rewards $Q$ collected in that episode is assigned as a reward to the \emph{writer agent} for the NULL character.
 All other characters are rewarded with zero.
 
-The \emph{writer agent's} policy is modeled with an LSTM \cite{lstm} neural network and is trained with a modified version of REINFORCE \cite{reinforce} algorithm.
+The \emph{writer agent's} policy is modeled with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network and is trained with a modified version of REINFORCE \cite{reinforce} algorithm.
 While standard REINFORCE optimizes Policy Gradient:
 
 \begin{equation}
