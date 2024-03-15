@@ -77,7 +77,7 @@ Given enough trial and error it's still possible to generate a correct program w
 \end{figure}
 
 In this setting, a program gets generated and deployed in an environment that responds with positive and negative rewards. 
-The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{pomdp1,pomdp2}: when at step $i$ the agent takes action $a_i \in \rlactionspace$ it has an impact on  the state of the environment $s_i \in \rlstatespace$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
+The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactionspace$ it has an impact on  the state of the environment $s_i \in \rlstatespace$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
 State is a latent variable that the agent cannot observe.
 Instead, the agent can see an observation $o_i \in \rlobsspace$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
 $\rlactionspace$, $\rlstatespace$ and $\rlobsspace$ are sets of all possible actions, states and observations respectively.

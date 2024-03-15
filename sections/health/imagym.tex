@@ -47,7 +47,7 @@ Each scan is accompanied by three mask images $M_\text{heart}$, $M_\text{stomach
 
 \paragraph{Framework}
 
-We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{pomdp}, implemented as OpenAI Gym \cite{gym} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
+We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}, implemented as OpenAI Gym \cite{gym} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
 
 \paragraph{State}
 
