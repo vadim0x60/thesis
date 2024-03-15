@@ -1,22 +1,5 @@
 \section{Introduction}
 
-\paragraph{Foundation models for code}
-The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
-In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
-The foundation models for source code, based on architectures such as GPT Codex \cite{gpt,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
-
-\paragraph{Autoencoder genetic programming}
-% What it is
-% Autoregressive approach is bad for genetic programming
-% Autoencoders are good for genetic programming
-While undoubtedly useful in many program synthesis tasks, popular foundation models may fall short in the areas of genetic programming \cite{koza1992genetic} and genetic improvement of software \cite{petke2017genetic}.
-In this settings, new programs are found by exploring the space of programs similar to one or several reference programs.
-The task of applying these perturbations to programs could benefit from a foundational model, however, it's unclear how to achieve this with the current autoregressive models.
-Autoencoder Genetic Programming \cite{autoenc-gp,denoising-autoenc-gp,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
-These models embed programs into a high-dimensional vector space, making it easy to mutate a program by add random noise to the embedding vector or combine several programs by averaging their embedding vectors.
-
-\paragraph{Structural language models of code}
-
 Unlike natural languages, programming languages are easier to represent structurally due to the nature of their syntax which improves machine learning performance.
 Prior work on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and structural encoder-decoder models for machine translation \cite{chen2018tree} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
 
