@@ -1,4 +1,48 @@
 
+@inproceedings{alurSyntaxguidedSynthesis2013,
+	title = {Syntax-guided synthesis},
+	url = {https://ieeexplore.ieee.org/abstract/document/6679385},
+	doi = {10.1109/FMCAD.2013.6679385},
+	abstract = {The classical formulation of the program-synthesis problem is to find a program that meets a correctness specification given as a logical formula. Recent work on program synthesis and program optimization illustrates many potential benefits of allowing the user to supplement the logical specification with a syntactic template that constrains the space of allowed implementations. Our goal is to identify the core computational problem common to these proposals in a logical framework. The input to the syntax-guided synthesis problem (SyGuS) consists of a background theory, a semantic correctness specification for the desired program given by a logical formula, and a syntactic set of candidate implementations given by a grammar. The computational problem then is to find an implementation from the set of candidate expressions so that it satisfies the specification in the given theory. We describe three different instantiations of the counter-example-guided-inductive-synthesis (CEGIS) strategy for solving the synthesis problem, report on prototype implementations, and present experimental results on an initial set of benchmarks.},
+	urldate = {2024-03-15},
+	booktitle = {2013 {Formal} {Methods} in {Computer}-{Aided} {Design}},
+	author = {Alur, Rajeev and Bodik, Rastislav and Juniwal, Garvit and Martin, Milo M. K. and Raghothaman, Mukund and Seshia, Sanjit A. and Singh, Rishabh and Solar-Lezama, Armando and Torlak, Emina and Udupa, Abhishek},
+	month = oct,
+	year = {2013},
+	keywords = {Concrete, Grammar, Heuristic algorithms, Libraries, Production, Search problems, Syntactics},
+	pages = {1--8},
+}
+
+@incollection{sobaniaChallengesProgramSynthesis2020,
+	title = {Challenges of {Program} {Synthesis} with {Grammatical} {Evolution}},
+	isbn = {978-3-030-44093-0},
+	author = {Sobania, Dominik and Rothlauf, Franz},
+	month = apr,
+	year = {2020},
+	doi = {10.1007/978-3-030-44094-7_14},
+	pages = {211--227},
+}
+
+@article{davidProgramSynthesisChallenges2017,
+	title = {Program synthesis: challenges and opportunities},
+	volume = {375},
+	shorttitle = {Program synthesis},
+	url = {https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0403},
+	doi = {10.1098/rsta.2015.0403},
+	abstract = {Program synthesis is the mechanized construction of software, dubbed ‘self-writing code’. Synthesis tools relieve the programmer from thinking about how the problem is to be solved; instead, the programmer only provides a description of what is to be achieved. Given a specification of what the program should do, the synthesizer generates an implementation that provably satisfies this specification. From a logical point of view, a program synthesizer is a solver for second-order existential logic. Owing to the expressiveness of second-order logic, program synthesis has an extremely broad range of applications. We survey some of these applications as well as recent trends in the algorithms that solve the program synthesis problem. In particular, we focus on an approach that has raised the profile of program synthesis and ushered in a generation of new synthesis tools, namely counter-example-guided inductive synthesis (CEGIS). We provide a description of the CEGIS architecture, followed by recent algorithmic improvements. We conjecture that the capacity of program synthesis engines will see further step change, in a manner that is transparent to the applications, which will open up an even broader range of use-cases.
+
+This article is part of the themed issue ‘Verified trustworthy software systems’.},
+	number = {2104},
+	urldate = {2024-03-15},
+	journal = {Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences},
+	author = {David, Cristina and Kroening, Daniel},
+	month = sep,
+	year = {2017},
+	note = {Publisher: Royal Society},
+	keywords = {model checking, synthesis, verification},
+	pages = {20150403},
+}
+
 @article{hochreiterLongShorttermMemory1997,
 	title = {Long short-term memory},
 	volume = {9},
@@ -662,14 +706,9 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 	note = {Publisher: Citeseer},
 }
 
-@article{liventsevTreeVariationalAutoencodera,
-	title = {Tree {Variational} {Autoencoder} for {Code}},
-	language = {en},
-	author = {Liventsev, Vadim and de Bruin, Sander and Harma, Aki and Petkovic, Milan},
-}
-
 @misc{evestop,
 	title = {vadim0x60/evestop: {Early} stopping with exponential variance elmination},
+	copyright = {All rights reserved},
 	url = {https://github.com/vadim0x60/evestop},
 	author = {Liventsev, Vadim},
 	year = {2021},
@@ -693,6 +732,7 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 
 @article{liventsevTreeVariationalAutoencoder,
 	title = {Tree {Variational} {Autoencoder} for {Code}},
+	copyright = {All rights reserved},
 	language = {en},
 	author = {Liventsev, Vadim and de Bruin, Sander and Harma, Aki and Petkovic, Milan},
 }
@@ -787,6 +827,17 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 	year = {2008},
 }
 
+@misc{liventsev2021:bf,
+	title = {{BF}++: {A} language for general-purpose program synthesis},
+	copyright = {All rights reserved},
+	abstract = {Most state of the art decision systems based on Reinforcement Learning (RL) are data-driven black-box neural models, where it is often difficult to incorporate expert knowledge into the models or let experts review and validate the learned decision mechanisms. Knowledge-insertion and model review are important requirements in many applications involving human health and safety. One way to bridge the gap between data and knowledge driven systems is program synthesis: replacing a neural network that outputs decisions with a symbolic program generated by a neural network or by means of genetic programming. We propose a new programming language, BF++, designed specifically for automatic programming of agents in a Partially Observable Markov Decision Process (POMDP) setting and apply neural program synthesis to solve standard OpenAI Gym benchmarks.},
+	publisher = {arXiv},
+	author = {Liventsev, Vadim and Härmä, Aki and Petković, Milan},
+	month = jan,
+	year = {2021},
+	doi = {10.48550/arXiv.2101.09571},
+}
+
 @incollection{bastani2022:interpretable,
 	series = {Lecture {Notes} in {Computer} {Science}},
 	title = {Interpretable, {Verifiable}, and {Robust} {Reinforcement} {Learning} via {Program} {Synthesis}},
@@ -855,16 +906,6 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 	month = dec,
 	year = {2021},
 	pages = {1--16},
-}
-
-@misc{liventsev2021:bf,
-	title = {{BF}++: {A} language for general-purpose program synthesis},
-	abstract = {Most state of the art decision systems based on Reinforcement Learning (RL) are data-driven black-box neural models, where it is often difficult to incorporate expert knowledge into the models or let experts review and validate the learned decision mechanisms. Knowledge-insertion and model review are important requirements in many applications involving human health and safety. One way to bridge the gap between data and knowledge driven systems is program synthesis: replacing a neural network that outputs decisions with a symbolic program generated by a neural network or by means of genetic programming. We propose a new programming language, BF++, designed specifically for automatic programming of agents in a Partially Observable Markov Decision Process (POMDP) setting and apply neural program synthesis to solve standard OpenAI Gym benchmarks.},
-	publisher = {arXiv},
-	author = {Liventsev, Vadim and Härmä, Aki and Petković, Milan},
-	month = jan,
-	year = {2021},
-	doi = {10.48550/arXiv.2101.09571},
 }
 
 @article{allamanis2018:survey,
@@ -985,16 +1026,6 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 	pages = {22},
 }
 
-@misc{debruin2021:autoencoders,
-	title = {Autoencoders as {Tools} for {Program} {Synthesis}},
-	abstract = {Recently there have been many advances in research on language modeling of source code. Applications range from code suggestion and completion to code summarization. However, complete program synthesis of industry-grade programming languages remains an open problem. In this work, we introduce and experimentally validate a variational autoencoder model for program synthesis of industry-grade programming languages. This model makes use of the inherent tree structure of code and can be used in conjunction with gradient free optimization techniques like evolutionary methods to generate programs that maximize a given fitness function, for instance, passing a set of test cases. A demonstration is avaliable at https://tree2tree.app},
-	publisher = {arXiv},
-	author = {de Bruin, Sander and Liventsev, Vadim and Petković, Milan},
-	month = sep,
-	year = {2021},
-	doi = {10.48550/arXiv.2108.07129},
-}
-
 @article{helmuth2015:solving,
 	title = {Solving {Uncompromising} {Problems} {With} {Lexicase} {Selection}},
 	volume = {19},
@@ -1040,16 +1071,6 @@ tex.timestamp: Mon, 13 Aug 2018 16:47:55 +0200},
 	author = {Zavershynskyi, Maksym and Skidanov, Alex and Polosukhin, Illia},
 	year = {2018},
 	doi = {10.48550/arXiv.1807.0316},
-}
-
-@inproceedings{liventsev2023:fully,
-	title = {Fully {Autonomous} {Programming} with {Large} {Language} {Models}},
-	doi = {10.1145/3583131.3590481},
-	abstract = {Current approaches to program synthesis with Large Language Models (LLMs) exhibit a "near miss syndrome": they tend to generate programs that semantically resemble the correct answer (as measured by text similarity metrics or human evaluation), but achieve a low or even zero accuracy as measured by unit tests due to small imperfections, such as the wrong input or output format. This calls for an approach known as Synthesize, Execute, Debug (SED), whereby a draft of the solution is generated first, followed by a program repair phase addressing the failed tests. To effectively apply this approach to instruction-driven LLMs, one needs to determine which prompts perform best as instructions for LLMs, as well as strike a balance between repairing unsuccessful programs and replacing them with newly generated ones. We explore these trade-offs empirically, comparing replace-focused, repair-focused, and hybrid debug strategies, as well as different template-based and model-based prompt-generation techniques. We use OpenAI Codex as the LLM and Program Synthesis Benchmark 2 as a database of problem descriptions and tests for evaluation. The resulting framework outperforms both conventional usage of Codex without the repair phase and traditional genetic programming approaches.},
-	booktitle = {Genetic and {Evolutionary} {Computation} {Conference} ({GECCO})},
-	publisher = {ACM},
-	author = {Liventsev, Vadim and Grishina, Anastasiia and Härmä, Aki and Moonen, Leon},
-	year = {2023},
 }
 
 @inproceedings{vaswani2017:attention,
@@ -2722,6 +2743,7 @@ Version Number: 2},
 
 @misc{liventsevTaxonomyAutomaticProgramming2023,
 	title = {Taxonomy of {Automatic} {Programming}},
+	copyright = {All rights reserved},
 	url = {https://vadim.me/publications/taxonomy/},
 	abstract = {Automatic programming is a pursuit of a seemingly clear goal: let’s make computers program themselves! As usual, that nasty pal of ours is in the details: are compilers automatic programming? They do generate code automatically, and modern compilers tend to utilize sophisticated machine learning to do so [Leather, Cummins]. So, in the interest of unambiguous nomenclature, here’s a brief summary of various tasks that tend to get lumped under the fuzzy umbrella terms of automatic programming and program synthesis.},
 	language = {en},
@@ -3621,6 +3643,14 @@ tex.timestamp: Mon, 13 Aug 2018 16:48:52 +0200},
 	pages = {837--847},
 }
 
+@article{liventsev2021neurogenetic,
+	title = {Neurogenetic programming framework for explainable reinforcement learning},
+	copyright = {All rights reserved},
+	journal = {arXiv preprint arXiv:2102.04231},
+	author = {Liventsev, Vadim and Härmä, Aki and Petković, Milan},
+	year = {2021},
+}
+
 @inproceedings{eggermont2004genetic,
 	title = {Genetic programming for data classification: {Partitioning} the search space},
 	booktitle = {Proceedings of the 2004 {ACM} symposium on {Applied} computing},
@@ -3648,13 +3678,6 @@ tex.timestamp: Mon, 13 Aug 2018 16:48:52 +0200},
 	year = {1992},
 }
 
-@article{liventsev2021neurogenetic,
-	title = {Neurogenetic programming framework for explainable reinforcement learning},
-	journal = {arXiv preprint arXiv:2102.04231},
-	author = {Liventsev, Vadim and Härmä, Aki and Petković, Milan},
-	year = {2021},
-}
-
 @inproceedings{pirl,
 	address = {Stockholmsmässan, Stockholm Sweden},
 	series = {Proceedings of machine learning research},
@@ -3669,6 +3692,13 @@ tex.timestamp: Mon, 13 Aug 2018 16:48:52 +0200},
 	month = jul,
 	year = {2018},
 	pages = {5045--5054},
+}
+
+@misc{heartpole,
+	title = {{HeartPole}: {A} transparent task for reinforcement learning in {Healthcare}},
+	copyright = {All rights reserved},
+	url = {https://github.com/vadim0x60/heartpole/blob/master/HeartPole_abstract.pdf},
+	author = {Liventsev, Vadim},
 }
 
 @misc{evestop,
@@ -3900,12 +3930,6 @@ tex.issue\_date: January 2010},
 	pages = {1238--1274},
 }
 
-@misc{heartpole,
-	title = {{HeartPole}: {A} transparent task for reinforcement learning in {Healthcare}},
-	url = {https://github.com/vadim0x60/heartpole/blob/master/HeartPole_abstract.pdf},
-	author = {Liventsev, Vadim},
-}
-
 @inproceedings{hearthstone,
 	title = {Latent predictor networks for code generation},
 	booktitle = {Proceedings of the 54th annual meeting of the association for computational linguistics (volume 1: {Long} papers)},
@@ -3954,13 +3978,6 @@ Publisher: Association for Computing Machinery
 tex.articleno: 196
 tex.issue\_date: November 2020},
 	keywords = {automated testing, compiler defect, compiler testing, random program generation, random testing},
-}
-
-@misc{bf++,
-	title = {{BF}++:a language for general-purpose neural program synthesis},
-	author = {Liventsev, Vadim and Härmä, Aki and Petković, Milan},
-	year = {2021},
-	note = {arXiv: 2101.09571 [cs.AI]},
 }
 
 @article{metainduction,
@@ -5568,6 +5585,7 @@ Publisher: Nature Publishing Group},
 
 @inproceedings{liventsevFullyAutonomousProgramming2023,
 	title = {Fully {Autonomous} {Programming} with {Large} {Language} {Models}},
+	copyright = {All rights reserved},
 	url = {http://arxiv.org/abs/2304.10423},
 	doi = {10.1145/3583131.3590481},
 	abstract = {Current approaches to program synthesis with Large Language Models (LLMs) exhibit a "near miss syndrome": they tend to generate programs that semantically resemble the correct answer (as measured by text similarity metrics or human evaluation), but achieve a low or even zero accuracy as measured by unit tests due to small imperfections, such as the wrong input or output format. This calls for an approach known as Synthesize, Execute, Debug (SED), whereby a draft of the solution is generated first, followed by a program repair phase addressing the failed tests. To effectively apply this approach to instruction-driven LLMs, one needs to determine which prompts perform best as instructions for LLMs, as well as strike a balance between repairing unsuccessful programs and replacing them with newly generated ones. We explore these trade-offs empirically, comparing replace-focused, repair-focused, and hybrid debug strategies, as well as different template-based and model-based prompt-generation techniques. We use OpenAI Codex as the LLM and Program Synthesis Benchmark 2 as a database of problem descriptions and tests for evaluation. The resulting framework outperforms both conventional usage of Codex without the repair phase and traditional genetic programming approaches.},
@@ -5858,21 +5876,6 @@ SQL standard defines isolation with different levels. Every isolation level offe
 	note = {arXiv:2203.07814 [cs]},
 	keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Computer Science - Programming Languages},
 	pages = {1092--1097},
-}
-
-@misc{debruinAutoencodersToolsProgram2021,
-	title = {Autoencoders as {Tools} for {Program} {Synthesis}},
-	copyright = {All rights reserved},
-	url = {http://arxiv.org/abs/2108.07129},
-	doi = {10.48550/arXiv.2108.07129},
-	abstract = {Recently there have been many advances in research on language modeling of source code. Applications range from code suggestion and completion to code summarization. However, complete program synthesis of industry-grade programming languages remains an open problem. In this work, we introduce and experimentally validate a variational autoencoder model for program synthesis of industry-grade programming languages. This model makes use of the inherent tree structure of code and can be used in conjunction with gradient free optimization techniques like evolutionary methods to generate programs that maximize a given fitness function, for instance, passing a set of test cases. A demonstration is avaliable at https://tree2tree.app},
-	urldate = {2023-09-20},
-	publisher = {arXiv},
-	author = {de Bruin, Sander and Liventsev, Vadim and Petković, Milan},
-	month = sep,
-	year = {2021},
-	note = {arXiv:2108.07129 [cs]},
-	keywords = {Computer Science - Artificial Intelligence, Computer Science - Programming Languages, I.2.2, I.2.6},
 }
 
 @article{arroyoComparisonOptimalControl2022,
