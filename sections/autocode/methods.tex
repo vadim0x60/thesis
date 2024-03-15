@@ -11,10 +11,25 @@ In other words, the search space in program synthesis is \emph{sparse}, \emph{br
 \section{Deductive methods}
 
 One way to attack the sparsity of the search space is to look for hints in the task specification. 
-This is hard to apply in the \emph{Programmatically Interpretable Reinforcement}
+Instead of (or in addition to) generating a program first and testing whether it adheres to specification, deductive methods apply equivalence rules to translate the specification into an executable 
+This is hard to apply in \emph{Programmatically Interpretable Reinforcement Learning} where the specification is a black box, but can be a powerful approach in \emph{code translation} and \emph{programming by example} paradigms.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{f.png}
+    \caption{Code translation, schematic definition}
+    \label{fig:nl2ml}
+\end{figure}
 
 \newpage
 \section{Evolutionary methods}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{gp.png}
+    \caption{Genetic Programming, schematic definition}
+    \label{fig:gp}
+\end{figure}
 
 \newpage
 \section{Constrained problem spaces}
