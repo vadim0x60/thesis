@@ -1,11 +1,11 @@
 \section{Introduction}
 
-\subsection{Foundation models for code}
+\paragraph{Foundation models for code}
 The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
 In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
 The foundation models for source code, based on architectures such as GPT Codex \cite{gpt,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
 
-\subsection{Autoencoder genetic programming}
+\paragraph{Autoencoder genetic programming}
 % What it is
 % Autoregressive approach is bad for genetic programming
 % Autoencoders are good for genetic programming
@@ -15,7 +15,7 @@ The task of applying these perturbations to programs could benefit from a founda
 Autoencoder Genetic Programming \cite{autoenc-gp,denoising-autoenc-gp,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
 These models embed programs into a high-dimensional vector space, making it easy to mutate a program by add random noise to the embedding vector or combine several programs by averaging their embedding vectors.
 
-\subsection{Structural language models of code}
+\paragraph{Structural language models of code}
 
 Unlike natural languages, programming languages are easier to represent structurally due to the nature of their syntax which improves machine learning performance.
 Prior work on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and structural encoder-decoder models for machine translation \cite{chen2018tree} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
@@ -24,10 +24,9 @@ To the best of our knowledge, however, the advantage of structural models has no
 
 Thus the research question we set out to answer is: \emph{would an model that operates directly on the program's Abstract Syntax Tree learn a better latent representation of the source code than a model that operates on a sequence of tokens?}
 
+\newpage
 \section{Proposed architecture}
 
-
-\subsection{Autoencoder type}
 We have chosen to use a variational autoencoder \cite{kingma2013auto} since, unlike its non-stochastic counterpart,it is less dependent on choosing the right size of the latent vector, since the Kullback Leibner component encourages the model to use as small of a subspace of the latent space as it can.
 Our experiments do, however, indicate that the choice of latent dimension is still important.
 
@@ -91,8 +90,7 @@ We rejected a common \cite{fabius2015variational} approach of only taking the la
 \paragraph{Sampling latent code} The pooled vector is then used to compute the mean and variance of the approximate posterior to sample a latent code $z$ with the help of the reparametrization trick \cite{kingma2013auto}. The mean and variance are computed using linear layers that learn a set of weights and biases. 
 
 
-
-
+\newpage
 \subsection{Decoder}
 The goal of the decoder network is to reconstruct a given input as accurately as possible, given the latent code produced by the encoder. 
 
@@ -211,14 +209,14 @@ This update to the fraternal state is applied after predicting the label for nod
 % 
 
 % For identifier tokens, the decoder model deviates slightly from this batching process. Because we treat the prediction of the identifier tokens as a clustering problem, we need the predictive hidden states of all the already declared identifiers when predicting a reference. A reference to an identifier may be processed before the declaration of a variable in the current setup. However, for predicting the correct label of a reference, we need to process its declaration first. Therefore, we process the identifier nodes separately, only after all other nodes have been processed. The order in which the identifier nodes are processed is from left to right within a tree, node by node. We ensure that declarations are always processed before their references by processing the identifier nodes from left to right. We parallelize this operation again across multiple trees. An example of the process is depicted in figure \ref{:treeBatchingIdentifiers}.
-
+\newpage
 \subsection{Optimization}
 
-\subsubsection{Mitigating KL vanishing}
+\paragraph{Mitigating KL vanishing}
 KL vanishing is a common issue when dealing with VAEs with a decoder parameterized by an auto-regressive model.
 We mitigate it vanishing using cyclical KL cost annealing \cite{fu2019cyclical}. Furthermore, we apply pooling to the hidden states of the RNN network in the encoder. Long \textit{et al.} \cite{long2019preventing} show this pooling method can effectively prevent the posterior collapse issue. 
 
-\subsubsection{Loss function}
+\paragraph{Loss function}
 Predicting whether a node has offspring and successor siblings are binary choices, so we can use binary cross-entropy to compute the loss for predicting the topology of the AST. 
 Let $a^y$, $f^y$ represent the actual values of having offspring and successor siblings for node $y$, the topological losses for this node are then computed as follows:
 
@@ -283,15 +281,16 @@ During training, we perform teacher forcing, technique that is commonly used wit
     \label{fig:tree2treeVAE}
 \end{figure*}
 
+\newpage
 \section{Evaluation}
 \label{evaluation}
 
-\subsection{Dataset}
+\paragraph{Dataset}
 We train and evaluate our model on a dataset of programs from code competition websites. Programs from these platforms exhibit a few qualities that are suitable for program synthesis. The programs are tested and known to be syntactically correct and compile-able, and they are standalone code fragments and do not depend on any code that is not built into the programming language. The dataset consists of almost two million C++ programs across 148 competitions divided over 904 problems. 
 
 The programs in the data set are generally structured to contain a main function, standard input and output stream elements, computation and memory optimizations, and possibly some other elements such as helper functions/classes. Due to this general structure, the programs tend to overlap in their content, in contrast to, for example, natural language sentences. 
 
-\subsection{Baseline}
+\paragraph{Baseline}
 Our method is compared to a baseline inspired by autoencoders used for text generation in natural language. We can also evaluate how well these models generalize to source code synthesis by taking inspiration from natural language models. The model architecture is inspired from \cite{bowman2015generating}. In this architecture, both the encoder and decoder networks contain single-layer recurrent neural networks. A Gaussian prior is used for the regularization of the latent space. The model operates on the original sequences of source code and decodes the latent vector back to the source code without an intermediate structured representation. Therefore we refer to the baseline model as the Sequence-to-Sequence (Seq2Seq) model, and the architecture is depicted in figure \ref{:seq2seq}.
 
 \begin{figure*}[ht!]
@@ -305,7 +304,7 @@ Similar to our proposed autoencoder model, we employ methods to mitigate KL-vani
 
 We use three-layered LSTMs in the encoder and decoder with a recurrent dropout rate of 20\% to reduce over-fitting. The embedding layer is initialized with Glove wiki gigaword 50 \cite{pennington2014glove} embedding. We train the model using the Adam optimizer \cite{kingma2014adam} with a learning rate of $1e-3$ and 10 epochs with early stopping and a patience of 3. We train and run the experiments on GPUs with a batch size set to 32.
 
-\subsection{Reconstruction results}\label{sec:recon-results}
+\paragraph{Reconstruction results}\label{sec:recon-results}
 First of all, we look at how accurately the autoencoders can reconstruct programs. We use a separate test split containing around 60.000 samples of our data set to evaluate this and use these samples as input for the autoencoders. 
 
 
@@ -449,7 +448,7 @@ In contrast, the performance degradation is much smaller for the Tree2Tree model
 
 An interesting observation is that the latent vector conveys relatively little information in terms of BLEU scores. The correction scores make up a large part of the total BLEU scores as presented in table \ref{:rec_results_inp_sizes}. Hence, the BLEU scores are largely determined by the models' general knowledge of how C++ programs are built up and not the specific content.
 
-\subsection{Generative results}
+\paragraph{Generative results}
 \label{results:gen}
 To see how well autoencoders can generate reasonable samples from any point in latent space that conform to the C++ syntax, we sample 1000 random latent vectors from the prior distribution $\mathcal{N}(0, I)$ and input these vectors to the decoder networks. Then, we compute the percentage of generated programs that compiles and is thus also syntactically correct.
 
@@ -492,7 +491,7 @@ We employ two decoding strategies to test the generative capabilities of the mod
 
 The results from table \ref{:gen_results} show similar trends as section \ref{sec:recon-results}. The general trend is: the larger the model (in terms of latent size and hidden units), the higher the compilation percentage. Moreover, greedy search during inference gives a higher compilation percentage than sampling. This outcome is not surprising, as, with greedy search, we always pick the label for which the model is most confident. On the other hand, sampling gives a more varied output and may be useful for searching similar programs in a vicinity of the latent space. The trade-off for a more diverse output is thus a lower compilation ratio. 
 
-
+\newpage
 \section{Conclusion}
 
 Our results indicate that Tree Variational Autoencoders have a significant advantage over sequence-to-sequence models in low-dimensional latent spaces, achieving both a higher compilation rate and a higher reconstruction quality.

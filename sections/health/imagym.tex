@@ -10,9 +10,10 @@ The goal of this simulator is to accurately model the job of an ultrasound sonog
 to pave the way for autonomous or semi-autonomous ultrasound sonography \cite{autonomous-ultrasound-review}.
 The job in question entails moving the ultrasound probe along the patient's body in order to acquire an image of the fetus that satisfies the guidelines for fetal-screening \cite{isoug-guidelines}, most importantly, the fact that the fetus' stomach and umbilical vein are on the image while their heart is not.
 
+\newpage
 \section{Methodology}
 
-\subsection{Dataset}
+\paragraph{Dataset}
 
 \begin{figure*}
     \centering
@@ -44,11 +45,11 @@ Each scan is accompanied by three mask images $M_\text{heart}$, $M_\text{stomach
     M(x,y,z): B \rightarrow \{0,1\}
 \end{equation}
 
-\subsection{Framework}
+\paragraph{Framework}
 
 We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{pomdp}, implemented as OpenAI Gym \cite{gym} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
 
-\subsection{State}
+\paragraph{State}
 
 The state, in this case, is the current position of the proble defined by 2 3-vectors, the position of the probe $s_\text{loc} \in \mathcal{S}_\text{loc}$ and its direction $s_\text{dir} \in R^{3}$.
 
@@ -56,7 +57,7 @@ The simulator has 2 modes for the space of possible locations $\mathcal{S}_\text
 In \emph{free movement} mode, $\mathcal{S}_\text{loc} = B$, thus the agent can place the probe anywhere within the bounds of the image, even inside the patient.
 In \emph{realistic movement} mode, $\mathcal{S}_\text{loc} \subset B$ representing the surface of the patient's body available to the agent.
 
-\subsection{Actions}
+\paragraph{Actions}
 
 The action space $\mathcal{A} = R^{7}$, where any $a \in \mathcal{A}$ can be decomposed as
 
@@ -72,12 +73,12 @@ In this case, a legal location will be chosen, in a manner that minimizes the di
     s_\text{loc} \leftarrow \min_{s \in \mathcal{S}_\text{loc}} \left\{ \lVert s - (s_\text{loc} + (a_{x} , a_{y} , a_{z})) \rVert \right\}
 \end{equation}
 
-\subsection{Observations}
+\paragraph{Observations}
 
 The observation is obtained by projecting $I(x,y,z)$ onto a plane defined by the current position of the probe $s_\text{loc}$ and its direction $s_\text{dir}$, simulating the image that the sonographer would see on their screen.
 It is, theoretically, a function $I_\text{proj}(x_\text{proj}, y_\text{proj})$, however, since it is customary in POMDP framework for observations $o$ to be matrices, we replace it with a matrix of evaluations of $I_\text{proj}(x_\text{proj}, y_\text{proj})$ on an arbitrary (hyperparametrized) coordinate grid $\{(x_\text{proj}, y_\text{proj})\}$.
 
-\subsection{Rewards}
+\paragraph{Rewards}
 
 The quality of the image is defined in accordande with ISOUG guidelines \cite{isoug-guidelines} to be measured by the surface area of the heart, the stomach and the umbilical vein on the projection, normalized by the volume of these organs.
 
@@ -87,6 +88,7 @@ The quality of the image is defined in accordande with ISOUG guidelines \cite{is
 
 The reward then is the diffence in quality between the current image and the one obtained at the previous iteration, so that probe movements that improve the image are rewarded positively and all rewards obtained during the episode sum up to the quality of the chosen image.
 
+\newpage
 \section{Related work}
 
 Another simulator with a somewhat similar methodology is SonoRL \cite{sonorl}. The most important differences underlining the need for this simulator are:
@@ -96,8 +98,7 @@ Another simulator with a somewhat similar methodology is SonoRL \cite{sonorl}. T
     \item The implementation of SonoRL is not available to the wider community.
 \end{itemize}
 
-For a broader view of the field of patient simulators in general, see \cite{towards}.
-
+\newpage
 \section{Future work}
 
 One direction is to provide the observations in a low dimentional format.

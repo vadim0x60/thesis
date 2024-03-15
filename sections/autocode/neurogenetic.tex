@@ -28,8 +28,8 @@ After the introduction to the relevant background in the next section, we will g
 
 % TODO: Evolutionary strategies in RL
 
+\newpage
 \section{Background}
-% \subsection{Reinforcement Learning}
 
 % TODO: Review solutions, not just problems
 
@@ -48,7 +48,7 @@ The goal is to find a program that maximises rewards.
 In this work, we choose RL specification, because it generalizes other methods: input-output pairs can be seen as an environment that negatively reinforces a metric of difference between expected and observed program output, while in \emph{proof-theoretic synthesis} the reward is determined by the postcondition.  
 Many real-world problems, such as robot control \cite{robotrl} and clinical decision making \cite{heartpole,gym-sepsis} are formulated as reinforcement learning as well.
 
-\subsection{Programmatically Interpretable Reinforcement Learning}
+\newpage \subsection{Programmatically Interpretable Reinforcement Learning}
 \label{sec:pirl}
 
 More concretely, we model the task as {\em Episodic Partially Observable Markov Decision Process}:
@@ -115,6 +115,7 @@ Since the algorithm for computing this function involves repeatedly sampling val
     \label{eq:pirlgoal}
 \end{equation}
 
+\newpage
 \section{Methodology}
 \label{sec:methodology}
 
@@ -122,7 +123,7 @@ How does one manage a composition of code generators in such a way that the comp
 This question is studied extensively in software project management literature \cite{mythicalmanmonth}.
 And while, admittedly, project management literature is concerned with human developers and, admittedly, there exist considerable differences between human developers and mathematical models of code generation \cite{bugfixing}, we mitigate these differences with several simplifying assumptions.
 
-\subsection{Modeling the codebase}
+\newpage \subsection{Modeling the codebase}
 
 Following from traditional genetic programming, we define a \emph{population} of programs. 
 The \emph{codebase} is a tuple of 2-tuples, representing a program $C_c^{(i)}=c$ and the total reward it collected $C_R^{(i)}=R_\text{tot} \sim \mathit{Eval}(c)$ (see section \ref{sec:quality}):
@@ -133,7 +134,7 @@ The \emph{codebase} is a tuple of 2-tuples, representing a program $C_c^{(i)}=c$
 
 However, unlike in traditional genetic programming, the \emph{initial population} can (optionally) be empty.
 
-\subsection{Modeling a software developer}
+\newpage \subsection{Modeling a software developer}
 \label{sec:developer}
 
 A software developer can:
@@ -156,7 +157,7 @@ The \emph{team} of developers is a tuple of 2-tuples:
     \mathcal{T} = \langle \langle \mathcal{T}_p^{(1)}, \mathcal{T}_\text{upd}^{(1)} \rangle, \langle \mathcal{T}_p^{(2)}, \mathcal{T}_\text{upd}^{(2)} \rangle \dots \langle \mathcal{T}_p^{(|\mathcal{T}|)}, \mathcal{T}_\text{upd}^{(|\mathcal{T}|)} \rangle \rangle
 \end{equation}
 
-\subsection{Modeling program quality}
+\newpage \subsection{Modeling program quality}
 \label{sec:quality}
 
 We define two empirical metrics of overall program fitness.
@@ -186,7 +187,7 @@ For this reason we train developers to maximize $Q$, but when the training is co
 $Q(c|C)$ has an additional technical advantage over $R(c|C)$: invariant $Q(c|C) \geq 0$ holds for all $c$.
 This lets one sample programs from the codebase with probabilities proportional to their quality, see eq. \ref{eq:genmixture}.
 
-\subsection{Populating the codebase}
+\newpage \subsection{Populating the codebase}
 
 Just like \emph{instant run-off voting} achieves similar results to \emph{exhaustive ballot runoff voting}, but does it much faster by replacing a series of ballots cast in a series of elections with a ballot cast once that goes on to participate in a series of virtual elections \cite{votingsystems}, our \emph{Instant Scrum} algorithm does the same to Scrum \cite{scrum}: it simulates the iterative software development process recommended by Scrum methodology without humans in the loop making it possible to run many sprints per second:
 
@@ -217,7 +218,7 @@ Just like \emph{instant run-off voting} achieves similar results to \emph{exhaus
 
 To combine genetic programming and neural program synthesis we introduce 3 types of developers: \emph{genetic} and \emph{neural} and \emph{dummy}, create a team that contains developers of all types and run \emph{Instant Scrum}.
 
-\subsection{Genetic developers}
+\newpage \subsection{Genetic developers}
 \label{sec:genetic}
 
 A genetic developer writes programs by
@@ -238,7 +239,7 @@ The rest are called \emph{combination} operators as they \emph{combine} 2 existi
 
 
 
-\subsubsection{Mutation operators}
+\paragraph{Mutation operators}
 
 The simplest method for randomly modifying a program is \emph{shuffle mutation}: randomly re-order the tokens of $c_1$.
 Let $\mathrm{A}$ be the set of all possible permutations of size $|c_1|$. $|\mathrm{A}|=|c_1|!$. 
@@ -264,7 +265,7 @@ Hence over full programs the operator is defined as
     \prod\limits_{i=0}^{|c_1|}  \left(\frac{p_\text{ind}}{|L|} +  (1 - p_\text{ind}) \mathbb{I}[c_\text{child}^{(i)} = c_1^{(i)}] \right)
 \end{equation}
 
-\subsubsection{Combination operators}
+\paragraph{Combination operators}
 
 The combination operators we propose are all variants of \emph{crossover} - a classic genetic programming technique rooted in the way a pair of DNA molecules exchanges genes during mitosis and meiosis, displayed on figure \ref{fig:crossover}.
 
@@ -341,7 +342,7 @@ In \emph{messy crossover}, one parent is cut at index $k_1$, another is cut at i
 \end{table}
 
 
-\subsubsection{Pruning operator}
+\paragraph{Pruning operator}
 
 After initial experiments  we found that generated programs often contain sections of unreachable code or code that makes changes to the execution state and fully reverses them.
 To address this, we introduced an additional operator for removing dead code (\emph{pruning}): when Instant Scrum encounters a successful program, pruning helps separate sections of this program that led to its success from sections that appeared in a highly-rated program by accident.  
@@ -355,7 +356,7 @@ Implementation of the pruning operator depends on the programming language at ha
         \end{cases}
 \end{equation}
 
-\subsubsection{Operator and parent selection}
+\paragraph{Operator and parent selection}
 \label{sec:selection}
 
 Let $\mathcal{P}_\text{genetic}$ be a tuple of all available genetic operators, in order of introduction, i.e. $\mathcal{P}_\text{genetic}^{(1)}=p_\text{shuffle}$ and $\mathcal{P}_\text{genetic}^{(4)}=p_\text{2ptcx}$
@@ -376,7 +377,7 @@ This is a true probability distribution if and only if $\sum\limits_{i=0}^{|\mat
     \theta_i = 1$
 
 
-\subsubsection{Training the genetic developer}
+\paragraph{Training the genetic developer}
 
 One challenge that remains to be solved to fully define the genetic developer (folowing section \ref{sec:developer}) is to define a learning from feedback strategy $\mathit{Update}_\text{genetic}$.
 To do this, we notice that equation \ref{eq:genmixture} contains a \emph{multi-armed bandit} \cite{banditproblem} hiding in plain sight.
@@ -404,7 +405,7 @@ where $\epsilon$ is a hyperparameter responsible for regulating the \emph{explor
 
 In future work, however, other bandit optimization algorithms can be used in its place \footnote{Our open-source software implementation allows for drop-in replacement of bandit algorithms}.
 
-\subsubsection{Hyperparameters}
+\paragraph{Hyperparameters}
 \label{sec:genhyper}
 
 The genetic developer, as described above, has 2 hyperparameters:
@@ -416,7 +417,7 @@ The genetic developer, as described above, has 2 hyperparameters:
 
 Note that the \emph{team} mechanism afforded by \emph{Instant Scrum} can be used not only to combine genetic and neural program synthesis, but also to combine several genetic developers with different hyperparameters.
 
-\subsection{Neural developers}
+\newpage \subsection{Neural developers}
 \label{sec:neural}
 
 The \emph{neural developer}, also known as the \emph{senior developer} because of their unique ability to write original programs, is an LSTM \cite{hochreiterLongShorttermMemory1997} network followed by a linear layer that generates a sequence of vectors $h_{1},h_{2},h_{3},\dots$ where $h_i \in \mathbb{R}^{|\mathcal{L}| + 1} \forall i$ and $j$-th element of vector $h_i$, $h_i^{(j)}$, represents the probability of $i$-th token of the program being $j$-th token in the alphabet, $p(c^{(i)}=\mathcal{L}^{(j)})$.
@@ -439,7 +440,7 @@ This algorithm involves a priority queue of best known programs: we implement it
 $h_i(\theta)$ can also represent several LSTM layers stacked or a different type of recurrent neural network, i.e. GRU \cite{gru}.
 Hyperparameters of this neural network, such as hidden state size and/or number of stacked layers are hyperparameters of the neural developer.  
 
-\subsection{Dummy developer}
+\newpage \subsection{Dummy developer}
 
 The last developer we introduce is the simplest one:
 
@@ -457,10 +458,11 @@ Dummy developer is a smart compromise between speed at which \emph{Instant Scrum
 Without dummy developer, all empirical total rewards $E[Eval(c)]$ would be low quality estimates of true fitness of the program and one spurious success of an otherwise bad program could steer the search in the wrong direction.
 On the other hand, we could test each program many times before adding it to the codebase, but that would slow down the search prohibitively. 
 
+\newpage
 \section{Experimental setup}
 \label{sec:experiments}
 
-\subsection{Teams}
+\paragraph{Teams}
 
 In the table below, we introduce 5 teams.
 Neural developers are denoted as lstm(hidden state dimensionality), several numbers mean a stacked LSTM.
@@ -487,7 +489,7 @@ $T_\text{small}$ and $T_\text{large}$ are recommended configurations while $T_\t
 \end{table}
 
 
-\subsection{Language}
+\paragraph{Language}
 
 Instant Scrum can be used to generate programs in any programming language provided:
 \begin{enumerate}
@@ -505,12 +507,12 @@ The complexity of the chosen language is important since in complex languages ra
 This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprogast}, however, we sidestep the issue entirely by using \emph{BF++} \cite{bf++} - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
 Each BF++ command is represented with a single character, thus the only way to tokenize it is to let tokens $c^{(1)},c^{(2)},c^{(3)},\dots$ be single characters.
 
-\subsection{Tasks}
+\paragraph{Tasks}
 \label{sec:tasks}
 
 Following from the previous chapter we synthesize programs for \textbf{CartPole-v1} \cite{cartpole}, MountainCarContinuous-v0 (\textbf{MCC-v0}) \cite{mountain_car}, \textbf{Taxi-v3} \cite{taxi} BipedalWalker-v2 (\textbf{BW-v2})  OpenAI Gym \cite{gym} environments, see figure \ref{fig:envs}.
 
-\subsection{Initial populations}
+\paragraph{Initial populations}
 
 Where possible, we run all experiments twice - a control experiment with empty intial codebase, and an experiment where codebase is pre-populated with human-written programs from \cite{bf++}.
 Exceptions to this rule are 
@@ -519,7 +521,7 @@ Exceptions to this rule are
     \item \textbf{BipedalWalker-v2} environment, because no programs for this environment were provided in \cite{bf++} not 
 \end{itemize}
 
-\subsection{Stopping and scoring}
+\paragraph{Stopping and scoring}
 
 For Taxi we set an $N_\text{max}$ to $100000 |T|$ sprints, meaning every developer in the team trains for 100000 iterations.
 For other tasks we used Exponential Variance Elimination \cite{evestop} early stopping algorithm to stop the process when the positive trend in $Eval(c)$ is not present for 10000 sprints.
@@ -529,10 +531,11 @@ In addition to these stopping rules, a hard timelimit was set.
 
 After the process is stopped, we pick 100 programs with the highest $R(c|C)$ and make sure each of them has been tested at least 100 times, otherwise we run $Eval(c)$ and add result to the codebase until 100 samples is reached. 
 
-\subsection{Implementation}
+\paragraph{Implementation}
 
 We implemented the framework with Python and Tensorflow as well as DEAP \cite{deap} for genetic operators.
 
+\newpage
 \section{Results}
 \label{sec:results}
 
@@ -600,6 +603,7 @@ BipedalWalker-v2 & & -0.15 & lstm(50,50)\\
 
 However, comparing results for $T_\text{small}$ versus $T_\text{neural}$ proves that genetic developers have been intstrumental to the quality of these neural networks - this is to be expected with Priority Queue Training (see sec. \ref{sec:neural}).
 
+\newpage
 \section{Discussion}
 
 We have introduced a neurogenetic programming framework, demonstrated its efficacy and advantages over simpler program induction methods.

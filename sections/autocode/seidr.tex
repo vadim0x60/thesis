@@ -1,4 +1,4 @@
-\section{Introduction}
+\newpage \section{Introduction}
 \label{sec:intro}
 
 
@@ -28,7 +28,7 @@ Section~\ref{sec:methodology} presents a framework that adapts \emph{Synthesize,
 We discuss related work in Section~\ref{sec:related-work}, introduce experiments to establish optimal search and prompting strategies for this framework in Section~\ref{sec:eval}. 
 Finally, we demonstrate in Section~\ref{sec:results} that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
-\section{Methodology}
+\newpage \section{Methodology}
 \label{sec:methodology}
 The proposed 5-agent framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or \method{},\footnote{~seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} is summarized in figure \ref{fig:method}, which we discuss in detail in Section~\ref{sec:ingredients}.
 To solve a programming task defined as a text description and a collection of I/O examples, we split I/O examples into prompt and validation sets and use the prompt set in a large language model to \synthesize{} a population of candidate solutions.
@@ -38,7 +38,7 @@ by correctness measured by matching I/O pairs, discard the worst candidates, and
 
  
 
-\subsection{Ingredients}
+\newpage \subsection{Ingredients}
 \label{sec:ingredients}
 
 \method{} makes use of instruction fine-tuned large language models: a \emph{synthesis} model \synthmodel{}, a \emph{debugging} model \debugmodel{}, as well as a model \textmodel{} that can be used for writing textual instructions, which are forwarded to the code generation model \debugmodel{} for code updates. 
@@ -60,7 +60,7 @@ Moreover, each model generates the most probable and less probable outputs in ea
 In the implementation-related sections further, we explain how we vary with the number of candidate solutions, debug instructions, and repairs generated in a batch by each LLM in \method{}.
 
 
-\subsubsection{Synthesize}
+\paragraph{Synthesize}
 \label{sec:synth}
 
 \begin{figure}
@@ -79,7 +79,7 @@ We use temperature sampling with a monotonically increasing temperature schedule
 Thus, the sampling procedure for the first programs approximates deterministic maximum likelihood estimation.
 Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
 
-\subsubsection{Execute}
+\paragraph{Execute}
 \label{sec:execute}
 
 The \execute{} agent compiles the programs (if necessary) and launches them using the standard tools for the programming language.
@@ -91,7 +91,7 @@ We then measure the \emph{score} of the program defined as accuracy over output 
 \]
 unless \texttt{stderr} is non-empty during compilation or execution, which is considered to indicate failure and is assigned a score of 0.
 
-\subsubsection{Instruct}
+\paragraph{Instruct}
 \label{sec:instruct}
 
 The goal of the \instruct{} agent is to provide instructions that summarize bugs in a program candidate and suggest a solution for \debugmodel{}. 
@@ -131,7 +131,7 @@ The LLM is then prompted to auto-complete this description of program behavior w
 The bug description is passed further to the next template engine and used as the debugging instruction, such as ``\emph{Fix~\{bug summary\}}''.
 \end{comment}
 
-\subsubsection{Debug}
+\paragraph{Debug}
 
 The main component of \method{} which addresses the "near miss syndrome" is the \debug{} agent.  
 This agent iterates over all programs in the population to repair the candidate programs and pass more tests. 
@@ -140,7 +140,7 @@ to repair every candidate and create a new population of \treearity{} candidates
 For \debugmodel{}, the parameter \texttt{code} is set to the current version of the candidate solution and \texttt{descr} to the output of \instruct{} and any additional context chosen for a specific implementation.
 The current generation of candidates is then replaced with \treearity{} outputs of \debug{}.
 
-\subsubsection{Rank}
+\paragraph{Rank}
 
 The \rank{} agent implements what is known in genetic programming as \emph{parent selection}~\cite{koza1994:genetic}: it selects the best $\beamwidth{}$ programs to be further improved by the \debug{} agent.
 We consider 2 different parent selection algorithms: simple ranking and lexicase selection.
@@ -164,7 +164,7 @@ This ensures that even if the average quality of selected candidates is lower, t
 
 See section~\ref{sec:lexicase-results} for their empirical comparison.
 
-\subsection{Meaning of Hyperparameters}
+\newpage \subsection{Meaning of Hyperparameters}
 \label{sec:beam-search}
 \begin{figure}
     \centering
@@ -190,7 +190,7 @@ Observe that a mutation-only genetic algorithm with population size $\beamwidth{
 
 % Hence, we refer to $\treearity{}$ as \emph{tree arity} and $\beamwidth{}$ as \emph{beam width}.
 
-\section{Related Work}
+\newpage \section{Related Work}
 \label{sec:related-work}
 
 Until recently, the tasks of program synthesis \cite{gulwaniProgramSynthesis2017} and program repair \cite{gouesAutomatedProgramRepair2019, petke2018:genetic} have been considered separately.
@@ -208,7 +208,7 @@ Evolution through Large Models (ELM) \cite{lehmanEvolutionLargeModels2022} propo
 
 Finally, Self-Taught Optimizer (STOP) \cite{zelikmanSelfTaughtOptimizerSTOP2023} takes the concept of self-improvement to the next (delightfully meta) level and uses a large language model to edit the evolutionary algorithm itself (i.e. fig. \ref{fig:method}). See their section 8 for reflections on AI Safety.
 
-\section{Expermental Setup}
+\newpage \section{Expermental Setup}
 \label{sec:eval}
 
 To explore the capabilities of \method{} and its generalisability, we test the framework on two benchmarks  with varied search strategies and use two programming languages. 
@@ -226,14 +226,14 @@ How does the choice of an LLM affect the performance of SEIDR?
 We choose the best performing combination of hyperparameters, i.e., a tree arity and a ranking strategy, for experiments with other LLMs and compare the results with previous work obtained without \method{}. 
 
 
-\subsection{Data}
+\newpage \subsection{Data}
 \label{sec:data}
 
 Our experiments use the Program Synthesis Benchmark~2 (PSB2)~\cite{helmuth2022:applying} and HumanEval-X~\cite{zheng2023:codegeex} in C++ and Python. 
 The key criteria for the benchmarks choice are availability task descriptions in English and unit tests in Python and C++ or language-agnostic unit tests. 
 We focus on the widely used benchmarks in the areas of generative LLMs and genetic programming. 
 
-\subsubsection{PSB2}
+\paragraph{PSB2}
 The first dataset is a benchmark suite of 25 problems for program synthesis that resemble small real-world tasks. PSB2 was developed as a more realistic and challenging version of PSB1~\cite{helmuth2015:general}, the latter consisting of textbook problems and is widely used in genetic programming~\cite{sobania2022:choose}. 
 The problems require different data structures and control flows to be used for effective solutions and are taken from sources, such as competitive programming platforms and educational courses. 
 The problems have descriptions in English, as well as 1 million~(M) tests for training and 1M testing-stage tests, including edge or corner cases that test the resulting program on complicated inputs. 
@@ -245,7 +245,7 @@ However, we do not have a training or fine-tuning phase in our experiments, beca
 Therefore, we only have the validation and test phases. 
 We will refer to training test cases in the PSB terminology as validation test cases in this study. 
 
-\subsubsection{HumanEval-X}
+\paragraph{HumanEval-X}
 The second dataset we use is a development from the original set of human-written programming tasks in HumanEval~\cite{chenEvaluatingLargeLanguage2021}, which a standard code generation benchmark for LLMs.
 HumanEval consists of 164 problems with a docstring representing problem description, a function signature, a correct solution and unit tests in Python. 
 HumanEval-X is a result of translation of correct programs and unit tests to five programming languages. 
@@ -260,7 +260,7 @@ Because of the limited number of tests, we pass up to five tests to the draft pr
 In other words, we do not have a held-out test split for HumanEval-X in the same manner as we have it for PSB2.
 
 
-\subsection{Models}
+\newpage \subsection{Models}
 \label{sec:models}
 
 \method{} uses three LLMs, \synthmodel{}, \textmodel{}, and \debugmodel{} in \synthesize{}, \instruct{}, and \debug{}, correspondingly. 
@@ -280,7 +280,7 @@ This model is an advancement on the Llama 2 model~\cite{touvron2023:llama}, an a
 This model is run as an with the best performing set of hyperparameters found for GPT-3.5 on each of the benchmarks in C++ and Python.
 We also compare the performance of \method{} with the current state-of-the-art without \method{} as reported in the corresponding studies (see Section~\ref{sec:results-rq3}).
 
-\subsection{Prompts}
+\newpage \subsection{Prompts}
 \label{sec:prompts}
 
 Our implementation is optimized for instruction and chat models, which use prompts as inputs represented as text, partially with code fragments.
@@ -333,7 +333,7 @@ You must only return correct code. Remove any triple quotes, language name or ex
 \end{lstlisting}
 
 
-\subsection{Repair-replace Trade-off Settings}
+\newpage \subsection{Repair-replace Trade-off Settings}
 \label{sec:trade-off-settings}
 
 As described in Section~\ref{sec:beam-search}, the choice of beam width $\beamwidth{}$ and tree arity $\treearity{}$ define the repair-replace trade-off where higher $\beamwidth{}$ and $\treearity{}$ prioritize to repair over replace. 
@@ -370,7 +370,7 @@ In the same study, the majority of problems in PSB2 were solved within the set o
 
 
 
-\subsection{Performance Indicators}
+\newpage \subsection{Performance Indicators}
 \label{sec:metrics}
 
 \sloppy %
@@ -385,7 +385,7 @@ To compare our results with recent LLMs, we use \emph{pass@k} metric that shows 
 The number of programs generated before the first occurrence of the program that passes all validation test cases is referred to as EPG. 
 EPG is indicative of the computational cost of solving a problem distributed in terms of LLM inferences and program compilations and executions.
 
-\subsection{Implementation Details}
+\newpage \subsection{Implementation Details}
 \label{sec:implementation}
 
 To operate with the chosen LLMs in \method{}, we use ollama\footnote{\url{https://ollama.ai/}} and LangChain.\footnote{\url{https://www.langchain.com/}}  
@@ -399,7 +399,7 @@ We use 2000 I/O pairs from the test split of PSB2 to evaluate the candidate prog
 In all the experiments, we set the limit to generate a maximum of 100 program candidates during the search of the candidate that passes all validation tests. 
 If we reach 100 candidates and none of them passes all validation tests, we report the test pass rate for the last generated candidate. 
 
-\section{Results and Discussion}
+\newpage \section{Results and Discussion}
 \label{sec:results}
 
 In this section, we present combined results for the replace-repair trade-off and ranking approaches and discuss them in the dedicated sections. 
@@ -432,7 +432,7 @@ We also explore the speed of obtaining each individual solution with the same ex
 Other experiment-specific graphs and tables are described in the dedicated sections. 
 
 
-\subsection{RQ1. Repair-replace Trade-off Exploration}
+\newpage \subsection{RQ1. Repair-replace Trade-off Exploration}
 \label{sec:rq1}
 
 We compare the number of solved problems in the experiments with $\treearitydraft{}=\treearitydebug{}$ values of 1, 2, 4, 10, 16, $\infty$ (100) and $\treearityexplain{}=2$ in Python and C++ in figure~\ref{fig:repair-replace-trade-off-gpt3.5}. 
@@ -494,7 +494,7 @@ In the experiments, where the majority of problems are solved with more than one
 No single leading tree arity $N^*$ was found for \method{} with GPT-3.5 on PSB2 and HumanEval-X.
 \end{highlight}
 
-\subsection{RQ2. Experimenting with Average Quality-first and Quality-diversity Ranking Strategies}
+\newpage \subsection{RQ2. Experimenting with Average Quality-first and Quality-diversity Ranking Strategies}
 \label{sec:lexicase-results}
 
 Quality-diversity ranking is implemented as lexicase selection and tested with the number of generated programs in the first generation (drafts) and candidates generated from bug explanations (tree arities $N^*=2,\; 4, \; 10, \; 16$) as mentioned in table~\ref{tab:w-n}.
@@ -604,7 +604,7 @@ No leading ranking strategy is found for \method{} experiments with GPT-3.5 on P
 % \end{mdhighlight}
 % \vspace*{-2mm}
 
-\subsection{RQ3. Generalisability of \method{}}
+\newpage \subsection{RQ3. Generalisability of \method{}}
 \label{sec:results-rq3}
 
 We choose the best performing tree arity for each benchmark and language to run \method{} with Code Llama 34B and compare the results to the findings for GPT-3.5 and Code Llama 34B without \method{} in table~\ref{tab:generalisability-psb2} for PSB2 and table~\ref{tab:generalisability-he} for HumanEval-X. 
@@ -725,7 +725,7 @@ The use of \method{} with GPT-3.5 outperforms the use of GPT-3.5 without \method
 % \end{mdhighlight}
 % % \vspace*{-2mm}
 
-\subsection{Threats to Validity}
+\newpage \subsection{Threats to Validity}
 \label{sec:threats}
 
 
@@ -744,7 +744,7 @@ However, our temperature sampling procedure described in section \ref{sec:synth}
 As with other language models, GPT-3.5 is a black-box model and may generate malicious code~\cite{pearceAsleepKeyboardAssessing2022}. 
 The results can be skewed towards high performance in popular programming languages in the pre-training dataset used by authors of the tested LLMs.
 
-\section{Conclusion}
+\newpage \section{Conclusion}
 \label{sec:conclusion}
 In this study, we propose \method{}: a multi-agent framework to solve the challenge of fully autonomous programming. 
 We augment the program synthesis procedure based on the large language models for code generation from templates and textual instructions with a \debug{} agent. 
@@ -769,5 +769,5 @@ Further investigation of \method{} generalisability and ranking strategies are s
 Benchmarks with more tests than in HumanEval-X may shed more light on the most effective choice of the number of programs generated from each bug explanation, as well as the framework's comparison on large-context projects. 
 
 \vspace*{-1mm}
-\section*{Data Availability}
+\newpage \section*{Data Availability}
 The code and results are attached to the submission and will be made publicly available.

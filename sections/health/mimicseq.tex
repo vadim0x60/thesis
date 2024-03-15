@@ -8,7 +8,7 @@
 % "Foundational model" buzzword
 
 
-\subsection{Intensive Care databases: a nano-review}
+\paragraph{Intensive Care databases: a nano-review}
 \label{sec:datasets}
 
 % Why intensive care is a good source of data
@@ -22,7 +22,7 @@ Unlike many machine learning datasets, they avoid setting a standard for the par
 
 Derivative benchmarks, such as the MIMIC Benchmark \cite{harutyunyanMultitaskLearningBenchmarking2019} and HiRID-ICU-Benchmark \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} seek to address the reproducibility issue: they put forth multiple datasets (one for each task) where all the information is derived from MIMIC and HiRID-ICU respectively, but is arranged specifically for the learning task at hand. They aim to become standard benchmarks for the tasks of mortality and length of stay prediction, patient fenotyping, prediction of circulatory, respiratory or kidney failure.
 
-\subsection{Towards foundation models for Healthcare}
+\paragraph{Towards foundation models for Healthcare}
 
 Generalist models have demonstrated a superior performance to task specific models in many areas of machine learning \cite{reedGeneralistAgent2022} due to their ability to exploit implicit shared subtasks. 
 This finding has precipitated the birth of a new paradigm known as foundation models \cite{zhouComprehensiveSurveyPretrained2023} - models trained on an all-encompassing dataset (such as the dataset that attempts to approximate all written text \cite{chelbaOneBillionWord2013}) and designed to be adapted to a broad array of specific downstream tasks.
@@ -32,7 +32,7 @@ To use an example from section \ref{sec:datasets}, sepsis presents a high risk o
 In light of existing research on generalist models, it is likely that considering them separately is counterproductive.
 This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare a particularly important research goal.
 
-\subsection{The case for Healthcare as Sequence Modeling}
+\paragraph{The case for Healthcare as Sequence Modeling}
 \label{sec:sequencemodel}
 
 With a few notable exceptions foundation models tend to be sequence models: estimating the probability a sequence of fixed-size elements
@@ -78,7 +78,7 @@ For a planning horizon of 1 (greedy policy) it is defined as:
 
 Thus while the paradigm of Healthcare as a Sequence Modeling task is novel, there is a robust body of research reducing Healthcare to Reinforcement Learning \cite{yuReinforcementLearningHealthcare2021} and Reinforcement Learning to Sequence Modeling \cite{chenDecisionTransformerReinforcement2021, jannerOfflineReinforcementLearning2021, schmidhuberReinforcementLearningUpside2020}. 
 
-\subsection{Contributions}
+\paragraph{Contributions}
 
 In this paper we introduce
 \begin{itemize}
@@ -88,6 +88,7 @@ In this paper we introduce
     \item An MLP-based baseline model
 \end{itemize}
 
+\newpage
 \section{Related Work}
 
 \cite{weiMIMICELMIMICIVEvent2022} develop MIMICEL, a linearized event sequence representation of MIMIC-IV-ED \cite{johnsonMIMICIVED2021} emergency department dataset for downstream application in machine learning and process mining. 
@@ -120,6 +121,7 @@ We also provide a suite of evaluation metrics and 2 baseline models.
 %    \end{minipage}
 %end{figure*}
 
+\newpage
 \section{Building the timeseries dataset}
 
 \begin{figure}
@@ -156,7 +158,7 @@ Intensities may represent dosages of drugs or other quantitative measures (chart
 Events that have a duration, such as medication administrations, are recorded as 2 events: "start X" and "end X". 
 Demographic information, including ethnicity, gender, and age, is recorded as a dummy event ocurring the time of admission.
 
-\subsection{Resulting dataset}
+\paragraph{Resulting dataset}
 
 \begin{figure}
     \centering
@@ -204,7 +206,7 @@ MIMIC-SEQ contains 481374190 clinical events in 522740 train and 10000 test epis
 It is publicly available, subject to (no cost, open to everyone) MIMIC-IV data use agreement.
 See the dataset repository.
 
-\subsection{Clustering}
+\paragraph{Clustering}
 
 87899 event types is a very fine-grained view of the intensive care scenario that differentiates, for example, between different versions of the same drug (say, pills and tablets).
 This is done intentionally to pave the way for sophisticated models, however, we recognize that a simplified version of the task can be helpful.
@@ -212,7 +214,7 @@ To that end, we enrich the dataset with 4 \emph{clusterings}: c10, c100, c1000 a
 They are achieved by embedding each event type label with OpenAI's \emph{ada2} embedding model and running a k-means clustering algorithm in the induced latent space.
 As a result, one can train a model for simplified \emph{clustered} versions the task making predictions in terms of broad event categories, not individual event types.
 
-\subsection{Evaluation guidelines}
+\paragraph{Evaluation guidelines}
 
 We suggest evaluating forecasting models on 2 test tasks using the holdout patient histories:
 \begin{description}
@@ -233,7 +235,7 @@ The latter is a \emph{regression task} and the recommended metric is $R^2$ coeff
 \emph{Event prediction} can be done in the space of concrete events or in the space of clusters c10, c100, c1000, c10000.
 So, in total, a model evaluation includes 10 binary classification tasks (second day prediction and last day prediction for each event granularity) and 2 regression tasks.
 
-\subsection{Relationship to existing benchmarks}
+\paragraph{Relationship to existing benchmarks}
 
 A predictive model trained on \emph{MIMIC-SEQ} can perform the standard tasks used in current benchmarks \cite{harutyunyanMultitaskLearningBenchmarking2019}, such as
 \begin{itemize}
@@ -245,6 +247,7 @@ A predictive model trained on \emph{MIMIC-SEQ} can perform the standard tasks us
 
 as well as many others.
 
+\newpage
 \section{Baseline}
 \label{sec:baseline}
 
@@ -328,8 +331,7 @@ Replacing ones in the one-hot encoding with the corresponding events' intensitie
 % \end{table}
 
 
-
-
+\newpage
 \section{Conclusion}
 
 Narrow tasks in machine learning for intensive care have been a result of technical limitations that have become less relevant with recent advances in the field. 

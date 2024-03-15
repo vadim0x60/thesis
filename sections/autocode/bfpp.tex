@@ -1,7 +1,7 @@
 \section{BF++}
 \label{sec:language}
 
-\subsection{BF syntax}
+\paragraph{BF syntax}
 \label{sec:bf}
 
 Abolafia {\sl et al} \cite{brain-coder} picked BF\footnote{Brainfuck} \cite{brainfuck} as their language for program synthesis for the following reasons:
@@ -45,7 +45,7 @@ They are also the only way to write a BF program with a syntax error: a valid BF
 
 % TODO: example?
 
-\subsection{Negative values}
+\paragraph{Negative values}
 
 In \textbf{BF} memory cells $T^i$ hold non-negative values only.
 In \textbf{BF++} $T^i \in \mathbb{Z}$, a negation operator \texttt{\~} is introduced and operators \texttt{[]}are redefined to loop while the \textit{active cell} is non-positive, i.e.
@@ -58,7 +58,7 @@ In \textbf{BF++} $T^i \in \mathbb{Z}$, a negation operator \texttt{\~} is introd
 
 This decision was taken because negative observations are common in control problems (see section \ref{sec:experiments}) as is branching on whether the observed value is positive or negative. 
 
-\subsection{Non-blocking action operators}
+\paragraph{Non-blocking action operators}
 \label{sec:queue}
 
 % TODO: cite some literature
@@ -99,7 +99,7 @@ If $S^k$ does not exist (the queue is empty or shorter than $k$) default value o
 Thus its function is more important than just reading an observation into memory.
 Executing \texttt{,} is when the program moves to the next step of POMDP.
 
-\subsection{Virtual comma}
+\paragraph{Virtual comma}
 \label{sec:virtualcomma}
 
 % TODO: fading text for virtual commas
@@ -116,7 +116,7 @@ We decided to turn any \textbf{BF++} program into an infinite loop with a \textt
 
 Due to the virtual comma, every program starts executing with the initial observation already stored in memory and available for branching/decision-making.
 
-\subsection{Observation discretization}
+\paragraph{Observation discretization}
 \label{sec:observe}
 
 Another issue complicating applications of \textbf{BF} to Reinforcement Learning is that since its memory tape holds only integer numbers its inputs and outputs have to be integer as well.
@@ -189,7 +189,7 @@ With a very high $h$, $\omega=0$ means that this observation is one of the lowes
 High values of $h$ present an additional challenge: how to correctly discretize observation in the first $h$ iterations?
 We implemented \textit{burn-in}: before training or evaluation we run $h$ iterations of a random agent (see section \ref{sec:random}) to collect a history of $h$ observations and pick correct thresholds.
 
-\subsection{Action coercion}
+\paragraph{Action coercion}
 \label{sec:act}
 
 A symmetrical problem arises with actions taken by the agent. 
@@ -211,7 +211,7 @@ S^k, A^k \subset \mathbb{Z}
 \end{array}
 \end{equation}
 
-\subsection{Goto}
+\paragraph{Goto}
 \label{sec:goto}
 
 It is notoriously hard to introduce any kind of branching behavior in \textbf{BF} \cite{brainfuck-control}.
@@ -224,13 +224,13 @@ To facilitate if-then style programs we introduce a \textit{goto} operator \verb
 Note that it is not a \texttt{goto;} in the traditional C sense, since the memory pointer is being moved, not the code pointer.
 Still, it lets the agent preemptively store potential actions in memory cells and than branch between this actions based on the observation.
 
-\subsection{Random number generator}
+\paragraph{Random number generator}
 \label{sec:random}
 
 Operator \texttt{@} writes a random number into the \textit{active cell}.
 A random agent is often used as a starting point for exploration and in \textbf{BF++} a random agent can be implemented as \verb|@!|
 
-\subsection{Shorthands}
+\paragraph{Shorthands}
 \label{sec:shorthands}
 
 With all the commands we introduced in sections \ref{sec:bf} - \ref{sec:goto} it is still surprisingly hard to encode relatively simple decisions like "add action 5 to the top of the action queue":
@@ -247,7 +247,7 @@ To mitigate this issue we introduce \textit{shorthands}: commands \texttt{01234}
 We intentionally made the number of \textit{shorthands} equal to discretization constant $d=5$.
 Due to our method of discretization of continious action spaces (see sections \ref{sec:observe}, \ref{sec:act}) the program will often encounter situations when it can choose between $d$ different actions and thanks to shorthands taking them can be encoded as \texttt{1!}, \texttt{2!}, \dots
 
-\subsection{Summary}
+\paragraph{Summary}
 \label{sec:summary}
 
 In total (assuming 5 shorthands) \textbf{BF++} has 22 commands:
@@ -269,11 +269,11 @@ Thus, in practice, \textbf{BF++} should be used with low-dimensional POMDPs.
 
 An extension of our methodology to high-dimensional POMDPs (such as Atari games \cite{atari}, where the observation is a matrix of pixels on simulated game screen) can be achieved by adding a scene encoder neural network that maps the observed image to a low-dimensional vector as proposed in \cite{daqn}.
 
-
+\newpage
 \section{Experimental setup}
 \label{sec:experiments}
 
-\subsection{Hypotheses and goals}
+\paragraph{Hypotheses and goals}
 \label{sec:exgoals}
 
 Our experiments were designed to test the following hypotheses:
@@ -297,7 +297,7 @@ Hence we
     \item Perform case studies: analyze programs generated by the model to gain insight into how the model approached the problem
 \end{enumerate}
 
-\subsection{Environments}
+\paragraph{Environments}
 \label{sec:envs}
 %TODO: add table of action and observation spaces
 
@@ -345,11 +345,11 @@ These observations do not, however, include any global coordinates - they can on
 With action vector of size 4 the agent controls speeds of the robots hip and knee motors.
 \end{enumerate}
 
-\subsection{Hyperparameters}
+\paragraph{Hyperparameters}
 
 For observation discretization (section \ref{sec:observe}) we picked $d=5$ (so that it's equal to the number of shorthands) and $h=500$ for our experiments, hence when the observation is among the highest 20\% of the last 500 observations it is written into memory as 4 while if it falls between 40-th and 60-th percentiles it is 2.
 
-\subsection{Expert programs}
+\paragraph{Expert programs}
 \label{sec:expert-progs}
 
 For \textbf{CartPole} we wrote 2 programs. 
@@ -400,7 +400,7 @@ A more rigorous way to confirm it would be employing several human experts to de
 
 Developing programs for \textbf{Bipedal Walker} is, unfortunately, above our expert's paygrade. 
 
-\subsection{Program synthesis model}
+\paragraph{Program synthesis model}
 \label{sec:methodology}
 
 In order to train a generative model $g$ to write \textbf{BF++} programs we treat the writing process as a reinforcement learning episode in its own right \cite{brain-coder} .
@@ -452,7 +452,7 @@ Unlike in most neural-symbolic systems \cite{neuralsymbolic} that extract knowle
 
 In all experiments below, the \emph{writer agent}'s LSTM has hidden size of 50, batch size of 4 and is trained with RMSProp \cite{rmsprop} optimizer.
 
-\subsection{Stopping and Scoring}
+\paragraph{Stopping and Scoring}
 
 All experiments were run with an upper limit of 100000 training episodes.
 Environments other than \textbf{Taxi} also used Exponential Variance Elimination \cite{evestop} early stopping technique - training was stopped when the postive trend in the quality of the best found program stopped, i.e. when the exponential moving average of program quality is lower that it was 1000 episodes ago.
@@ -461,12 +461,12 @@ Agents for \textbf{Taxi} are trained for a fixed number of episodes, because we 
 Once the training process is finished, we take the best known programs and since each of them was only tested once (leading to high variance) we test them again, averaging total rewards over 100 episodes. 
 We use this averaged reward to pick the best program.
 
-\subsection{Implementation}
+\paragraph{Implementation}
 
 \textbf{BF++} interpreter and the training system were written in Python with TensorFlow for neural models.
 GPU resources weren't used, because the performance bottleneck of the system is not backpropagation but rather testing a \textbf{BF++} program in the environment, single experiment runtime was between 1 hour (CartPole) and 10 (Taxi).
 
-
+\newpage
 \section{Results}
 
 \begin{table}[H]
@@ -490,16 +490,16 @@ GPU resources weren't used, because the performance bottleneck of the system is 
   \end{tabular}
 \end{table}
 
-\subsection{Quantitative results}
+\paragraph{Quantitative results}
 
 The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
 Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it wasn't possible to implement expert inspiration with limited command sets.
 
 These results support (see section \ref{sec:exgoals}) hypothesis $H_1$ - we have obtained functional programs for all environments, $H_2$ - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and $H_4$ - ablation studies for optional operators do indeed show that those operators are useful.
 
-\subsection{Case studies}
+\paragraph{Case studies}
 \label{sec:casestudies}
-% Need to make sure that this subsection and "expert programs" subsection help each other (same style, same terms)
+% Need to make sure that this paragraph and "expert programs" paragraph help each other (same style, same terms)
 
 We have established that the program synthesis model is able to learn from human experts.
 But can experts learn from the model? ($H_3$) 
@@ -540,6 +540,7 @@ When it's time to act, the number on the action stack is coerced to one of the a
 A strategy emerges, illustrated on figure \ref{fig:mountaincarwinner}, in which the car puts "going right" onto the agenda if it's on the far left or the center right of the landscape, puts "going left" onto the agenda when it's on the far right or center left and schedules doing nothing if it's in the center.
 This strategy helps the car successfully reach the right fringe every time it is applied.
 
+\newpage
 \section{Conclusions}
 
 In this chapter, we have introduced a new programming language tailored to the task of programmatically interpretable reinforcement learning.
