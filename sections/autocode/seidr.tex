@@ -5,7 +5,7 @@
 
 
 
-Given these challenges, research in machine learning on source code~\cite{allamanis2018:survey} tends to focus on restricted domain-specific languages~\cite{chen2021:latent,flashmeta,liventsev2021:bf} or automating specific parts\footnote{~similarly to autonomous driving~\cite{grigorescu2020:survey,marcano2020:review}} of the software development process~\cite{lu2021:codexglue,niu2023:crosscodebench} such as code search~\cite{husain2020:codesearchnet}, code translation~\cite{roziere2020:unsupervised}, detection of issues~\cite{fernandes2016:reviewbased,chakraborty2021:deep}, improvement~\cite{petke2018:genetic} and repair~\cite{legoues2019:automated} rather than fully autonomous programming in a programming language popular with human developers~\cite{:tiobe}.
+Given these challenges, research in machine learning on source code~\cite{allamanis2018:survey} tends to focus on restricted domain-specific languages~\cite{chen2021:latent,flashmeta,liventsev2021:bf} or automating specific parts\footnote{~similarly to autonomous driving~\cite{grigorescu2020:survey,marcano2020:review}} of the software development process~\cite{lu2021:codexglue,niu2023:crosscodebench} such as code search~\cite{husain2020:codesearchnet}, code translation~\cite{roziere2020:unsupervised}, detection of issues~\cite{fernandes2016:reviewbased,chakraborty2021:deep}, improvement~\cite{petke2018:genetic} and repair~\cite{gouesAutomatedProgramRepair2019} rather than fully autonomous programming in a programming language popular with human developers~\cite{:tiobe}.
 However, two recent innovations potentially make the latter task tractable.
 
 \begin{figure*}
@@ -21,7 +21,7 @@ A programming task is specified using both a natural language description and a 
 This is followed by a program repair step to fix the identified errors.
 
 Another relevant innovation is instruction fine-tuned large language models~\cite{ouyang2022:training}. Instruction fine-tuned models use human feedback in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, i.e., "summarize" or "translate to Python".
-These models have been shown to be highly successful in automatic program repair~\cite{fan2023:automated}. 
+These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions\footnote{Throughout this chapter we avoid other definitions of \emph{instruction}, such as \emph{an individual operation in code}, to prevent ambiguity.} how one should engineer instructions that maximize repair performance is an open question. 
 
 Section~\ref{sec:methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction fine-tuned Large Language Models in agents for solving programming tasks in an autonomous fashion. 

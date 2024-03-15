@@ -2,11 +2,11 @@
 
 Patient simulators are the cornerstone of clinical decision support solutions, providing a means to validate the efficacy of medical interventions in silico so cheaply that reinforcement learning algorithms can be used to develop protocols of clinical interventions automatically.
 Unlike other machine learning applications, notably language modeling that can obtain a near-unlimited amount of data from the internet\footnote{See CommonCrawl \cite{commoncrawl} \url{commoncrawl.org}}, Healthcare suffers from an acute shortage of training data \cite{datashortage}.
-As a result, many existing patient simulators are not trained on data from real patients, but instead rely upon expert knowledge \cite{towards}, leading to issues like \emph{confirmation bias} (the types of interventions currently favoured by clinical experts will work well in simulators developed by said experts irregardless of their real-world performance) and a high Sim2Real \cite{sim2real} gap.
+As a result, many existing patient simulators are not trained on data from real patients, but instead rely upon expert knowledge \cite{liventsevEffectivePatientSimulators2021}, leading to issues like \emph{confirmation bias} (the types of interventions currently favoured by clinical experts will work well in simulators developed by said experts irregardless of their real-world performance) and a high Sim2Real \cite{sim2real} gap.
 
 In this work, we utilize a dataset of fetal ultrasound images to propose a novel data-driven patient simulator for decision support and automation in the field of obstetric ultrasonography \cite{obstetrics-sonography}.
 
-The goal of this simulator is to accurately model the job of an ultrasound sonographer in the context of a patient undergoing a pregnancy in a way compatible with modern Reinforcement Learning methods \cite{rl-review}
+The goal of this simulator is to accurately model the job of an ultrasound sonographer in the context of a patient undergoing a pregnancy in a way compatible with modern Reinforcement Learning methods \cite{liDeepReinforcementLearning2017}
 to pave the way for autonomous or semi-autonomous ultrasound sonography \cite{autonomous-ultrasound-review}.
 The job in question entails moving the ultrasound probe along the patient's body in order to acquire an image of the fetus that satisfies the guidelines for fetal-screening \cite{isoug-guidelines}, most importantly, the fact that the fetus' stomach and umbilical vein are on the image while their heart is not.
 
@@ -47,7 +47,7 @@ Each scan is accompanied by three mask images $M_\text{heart}$, $M_\text{stomach
 
 \paragraph{Framework}
 
-We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}, implemented as OpenAI Gym \cite{gym} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
+We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}, implemented as OpenAI Gym \cite{openai-gym} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
 
 \paragraph{State}
 
@@ -105,4 +105,4 @@ One direction is to provide the observations in a low dimentional format.
 At present, the neural network in charge of the agent is solving 2 separate tasks simultaneously: interpreting the image and making probe movement decisions based on it. Assigning this task to specialized components typically increases the agent's performance \cite{decoupling-rl}. Adding a feature extractor that will find relevant details in the image and replacing the image observation space with the space of these features would let the agent specialize purely in decision-making.
 
 Besides, Healthcare automation raises specific concerns \cite{health-ai-explainability1,health-ai-explainability2} about the explainability of underlying models. 
-As a way to make the agents more explainable, Programmatically Interpretable Reinforcement Learning \cite{pirl,neurogenetic} would be a logical extension of this work.
+As a way to make the agents more explainable, Programmatically Interpretable Reinforcement Learning would be a logical extension of this work.
