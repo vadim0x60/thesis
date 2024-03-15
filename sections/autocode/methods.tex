@@ -1,17 +1,33 @@
 Automatic program synthesis has been a long term goal of the field of artificial intelligence since its inception \cite{mannaAutomaticProgramSynthesis1971}, promising to reduce the workload of software developers by automatically solving some of the tasks they face.
 And since the field's inception it has been grappling with the challenging properties of the sparse optimization space that is the set of all programs in a certain programming language, namely, 
 \begin{itemize}
-    \item valid error-free programs constitute an exceedingly small part of the space of possible strings, and
-    \item a small change to 
+    \item valid error-free programs constitute an exceedingly small part of the space of possible strings, so any program synthesis algorithm that incorporates random guessing (for instance, a randomly Reinforcement Learning with random initialization \cite{suttonReinforcementLearningSecond2018}) is exceedingly unlikely to guess a valid program.
+    \item a small edit in a program can result in a large difference in it's behavior (and, conversely, the same algorithm can be expressed with very different programs), hence the programs we would like to find are not clustered in any compact part of the optimization space
 \end{itemize}
 
 \section{Deductive methods}
 
+\newpage
+\section{Evolutionary methods}
+
+\newpage
 \section{Constrained problem spaces}
 
 \subsection{Inductive logic programming}
 
 \subsection{Domain specific languages}
+
+\subsection{Grammar guided search}
+
+\section{Pre-training methods}
+
+\emph{Inductive synthesis}
+
+\emph{concept space}
+
+\subsection{Autoencoder models}
+
+\subsection{Autoregressive models}
 
 \section{Human in the loop}
 
@@ -19,14 +35,8 @@ And since the field's inception it has been grappling with the challenging prope
 
 \paragraph{Sketching}
 
-\section{Evolutionary methods}
-
-\section{Pre-training methods}
-
-\subsection{Autoencoder models}
-
-\subsection{Autoregressive models}
-
 \section{Open problems}
+
+Most open problems lie in the domain of \emph{Programmatically Interpretable Reinforcement Learning}
 
 However, a fully autonomous system for Programmatically Interpretable Reinforcement Learning is yet to be devised. In chapter \ref{ch:bfpp}

@@ -539,7 +539,7 @@ We implemented the framework with Python and Tensorflow as well as DEAP \cite{de
 \begin{table*}[]
     \centering
     \begin{tabular}{c|c|c|c|c|c|c|c}
-         Environment & \multicolumn{2}{c}{CartPole-v1} & \multicolumn{2}{c}{MountainCarContinuous-v0} & \multicolumn{2}{c}{Taxi-v3} & BipedalWalker-v2 \\
+         Environment & \multicolumn{2}{c}{CartPole-v1} & \multicolumn{2}{c}{MCC-v0} & \multicolumn{2}{c}{Taxi-v3} & BW-v2 \\
          Initial programs & & 20.48 & & -6.55 & & -150.44 & \\
          \midrule
          $T_\text{small}$  &    60.93 &    143.91 &     \textbf{92.53} &     88.20 &   -148.23 &   -150.44 &     -0.16\\
@@ -565,6 +565,7 @@ Overall, best results were acheived without inspiration from human experts, howe
 Additionally, we can examine in more detail how single developers compare to each other (and notice that only neural developers are on the list): 
 
 \begin{table}[H]
+\centering
 \begin{tabular}{r|c|c|l}
     Task & Init & $R(c|C)$ & Developer \\
     \midrule
@@ -582,6 +583,7 @@ BipedalWalker-v2 & & 8.13 & lstm(256,256) \\
 The same is true for $T_\text{small}$:
 
 \begin{table}[H]
+\centering
 \begin{tabular}{r|c|c|l}
     Task & Init & $R(c|C)$ & Developer \\
     \midrule
