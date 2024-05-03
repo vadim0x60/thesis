@@ -24,12 +24,12 @@ Another relevant innovation is instruction fine-tuned large language models~\cit
 These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions\footnote{Throughout this chapter we avoid other definitions of \emph{instruction}, such as \emph{an individual operation in code}, to prevent ambiguity.} how one should engineer instructions that maximize repair performance is an open question. 
 
-Section~\ref{sec:methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction fine-tuned Large Language Models in agents for solving programming tasks in an autonomous fashion. 
+Section~\ref{sec:seidr-methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction fine-tuned Large Language Models in agents for solving programming tasks in an autonomous fashion. 
 We discuss related work in Section~\ref{sec:related-work}, introduce experiments to establish optimal search and prompting strategies for this framework in Section~\ref{sec:eval}. 
 Finally, we demonstrate in Section~\ref{sec:results} that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
 \newpage \section{Methodology}
-\label{sec:methodology}
+\label{sec:seidr-methodology}
 The proposed 5-agent framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or \method{},\footnote{~seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} is summarized in figure \ref{fig:method}, which we discuss in detail in Section~\ref{sec:ingredients}.
 To solve a programming task defined as a text description and a collection of I/O examples, we split I/O examples into prompt and validation sets and use the prompt set in a large language model to \synthesize{} a population of candidate solutions.
 We \execute{} the solutions, test them against the validation set, generate a text description of the identified problems used to \instruct{} a large language model to produce repaired candidate solutions similar to the way a human developer \debug{}s a program.
