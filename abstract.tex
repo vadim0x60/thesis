@@ -1,6 +1,11 @@
+\paragraph{Abstract}
+
 One of the growing areas of computational intelligence is automatic programming, where a learning algorithm produces executable software. This paradigm promises efficient and highly capable artificial intelligence agents that express their knowledge and reasoning process in a programming language that can be understood, audited and edited by humans, as well as other automated tools. All of these properties are essential desiderata of decision support systems in Healthcare: an application area where strong safety and verifiability requirements preclude the application of black box artificial intelligence systems.
+
 This work proposes the following framework for intelligent decision support in Healthcare: clinical data, such as electronic health records, is used to train a patient simulator: a predictive model of patient’s future health conditional on clinicians’ decisions. A program induction algorithm is then used to search for a protocol that performs well in that simulator.
+
 Part 1 addresses the development of a robust Programmatically Interpretable Reinforcement Learning algorithm fit for this task, introducing BF++ - a programming language for general purpose neural program synthesis, a neurogenetic programming framework for program synthesis in BF++ or similar simple languages, a tree variational autoencoder for code and finally, Synthesize Execute Debug and Rank: an iterative algorithm for fully autonomous programming with large language models.
+
 Part 2 addresses the scarcity of effective patient simulators to be used for clinical protocol evaluation, introducing Auto-ALS: an anthropodidactic emergency care simulator and use it as a proof of concept for the application of SEIDR in Healthcare.
 It is a convenient benchmark simulator with a high degree of clinical accuracy, but it is expert-based rather than data-driven, making it prone to confirmation bias. 
 To help future research address these limitations, the last chapters introduce imagym - a framework for image-based sonography simulators – and MIMIC-SEQ – a dataset and benchmark for intensive care simulation. 
