@@ -37,24 +37,22 @@ This family of approaches is explored in more detail in chapter \ref{ch:bfpp}, i
 
 \paragraph{Domain specific languages}
 
-\cite{fowlerDomainspecificLanguages2010, hudakDomainspecificLanguages1997, karsaiDesignGuidelinesDomain2014, kosarComparingGeneralpurposeDomainspecific2010, kosarDomainspecificLanguagesSystematic2016, mernikWhenHowDevelop2005}
+In some application domains it is common to express algorithms in domain specific programming languages \cite{fowlerDomainspecificLanguages2010, hudakDomainspecificLanguages1997, karsaiDesignGuidelinesDomain2014, kosarComparingGeneralpurposeDomainspecific2010, kosarDomainspecificLanguagesSystematic2016, mernikWhenHowDevelop2005} that tend to be more limited in terms of token vocabulary and grammatical complexity.
+This provides the program synthesis community with a natural experiment in constraining the complexity of a language to simplify (automatic or manual) programming.
+As a result, some of the most notable early positive results were in an industry standard database query language (SQL \cite{groffSQLCompleteReference2002}) \cite{liCanLlmAlready2024, yuSpiderLargescaleHumanlabeled2018} an educational 2D robot control language (Karel \cite{pattisKarelRobotGentle1994}) \cite{metainduction}.
 
 \paragraph{Logic programming}
 
-One domain that's particularly amenable to solving synthesis tasks is logic programming:  a programming paradigm based on formal logic \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}. 
-In constrast to other programming paradigms \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} 
+One domain that's particularly amenable to solving synthesis tasks is \emph{logic programming}: a programming paradigm based on formal logic \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}. 
+In contrast to other programming paradigms \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} all functions in logic programming languages are boolean, which drastically limits the space of possible functions and makes many search-based approaches possible.
 
-Instead of (or in addition to) generating a program first and testing whether it adheres to specification, \emph{deductive} methods apply equivalence rules to translate the specification into an executable.
-This is hard to apply in \emph{programmatically interpretable reinforcement learning} where the specification is a black box, but can be a powerful approach in \emph{code translation} and \emph{programming by example} paradigms.
-
+%Instead of (or in addition to) generating a program first and testing whether it adheres to specification, \emph{deductive} methods apply equivalence rules to translate the specification into an executable.
+%This is hard to apply in \emph{programmatically interpretable reinforcement learning} where the specification is a black box, but can be a powerful approach in \emph{code translation} and \emph{programming by example} paradigms.
 
 
 \newpage
 \section{Pre-training methods}
 
-\emph{Inductive synthesis}
-
-\emph{concept space}
 
 The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
 In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
@@ -62,14 +60,17 @@ The foundation models for source code, based on architectures such as GPT Codex 
 
 \paragraph{Autoregressive models}
 
+Most modern foundation models are \emph{autoregressive}, i.e. trained to predict the a token in a program given all the preceding tokens.
+This paradigm makes it easy to collect training data and parallelize computation.
 
 \paragraph{Autoencoder models}
 
 While undoubtedly useful in many program synthesis tasks, popular foundation models may fall short in the areas of genetic programming \cite{genprogast} and genetic improvement of software \cite{petke2018:genetic}.
-In this settings, new programs are found by exploring the space of programs similar to one or several reference programs.
+In these settings, new programs are found by exploring the space of programs similar to one or several reference programs.
 The task of applying these perturbations to programs could benefit from a foundational model, however, it's unclear how to achieve this with the current autoregressive models.
 Autoencoder Genetic Programming \cite{autoenc-gp,denoising-autoenc-gp,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
 These models embed programs into a high-dimensional vector space, making it easy to mutate a program by add random noise to the embedding vector or combine several programs by averaging their embedding vectors.
+Autoencoder-genetic programming is discussed in detail in chapter \ref{ch:tree2tree}.
 
 \newpage
 \section{Grammar guided synthesis}
@@ -90,6 +91,17 @@ Unlike natural languages, programming languages are easier to represent structur
 \newpage
 \section{Open problems}
 
-Most open problems lie in the domain of \emph{Programmatically Interpretable Reinforcement Learning}
+The methods above have led to significant progress in \emph{code translation} and \emph{programming by example}, to the point where these paradigms have current industrial applications.
+\emph{Programmatically Interpretable Reinforcement Learning}, however, largely remains an open problem.
 
-However, a fully autonomous system for Programmatically Interpretable Reinforcement Learning is yet to be devised. In chapter \ref{ch:bfpp}
+The goal of this thesis is to propose a system for Programmatically Interpretable Reinforcement Learning and validate it on rigorous benchmarks to demonstrate its applicability in safety-critical domains and in particular in Healthcare.
+
+Chapter \ref{ch:bfpp} introduces a domain specific language for program synthesis. 
+Chapter \ref{ch:neurogen} introduces a combination of neural program synthesis and genetic programming to synthesize better programs in this and other languages.
+Chapter \ref{ch:tree2tree} attempts to use grammar-guided autoencoder program synthesis to extend this method to industry-standard programming languages.
+Chapter \ref{ch:seidr} takles the same problem with autoregressive Large Language Models instead and achieves state of the art results in Programmatically Interpretable Reinforcement Learning.
+Chapter TODO discusses the importance of simulator-driven PIRL for Smart Healthcare.
+Chapters TODO introduces a Reinforcement Learning environments for  emergency care.
+Chapter TODO applies the method from chapter \ref{ch:seidr} to the emergency care environment and demonstrates the potential of Programmatically Interpretable Reinforcement Learning in Healthcare.
+However, this environment are based on models developed by experts and can be subject to expert biases.
+To address this limitation, chapter TODO introduces a fully data-driven benchmark for future work in the area.
