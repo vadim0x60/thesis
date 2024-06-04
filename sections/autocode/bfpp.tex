@@ -4,9 +4,9 @@
 \paragraph{BF syntax}
 \label{sec:bf}
 
-Abolafia {\sl et al} \cite{brain-coder} picked BF\footnote{Brainfuck} \cite{brainfuck} as their language for program synthesis for the following reasons:
+Abolafia {\sl et al} \cite{abolafiaNeuralProgramSynthesis2018} picked BF\footnote{Brainfuck} \cite{brainfuck} as their language for program synthesis for the following reasons:
 \begin{itemize}
-    \item In industry-grade programming languages like Python or Java program code can contain a very large variety of characters since any of the 143859 Unicode \cite{unicode} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
+    \item In industry-grade programming languages like Python or Java program code can contain a very large variety of characters since any of the 143859 Unicode \cite{allenUnicodeStandard2012} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
     \item BF's simple syntax means that an arbitrary string of valid characters is likely to be a valid program. 
     In more complex languages, most possible strings result in a syntax error. 
     A generative model being trained to write programs in such a language risks being stuck in a long exploration phase when all the programs it generates are invalid and it has no positive examples in the dataset.
