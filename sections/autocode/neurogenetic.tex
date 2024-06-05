@@ -301,7 +301,7 @@ In \emph{messy crossover}, one parent is cut at index $k_1$, another is cut at i
          Messy crossover & \color{blue}\verb|ae>>>>|\color{red}\verb|e>-a-]b[e>>-b-]| \\
          Pruning & \color{blue}\verb|e>>>>>4+| \\
     \end{tabular}
-    \caption{All operators applied a pair of BF++ \cite{bf++} programs}
+    \caption{All operators applied a pair of BF++ programs}
 \end{table}
 
 
@@ -467,7 +467,7 @@ Instant Scrum can be used to generate programs in any programming language provi
 
 % A word on trees
 The complexity of the chosen language is important since in complex languages random perturbations of program source code often produce grammatically invalid programs.
-This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1,genprog2ast}, however, we sidestep the issue entirely by using \emph{BF++} \cite{bf++} - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
+This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1,genprog2ast}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
 Each BF++ command is represented with a single character, thus the only way to tokenize it is to let tokens $c^{(1)},c^{(2)},c^{(3)},\dots$ be single characters.
 
 \paragraph{Tasks}
@@ -477,11 +477,11 @@ Following from the previous chapter we synthesize programs for \textbf{CartPole-
 
 \paragraph{Initial populations}
 
-Where possible, we run all experiments twice - a control experiment with empty intial codebase, and an experiment where codebase is pre-populated with human-written programs from \cite{bf++}.
+Where possible, we run all experiments twice - a control experiment with empty intial codebase, and an experiment where codebase is pre-populated with human-written programs from chapter \ref{ch:bfpp}.
 Exceptions to this rule are 
 \begin{itemize}
     \item Teams $T_\text{genetic}$ and $T_\text{pure}$ that only have code modification (not generation) capability and thus require initialization 
-    \item \textbf{BipedalWalker-v2} environment, because no programs for this environment were provided in \cite{bf++} not 
+    \item \textbf{BipedalWalker-v2} environment, because this environment proved challenging to manually develop BF++ for (see chapter \ref{ch:bfpp})
 \end{itemize}
 
 \paragraph{Stopping and scoring}
@@ -521,7 +521,7 @@ We implemented the framework with Python and Tensorflow as well as DEAP \cite{de
 
 See table \ref{tab:results} for a summary of best programs generated.
 The metric used, average $R$ over 100 evaluations is the same metric that's used in the OpenAI gym leaderboard, so we include the threshold required to join the leaderboard for context.
-\emph{Initial programs} refers to the best program in the codebase before \emph{Instant Scrum} starts when it is prepopulated with  programs from \cite{bf++}.
+\emph{Initial programs} refers to the best program in the codebase before \emph{Instant Scrum} starts when it is prepopulated with  programs from chapter \ref{ch:bfpp}.
 
 The main hypothesis of this chapter is \textbf{confirmed}: neurogenetic approach is superior to neural program induction or genetic programming separately.
 
