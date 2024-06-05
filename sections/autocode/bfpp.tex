@@ -58,7 +58,7 @@ In \textbf{BF++} $T^i \in \mathbb{Z}$, a negation operator \texttt{\~} is introd
 \item[ \texttt{]} ] If the \textit{active cell} $T^{p_T} < 0$, jump (move $p_C$) to the matching $[$
 \end{description}
 
-This decision was taken because negative observations are common in control problems (see section \ref{sec:experiments}) as is branching on whether the observed value is positive or negative. 
+This decision was taken because negative observations are common in control problems (see section \ref{sec:bfpp-experiments}) as is branching on whether the observed value is positive or negative. 
 
 \paragraph{Non-blocking action operators}
 \label{sec:queue}
@@ -273,7 +273,7 @@ An extension of our methodology to high-dimensional POMDPs (such as Atari games 
 
 \newpage
 \section{Experimental setup}
-\label{sec:experiments}
+\label{sec:bfpp-experiments}
 
 \paragraph{Hypotheses and goals}
 \label{sec:exgoals}
@@ -504,7 +504,7 @@ These results support (see section \ref{sec:exgoals}) hypothesis $H_1$ - we have
 
 We have established that the program synthesis model is able to learn from human experts.
 But can experts learn from the model? ($H_3$) 
-To confirm this, we offer a detailed explanation of the most successful program of all experiments listed in section \ref{sec:experiments}.
+To confirm this, we offer a detailed explanation of the most successful program of all experiments listed in section \ref{sec:bfpp-experiments}.
 
 This program scored \emph{91.39} on \textbf{Mountain Car}:
 
