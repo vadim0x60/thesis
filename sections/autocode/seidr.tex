@@ -53,7 +53,7 @@ Note that the debugging instructions can be generated from failing tests using s
 %as described in~\cite{liventsev2023:fully}. 
 However, we focus on the implementation in which an LLM generates debug instructions, which is also suitable for chat models in addition to instruction fine-tuned models. 
 In general, \method{} requires a sequence-to-sequence generative model for these agents. 
-We have chosen the state-of-the-art transformer models~\cite{vaswani2017:attention} for \synthmodel{}, \debugmodel{}, and \textmodel{} in our experiments as described in Section~\ref{sec:models}. 
+We have chosen the state-of-the-art transformer models~\cite{vaswaniAttentionAllYou2023} for \synthmodel{}, \debugmodel{}, and \textmodel{} in our experiments as described in Section~\ref{sec:models}. 
 
 Each LLM is a highly parameterised probability distribution over the space of (code, description)-tuples with parameters estimated on a large diverse (i.e., non-task-specific) corpus.
 This stochastic nature of language models is an important prerequisite for \method{}, since it lets us sample batches of diverse candidate solutions from \synthmodel{}, \debugmodel{}, and \textmodel{}. 

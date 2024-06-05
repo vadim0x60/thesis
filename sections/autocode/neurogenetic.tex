@@ -400,7 +400,7 @@ The subproblem of generating a program $c$ is considered as a reinforcement lear
 In this subenvironment $h_i(\theta)$ is the policy network \cite[chapter 13]{suttonReinforcementLearningSecond2018} trained using REINFORCE algorithm with Priority Queue Training.
 This algorithm involves a priority queue of best known programs: we implement it as programs from $C$ with highest $Q(c|C)$ which means that the neural developer can train on programs written by other developers.
 
-$h_i(\theta)$ can also represent several LSTM layers stacked or a different type of recurrent neural network, i.e. GRU \cite{gru}.
+$h_i(\theta)$ can also represent several LSTM layers stacked or a different type of recurrent neural network, i.e. GRU \cite{choPropertiesNeuralMachine2014,chung2014empirical}.
 Hyperparameters of this neural network, such as hidden state size and/or number of stacked layers are hyperparameters of the neural developer.  
 
 \newpage \subsection{Dummy developer}
