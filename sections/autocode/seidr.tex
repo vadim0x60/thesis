@@ -28,7 +28,7 @@ However, given the free-form nature of these instructions\footnote{Throughout th
 
 Section~\ref{sec:seidr-methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction fine-tuned Large Language Models in agents for solving programming tasks in an autonomous fashion. 
 We discuss related work in Section~\ref{sec:related-work}, introduce experiments to establish optimal search and prompting strategies for this framework in Section~\ref{sec:eval}. 
-Finally, we demonstrate in Section~\ref{sec:results} that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
+Finally, we demonstrate in Section~\ref{sec:seidr-results} that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
 \newpage \section{Methodology}
 \label{sec:seidr-methodology}
@@ -280,7 +280,7 @@ They are pre-trained on both text and code and excel at sequence-to-sequence gen
 To evaluate generalization capabilities of \method{} on the chosen benchmarks, we have chosen an open-source competitor of GPT models, Code Llama Instruct 34B~\cite{roziereCodeLlamaOpen2023}. 
 This model is an advancement on the Llama 2 model~\cite{touvron2023:llama}, an auto-regressive transformer model fine-tuned for code infilling (cloze-style generation), processing longer context windows and instructions.
 This model is run as an with the best performing set of hyperparameters found for GPT-3.5 on each of the benchmarks in C++ and Python.
-We also compare the performance of \method{} with the current state-of-the-art without \method{} as reported in the corresponding studies (see Section~\ref{sec:results-rq3}).
+We also compare the performance of \method{} with the current state-of-the-art without \method{} as reported in the corresponding studies (see Section~\ref{sec:seidr-results-rq3}).
 
 \newpage \subsection{Prompts}
 \label{sec:prompts}
@@ -402,7 +402,7 @@ In all the experiments, we set the limit to generate a maximum of 100 program ca
 If we reach 100 candidates and none of them passes all validation tests, we report the test pass rate for the last generated candidate. 
 
 \newpage \section{Results and Discussion}
-\label{sec:results}
+\label{sec:seidr-results}
 
 In this section, we present combined results for the replace-repair trade-off and ranking approaches and discuss them in the dedicated sections. 
 Specifically, we count the number of fully solved problems or tasks as measured by $TPR=1$ in experiments with the settings described in table~\ref{tab:w-n} and present the language-specific results for PSB2 and HumanEval in the figure below:
@@ -607,7 +607,7 @@ No leading ranking strategy is found for \method{} experiments with GPT-3.5 on P
 % \vspace*{-2mm}
 
 \newpage \subsection{RQ3. Generalisability of \method{}}
-\label{sec:results-rq3}
+\label{sec:seidr-results-rq3}
 
 We choose the best performing tree arity for each benchmark and language to run \method{} with Code Llama 34B and compare the results to the findings for GPT-3.5 and Code Llama 34B without \method{} in table~\ref{tab:generalisability-psb2} for PSB2 and table~\ref{tab:generalisability-he} for HumanEval-X. 
 The number of problems solved at different cutoffs ($k$) is reported for PSB2 and the percentage of solved problems at different $k$ is shown for HumanEval-X.
