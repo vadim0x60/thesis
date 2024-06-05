@@ -232,7 +232,7 @@ Hence over full programs the operator is defined as
 
 The combination operators we propose are all variants of \emph{crossover} - a classic genetic programming technique rooted in the way a pair of DNA molecules exchanges genes during mitosis and meiosis, displayed on figure \ref{fig:crossover}.
 
-In DNA \cite{evocritique}, as well as in most genetic programming literature \cite{genprog1,genprog2,genprog1,genprog2ast} the crossover operator combines 2 parent sequences to produce 2 children.
+In DNA \cite{evocritique}, as well as in most genetic programming literature \cite{genprog1,genprog2} the crossover operator combines 2 parent sequences to produce 2 children.
 In this section, in order to reduce complexity, we define the distributions as if only the first child program is saved and the second one is forgotten.
 Since program pair $\langle c_2, c_1 \rangle$ is equally likely to be selected for combination as $\langle c_1, c_2 \rangle$ (see eq. \ref{eq:genmixture}) this modification does not affect the resulting genetic developer distribution.
 
@@ -467,7 +467,7 @@ Instant Scrum can be used to generate programs in any programming language provi
 
 % A word on trees
 The complexity of the chosen language is important since in complex languages random perturbations of program source code often produce grammatically invalid programs.
-This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1,genprog2ast}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
+This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
 Each BF++ command is represented with a single character, thus the only way to tokenize it is to let tokens $c^{(1)},c^{(2)},c^{(3)},\dots$ be single characters.
 
 \paragraph{Tasks}
