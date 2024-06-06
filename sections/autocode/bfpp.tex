@@ -216,7 +216,7 @@ S^k, A^k \subset \mathbb{Z}
 \paragraph{Goto}
 \label{sec:goto}
 
-It is notoriously hard to introduce any kind of branching behavior in \textbf{BF} \cite{brainfuck-control}.
+It is notoriously hard to introduce any kind of branching behavior in \textbf{BF} \cite{linanderControlFlowBrainfuck2016}.
 To facilitate if-then style programs we introduce a \textit{goto} operator \verb|^| defined as 
 
 \begin{equation}
@@ -409,7 +409,7 @@ Every character of a program is an action taken by the \emph{writer agent}, the 
 When the NULL character is written, a \emph{BF++ agent} is created in the target POMDP environment (e.g. CartPole) and sum total of rewards $Q$ collected in that episode is assigned as a reward to the \emph{writer agent} for the NULL character.
 All other characters are rewarded with zero.
 
-The \emph{writer agent's} policy is modeled with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network and is trained with a modified version of REINFORCE \cite{reinforce} algorithm.
+The \emph{writer agent's} policy is modeled with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network and is trained with a modified version of REINFORCE \cite{williamsSimpleStatisticalGradientfollowing1992}algorithm.
 While standard REINFORCE optimizes Policy Gradient:
 
 \begin{equation}
@@ -451,7 +451,7 @@ This approach is used to incorporate programs from section \ref{sec:expert-progs
 This approach to \textbf{expert inspiration} follows what's known as neural-symbolic learning cycle, displayed in figure \ref{fig:cycle} - expert knowledge is represented symbolically, in terms of a \textbf{BF++} program, then a neural network is trained to generate this program, effectively translating the expert knowledge from symbolic into connectionist format (\emph{representation}), the neural network learns from reinforcement how to solve the task better than the expert (\emph{training}).
 Unlike in most neural-symbolic systems \cite{neuralsymbolic} that extract knowledge from connectionist systems with algortihms like TREPAN \cite{trepan} or JRip extraction \cite{jripextr}, the \emph{extraction} step is trivial since the neural network outputs a symbolic program directly.
 
-In all experiments below, the \emph{writer agent}'s LSTM has hidden size of 50, batch size of 4 and is trained with RMSProp \cite{rmsprop} optimizer.
+In all experiments below, the \emph{writer agent}'s LSTM has hidden size of 50, batch size of 4 and is trained with RMSProp \cite{tielemanLectureRmsPropDivide2012} optimizer.
 
 \paragraph{Stopping and Scoring}
 
@@ -553,5 +553,5 @@ We propose the following directions for future work:
 \begin{enumerate}
     \item Develop translation mechanisms between \textbf{BF++} and other languages. Potentially, \textbf{BF++} can be used as \emph{bytecode} \cite{bytecode} for reinforcement learning. The expert would write a program in a higher-level language and transpile it into \textbf{BF++} so that the program then can be improved with reinforcement learning.
     \item Use other neural network architectures as well as non-neural evolution methods like genetic programming \cite{genprog1,genprog2} in conjunction with \textbf{BF++}
-    \item Apply the framework to problems in Healthcare where expert inspiration is important for crossing the AI chasm \cite{aichasm}.    \item Use Natural Language Generation techniques to translate the BF++ code automatically to a friendly human-readable text description as in \cite{code2nlg1,code2nlg2}.
+    \item Apply the framework to problems in Healthcare where expert inspiration is important for crossing the AI chasm \cite{aichasm}.    \item Use Natural Language Generation techniques to translate the BF++ code automatically to a friendly human-readable text description as in \cite{richardsonCode2TextChallengeText2017,code2nlg2}.
 \end{enumerate}
