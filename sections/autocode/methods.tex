@@ -10,6 +10,7 @@ In other words, the search space in program synthesis is \emph{sparse}, \emph{br
 
 \newpage
 \section{Genetic programming}
+\label{sec:gp}
 
 \begin{figure}[H]
     \centering
@@ -30,6 +31,7 @@ If evaluation of a generated program is computationally expensive, this translat
 
 \newpage
 \section{Constrained programming languages}
+\label{sec:constrainedpl}
 
 Another way to address the complexity of the search space is to select a programming language such that the space of possible programs in that programming language exhibits less of the undesirable properties of optimization spaces.
 For examples, a language where any combination of valid characters is a valid program \cite{brainfuck} eliminates a significant share of the complexity of the problem.
@@ -52,16 +54,22 @@ In contrast to other programming paradigms \cite{floydParadigmsProgramming2007, 
 
 \newpage
 \section{Pre-training methods}
-
+\label{sec:pretrain}
 
 The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
 In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
-The foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
 
 \paragraph{Autoregressive models}
 
+% Why this approach
 Most modern foundation models are \emph{autoregressive}, i.e. trained to predict the a token in a program given all the preceding tokens.
 This paradigm makes it easy to collect training data and parallelize computation.
+
+% Architectures
+\todo{Some words on architectures}
+
+% Models
+Autoregressive foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
 
 \paragraph{Autoencoder models}
 
@@ -74,25 +82,41 @@ Autoencoder-genetic programming is discussed in detail in chapter \ref{ch:tree2t
 
 \newpage
 \section{Grammar guided synthesis}
+\label{sec:grammar-guided}
 
 Another way to constrain the hypothesis space is to use the grammar of the programming language in question directly in the program generation process.
 
 Unlike natural languages, programming languages are easier to represent structurally due to the nature of their syntax which improves machine learning performance.
 
+A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
+
 \newpage
 \section{Human in the loop}
+\label{sec:human}
 
-\paragraph{Completion}
+Alternatively, one can narrow the scope of the problem by retaining a human developer in the loop, but supporting them with CASE \cite{caseComputeraidedSoftwareEngineering1985} tools that solve some of the subtasks involved in developing a program.
 
-\todo{Write this}
+\paragraph{Sketching completion}
 
-\paragraph{Sketching}
+\todo{Kevin Ellis goes here}
 
-\todo{Write this}
+An \emph{autoregressive} language models lends themselves naturally to being used as a \emph{programming copilot}: a software tool integrated into the text editor as a core feature or an extension, that generates recommended code snippets based on the context (the code already present in the file).
+At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task.
 
-\paragraph{Differentiable programming}
+\todo{does "docstring" need to be explained?}
 
-\todo{Write this}
+\begin{figure}[H]
+    \centering
+    \includegraphics{images/fastinversesqrt.png}
+    \caption{Github Copilot \cite{dakhelGithubCopilotAi2023, nguyenEmpiricalEvaluationGitHub2022, wermelingerUsingGithubCopilot2023} suggests an efficient algorithm for calculating inverse square root \cite{lomontFastInverseSquare2003} before the developer has finished typing the name of the method}
+    \label{fig:fastinversesqrt}
+\end{figure}
+
+\paragraph{Parametrization}
+
+\todo{Probabilistic programming}
+
+\todo{Differentiable programming}
 
 \newpage
 \section{Open problems}
@@ -100,7 +124,9 @@ Unlike natural languages, programming languages are easier to represent structur
 The methods above have led to significant progress in \emph{code translation} and \emph{programming by example}, to the point where these paradigms have current industrial applications.
 \emph{Programmatically Interpretable Reinforcement Learning}, however, largely remains an open problem.
 
-The goal of this thesis is to propose a system for Programmatically Interpretable Reinforcement Learning and validate it on rigorous benchmarks to demonstrate its applicability in safety-critical domains and in particular in Healthcare.
+\begin{highlight}
+The goal of this thesis is to discover a methodology for Programmatically Interpretable Reinforcement Learning that can be applicable in Healthcare and other safety-critical domains.
+\end{highlight}
 
 Chapter \ref{ch:bfpp} introduces a domain specific language for program synthesis. 
 Chapter \ref{ch:neurogen} introduces a combination of neural program synthesis and genetic programming to synthesize better programs in this and other languages.
@@ -109,5 +135,5 @@ Chapter \ref{ch:seidr} takles the same problem with autoregressive Large Languag
 Chapter TODO discusses the importance of simulator-driven PIRL for Smart Healthcare.
 Chapters TODO introduces a Reinforcement Learning environments for  emergency care.
 Chapter TODO applies the method from chapter \ref{ch:seidr} to the emergency care environment and demonstrates the potential of Programmatically Interpretable Reinforcement Learning in Healthcare.
-However, this environment are based on models developed by experts and can be subject to expert biases.
+However, this environment is based on models developed by experts and can be subject to expert biases.
 To address this limitation, chapter TODO introduces a fully data-driven benchmark for future work in the area.

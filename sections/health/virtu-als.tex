@@ -8,7 +8,7 @@
     \label{fig:virtu-als}
 \end{figure}
 
-Virtu-ALS is a \emph{didactic} emergency care simulator mainly targeted at students and junior healthcare professionals, although its application as a reinforcement learning \emph{benchmark} was anticipated and accounted for by the authors \cite{virtu-als}.
+Virtu-ALS is a \emph{didactic} emergency care simulator mainly targeted at students and junior healthcare professionals, although its application as a reinforcement learning \emph{benchmark} was anticipated and accounted for by the authors \cite{briskAIEnhanceInteractive2018}.
 Its most prominent feature is its visual nature (figure \ref{fig:virtu-als}): the user has access to a 3D-rendered virtual copy of a hospital room, view the monitor, press buttons on a defibrillator, etc.
 However, the visual modality means that its observation space 
 \begin{equation}
@@ -17,9 +17,9 @@ However, the visual modality means that its observation space
 
 Such a high dimensionality of the observation space makes it an extremely challenging reinforcement learning task.
 Tasks from this family have been solved with deep neural networks \cite{atari-rl}, however not only does it require a long and expensive training process, it also means that resulting treatment strategies are black box neural networks that no clinical expert understands.
-This approach to decision making is extremely hard to introduce into clinical practice \cite{blackbox1,blackbox2}
+This approach to decision making is extremely hard to introduce into clinical practice \cite{priceBigDataBlackbox2018,watsonClinicalApplicationsMachine2019}
 
-Like most \emph{didactic} simulators, Virtu-ALS exhibits considerable \emph{confirmation bias} - any decision that's not supported by the standard emergency care protocol \cite{abcde,acls} is considered a mistake and rewarded negatively.
+Like most \emph{didactic} simulators, Virtu-ALS exhibits considerable \emph{confirmation bias} - any decision that's not supported by the standard emergency care protocol \cite{thimInitialAssessmentTreatment2012} is considered a mistake and rewarded negatively.
 
 \newpage
 \section{Auto-ALS}
@@ -86,7 +86,8 @@ Assessment skills (knowing where to look and how to establish the patient's stat
 
 The observation vector in \emph{Auto-ALS} is based on all observations that have occurred between the beginning of the episode and current time.
 However, more recent observations are more likely to still be relevant and should be given priority.
-This is done with the following formula proposed in \cite{mpdp}:
+This is done with the following formula proposed in \cite{liventsevReinforcementLearningMessage2021}:
+\todo{actually insert the blog post here}
 
 \begin{equation}
      o^{+} = \langle o_1 \in O_1, \exp(t_1-t), \dots, o_n \in O_n, \exp(t_n-t), \rangle
@@ -95,5 +96,3 @@ This is done with the following formula proposed in \cite{mpdp}:
 where $O_i$ is the value of the observation and $t$ is current time and $t_i$ is time when observation $i$ (for $i=5$, \verb|ResponseGroan|) has \emph{last} occurred and $\exp(t_i-t)$ represents its decaying relevance.
 For \emph{measurements}, the $O_i$ equals the magnitude of the measurement, however, for binary obsevations $O_i$ would always be equal to one.
 For memory efficiency, for all $i$ that correspond to binary observations, $O_i$ is skipped from the $o^{+} $ vector and the actual observation vector $o$ has size $36+7*2=50$, as opposed to $(36+7)*2=86$
-
-See source code and documentation at \cite{auto-als}.
