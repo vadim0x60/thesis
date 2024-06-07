@@ -22,7 +22,7 @@ In the current chapter, we introduce an extended version of the original BF lang
 BF's runtime model is inspired by the classic Turing Machine \cite{turing}: at any point during the program's execution, the state of the program consists of:
 
 \begin{itemize}
-    \item An infinite\footnote{If you happen to be executing a BF program on a computer with finite memory, the tape will be finite due to your hardware limitations.} tape of cells $T$ where each cell holds an integer number.
+    \item An infinite\footnote{If one happens to be executing a BF program on a computer with finite memory, the tape will be finite due to hardware limitations.} tape of cells $T$ where each cell holds an integer number.
     \item A \textit{memory pointer} $p_T$ that points to a certain cell in the tape (\textit{active cell} $T^{p_T}$).
     \item A string of characters $C$ that represents program code.
     \item A \textit{code pointer} $p_C$ pointing to a character about to be executed.
@@ -457,7 +457,7 @@ In all experiments below, the \emph{writer agent}'s LSTM has hidden size of 50, 
 
 All experiments were run with an upper limit of 100000 training episodes.
 Environments other than \textbf{Taxi} also used Exponential Variance Elimination \cite{evestop} early stopping technique - training was stopped when the postive trend in the quality of the best found program stopped, i.e. when the exponential moving average of program quality is lower that it was 1000 episodes ago.
-Agents for \textbf{Taxi} are trained for a fixed number of episodes, because we noticed that in this environment the longest part of the training process is learning to pick up your first passenger and until that happens $Q=-200$ holds.
+Agents for \textbf{Taxi} are trained for a fixed number of episodes, because we noticed that in this environment the longest part of the training process is learning to pick up the first passenger and until that happens $Q=-200$ holds.
 
 Once the training process is finished, we take the best known programs and since each of them was only tested once (leading to high variance) we test them again, averaging total rewards over 100 episodes. 
 We use this averaged reward to pick the best program.
