@@ -2,10 +2,7 @@
 
 \section{Introduction}
 
-Unlike natural languages, programming languages are easier to represent structurally due to the nature of their syntax which improves machine learning performance.
-Prior work on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and structural encoder-decoder models for machine translation \cite{chen2018tree} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
-
-To the best of our knowledge, however, the advantage of structural models has not been tested in autoencoders for genetic programming. \cite{kusner2017grammar,grammar-vae} find that it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
+To the best of our knowledge the advantage of structural models has not been tested in autoencoders for genetic programming. \cite{kusner2017grammar,grammar-vae} find that it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
 
 Thus the research question we set out to answer is: \emph{would an model that operates directly on the program's Abstract Syntax Tree learn a better latent representation of the source code than a model that operates on a sequence of tokens?}
 

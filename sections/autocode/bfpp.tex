@@ -470,6 +470,8 @@ GPU resources weren't used, because the performance bottleneck of the system is 
 \newpage
 \section{Results}
 
+\paragraph{Quantitative results}
+
 \begin{table}[H]
   \caption{Total episode reward $Q$ achieved by best programs found, averaged over 100 episodes}
   \label{tab:quality}
@@ -490,8 +492,6 @@ GPU resources weren't used, because the performance bottleneck of the system is 
     \bottomrule
   \end{tabular}
 \end{table}
-
-\paragraph{Quantitative results}
 
 The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
 Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it wasn't possible to implement expert inspiration with limited command sets.
