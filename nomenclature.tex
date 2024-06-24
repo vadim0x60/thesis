@@ -1,51 +1,51 @@
 \renewcommand\nomgroup[1]{%
   \item[\bfseries
-  \ifstrequal{#1}{RL}{Reinforcement Learning}{%
-  \ifstrequal{#1}{PS}{Program Synthesis}{%
-  \ifstrequal{#1}{SE}{Software Engineering}
+  \ifstrequal{#1}{R}{Reinforcement Learning}{%
+  \ifstrequal{#1}{G}{Program Synthesis}{%
+  \ifstrequal{#1}{E}{Software Engineering}
   \ifstrequal{#1}{S}{Statistics}{}}}%
 ]}
 
-\nomenclature[PS]{PBE}{Programming by example, see \ref{sec:taxonomy}}
+\nomenclature[G]{PBE}{Programming by example, see \ref{sec:taxonomy}}
 
-\nomenclature[RL]{POMDP}{Partically Observable Markov Decision Process, see \ref{sec:taxonomy}}
+\nomenclature[R]{POMDP}{Partically Observable Markov Decision Process, see \ref{sec:taxonomy}}
 
-\nomenclature[SE]{CASE}{Computer-Aided Software Engineering, see \ref{sec:human}}
+\nomenclature[E]{CAE}{Computer-Aided Software Engineering, see \ref{sec:human}}
 
-\nomenclature[PS]{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
+\nomenclature[G]{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
 
 \newcommand{\inputvec}{X}
-\nomenclature[PS]{$\inputvec$}{a vector of input examples in a PBE system}
+\nomenclature[G]{$\inputvec$}{a vector of input examples in a PBE system}
 
 \newcommand{\outputvec}{Y}
-\nomenclature[PS]{$\outputvec$}{a vector of output examples a PBE system}
+\nomenclature[G]{$\outputvec$}{a vector of output examples a PBE system}
 
 \newcommand{\rlobsspace}{\mathcal{O}}
-\nomenclature[RL]{$\rlobsspace$}{observation space of a POMDP}
+\nomenclature[R]{$\rlobsspace$}{observation space of a POMDP}
 
 \newcommand{\rlstatespace}{\mathcal{S}}
-\nomenclature[RL]{$\rlstatespace$}{state space of a POMDP}
+\nomenclature[R]{$\rlstatespace$}{set of all possible states of a POMDP}
 
 \newcommand{\rlactionspace}{\mathcal{A}}
-\nomenclature[RL]{$\rlactionspace$}{action space of a POMDP}
+\nomenclature[R]{$\rlactionspace$}{action space of a POMDP}
 
 \newcommand{\rlreturn}{R_n}
-\nomenclature[RL]{$\rlreturn$}{n-step return in a POMDP}
+\nomenclature[R]{$\rlreturn$}{n-step return in a POMDP}
 
 \newcommand{\rlstatedistr}{p_s(s_{i+1} | s_i, a_i)}
-\nomenclature[RL]{$\rlstatedistr$}{state distribution of a POMDP}
+\nomenclature[R]{$\rlstatedistr$}{state distribution of a POMDP}
 
 \newcommand{\rlobsdistr}{p_o(o_i | s_i, a_i)}
-\nomenclature[RL]{$\rlobsdistr$}{observation distribution of a POMDP}
+\nomenclature[R]{$\rlobsdistr$}{observation distribution of a POMDP}
 
 \newcommand{\rlrewardf}{r(s_i,a_i)}
-\nomenclature[RL]{$\rlrewardf$}{reward function in a POMDP}
+\nomenclature[R]{$\rlrewardf$}{reward function in a POMDP}
 
-\newcommand{\aphabet}{\mathcal{L}}
-\nomenclature[PS]{$\alphabet$}{the alphabet of a programming language (set of all possible tokens)}
+\newcommand{\alphabet}{\mathcal{L}}
+\nomenclature[G]{$\alphabet$}{the alphabet of a programming language (set of all possible tokens)}
 
 \newcommand{\code}{c}
-\nomenclature[PS]{$\code$}{a sequence of tokens $c1,c2,\dots$ that constitutes a program}
+\nomenclature[G]{$\code$}{a sequence of tokens $c1,c2,\dots$ that constitutes a program}
 
 \newcommand{\expectation}{\mathbb{E}}
 \nomenclature[S]{$\expectation$}{expected value}

@@ -65,8 +65,6 @@ The prime application of \emph{programming by example} is \emph{data wrangling} 
 
 \paragraph{PIRL}
 
-\todo{Deduplicate}
-
 Not every task, however, can be easily described with input-output examples. 
 Take chess: it's relatively simple to evaluate the performance of a chess-playing program, but what are the \emph{correct} moves? 
 That is simply not known in advance.
@@ -210,10 +208,11 @@ This ensures synergistic decision-making where the analysis of every participant
 
 \paragraph{Compliance}
 
-Both individual organizations and regulatory authorities often impose requirements onto decision systems that assume their transparency. 
-An audit has to be able to establish whether the system displays any illegal patterns such unathorized use of intellectual property, violations of discrimination law, insider trading or clinical malpractice. \todo{citations}.
+Both individual organizations and regulatory authorities often impose requirements onto decision systems that are impossible to effectively enforce without transparency. 
+An audit has to be able to establish whether the system violates discrimination law \cite{hochDiscriminationSakeFairness2024, schererApplyingOldRules2019}, accounting standards \cite{julischComplianceDesignBridging2011} or clinical norms \cite{flodgrenExternalInspectionCompliance}.
+These requirements are a major impediment to deployment of machine learning in regulated safety-critical domains such as aviation \cite{torensGuidelinesRegulatoryFramework2021, vidotQualificationAvionicSoftware2024} and healthcare \cite{granlundRegulatoryCompliantMLOpsOravizio2021}.
 A program, on the other hand, can be audited and proven to be compliant. 
-Program synthesis can thus bring all the advantages of big data-driven systems into such fields without necessitating a regulatory reform.
+Program synthesis can bring all the advantages of big data-driven systems into such fields without necessitating a regulatory reform.
 These concerns become increasingly relevant as explainability of intelligent systems evolves from an implicit legal incentive \cite{hackerExplainableAIContract2020} to an explicit requirement \cite{linardatosExplainableAiReview2020}.
 
 \paragraph{Privacy}
