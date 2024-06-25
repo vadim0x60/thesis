@@ -20,20 +20,53 @@
 \newcommand{\outputvec}{Y}
 \nomenclature[G]{$\outputvec$}{a vector of output examples a PBE system}
 
-\newcommand{\rlobsspace}{\mathcal{O}}
-\nomenclature[R]{$\rlobsspace$}{observation space of a POMDP}
+\newcommand{\rlobss}{\mathcal{O}}
+\nomenclature[R]{$\rlobss$}{set of all possible states of a POMDP}
 
-\newcommand{\rlstatespace}{\mathcal{S}}
-\nomenclature[R]{$\rlstatespace$}{set of all possible states of a POMDP}
+\newcommand{\rlstates}{\mathcal{S}}
+\nomenclature[R]{$\rlstates$}{set of all possible states of a POMDP}
 
-\newcommand{\rlactionspace}{\mathcal{A}}
-\nomenclature[R]{$\rlactionspace$}{action space of a POMDP}
+\newcommand{\rltermstates}{\mathcal{S}_t}
+\nomenclature[R]{$\rltermstates$}{set of all terminal states of a POMDP}
 
-\newcommand{\rlreturn}{R_n}
-\nomenclature[R]{$\rlreturn$}{n-step return in a POMDP}
+\newcommand{\rlnontermstates}{\mathcal{S}_{nt}}
+\nomenclature[R]{$\rlnontermstates$}{set of all non-terminal states of a POMDP}
+
+\newcommand{\rlactions}{\mathcal{A}}
+\nomenclature[R]{$\rlactions$}{set of all possible actions of a POMDP}
+
+\newcommand{\rlaction}{a}
+\nomenclature[R]{$\rlactions$}{sa single action in a POMDP}
+
+\newcommand{\rlobs}{o}
+\nomenclature[R]{$\rlactions$}{a single observation in a POMDP}
+
+\newcommand{\rlstate}{s}
+\nomenclature[R]{$\rlactions$}{a single state in a POMDP}
+
+\newcommand{\rlreward}{r}
+\nomenclature[R]{$\rlactions$}{a single reward in a POMDP}
+
+\newcommand{\rlmemory}{m}
+\nomenclature[R]{$\rlmemory$}{a single state of the memory of a reinforcement learning agent}
+
+\newcommand{\rlmemoryf}{\mu}
+\nomenclature[R]{$\rlmemoryf$}{memorization function of a reinforcement learning agent}
+
+\newcommand{\rlactionf}{\alpha}
+\nomenclature[R]{$\rlactionf$}{action function of a reinforcement learning agent}
+
+\newcommand{\rlreturnn}{R_n}
+\nomenclature[R]{$\rlreturnn$}{n-step return in a POMDP}
+
+\newcommand{\rlreturntot}{R_\text{tot}}
+\nomenclature[R]{$\rlreturntot$}{total episode return in an episodic POMDP}
+
+\newcommand{\rlinitdistr}{p_\text{init}(s)}
+\nomenclature[R]{$\rlinitdistr$}{initial state distribution of a POMDP}
 
 \newcommand{\rlstatedistr}{p_s(s_{i+1} | s_i, a_i)}
-\nomenclature[R]{$\rlstatedistr$}{state distribution of a POMDP}
+\nomenclature[R]{$\rlstatedistr$}{subsequent state distribution of a POMDP}
 
 \newcommand{\rlobsdistr}{p_o(o_i | s_i, a_i)}
 \nomenclature[R]{$\rlobsdistr$}{observation distribution of a POMDP}

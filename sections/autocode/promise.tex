@@ -78,10 +78,10 @@ Given enough trial and error it's still possible to generate a correct program w
 \end{figure}
 
 In this setting, a program gets generated and deployed in an environment that responds with positive and negative rewards. 
-The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactionspace$ it has an impact on  the state of the environment $s_i \in \rlstatespace$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
+The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactions$ it has an impact on  the state of the environment $s_i \in \rlstates$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
 State is a latent variable that the agent cannot observe.
-Instead, the agent can see an observation $o_i \in \rlobsspace$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
-$\rlactionspace$, $\rlstatespace$ and $\rlobsspace$ are sets of all possible actions, states and observations respectively.
+Instead, the agent can see an observation $o_i \in \rlobss$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
+$\rlactions$, $\rlstates$ and $\rlobss$ are sets of all possible actions, states and observations respectively.
 Finally, at every step the agent observes a reward $\rlrewardf$
 
 Given this limited toolset, without full (or any) prior knowledge of how the agent's actions influence the the environment (distributions $\rlstatedistr$ and $\rlobsdistr$), the agent has to come up with a strategy that will maximize $n$-step return $R_n=\sum_{t=i}^{n} r_t$ where $n$ is the agent's planning horizon. It is, in the general sense, a hyperparameter, however if an environment has a limit on how many steps an episode can last, it is reasonable to set $n$ equal to the step limit. 

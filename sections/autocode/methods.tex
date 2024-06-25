@@ -145,16 +145,16 @@ The goal of this thesis is to discover a methodology for Programmatically Interp
 More concretely, the task is modeled as {\em Episodic Partially Observable Markov Decision Process}:
 
 \begin{multline}
-M = (\mathcal{S}_{nt}, \mathcal{S}_t, \mathcal{A}, \mathcal{O}, p_o(o | s, a), p_s(s_\text{next} | s_\text{prev}), p_r(r | s, a), p_\text{init}(s))
+\langle \rlnontermstates, \rltermstates, \rlactions, \rlobss, \rlobsdistr, \rlstatedistr, \rlrewardf, \rlinitdistr \rangle
 \end{multline}
 
-Here, $\mathcal{S}_{nt}$ is the set of {\em non-terminal (environment) states} and $\mathcal{S}_{t}$ is the set of {\em terminal states}. 
-$\mathcal{A}$ is the set of {\em actions} that the learning agent can perform, and $\mathcal{O}$ is the set of {\em observations} about the current state that the agent can make. 
+Here, $\rlnontermstates$ is the set of {\em non-terminal (environment) states} and $\mathcal{S}_{t}$ is the set of {\em terminal states}. 
+$\rlactions$ is the set of {\em actions} that the learning agent can perform, and $\rlobss$ is the set of {\em observations} about the current state that the agent can make. 
 
-A \emph{reinforcement learning episode} starts in a state $s \in \mathcal{S}_{nt}$ sampled from $p_\text{init}$, the {\em initial distribution} over environment states.
-An agent action $a \in \mathcal{A}$ at the state $s$ causes the environment state to change probabilistically, and the destination state follows the distribution $p_s(\cdot | s, a)$. 
-At state $s$, the probability of making observation $o$ is $p_o(o | s)$ and the probability of obtaining \emph{reward} $r$ is $p_r(r|s,a)$. 
-The process continues until a $p_s$ yields a terminal state $s \in \mathcal{S}_t$.
+A \emph{reinforcement learning episode} starts in a state $\rlstate \in \rlnontermstates$ sampled from $\rlinitdistr$, the {\em initial distribution} over environment states.
+An agent action $\rlaction \in \actionss$ at the state $\rlstate$ causes the environment state to change probabilistically, and the destination state follows the distribution $\rlstatedistr$. 
+At state $\rlstate$, the probability of making observation $\rlobs$ is $\rlobsdistr$ and the probability of obtaining \emph{reward} $\rlreward$ is $\rlrewardf$. 
+The process continues until $\rlstatedistr$ yields a terminal state $\rlstate \in \rltermstates$.
 This distinction is what sets \emph{episodic} POMDP popularized by OpenAI gym \cite{openai-gym} apart from the more traditional approach \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012} where the process is infinite.
 
 A \emph{program} is a sequence of tokens
@@ -165,34 +165,34 @@ A \emph{program} is a sequence of tokens
 
 that defines behavior of an agent.
 Depending on the programming language and implementation choices the tokens can be characters or higher-level tokens, i.e. keywords.
-We denote the language's \emph{alphabet}, i.e. the set of all possible tokens as $\mathcal{L}$.
+We denote the language's \emph{alphabet}, i.e. the set of all possible tokens as $\alphabet$.
 
-An \emph{interpreter} is a tuple $\langle \alpha,\mu \rangle$ where $\mu(c_k,m_k,o_k)$ is the \emph{memorization function} that defines how the agent's memory updates upon making an observation and $\alpha(c, m_k)$ is the \emph{action function} defines which action the agent at a certain memory state takes in the POMDP.
-Memory is intialized at state $m_\text{init}$
+An \emph{interpreter} is a tuple $\langle \rlactionf,\rlmemoryf \rangle$ where $\rlmemoryf(c_k,m_k,o_k)$ is the \emph{memorization function} that defines how the agent's memory updates upon making an observation and $\rlactionf(c, m_k)$ is the \emph{action function} defines which action the agent at a certain memory state takes in the POMDP.
+Memory is intialized at state $\rlmemory_\text{init}$
 
 The agent's goal is maximizing total reward collected in the environment, calculated as follows:
 
 \begin{algorithm}[H]
 \begin{algorithmic}[1]
 \caption{Evaluating total reward for a program}
-\Function{$\mathit{Eval}$}{$c$}
-\State $R_\text{tot} \gets 0$
-\State $m \gets m_\text{init}$
-\State $s \sim p_\text{init}(s)$
-\While{$s \in \mathcal{S}_{nt}$}
-\State $o \sim p_o(o | s)$
+\Function{$\mathit{Eval}$}{$\code$}
+\State $\rlreturntot \gets 0$
+\State $\rlmemory \gets \rlmemory_\text{init}$
+\State $\rlstate \sim \rlinitdistr$
+\While{$\rlstate \in \rlnontermstates$}
+\State $\rlobs \sim \rlobsdistr$
 \Comment{Observe}
-\State $m \gets \mu(c,m,o)$
-\State $a \gets \alpha(c, m)$ 
+\State $\rlmemory \gets \rlmemoryf(\code,\rlmemory,\rlobs)$
+\State $\rlaction \gets \rlactionf(\code, \rlmemory)$ 
 \Comment{Act}
 \State $r \sim p_r(s,a)$
 \State $R_\text{tot} \gets R_\text{tot} + r$
 \Comment{Get rewarded}
-\State $s_\text{next} \sim p_s(s_\text{next} | s, a)$
+\State $\rlstate_\text{next} \sim \rlstatedistr$
 \Comment{Next state}
-\State $s\gets s_\text{next}$
+\State $\rlstate\gets s_\text{next}$
 \EndWhile
-\State \Return $R_\text{tot}$
+\State \Return $\rlreturntot$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -202,7 +202,7 @@ Since the algorithm for computing this function involves repeatedly sampling val
 \emph{Programmatically Interpretable Reinforcement Learning} \cite{pirl} is the task of maximizing expected total reward with respect to $c$, i.e. finding a program $c$ that is best for a given POMDP environment:
 
 \begin{equation}
-    \expectation(\mathit{Eval}(c)) \longrightarrow \max_{c}
+    \expectation(\mathit{Eval}(\code)) \longrightarrow \max_{\code}
     \label{eq:pirlgoal}
 \end{equation}
 
