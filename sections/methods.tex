@@ -49,6 +49,10 @@ As a result, some of the most notable early positive results were in an industry
 One domain that's particularly amenable to solving synthesis tasks is \emph{logic programming}: a programming paradigm based on formal logic \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}. 
 In contrast to other programming paradigms \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} all functions in logic programming languages are boolean, which drastically limits the space of possible functions and makes many search-based approaches possible.
 
+\todo{Deductive}
+
+\todo{Inductive}
+
 %Instead of (or in addition to) generating a program first and testing whether it adheres to specification, \emph{deductive} methods apply equivalence rules to translate the specification into an executable.
 %This is hard to apply in \emph{programmatically interpretable reinforcement learning} where the specification is a black box, but can be a powerful approach in \emph{code translation} and \emph{programming by example} paradigms.
 
@@ -99,6 +103,8 @@ Since in most implementations of compilers and interpreters, the first step of p
 When program synthesis systems  output ASTs, as opposed to raw text, a large class of errors (such as forgetting a semicolon) becomes impossible. 
 Research literature on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and grammar-guided genetic programming \cite{bunelLeveragingGrammarReinforcement2018, manriqueGrammarguidedGeneticProgramming2009, sobaniaChallengesProgramSynthesis2020a} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
 
+\todo{constrained decoding}
+
 A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
 
 \newpage
@@ -113,7 +119,7 @@ Alternatively, one can narrow the scope of the problem by retaining a human deve
 
 \todo{Differentiable programming}
 
-\paragraph{Sketching}
+\paragraph{Sketch completion}
 
 \todo{Kevin Ellis goes here}
 
@@ -142,17 +148,17 @@ The goal of this thesis is to discover a methodology for Programmatically Interp
 \end{highlight}
 
 
-More concretely, the task is modeled as {\em Episodic Partially Observable Markov Decision Process}:
+We model the task as {\em Episodic Partially Observable Markov Decision Process}:
 
 \begin{multline}
 \langle \rlnontermstates, \rltermstates, \rlactions, \rlobss, \rlobsdistr, \rlstatedistr, \rlrewardf, \rlinitdistr \rangle
 \end{multline}
 
-Here, $\rlnontermstates$ is the set of {\em non-terminal (environment) states} and $\mathcal{S}_{t}$ is the set of {\em terminal states}. 
+Here, $\rlnontermstates$ is the set of {\em non-terminal (environment) states} and $\rltermstates$ is the set of {\em terminal states}. 
 $\rlactions$ is the set of {\em actions} that the learning agent can perform, and $\rlobss$ is the set of {\em observations} about the current state that the agent can make. 
 
 A \emph{reinforcement learning episode} starts in a state $\rlstate \in \rlnontermstates$ sampled from $\rlinitdistr$, the {\em initial distribution} over environment states.
-An agent action $\rlaction \in \actionss$ at the state $\rlstate$ causes the environment state to change probabilistically, and the destination state follows the distribution $\rlstatedistr$. 
+An agent action $\rlaction \in \rlactions$ at the state $\rlstate$ causes the environment state to change probabilistically, and the destination state follows the distribution $\rlstatedistr$. 
 At state $\rlstate$, the probability of making observation $\rlobs$ is $\rlobsdistr$ and the probability of obtaining \emph{reward} $\rlreward$ is $\rlrewardf$. 
 The process continues until $\rlstatedistr$ yields a terminal state $\rlstate \in \rltermstates$.
 This distinction is what sets \emph{episodic} POMDP popularized by OpenAI gym \cite{openai-gym} apart from the more traditional approach \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012} where the process is infinite.
@@ -199,7 +205,7 @@ The agent's goal is maximizing total reward collected in the environment, calcul
 
 Since the algorithm for computing this function involves repeatedly sampling values from distributions, function $\mathit{Eval}(c)$ is a mapping from the set of programs to the set of real-valued random variables.
 
-\emph{Programmatically Interpretable Reinforcement Learning} \cite{pirl} is the task of maximizing expected total reward with respect to $c$, i.e. finding a program $c$ that is best for a given POMDP environment:
+The \emph{Programmatically Interpretable Reinforcement Learning} objective then becomes
 
 \begin{equation}
     \expectation(\mathit{Eval}(\code)) \longrightarrow \max_{\code}
