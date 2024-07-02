@@ -55,7 +55,7 @@ In the case of Tree-LSTMs, this translates to capturing longer-term dependencies
 
 \paragraph{Neural attention} Tree-LSTM layers are followed by an attention layer. 
 The node importance calculation is based on \cite{winata2018attention}, and updates the hidden states as follows:
-% Isn't this also \odot rather than \cdot?
+\todo{Is not this also \odot rather than \cdot?}
 \begin{align}
     \mathbf{h}_{at} = \mathbf{h} \cdot tanh(\mathbf{W} \cdot \mathbf{h} + \mathbf{b})
 \end{align}

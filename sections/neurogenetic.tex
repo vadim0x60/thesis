@@ -74,7 +74,7 @@ The second is \emph{empirical program quality}, defined as
 \emph{Empirical program quality} is an unbiased estimate of $\mathbb{E}(e^{\mathit{Eval}(c)})$
 The idea behind exponentiating the total reward is to encourage \emph{exploration} \cite{exploration}.
 Programs that on average perform poorly, but sometimes, stochastically, collect high rewards, will have a higher $Q(c|C)$ than $R(c|C)$.
-We consider these programs to be \emph{high-quality additions to the codebase} because they contain the knowledge necessary for solving environment $M$, even if on average they don't solve it.
+We consider these programs to be \emph{high-quality additions to the codebase} because they contain the knowledge necessary for solving environment $M$, even if on average they do not solve it.
 We hypothesize that applying \emph{genetic operators} (section \ref{sec:genetic}) to programs with high $Q(c|C)$ can yield programs with high $R(c|C)$.
 For this reason we train developers to maximize $Q$, but when the training is complete, we pick programs from the codebase with the highest $R$ as "best programs".
  
@@ -392,7 +392,7 @@ Instant Scrum can be used to generate programs in any programming language provi
     \item A pruning function $\mathit{Prune}(c)$
 \end{enumerate}
 
-%Moreover, pruning function and finite alphabet are, in a sense, optional requirements: pruning isn't essential to the method, so a dummy pruning function $P(c)=c$ can be used instead and if a language's alphabet is infinite, it is usually possible to develop a reasonable finite subset of the full alphabet and generate programs in it.
+%Moreover, pruning function and finite alphabet are, in a sense, optional requirements: pruning is not essential to the method, so a dummy pruning function $P(c)=c$ can be used instead and if a language's alphabet is infinite, it is usually possible to develop a reasonable finite subset of the full alphabet and generate programs in it.
 
 % Ode to BF++
 

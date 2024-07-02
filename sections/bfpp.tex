@@ -43,7 +43,7 @@ There are 8 possible characters:
 \end{description}
 
 [ and ] commands constitute a loop that will be executed repeatedly until the \textit{active cell} becomes zero.
-They are also the only way to write a BF program with a syntax error: a valid BF program is one that doesn't contain non-matching [ or ]
+They are also the only way to write a BF program with a syntax error: a valid BF program is one that does not contain non-matching [ or ]
 
 % TODO: example?
 
@@ -159,7 +159,7 @@ o_{low}+\frac{o_{high}-o_{low}}{d}\omega, \omega=1,2,\dots,d-1 \\
 Some environments, however, have unbounded observation spaces $O^k=(-\infty;+\infty)$, $O^k=(-\infty;o_{high}]$,  $O^k=[o_{low};+\infty)$.
 This spaces are challenging because the formal description $O^k$ does not in any way reflect the actual underlying distributions of observations.
 It can be the case, for example, that $O^k=(-\infty;+\infty)$ but most observations found in the environment fall in the interval $O^k=[42;43]$.
-For such observation spaces, \textbf{BF++} uses a \textit{fluid discretization} system that learns the true distribution of observations online. The idea was inspired by a work of Touati {\sl et al} \cite{adaptivediscretization}, although, they assumed that $O^k$ has a finite diameter and didn't support unbounded observation spaces.
+For such observation spaces, \textbf{BF++} uses a \textit{fluid discretization} system that learns the true distribution of observations online. The idea was inspired by a work of Touati {\sl et al} \cite{adaptivediscretization}, although, they assumed that $O^k$ has a finite diameter and did not support unbounded observation spaces.
 Initial thresholds $\tau_\omega$ can be arbitrary.
 With each new observation, thresholds $\tau_\omega$ are readjusted so that among $h$ prior observations, roughly $\omega$ out of $d$  observations are lower values that $\tau_\omega$:
 
@@ -465,7 +465,7 @@ We use this averaged reward to pick the best program.
 \paragraph{Implementation}
 
 \textbf{BF++} interpreter and the training system were written in Python with TensorFlow for neural models.
-GPU resources weren't used, because the performance bottleneck of the system is not backpropagation but rather testing a \textbf{BF++} program in the environment, single experiment runtime was between 1 hour (CartPole) and 10 (Taxi).
+GPU resources were not used, because the performance bottleneck of the system is not backpropagation but rather testing a \textbf{BF++} program in the environment, single experiment runtime was between 1 hour (CartPole) and 10 (Taxi).
 
 \newpage
 \section{Results}
@@ -494,7 +494,7 @@ GPU resources weren't used, because the performance bottleneck of the system is 
 \end{table}
 
 The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
-Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it wasn't possible to implement expert inspiration with limited command sets.
+Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it was not possible to implement expert inspiration with limited command sets.
 
 These results support (see section \ref{sec:exgoals}) hypothesis $H_1$ - we have obtained functional programs for all environments, $H_2$ - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and $H_4$ - ablation studies for optional operators do indeed show that those operators are useful.
 

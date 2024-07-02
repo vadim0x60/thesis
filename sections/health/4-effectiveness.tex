@@ -47,5 +47,5 @@ Thus, the only simulators \emph{difficult} enough to be benchmarks for novel app
 Table \ref{tab:structview} reviews the structural complexity of the simulators, a factor that directly contributes to \emph{difficulty}.
 Note that \emph{Virtu-ALS} is an unusually high-dimensional environment.
 As such, solving it is likely to require more parameters and longer training times.
-\emph{GraphSim} is the only simulator that doesn't provide non-zero rewards in non-terminal states $S_{nt}$, making it harder for the agent to attribute the results of the episode to particular actions.
+\emph{GraphSim} is the only simulator that does not provide non-zero rewards in non-terminal states $S_{nt}$, making it harder for the agent to attribute the results of the episode to particular actions.
 \emph{GYMIC} (see section \ref{sec:gymic}) solves this problem with an additional metric (SOFA score), but unlike \emph{GYMIC} \emph{GraphSim} covers a wide range of clinical conditions and there is no single health metric applicable to each.

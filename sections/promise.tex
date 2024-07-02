@@ -89,13 +89,13 @@ Given this limited toolset, without full (or any) prior knowledge of how the age
 \newpage
 \section{Why not just use Machine Learning?}
 
-As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{PIRL} are  used in settings where more traditional machine learning methods that don't involve code generation could also be used.
+As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{PIRL} are  used in settings where more traditional machine learning methods that do not involve code generation could also be used.
 What are then the advantages conferred by this programmatic representation?
 
 \paragraph{Expressiveness and performance}
 
 Programming languages benefit from decades of research into making them \textcolor{accent}{expressive} - able to efficiently represent any algorithm one can design - and \textcolor{accent}{performant} - making those algorithms executable with minimal requirements of time and hardware.
-Machine learning models don't have this advantage - they are designed to make the space of possible models easy to search and optimize in, often at the expense of expressivity and performance: an equivalent program typically solves the task better and faster than a machine learning model, to the point where representing algorithms as neural networks has become a setup of programmer humor \cite{JoelGrusFizz}.
+Machine learning models do not have this advantage - they are designed to make the space of possible models easy to search and optimize in, often at the expense of expressivity and performance: an equivalent program typically solves the task better and faster than a machine learning model, to the point where representing algorithms as neural networks has become a setup of programmer humor \cite{JoelGrusFizz}.
 
 In fact, \cite{JoelGrusFizz} underestimates the inefficiency of the neural approach, since in their neural network implementation an important part (output of text) is non-neural.
 We correct for this and train a specialized language model for FizzBuzz, \emph{FizzBuzzLM}, benchmarking it against implementations of the same algorithm in major programming languages.
