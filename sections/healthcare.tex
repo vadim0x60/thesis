@@ -1,7 +1,16 @@
 \section{Program Synthesis in Healthcare}
 
-% Importance of Smart Healthcare
-Understaffing has been consistently identified as the major challenge facing Healthcare today \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016,SurveyShowsHidden1993,UnderstaffingSignificantIssue2012,campbell_universal_2013, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, r.stanleyUnderstaffedOverwhelmed2010, munnUnderstaffingWardsCompromising2017, thelancetHealthcareSystemStaffing2018}. Automation tools that make use of Machine Learning (also known as Healthcare 4.0 \cite{tortorellaHealthcareTrendsChallenges2020}) have been consistently identified as crucial for reducing the workload of Healthcare professionals and improving the quality of care \cite{agrawalMachineLearningHealthcare2020, deviDesignImplementationAdvanced2022, g.kumarSurveyMachineLearning2016, ganguliMachineLearningPursuit2020, maityMachineLearningImproved2017, mitraMachineLearningHealthcare2021, pianykhImprovingHealthcareOperations2020, xhaferraRoleMachineLearning2022}.
+Healthcare is a domain where the advantages of program synthesis (as introduced in section \ref{sec:impacts}) are particularly relevant.
+\begin{itemize}
+    \item Decision systems in Healthcare have a very high threshold for their \emph{capabilities} as patient's health and life can be at stake and mistakes are particularly harmful.
+    \item No less dangerous is the risk of perverse incentives and insufficient \emph{alignment} of decision systems with the interests of the patient.
+    \item Due to the risks above, decision systems in Healthcare are never deployed fully autonomously. Instead, they have to support doctors in making the final decisions and have to be \emph{good team-players}, explaining the rationale behind every suggestion and supporting dialogue.
+    \item Healthcare is a highly regulated domain and \emph{compliance by design} is a crucial feature of any decision systems deployed therein
+    \item \emph{Privacy} of clinical data is of utmost importance.
+    \item Novel \emph{scientific discoveries} in healthcare have a particularly positive social impact.
+\end{itemize}
+
+This is especially relevant as healthcare systems struggle with understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016,SurveyShowsHidden1993,UnderstaffingSignificantIssue2012,campbell_universal_2013, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, r.stanleyUnderstaffedOverwhelmed2010, munnUnderstaffingWardsCompromising2017, thelancetHealthcareSystemStaffing2018}. Automation tools that make use of Machine Learning (also known as Healthcare 4.0 \cite{tortorellaHealthcareTrendsChallenges2020}) have been consistently identified as crucial for reducing the workload of Healthcare professionals and improving the quality of care \cite{agrawalMachineLearningHealthcare2020, deviDesignImplementationAdvanced2022, g.kumarSurveyMachineLearning2016, ganguliMachineLearningPursuit2020, maityMachineLearningImproved2017, mitraMachineLearningHealthcare2021, pianykhImprovingHealthcareOperations2020, xhaferraRoleMachineLearning2022}.
 
 \begin{figure}
     \centering
@@ -256,7 +265,7 @@ AssessCirculation &
   RadialPulsePalpable,     RadialPulseNonPalpable, \emph{MeasuredHeartRate} &
    \\
 AssessDisability &
-  AVPU_A,     AVPU_U,     AVPU_V, PupilsPinpoint,     PupilsNormal, \emph{MeasuredCapillaryGlucose} &
+  \verb|AVPU_A|,     \verb|AVPU_U|,     \verb|AVPU_V|, PupilsPinpoint,     PupilsNormal, \emph{MeasuredCapillaryGlucose} &
    \\
 AssessExposure &
   ExposureRash,     ExposurePeripherallyShutdown,     ExposureStainedUnderwear, \emph{MeasuredTemperature} &
@@ -265,7 +274,17 @@ AssessDefibrillator &
    &
    \\
 AssessMonitor &
-  HeartRhythm0,     HeartRhythm1,     HeartRhythm2,     HeartRhythm3,     HeartRhythm4, \emph{MeasuredHeartRate}, \emph{MeasuredMAP}, \emph{MeasuredSats}, \emph{MeasuredResps} &
+  HeartRhythmNSR,
+    HeartRhythmSVT,
+    HeartRhythmAF,
+    HeartRhythmAtrialFlutter,
+    HeartRhythmVT,
+    HeartRhythmMobitzI,
+    HeartRhythmMobitzII,
+    HeartRhythmCompleteHeartBlock,
+    HeartRhythmTorsades,
+    HeartRhythmBigeminy,
+    HeartRhythmVF, \emph{MeasuredHeartRate}, \emph{MeasuredMAP}, \emph{MeasuredSats}, \emph{MeasuredResps} &
    \\
    DoNothing & & \\
    \midrule
