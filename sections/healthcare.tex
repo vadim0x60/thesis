@@ -98,12 +98,6 @@ Both of these problems have been successfully addresed with artificial time disc
 
 \paragraph{Message Passing Decision Process}
 
-(working title, alternatives include the simpler but
-\href{https://homes.cs.washington.edu/~todorov/courses/amath579/reading/Continuous.pdf}{somewhat
-already taken} \emph{Continuous Decision Process}, the software-jargony
-\emph{Event Loop Decision Process} and the insufferably vane
-\emph{Liventsev Decision Process})
-
 Let us attach a timestamp $t$ to every observation, reward and action in the decision process, making them 2-tuples. An action $\langle a, t\rangle$ is a message from the agent to the environment, an observation $\langle \rlobs, t \rangle$ or a reward $\langle r, t \rangle$ is a message from the environment
 to the agent. Messages can be sent as often or as rare as needed:
 

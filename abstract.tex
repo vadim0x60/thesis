@@ -1,13 +1,15 @@
 \paragraph{Abstract}
 
-One of the growing areas of computational intelligence is automatic programming, where a learning algorithm produces executable software. This paradigm promises efficient and highly capable artificial intelligence agents that express their knowledge and reasoning process in a programming language that can be understood, audited and edited by humans, as well as other automated tools. All of these properties are essential desiderata of decision support systems in Healthcare: an application area where strong safety and verifiability requirements preclude the application of black box artificial intelligence systems.
+One of the growing areas of computational intelligence is automatic programming, where a learning algorithm produces executable software. This paradigm promises efficient and highly capable artificial intelligence agents that express their knowledge and reasoning process in a programming language that can be understood, audited and edited by humans, as well as other automated tools - essential requirements for decision support systems in safety-critical application areas such as healthcare.
 
-This work proposes the following framework for intelligent decision support in Healthcare: clinical data, such as electronic health records, is used to train a patient simulator: a predictive model of patient’s future health conditional on clinicians’ decisions. A program induction algorithm is then used to search for a protocol that performs well in that simulator.
+Of particular interest for healthcare is Programmatically Interpretable Reinforcement Learning, in which a program induction algorithm is used to search for a protocol that performs well in a predictive patient simulator.
+The simulator can be derived from clinical data, implemented based on expert knowledge or combine both methods.
+Deployment of this approach in real world settings is hindered by the lack of specialized patient simulators and insufficient capabilities of modern program synthesis algorithms.
+This work makes contributions to both fields.
 
-We address the scarcity of effective patient simulators to be used for clinical protocol evaluation and introduce Auto-ALS: an anthropodidactic emergency care simulator to be used it as a proof of concept for the application of program synthesis in Healthcare.
-We then develop a robust Programmatically Interpretable Reinforcement Learning algorithm fit for this task, introducing BF++ - a programming language for general purpose neural program synthesis, a neurogenetic programming framework for program synthesis in BF++ or similar simple languages, a tree variational autoencoder for code and finally, Synthesize Execute Debug and Rank: an iterative algorithm for fully autonomous programming with large language models.
+The contributions to synthesis algorithms are a novel programming language for general purpose neural program synthesis, a neurogenetic programming framework for program synthesis in BF++ or similar simple languages, a tree variational autoencoder model for code and, finally, Synthesize Execute Debug and Rank: a state-of-the-art iterative algorithm for fully autonomous programming with large language models.
 
-Finally, we note that Auto-ALS is an expert-based rather than data-driven simulator, making it prone to confirmation bias.   
-To help future research address these limitations, the last chapters introduce imagym - a framework for image-based sonography simulators – and MIMIC-SEQ – a dataset and benchmark for intensive care simulation. 
+In the field of patient simulators, an anthropodidactic Reinforcement Learning environment for emergency care (Auto-ALS) is introduced, a framework for image-based sonography simulators and a benchmark dataset for intensive care simulation. 
 
-In summary, this work demonstrates the viability of Programmatically Interpretable Reinforcement Learning for Healthcare as a new field of research and provides key foundations for it.
+The proposed program synthesis algorithms are evaluated on standard benchmarks as well as Auto-ALS to identify healthcare-specific insights.
+The advances introduced in this work lay the foundations for the nascent field of Programmatically Interpretable Reinforcement Learning for Healthcare.
