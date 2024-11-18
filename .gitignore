@@ -6,3 +6,13 @@
 *.fdb_latexmk
 *.log
 *.fls
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lot
+*.lof
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
