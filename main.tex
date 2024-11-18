@@ -27,12 +27,19 @@
 \include{nomenclature}
 \printnomenclature
 
+\part{Introduction}
+
+\newpage
+\include{sections/preface}
+
 \newpage
 \include{sections/promise}
 %----------------------------------------------------------------------------------------
 
 \newpage
 \include{sections/healthcare}
+
+\part{Program Induction}
 
 \newpage
 \include{sections/methods}
@@ -47,24 +54,47 @@
 \include{sections/tree2tree}
 
 \newpage
-\include{sections/seidr}
+\chapter{Iterative Programming with LLMs}
 
 \newpage
-\chapter{Multiagent Programming for Healthcare}\label{ch:seidrforhealth}
+\chapter{Multiagent Programming with LLMs}
+%\include{sections/seidr}
+
+\part{Patient Simulators}
+
+\newpage
+\chapter{The State of Patient Simulators}
+
+\newpage
+\chapter{(In)sanity check: HeartPole}
+
+\newpage
+\chapter{Anthropodidactic learning: Auto-ALS}
+
+\newpage
+\chapter{High-dimensional challenge: imagym}
 
 \newpage
 \include{sections/mimicseq}
 
-\newpage
-\include{sections/appendices/repr}
-
-
+\part{PS-PIRL}
 
 \newpage
-\chapter{Acknowledgments}
+\chapter{Evaluating PS-PIRL}\label{ch:seidrforhealth}
 
-\include{sections/appendices/ack}
+\section{HeartPole}
 
+\section{Auto-ALS}
+
+\newpage
+\chapter{Conclusion: the Future}
+
+\part{Appendices}
+
+\newpage
+\include{sections/repr}
+
+\addcontentsline{toc}{chapter}{Bibliography}
 \printbibliography
 
 \end{document}
