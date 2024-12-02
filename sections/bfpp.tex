@@ -132,7 +132,7 @@ We assume that the vector observation space $O$ is a hypercube defined as an int
  o_1 \in O_1^k,o_2 \in O_2^k,\dots,o_n \in O_n^k \Leftrightarrow (o_1,o_2,\dots,o_n) \in O  
 \end{equation}
 
-This assumption theoretically excludes some possible observation spaces, but almost all POMDP tasks discussed in the research literature and all OpenAI Gym tasks conform to this assumption.
+This assumption theoretically excludes some possible observation spaces, but almost all POMDP tasks discussed in the research literature and all Gymnasium tasks conform to this assumption.
 
 To write an observation onto the memory tape we the observation vector of size $n$ is aligned with memory cells $T^{p_T},T^{p_T+1},\dots,T^{p_T+n-1}$ and turned into an integer with the use of $d$ discretization bins.
 
@@ -327,7 +327,7 @@ Hence we
     \label{fig:envs}
 \end{figure}
 
-We evaluate our framework on 4 low-dimensional (see section \ref{sec:summary}) POMDPs sampled from OpenAI Gym \cite{openai-gym} leaderboard\footnote{\url{https://github.com/openai/gym/wiki/Leaderboard}}:
+We evaluate our framework on 4 low-dimensional (see section \ref{sec:summary}) POMDPs sampled from Gymnasium \cite{towersGymnasiumStandardInterface2024} leaderboard\footnote{\url{https://github.com/openai/gym/wiki/Leaderboard}}:
 
 \begin{enumerate}
 \item \textbf{CartPole-v1} \cite{cartpole}.
