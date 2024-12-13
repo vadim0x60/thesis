@@ -7,7 +7,7 @@
 
 \emph{Automatic programming} or \emph{program synthesis} refers to any technological setup wherein the task of writing computer programs is automated. 
 First introduced in science fiction \cite{jenkinsLogicNamedJoe1946}, it is now an active area of technical research.
-Program synthesis systems are defined by what type of task \emph{specification} they admit, whether and how the generated programs are verified, whether and how pre-existing programs are incorporated \cite{gulwaniDimensionsProgramSynthesis2010}.
+Program synthesis systems are defined by what type of task \emph{specification} they admit, whether and how the generated programs are verified, whether and how pre-existing programs are incorporated \cite{gulwaniDimensionsProgramSynthesis2010}:
 
 \begin{figure}[H]
     \centering
@@ -16,7 +16,7 @@ Program synthesis systems are defined by what type of task \emph{specification} 
     \label{fig:ap}
 \end{figure}
 
-This definition is purposefully broad and includes, for example, the compiler \cite{penjamDeductiveInductiveMethods2003,patrickmckenzie[@patio11]GlibLineHave2023}: a program synthesis system that admits a specification in the form of a program in a high-level programming language designed for ease of use by humans and generates a program in a low-level programming language designed for ease of deployment on a computer.
+This definition in figure \ref{fig:ap} is purposefully broad and includes, for example, the compiler (figure \ref{fig:compiler}) \cite{penjamDeductiveInductiveMethods2003,patrickmckenzie[@patio11]GlibLineHave2023}: a program synthesis system that turns a specification in the form of a program in a programming language designed for ease of use by humans into a program in a programming language designed for ease of deployment on a computer.
 
 \begin{figure}[H]
     \centering
@@ -24,7 +24,6 @@ This definition is purposefully broad and includes, for example, the compiler \c
     \caption{Compiler, schematic definition}
     \label{fig:compiler}
 \end{figure}
-
 
 The ambition of the field, however, extends far beyond compilers \cite{campbellAutomatedCodingQuest2020}.
 The goal is to impose as few constraints as possible onto the \emph{specification} and ultimately automate the generation of programs for any free-form specification, such as a short textual \cite{zanLargeLanguageModels2023} prompt or a diagram \cite{koziolekLLMbasedControlCode2023}, even a hand-drawn sketch \cite{chatgptmodderChatgptCanNow2023}.
