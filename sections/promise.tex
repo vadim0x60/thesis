@@ -5,18 +5,18 @@
 
 \label{sec:quest}
 
-\emph{Automatic programming} or \emph{program synthesis} refers to any technological setup wherein the task of writing computer programs is automated. 
+\emph{Automatic programming} or \emph{program synthesis} is any technological setup wherein the task of writing computer programs is automated. 
 First introduced in science fiction \cite{jenkinsLogicNamedJoe1946}, it is now an active area of technical research.
-Program synthesis systems are defined by what type of task \emph{specification} they admit, whether and how the generated programs are verified, whether and how pre-existing programs are incorporated \cite{gulwaniDimensionsProgramSynthesis2010}:
+Program synthesis systems are defined by what type of task \emph{specification} they admit, whether and how the generated programs are verified, whether and how pre-existing programs are incorporated \cite{gulwaniDimensionsProgramSynthesis2010}, see figure \ref{fig:ap}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{ap.png}
-    \caption{Automatic programming system, schematic definition}
+    \caption{Possible components of an automatic programming system}
     \label{fig:ap}
 \end{figure}
 
-This definition in figure \ref{fig:ap} is purposefully broad and includes, for example, the compiler (figure \ref{fig:compiler}) \cite{penjamDeductiveInductiveMethods2003,patrickmckenzie[@patio11]GlibLineHave2023}: a program synthesis system that turns a specification in the form of a program in a programming language designed for ease of use by humans into a program in a programming language designed for ease of deployment on a computer.
+This definition is purposefully broad and includes, for example, the compiler \cite{penjamDeductiveInductiveMethods2003,patrickmckenzie[@patio11]GlibLineHave2023}: a program synthesis system that turns a specification in the form of a program in a programming language designed for ease of use ("spec text" in figure \ref{fig:compiler}) into a program in a programming language designed for ease of deployment ("program" in figure \ref{fig:compiler}).
 
 \begin{figure}[H]
     \centering
@@ -36,7 +36,7 @@ The goal is to impose as few constraints as possible onto the \emph{specificatio
 
 \paragraph{Code translation}
 
-The humble compiler from section \ref{sec:quest} is an instance of a \emph{code translation} system: a \emph{program synthesis} system where the specification is given as text, either in a natural language (\emph{NL2Code translation} \cite{wangNaturalLanguageCode2023, zanLargeLanguageModels2023}) or in a programming language (\emph{code2code translation} \cite{radfordImprovingLanguageUnderstanding})
+The humble compiler from section \ref{sec:quest} is an instance of \emph{code translation}: a \emph{program synthesis} setup where the specification is given as text (highlighted in figure \ref{fig:nl2ml}), either in a natural language (\emph{NL2Code translation} \cite{wangNaturalLanguageCode2023, zanLargeLanguageModels2023}) or in a programming language (\emph{code2code translation} \cite{radfordImprovingLanguageUnderstanding})
 Code to natural language translation is studied as well \cite[section 5.1]{leDeepLearningSource2020}, but it is less common and out-of-scope for this work.
 Intelligent conversational assistants (\href{https://chat.openai.com/}{ChatGPT}, \href{https://gemini.google.com}{Gemini}, \href{https://claude.ai/}{Claude}) with program synthesis functionality operate in the translation paradigm as they translate a text specification into code.
 
@@ -49,7 +49,7 @@ Intelligent conversational assistants (\href{https://chat.openai.com/}{ChatGPT},
 
 \paragraph{Programming by example}
 
-Another approach to specification is specifying the expected output of the program. Or, since in most interesting programs the output depends on the input, \emph{input-output pairs}. This task is known as \emph{programming by example} \cite{halbertProgrammingExample1984, psb2}.
+Another approach to specification is specifying the expected output of the program. Or, since in most interesting programs the output depends on the input, \emph{input-output pairs} (highlighted in figure \ref{fig:pbe}). This task is known as \emph{programming by example} \cite{halbertProgrammingExample1984, psb2}.
 
 \begin{figure}[H]
     \centering
@@ -79,14 +79,15 @@ Given enough trial and error it's still possible to generate a correct program w
     \label{fig:pirl}
 \end{figure}
 
-In this setting, a program gets generated and deployed in an environment that responds with positive and negative rewards. 
-The most common formalism for such an environment as Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactions$ it has an impact on  the state of the environment $s_i \in \rlstates$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
-State is a latent variable that the agent cannot observe.
-Instead, the agent can see an observation $o_i \in \rlobss$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
-$\rlactions$, $\rlstates$ and $\rlobss$ are sets of all possible actions, states and observations respectively.
-Finally, at every step the agent observes a reward $\rlrewardf$
+In this setting, each generated program is tested (see \textcolor{accent}{test} in figure \ref{fig:ap}) via deployment of an \textcolor{accent}{agent} controlled by this program in an environment that responds with positive and negative \textcolor{accent}{rewards} (the highlights of figure \ref{fig:pirl} match the highlights of this sentence).
+The fitness of the program is then determined by the total reward collected by the agent during such a deployment (also known as an \emph{episode}).
 
-Given this limited toolset, without full (or any) prior knowledge of how the agent's actions influence the the environment (distributions $\rlstatedistr$ and $\rlobsdistr$), the agent has to come up with a strategy that will maximize $n$-step return $R_n=\sum_{t=i}^{n} r_t$ where $n$ is the agent's planning horizon. It is, in the general sense, a hyperparameter, however if an environment has a limit on how many steps an episode can last, it is reasonable to set $n$ equal to the step limit. 
+The most common formalism for such an environment is Episodic Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactions$ it has an impact on  the state of the environment $s_i \in \rlstates$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
+State $\rlstate$ is a latent variable that the agent cannot observe.
+Instead, the agent has access to an observation $o_i \in \rlobss$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
+$\rlactions$, $\rlstates$ and $\rlobss$ are sets of all possible actions, states and observations respectively.
+Finally, at every step the agent observes a reward $\rlrewardf$.
+The agent's goal is then to maximize its $n$-step return $\rlreturnn=\sum_{t=i}^{n} r_t$. Outside of explicitly stated special cases, the agent's planning horizon $n$ is always set equal to the length of the episode.
 
 \newpage
 \section{Why not just use Machine Learning?}
@@ -95,12 +96,13 @@ As programmatically interpretable cousins of \emph{supervised learning} and \emp
 What are then the advantages conferred by this programmatic representation?
 
 \paragraph{Expressiveness and performance}
+\citeimpl{Vadim0x60FizzbuzzlmSearching}
 
 Programming languages benefit from decades of research into making them \textcolor{accent}{expressive} - able to efficiently represent any algorithm one can design - and \textcolor{accent}{performant} - making those algorithms executable with minimal requirements of time and hardware.
-Machine learning models do not have this advantage - they are designed to make the space of possible models easy to search and optimize in, often at the expense of expressivity and performance: an equivalent program typically solves the task better and faster than a machine learning model, to the point where representing algorithms as neural networks has become a setup of programmer humor \cite{JoelGrusFizz}.
+Machine learning models do not have this advantage - they are designed to make the space of possible models easy to search and optimize in, often at the expense of expressivity and performance: on these criteria they can be so inadequate as to become a setup of programmer humor \cite{JoelGrusFizz}.
 
-In fact, \cite{JoelGrusFizz} underestimates the inefficiency of the neural approach, since in their neural network implementation an important part (output of text) is non-neural.
-We correct for this and train a specialized language model for FizzBuzz, \emph{FizzBuzzLM}, benchmarking it against implementations of the same algorithm in major programming languages.
+In fact, \cite{JoelGrusFizz} underestimates the inefficiency of the neural approach, since it only implements FizzBuzz \cite{reesFizzBuzz1012002} classification as a neural network, while their text output system remains symbolic.
+We correct for this and train a specialized language model for FizzBuzz task, benchmarking it against equivalent programs in major programming languages.
 
 \begin{table}[H]
     \centering
@@ -108,27 +110,29 @@ We correct for this and train a specialized language model for FizzBuzz, \emph{F
          Language & source, bytes & CPU runtime \\
          \midrule
          C & 321 & 340.3 µs ± 117.0 µs \\
-         Clojure & 178 & 507.2 ms ± 6.5 ms \\
-         C\# & 289 & 60.4 ms ± 4.8 ms \\
+         Rust & 307 & 573.5 µs ± 114.3 µs \\
          Go & 295 & 966.5 µs ±  93.2 µs \\
          Haskell & 213 & 16.1 ms ± 0.4 ms \\
          Java & 403 & 28.9 ms ± 0.6 ms \\
          JavaScript & 162 & 30.1 ms ± 0.4 ms \\
          Python & 192 & 44.9 ms ± 0.6 ms \\
-         Rust & 307 & 573.5 µs ± 114.3 µs \\
-         FizzBuzzLM & 13177 & 853.2 ms ± 6.8 ms\footnote{GPU (NeuralEngine) accelerated runtime was even slower, at 1.596 s ± 0.037 s}
+         C\# & 289 & 60.4 ms ± 4.8 ms \\
+         Clojure & 178 & 507.2 ms ± 6.5 ms \\
+         FizzBuzzLM & 13177 & 853.2 ms ± 6.8 ms
+         %\footnote{GPU (NeuralEngine) accelerated runtime was even slower, at 1.596 s ± 0.037 s}
     \end{tabular}
     \caption{Performance charecteristics of different FizzBuzz implementations}
     \label{tab:my_label}
 \end{table}
 
 We can see that the programming language implementations are somewhat faster than \emph{FizzBuzzLM} and much more expressive with at least \emph{FizzBuzzLM} 2 orders of magnitude behind the true Kolmogorov complexity \cite{kolmogorov} of the problem.
-The only reason why these performance costs are accepted is that it's easier to implement optimization in the space of possible neural network parameters than in the space of possible programs. 
-When the problem of optimal program synthesis is solved, it becomes the "best of both worlds" approach: data-driven and trainable, but using an expressive an performant representation.
+The only reason these performance costs are accepted is that it's easier to implement optimization in the space of possible neural network parameters than in the space of possible programs. 
+When the problem of optimal program synthesis is solved, it becomes the "best of both worlds" approach: data-driven and trainable, but using an expressive and performant representation.
  
 \paragraph{Import and export of knowledge}
 
-Programs as a representation for decision-making of a model have a chance to become the \emph{lingua franca} for representing decision processes as they can be understood both by a wide variety of machine learning and artificial intelligence systems and by humans, enabling humans and robots trying to tackle the same problem to learn from each other.
+Programs as a representation for decision-making of a model have a chance to become the \emph{lingua franca} for representing decision processes as they can be understood by a wide variety of intelligent systems, including humans and machine learning models. 
+This enables humans and robots attempting to tackle the same problem to learn from each other.
 
 \begin{figure}[H]
     \centering
@@ -137,15 +141,15 @@ Programs as a representation for decision-making of a model have a chance to bec
     \label{fig:mlvsautocode}
 \end{figure}
 
-The search in a space of possible programmatic solutions to a problem can be initialized with an existing program that has been developed by an expert in the field (perhaps with the  use of AI tools), thus \textcolor{accent}{importing existing knowledge} from previous efforts of solving the same problem.
+The search in a space of possible programmatic solutions to a problem can be initialized with an existing program that has been developed by a subject area expert (perhaps with auxiliary use of automation), thus \textcolor{accent}{importing existing knowledge} from previous efforts of solving the same problem.
 This process is not dissimilar to what is known in deep learning as \emph{fine-tuning}: initializing the optimization process of model parameters with a model already trained on a similar task, but it has the additional advantage that the initial code can be generated by a model of a completely different architecture or by a human.
 
 After the search process has been concluded, all of the knowledge incorporated into the resulting system can be \textcolor{accent}{examined and verified}. 
 Unlike the black-box model, the approach makes it trivial to answer questions like "Does this model include factor X in its decision-making on topic Y?".
 This offers us an additional way of verifying the decision system before its final deployment. 
-And, unlike the numerous post-hoc methods of machine learning interpretability \cite{linardatosExplainableAiReview2020}, this approach involves a strong guarantee that the explanation does not diverge from the behavior.
+And, unlike the numerous post-hoc methods of machine learning interpretability \cite{linardatosExplainableAiReview2020}, this approach involves a strong guarantee by construction that the explanation does not diverge from the behavior.
 
-Of course, the external observers of a program synthesis system can be not only teachers, but also students. 
+Of course, external observers of a program synthesis system can act not only as teachers, but also as students. 
 Even if the resulting program is never deployed, one can read it and \textcolor{accent}{export the knowledge} and incorporate it into future systems, as well as textbooks and other didactic materials for humans.
 
 \newpage
@@ -156,11 +160,11 @@ Even if the resulting program is never deployed, one can read it and \textcolor{
 
 \paragraph{Capability}
 
-The \emph{expressivity and peformance} of programming languages can lead to \emph{decision support systems}, also known as \emph{digital assistants}, that are more capable, better able to make predictions and provide advice.
+The \emph{expressivity and performance} of programming languages can lead to \emph{decision support systems}, also known as \emph{digital assistants}, that are more capable, able to make more accurate predictions and provide better recommendations.
 
-The ability to \emph{import, verify and export knowledge} into or out of a decision suport system can reduce or even eliminate the amount of \emph{knowledge silos} that exists in the ecosystem of these agents, where each separate system has been trained on some data set of its own and some expert knowledge of its own and each incorporates some small part of existing knowledge about the field. 
+The ability to \emph{import, verify and export knowledge} into or out of a decision suport system can reduce or even eliminate \emph{knowledge silos} in the world, where each separate system has been trained on some data set of its own and some expert knowledge of its own and thus each incorporates some small part of all existing knowledge about the field. 
 
-Insufficient capability in digital assistants can be a major safety risk, especially when they're deployed fully autonomously. For example, misidentification of obstacles in autonomous driving \cite{sheebajoiceObstacleDetectionSafe2023} or wrongful diagnosis in healthcare \cite{wintersDiagnosticErrorsIntensive2012} can be a matter of life and death.
+Insufficient capability in digital assistants is a major safety risk, especially when deployed fully autonomously. For example, misidentification of obstacles in autonomous driving \cite{sheebajoiceObstacleDetectionSafe2023} or wrongful diagnosis in healthcare \cite{wintersDiagnosticErrorsIntensive2012} can be a matter of life and death.
 
 \paragraph{Alignment}
 
@@ -170,8 +174,8 @@ Most optimization targets are imperfect proxies of intended outcomes.
 An optimization process can thus \emph{game} (\emph{hack}) the metrics and achieve negative outcomes, despite technically improving the metrics.
 Common types of \emph{reward hacking} \cite{skalseDefiningCharacterizingReward2022} include:
 \begin{description}
-    \item[reward tampering] \cite{everittRewardTamperingProblems2021, skalseInvariancePolicyOptimisation2023} - acting on the reward mechanism directly, i.e. disabling sensors involved in performance evaluation or writing more flattering documentation.
-    \item[adverse selection] - selectively solving subtasks that are easier to solve even if they happen to be more important.
+    \item[reward tampering] \cite{everittRewardTamperingProblems2021, skalseInvariancePolicyOptimisation2023} - acting on the reward mechanism directly, i.e. disabling sensors involved in the information chain that results in a negative reward or documenting once's actions with unwarranted optimizm.
+    \item[adverse selection] - selectively solving subtasks that are easier for the agent to solve even if they happen to be less important.
 \end{description}
 
 To give a real world example, both phenomenons have been observed in Healthcare: \cite{shenSelectionIncentivesPerformance2003} find that incentives can lead to the most severely ill patients being less likely to receive care. \cite{fairbrotherImpactFinancialIncentives2001, ImpactPhysicianBonuses, roskiImpactFinancialIncentives2003} find that metrics are sometimes improved by better documenting the incentivized results, not improving them.
@@ -181,11 +185,12 @@ These issues are present in society \cite{nestianPerverseIncentiveGeneral2017} w
 However, powerful optimization algorithms have potential to exacerbate those issues \cite{hadfield-menellIncompleteContractingAI2019}. 
 And while the first line of defense is, of course, improving the incentives, one can be skeptical as to whether the incentives can ever represent their designers' intentions perfectly.
 
-In fact, the instrumental convergence theory \cite{benson-tilsenFormalizingConvergentInstrumental} posits that perverse incentives are inherent to any reinforcement learning context, because optimizing for any goal can be aided by increasing the amount of control over one's environment the agent has, and thus any optimization of agents creates incentives to maximize their own power and control. 
+In fact, the instrumental convergence theory \cite{benson-tilsenFormalizingConvergentInstrumental,bostromSuperintelligencePathsDangers2016} posits that perverse incentives are inherent to any reinforcement learning context, because optimizing for any goal can be aided by increasing the amount of control over one's environment the agent has, and thus any optimization of agents creates incentives to maximize their dominion.
+For example, a home climate control system can achieve its goals better the more devices in the user's house it controls: this creates an incentive to hack into heat-emitting appliances to be able to power them down on a hot day.
 First introduced in science fiction \cite{clarke2001SpaceOdyssey2016, ellisonHaveNoMouth1967, jonesColossus2019}, this is now an active area of technical research \cite{jiAIAlignmentComprehensive2024}.
 Estimates of the potential dangers of misaligned artificial intelligence range from non-trivial to existential \cite{mcleanRisksAssociatedArtificial2023}.
 
-The interpretability afforded by the program synthesis approach provides a second line of defense against perverse incentives, namely examining the control program and trying to establish whether any of the modules in that program are attempting to game the optimization metrics, manually or with the use of AI tools.
+The interpretability afforded by the program synthesis approach provides a second line of defense against perverse incentives, namely, examining the control program and trying to establish whether any of the modules in that program are attempting to game the optimization metrics, manually or with the use of intelligent tools.
 
 \begin{figure}[H]
     \centering
@@ -194,7 +199,7 @@ The interpretability afforded by the program synthesis approach provides a secon
     \label{fig:ps-as-alignment}
 \end{figure}
 
-As the field of artificial intelligence advances, this advances both the generative tools and the verification tools, thus making program synthesis a viable approach to scalable oversight \cite[section 5]{amodeiConcreteProblemsAI2016}.
+As technology advances, this advances both the generative tools and the verification tools, making program synthesis a promising approach to scalable oversight \cite[sec. 5]{amodeiConcreteProblemsAI2016}.
 
 \paragraph{Human-Robot Teams}
 
@@ -220,10 +225,10 @@ These concerns become increasingly relevant as explainability of intelligent sys
 
 \paragraph{Privacy}
 
-The ineffiency of inference of current machine learning models is (along with competitive pressures) a core reason of the "cloudification" of artificial intelligence: as of late 2023, the most powerful products of machine learning \cite{achiamGpt4TechnicalReport2023} are distributed as remote services that can be interacted with, but not fully copied, via the Internet.
+The ineffiency of inference of current machine learning models is (along with competitive pressures) a core reason of the "cloudification" of machine learning: as of 2024, the most powerful models \cite{achiamGpt4TechnicalReport2023} are distributed as remote services that can be interacted with, but not fully copied, via the Internet.
 Asking a state of the art decision support system for advice means sending the (potentially sensitive) request to the model provider and making both requests and responses known to said provider \cite{PrivacyPolicy}.
 Programs, in contrast, are easier to distribute and performant enough to run on most devices most of the time.
-The advent of program synthesis can pave the way to more privacy-preserving decision support: even if the generative model remains in the cloud, one can first use the model to synthesize the program, download it and then submit the sensitive data to the program locally.
+The advent of program synthesis paves the way to more privacy-preserving decision support: even if the generative model remains in the cloud, one can first use the model to synthesize the program, then download it and submit the sensitive data to the program locally.
 
 \paragraph{Scientific discovery}
 
