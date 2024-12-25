@@ -1,0 +1,51 @@
+<mxfile host="app.diagrams.net" modified="2024-07-02T21:09:02.573Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="zpQVtDMXki-DKKU8DUvz" version="24.6.4" type="device">
+  <diagram name="Page-1" id="7U6C6u8nf7o7Tva4L2bj">
+    <mxGraphModel dx="1974" dy="587" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JNhDN9_5U8j3ODQkdW93-3" target="JNhDN9_5U8j3ODQkdW93-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JNhDN9_5U8j3ODQkdW93-3" target="JNhDN9_5U8j3ODQkdW93-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-3" value="clinical histories" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="-340" y="528" width="140" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="JNhDN9_5U8j3ODQkdW93-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="85" y="591" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="JNhDN9_5U8j3ODQkdW93-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-45" y="591" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-8" value="doctor&#39;s decisons" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-110" y="526" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="JNhDN9_5U8j3ODQkdW93-10">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="85" y="631" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-10" value="vital signs" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-110" y="656" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="JNhDN9_5U8j3ODQkdW93-10">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-45" y="631" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-12" value="clinical protocols" style="shape=card;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-110" y="590" width="120" height="40.5" as="geometry" />
+        </mxCell>
+        <mxCell id="JNhDN9_5U8j3ODQkdW93-13" value="anatomical laws" style="shape=card;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="590.5" width="120" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
