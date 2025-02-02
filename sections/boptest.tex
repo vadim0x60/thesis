@@ -3,6 +3,13 @@
 
 \section{Motivation}
 
+The program synthesis approach is implemented with a Synthesize Execute Instruct Debug loop over GPT-4 \cite{GPT2023} language model. This approach has demonstrated its ability to tackle programming challenges in \cite{Reflexion2023,teaching2023,Fully2023}, however two modifications are applied to adapt it to the building optimization domain:
+
+\begin{enumerate}
+  \item A chat language model is used as opposed to an instruction-driven language model. Unlike the instruction-driven approach, the chat-driven approach includes previous candidate solutions into the language model’s context window as additional information to guide generation and, in particular, avoid repeating mistakes. This advantage has prompted the developers of newer code generation models, such as GPT-4 and CodeLLAMA \cite{Code2023}, to operate in the chat paradigm.
+  \item BOPTEST is an interactive environment with several continuous KPIs, namely, thermal discomfort and energy cost, while \cite{Reflexion2023,teaching2023,Fully2023} only experiment with pass/fail test cases.
+\end{enumerate}
+
 \todo{}
 
 \newpage
@@ -45,12 +52,6 @@ The profile of the Electricity Emissions Factor considered in this test case is 
 \newpage
 \subsection{Program synthesis with large language models}
 \label{sec:boptest-ProgramSynthesis}
-The program synthesis approach is implemented with a Synthesize Execute Instruct Debug loop over GPT-4 \cite{GPT2023} language model. This approach has demonstrated its ability to tackle programming challenges in \cite{Reflexion2023,teaching2023,Fully2023}, however two modifications are applied to adapt it to the building optimization domain:
-
-\begin{enumerate}
-  \item A chat language model is used as opposed to an instruction-driven language model. Unlike the instruction-driven approach, the chat-driven approach includes previous candidate solutions into the language model’s context window as additional information to guide generation and, in particular, avoid repeating mistakes. This advantage has prompted the developers of newer code generation models, such as GPT-4 and CodeLLAMA \cite{Code2023}, to operate in the chat paradigm.
-  \item BOPTEST is an interactive environment with several continuous KPIs, namely, thermal discomfort and energy cost, while \cite{Reflexion2023,teaching2023,Fully2023} only experiment with pass/fail test cases.
-\end{enumerate}
 
 \paragraph{Algorithm} The SEID loop for BOPTEST case is as follows:
 \begin{enumerate}
