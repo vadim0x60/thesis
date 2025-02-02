@@ -27,7 +27,7 @@ The Building Optimization Testing (BOPTEST) framework \cite{Blum2021} is used fo
 
 In this study, the BESTEST Hydronic Heat Pump emulator is selected. This emulator represents a residential dwelling of 192 m2 for a family of 5 members located in Brussels (Belgium).  The heating system, depicted in \ref{fig:bestest-heatpump}, is composed of a 15 kW air-to-water modulating heat pump to absorb energy from the surrounding air in order to heat the floor heating system. During the operation of a heat pump, the evaporator fan facilitates the circulation of ambient air through the heat pump evaporator. The floor heating system uses water as the working fluid to transfer heat into the floor. The building envelope model is implemented using the IDEAS library \cite{Jorissen2018}. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The building further contains 24 m2 of windows on the south facade.
 
-\begin{figure}[H]
+\begin{figure}
   \centering
   \includegraphics[scale=.4]{images/boptest/Fig1.eps}
 \caption{Bestest hydronic heat pump test case system schematic.}
@@ -78,7 +78,7 @@ The profile of the Electricity Emissions Factor considered in this test case is 
 
 The same testing scenario is used as in the MPC case, however, preliminary experiments have shown that running the full 7 day experiment at each iteration of the feedback loop is not necessary to achieve convergence. Instead, the control episodes are truncated to a shorter time period according to the following truncation schedule shown in Table \ref{tab:truncation-schedule}.
 
-\begin{table}[H]
+\begin{table}
 \centering
 \caption{Truncation Schedule}
 \label{tab:truncation-schedule}       % Give a unique label
@@ -164,7 +164,7 @@ In the case of program synthesis, the program is generated using the most demand
 \label{'results_peak'}
 The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were runned for the three electricity price scenarios. As the baseline controller's logic is independent from the pricing scheme, its performance is not influences by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
 
-\begin{table}[H]
+\begin{table}
     \caption{Overview of KPI of each controller in the peak heat day period.}
     \label{tab:2}
     
@@ -198,14 +198,21 @@ Analyzing the economic perspective, as indicated by energy cost, MPC scenarios d
 
 In terms of emissions, MPC in the diverse scenarios increases the emissions ranging from 2.15\% to 3.42\%, while program synthesis produces 5.75\% more CO2 emissions compared to the baseline controller.
 
-Figure \ref{fig:4} represents the indoor zone temperature for the baseline controller, the MPC and program synthesis methodology for the three price scenarios being compared. The figure includes the setpoint defined for the baseline controller, and the thermal comfort upper and lower limits that are used to calculate the thermal discomfort.
+Figure \ref{fig:temp-peak} represents the indoor zone temperature for the baseline controller, the MPC and program synthesis methodology for the three price scenarios being compared. The figure includes the setpoint defined for the baseline controller, and the thermal comfort upper and lower limits that are used to calculate the thermal discomfort.
+
+\begin{figure}
+  \includegraphics[scale=.4]{images/boptest/Fig4.eps}
+% figure caption is below the figure
+\caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{peak heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
+\label{fig:temp-peak}       % Give a unique label
+\end{figure}
 
 \newpage
 \subsection{Typical heat day period simulations}
 \label{'results_typical'}
 The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were run for the three electricity price scenarios. As the baseline controller's logic is independent from the pricing scheme, its performance is not influences by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
 
-\begin{table}[H]
+\begin{table}
     \caption{Overview of KPI of each controller in the typical heat day period.}
     \label{tab:3}
     
@@ -233,17 +240,18 @@ The MPC shows an overall improvement in the thermal comfort with respect to the 
 
 In the case of program synthesis, the thermal discomfort is 78.56\% greater than with the baseline controller. On the other hand, the energy use reduction is up to 31.77\%, the energy cost is 31.91\% lower with program synthesis and the emissions are also 31.86\% lower.
 
-The evolution of the indoor zone temperature along the simulation for the baseline controller, the MPC and program synthesis in the three price scenarios is shown in Figure \ref{fig:4}. The baseline setpoint is depicted, which is equal to 21.2ºC during occupation hours, and it is lowered to 20.2ºC when there are no occupants. The low and high limits that are used to calculate the thermal discomfort are also depicted in Figure \ref{fig:7}.
+The evolution of the indoor zone temperature along the simulation for the baseline controller, the MPC and program synthesis in the three price scenarios is shown in Figure \ref{fig:temp-peak}. The baseline setpoint is depicted, which is equal to 21.2ºC during occupation hours, and it is lowered to 20.2ºC when there are no occupants. The low and high limits that are used to calculate the thermal discomfort are also depicted in Figure \ref{fig:temp-typical}.
 
 % For one-column wide figures use
-\begin{figure}[H]
+\begin{figure}
   \includegraphics[scale=.4]{images/boptest/Fig7.eps}
 % figure caption is below the figure
-\caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in typical heat period, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
-\label{fig:7}       % Give a unique label
+\caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{typical heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
+\label{fig:temp-typical}       % Give a unique label
 \end{figure}
 
-\paragraph{Example}
+\newpage
+\subsection{Example}
 
 As an example, consider the following program, developed by iterative application of GPT-4 as described in \ref{sec:boptest-ProgramSynthesis} for the typical heat period with constant electricity prices.
 
@@ -296,7 +304,7 @@ In the realm of program synthesis, an observation akin to the behavior exhibited
 
 When typical heat periods are analyzed, the results described in \ref{'results_typical'} show that the MPC can outperform the operation with a baseline controller for the three pricing scenarios in terms of thermal comfort, energy use, energy cost and CO2 emissions. 
 
-First and foremost, the MPC can reduce the thermal discomfort (see \ref{fig:8}) by tracking more accurately the indoor zone temperature \ref{fig:7}. This is due to its capacity to predict the evolution of the indoor temperature based on the predicted boundary conditions and the operation possibilities. This advantage is very helpful when facing sudden changes on the temperature setpoints. Figure \ref{fig:7} shows how the indoor temperature differs more from the desired setpoint when a sudden change in the setpoint occurs with the baseline controller. In addition, the MPC, as it is implemented through a dynamic optimization that incorporates the objective of minimizing the energy cost, it is able to improve the KPI related to energy cost, emissions and energy use. The MPC focuses just on minimizing the energy cost, by adjusting the heat pump operation to the hours with the lowest price as far as the thermal comfort is not compromised. Moreover, the MPC also seeks to reduce the energy consumption as this decreases the energy cost too. In this sense, as the heat pump COP model is embedded in the MPC, it can also consider how to operate the heat pump in a more efciient way while covering the demand. This is reason why the energy use is also improved as well as the associated CO2 emissions.
+First and foremost, the MPC can reduce the thermal discomfort (see \ref{fig:8}) by tracking more accurately the indoor zone temperature \ref{fig:temp-typical}. This is due to its capacity to predict the evolution of the indoor temperature based on the predicted boundary conditions and the operation possibilities. This advantage is very helpful when facing sudden changes on the temperature setpoints. Figure \ref{fig:temp-typical} shows how the indoor temperature differs more from the desired setpoint when a sudden change in the setpoint occurs with the baseline controller. In addition, the MPC, as it is implemented through a dynamic optimization that incorporates the objective of minimizing the energy cost, it is able to improve the KPI related to energy cost, emissions and energy use. The MPC focuses just on minimizing the energy cost, by adjusting the heat pump operation to the hours with the lowest price as far as the thermal comfort is not compromised. Moreover, the MPC also seeks to reduce the energy consumption as this decreases the energy cost too. In this sense, as the heat pump COP model is embedded in the MPC, it can also consider how to operate the heat pump in a more efciient way while covering the demand. This is reason why the energy use is also improved as well as the associated CO2 emissions.
 
 Regarding the three pricing scenarios for which the MPC is simulated, the constant pricing scenario reduces the energy cost by the improvement in the performance of the heat pump and consequently the associated energy saving. In the dynamic pricing scenario, the capacity to reduce the energy cost increases as the variable prices aid to shift the consumption to the favourable hours. However, as it can be seen in \ref{fig:8}, this difference is not very notable. Nevertheless, the highly dynamic pricing schemes widens up the energy cost reduction possibilities, becoming the scenario that gets the highest energy cost reduction.
 
@@ -306,7 +314,7 @@ In the evaluation of program synthesis in comparison to the baseline controller 
 
 Furthermore, the observed parallelism in the percentage reductions of energy use, cost, and emissions between program synthesis and MPC underscores the efficacy of program synthesis in mitigating environmental impact and resource consumption. Yet, the imperative to acknowledge the nuanced trade-off with thermal comfort emphasizes the necessity for further refinement and exploration of alternative strategies that may harmonize these seemingly conflicting objectives in the pursuit of more holistic and sustainable control systems.
 
-\paragraph{Preliminary comparison of the methodologies based on the simulations.}
+\paragraph{Program Synthesis versus MPC}
 
 The efficacy of Model Predictive Control (MPC) becomes evident in its ability to consistently deliver the desired performance across varying conditions. During typical days and throughout a typical heating period, MPC excels in guaranteeing thermal comfort while concurrently reducing energy cost, subsequently leading to a reduction in overall energy use and emissions. This success underscores MPC's capability to holistically optimize the indoor environment, balancing the comfort of occupants with the imperative to minimize energy consumption and associated environmental impacts.
 
