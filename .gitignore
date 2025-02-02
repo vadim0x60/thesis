@@ -3,6 +3,7 @@
 *.bib
 *.nlo
 /*.pdf
+*converted-to.pdf
 *.fdb_latexmk
 *.log
 *.fls
