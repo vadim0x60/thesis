@@ -53,7 +53,10 @@ The profile of the Electricity Emissions Factor considered in this test case is 
 \subsection{Program synthesis with large language models}
 \label{sec:boptest-ProgramSynthesis}
 
-\paragraph{Algorithm} The SEID loop for BOPTEST case is as follows:
+\citeimpl{vadimGPTcoder}
+
+\paragraph{Algorithm}
+
 \begin{enumerate}
   \item A text description of the problem is provided. A verbatim copy of the reference document for the BESTEST Hydronic Heat Pump emulator is used, followed by a line of text explaining in which format the program can communicate with the environment (via standard input and output streams). This description is inserted into the first message of a simulated chat with a programming assistant.
   \item A continuation of the chat is sampled from the large language model $\text{LLM}_\text{code}$.
@@ -334,9 +337,3 @@ This paper presents a comparison between a widely used technique in research of 
 The MPC exhibits a notable capacity to enhance thermal comfort within the confines of a typical heat demand week, achieving enhancements of up to 96.62\%. Additionally, MPC yields substantial reductions in energy costs, ranging between 30.8\% and 35.5\%, contingent upon the specific price scheme employed. The most significant reduction in energy costs is observed in the highly dynamic price scenario. In simulations with extreme heat conditions, MPC successfully improves thermal comfort, albeit with a marginal increase in both energy use and associated costs.
 
 During the peak heat week, program synthesis exhibits a commendable ability to yield results comparable to those achieved by MPC. However, a discernible disparity surfaces in the extent of improvement in thermal comfort, with the MPC outperforming program synthesis in this specific context. This discrepancy suggests that while program synthesis demonstrates versatility and efficacy in various scenarios, its optimization may require a nuanced understanding of specific environmental conditions. In the evaluation of typical heat days, program synthesis once again demonstrates its prowess in significantly reducing energy costs, consumption, and emissions, mirroring the achievements of MPC. Nevertheless, a noteworthy challenge arises in the optimization of thermal comfort, wherein issues related to the weighting of objectives become apparent. The utilization of a winning program designed for a particular scenario in disparate conditions underscores the high adaptability of program synthesis but also highlights the importance of tailoring its parameters to diverse contexts. These preliminary findings unveil intriguing facets of program synthesis, emphasizing the need for nuanced parameterization and scenario-specific optimization to unlock its full potential in achieving a harmonious balance between energy efficiency and thermal comfort.
-
-
-\subsection*{Availability of data and materials}
-The Building Optimization Testing Framework (BOPTEST) emulator used in this study can be accessed through the open repository: \href{https://ibpsa.github.io/project1-boptest/}{https://ibpsa.github.io/project1-boptest/} .
-The BOPTESTS-Gym, the OpenAI-Gym environment for the BOPTEST framework, is accessed through the repository: \href{https://github.com/ibpsa/project1-boptest-gym}{https://github.com/ibpsa/project1-boptest-gym} .
-The implementation of the program synthesis experiment is available at \url{https://github.com/vadim0x60/project1-boptest-gym/blob/master/examples/gptcoder.py} 
