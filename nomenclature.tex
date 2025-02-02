@@ -2,19 +2,41 @@
   \item[\bfseries
   \ifstrequal{#1}{R}{Reinforcement Learning}{%
   \ifstrequal{#1}{G}{Program Synthesis}{%
+  \ifstrequal{#1}{L}{Language Modeling}{%
   \ifstrequal{#1}{E}{Software Engineering}{
-  \ifstrequal{#1}{S}{Statistics}{}}}}%
+  \ifstrequal{#1}{S}{Statistics}{
+  \ifstrequal{#1}{B}{Building Optimization}{}}}}}}%
 ]}
 
 \nomenclature[G]{PBE}{Programming by example, see \ref{sec:taxonomy}}
 
+\nomenclature[R]{RL}{Reinforcement Learning}
 \nomenclature[R]{POMDP}{Partically Observable Markov Decision Process, see \ref{sec:taxonomy}}
+\nomenclature[R]{MPC}{Model Predictive Control}
 
-\nomenclature[E]{CAE}{Computer-Aided Software Engineering, see \ref{sec:human}}
+\nomenclature[L]{GPT}{Generative Pre-trained Transformer}
+\nomenclature[L]{LLM}{Large Language Model}
+
+\nomenclature[E]{CASE}{Computer-Aided Software Engineering, see \ref{sec:human}}
 
 \nomenclature[G]{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
 
 \nomenclature[G]{SEIDR}{Synthesize Execute Debug Rank, see \ref{ch:seidr}}
+
+\nomenclature[S]{MHE}{Moving Horizon Estimator}
+
+\nomenclature[B]{CAPFT}{Capacity modifier function with temperature}
+\nomenclature[B]{CO2}{Carbon dioxide}
+\nomenclature[B]{EIR}{Energy input ratio}
+\nomenclature[B]{EIRFT}{Energy input ratio function with temperature}
+\nomenclature[B]{EIRFPLR}{Energy input ratio function with partial load ratio}
+\nomenclature[B]{HVAC}{Heating Ventilation Air Conditioning}
+\nomenclature[B]{IDEAS}{Integrated District Energy Assessment Simulations}
+\nomenclature[B]{IPOPT}{Interior Point Optimizer}
+\nomenclature[B]{KPI}{Key Performance Indicator}
+\nomenclature[B]{PI}{Proportional Integral}
+\nomenclature[B]{PLR}{Partial load ratio}
+\nomenclature[B]{RC}{Resistance capacitance}
 
 \newcommand{\inputvec}{X}
 \nomenclature[G]{$\inputvec$}{a vector of input examples in a PBE system}
@@ -84,3 +106,24 @@
 
 \newcommand{\expectation}{\mathbb{E}}
 \nomenclature[S]{$\expectation$}{expected value}
+
+\newcommand{\zonetemp}{T_z}
+\nomenclature[B]{$\zonetemp$}{Indoor dry bulb air temperature in a thermal zone $z$ in a building}
+
+\newcommand{\outdoortemp}{T_o}
+\nomenclature[B]{$\zonetemp$}{Outdoor dry bulb air temperature in the vicinity of the building}
+
+\newcommand{\inputheat}{Q_z}
+\nomenclature[B]{$\inputheat$}{Input heat rate to a thermal zone $z$ in a building}
+
+\newcommand{\modsignal}{u}
+\nomenclature[B]{$\modsignal$}{Modulation signal for a heating system}
+
+\newcommand{\supplytemp}{T_\text{sup}}
+\nomenclature[B]{$\supplytemp$}{Supply water temperature in a heating system}
+
+\newcommand{\returntemp}{T_\text{ret}}
+\nomenclature[B]{$\returntemp$}{Return water temperature in a heating system}
+
+\newcommand{\electricpower}{\mathcal{P}_\text{el}}
+\nomenclature[B]{$\electricpower$}{Electrical power of the heat pump}
