@@ -132,9 +132,9 @@ As a result, human developer outlines the options for behavior of the system at 
 The paradigm of program synthesis by sketching predates large language models for code \cite{solar-lezamaProgramSynthesisSketching2008} and involves a human developer writing an approximate sketch of the desired program and a program synthesis system fills in the gaps and adds the missing details.
 
 Today, this can be done with a \emph{programming copilot}: a software tool integrated into the text editor as a core feature or an extension, that used a pretrained language model to recommend code snippets based on the context (the code already present in the file).
-At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task.
+At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task: see figure \ref{fig:fastinversesqrt} for an example.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics{images/fastinversesqrt.png}
     \caption{Github Copilot \cite{dakhelGithubCopilotAi2023, nguyenEmpiricalEvaluationGitHub2022, wermelingerUsingGithubCopilot2023} suggests an efficient algorithm for calculating inverse square root \cite{lomontFastInverseSquare2003} before the developer has finished typing the name of the method}
@@ -148,6 +148,7 @@ According to a large-scale survey \cite{liangLargeScaleSurveyUsability2024} \tod
 \label{sec:goal}
 
 \todo{This clashes somewhat with section \ref{sec:objective}}
+\todo{Check subscripts}
 
 The methods above have led to significant progress in \emph{code translation} and \emph{programming by example}, to the point where these paradigms have current industrial applications.
 \emph{Programmatically Interpretable Reinforcement Learning}, however, largely remains an open problem.
@@ -168,7 +169,7 @@ $\rlactions$ is the set of {\em actions} that the learning agent can perform, an
 
 A \emph{reinforcement learning episode} starts in a state $\rlstate \in \rlnontermstates$ sampled from $\rlinitdistr$, the {\em initial distribution} over environment states.
 An agent action $\rlaction \in \rlactions$ at the state $\rlstate$ causes the environment state to change probabilistically, and the destination state follows the distribution $\rlstatedistr$. 
-At state $\rlstate$, the probability of making observation $\rlobs$ is $\rlobsdistr$ and the probability of obtaining \emph{reward} $\rlreward$ is $\rlrewardf$. 
+At state $\rlstate$, the probability of making observation $\rlobs$ is $\rlobsdistr$ and the \emph{reward} $\rlreward$ obtained by selecting action $\rlaction$ is defined by $\rlrewardf$. 
 The process continues until $\rlstatedistr$ yields a terminal state $\rlstate \in \rltermstates$.
 This distinction is what sets \emph{episodic} POMDP popularized by OpenAI gym \cite{openai-gym} apart from the more traditional approach \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012} where the process is infinite.
 
@@ -182,7 +183,7 @@ that defines behavior of an agent.
 Depending on the programming language and implementation choices the tokens can be characters or higher-level tokens, i.e. keywords.
 We denote the language's \emph{alphabet}, i.e. the set of all possible tokens as $\alphabet$.
 
-An \emph{interpreter} is a tuple $\langle \rlactionf,\rlmemoryf \rangle$ where $\rlmemoryf(c_k,m_k,o_k)$ is the \emph{memorization function} that defines how the agent's memory updates upon making an observation and $\rlactionf(c, m_k)$ is the \emph{action function} defines which action the agent at a certain memory state takes in the POMDP.
+An \emph{interpreter} is a tuple $\langle \rlactionf,\rlmemoryf \rangle$ where $\rlmemoryf(\code,\rlmemory,\rlobs)$ is the \emph{memorization function} that defines how the agent's memory updates upon making an observation and $\rlactionf(c, m_k)$ is the \emph{action function} defines which action the agent at a certain memory state takes in the POMDP.
 Memory is intialized at state $\rlmemory_\text{init}$
 
 The agent's goal is maximizing total reward collected in the environment, calculated as follows:

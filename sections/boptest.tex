@@ -1,6 +1,8 @@
 \chapter{Iterative programming with LLMs}
 \label{ch:boptest}
 
+\todo{ensure standard nomenclature}
+
 \section{Motivation}
 
 The program synthesis approach is implemented with a Synthesize Execute Instruct Debug loop over GPT-4 \cite{GPT2023} language model. This approach has demonstrated its ability to tackle programming challenges in \cite{Reflexion2023,teaching2023,Fully2023}, however two modifications are applied to adapt it to the building optimization domain:
@@ -10,7 +12,7 @@ The program synthesis approach is implemented with a Synthesize Execute Instruct
   \item BOPTEST is an interactive environment with several continuous KPIs, namely, thermal discomfort and energy cost, while \cite{Reflexion2023,teaching2023,Fully2023} only experiment with pass/fail test cases.
 \end{enumerate}
 
-\todo{}
+\todo{Expand and make sure there is an explicit research question}
 
 \newpage
 \section{Method}
@@ -252,6 +254,8 @@ The evolution of the indoor zone temperature along the simulation for the baseli
 
 \newpage
 \subsection{Example}
+
+\todo{This isn't an example, this is actually the only final program}
 
 As an example, consider the following program, developed by iterative application of GPT-4 as described in \ref{sec:boptest-ProgramSynthesis} for the typical heat period with constant electricity prices.
 

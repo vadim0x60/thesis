@@ -45,7 +45,7 @@ There are 8 possible characters:
 \end{description}
 
 [ and ] commands constitute a loop that will be executed repeatedly until the \textit{active cell} becomes zero.
-They are also the only way to write a BF program with a syntax error: a valid BF program is one that does not contain non-matching [ or ]
+They are also the only way to write a BF program with a syntax error: a valid BF program is one that does not contain non-matching [ or ].
 
 % TODO: example?
 
@@ -110,7 +110,7 @@ Executing \texttt{,} is when the program moves to the next step of POMDP.
 
 The system where the only way to proceed to the following iteration is the \texttt{,} operator, naively implemented, means that to be successful in any POMDP environment, a program has to contain an infinite loop with a \texttt{,} operator.
 Any program that has a finite number of \texttt{,} steps will terminate prematurely in an environment that supports arbitrarily long number of iterations.
-Since we originally set out to develop a language where most random programs would be valid, this had to be addressed.
+Since the original goal is to develop a language where most random programs would be valid, this had to be addressed.
 
 We decided to turn any \textbf{BF++} program into an infinite loop with a \texttt{,} operator by default:
 \begin{enumerate}
@@ -123,11 +123,11 @@ Due to the virtual comma, every program starts executing with the initial observ
 \paragraph{Observation discretization}
 \label{sec:observe}
 
-Another issue complicating applications of \textbf{BF} to Reinforcement Learning is that since its memory tape holds only integer numbers its inputs and outputs have to be integer as well.
+Another issue complicating applications of \textbf{BF} to Reinforcement Learning is that since its memory tape holds only integer numbers its inputs and outputs have to be integers as well.
 And this issue cannot be fixed simply by replacing an integer tape with a tape of floating point numbers as \textbf{BF}'s only operations for manipulating numbers are \texttt{+} and \texttt{-} - increment and decrement.
 Non-integer action and observation spaces are fairly common in reinforcement learning tasks hence \textbf{BF++} implements coercion mechanisms for reading and writing continuous vectors into discrete memory.
 
-We assume that the vector observation space $O$ is a hypercube defined as an intersection of $n$ separate scalar observation spaces $O^k$ such that 
+We assume that the vector observation space $O$ is an intersection of $n$ separate scalar observation spaces $O^k$ such that 
 \begin{equation}
  o_1 \in O_1^k,o_2 \in O_2^k,\dots,o_n \in O_n^k \Leftrightarrow (o_1,o_2,\dots,o_n) \in O  
 \end{equation}
@@ -280,6 +280,8 @@ An extension of our methodology to high-dimensional POMDPs (such as Atari games 
 \paragraph{Hypotheses and goals}
 \label{sec:exgoals}
 
+\todo{Rewrite to make Aki happy}
+
 Our experiments were designed to test the following hypotheses:
 
 \begin{description}
@@ -402,9 +404,10 @@ To compensate for that, the second program alternates between the strategy above
 Optional commands \verb|@^~01234abcde| have all been invaluable in developing these programs - a fact in support of $H_4$.
 A more rigorous way to confirm it would be employing several human experts to develop programs with and without optional operators, but finding volunteer \textbf{BF++} developers has proven difficult. 
 
-Developing programs for \textbf{Bipedal Walker} is, unfortunately, above the author's paygrade. 
+Developing BF++ programs for \textbf{Bipedal Walker} manually is very challenging and left outside the scope.
 
 \paragraph{Program synthesis model}
+\todo{ensure standard nomenclature}
 
 In order to train a generative model $g$ to write \textbf{BF++} programs we treat the writing process as a reinforcement learning episode in its own right \cite{abolafiaNeuralProgramSynthesis2018} .
 Every character of a program is an action taken by the \emph{writer agent}, the programs are terminated by a NULL character.
