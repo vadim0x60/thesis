@@ -1,5 +1,8 @@
-\section{Effectiveness}
-\label{sec:effectiveness}
+\chapter{Evaluating PatientSPIRL}
+\label{ch:eval}
+
+\section{Selecting the simulator}
+
 
 \begin{table}[]
     \centering
@@ -49,3 +52,26 @@ Note that \emph{Virtu-ALS} is an unusually high-dimensional environment.
 As such, solving it is likely to require more parameters and longer training times.
 \emph{GraphSim} is the only simulator that does not provide non-zero rewards in non-terminal states $S_{nt}$, making it harder for the agent to attribute the results of the episode to particular actions.
 \emph{GYMIC} (see section \ref{sec:gymic}) solves this problem with an additional metric (SOFA score), but unlike \emph{GYMIC} \emph{GraphSim} covers a wide range of clinical conditions and there is no single health metric applicable to each.
+
+
+Automatic discovery of clinical strategies is a nascent field of research that has a potential to considerably improve patient outcomes and become a new modus operandi in healthcare research.
+The goal of this chapter is to provide a solid foundation for further development of this field with better patient simulators and better understanding thereof.
+We have reviewed the state of the art in patient simulators, identified some of the problems the field is facing and proposed novel simulators to address them.
+We believe that \emph{HeartPole} and \emph{Auto-ALS} can become new standard benchmarks for reinforcement learning in healthcare, while \emph{GraphSim} can become a stepping stone to improved patient outcomes in intensive care.
+
+\section{Auto-ALS}
+
+\todo{Write based on results in W\&B}
+
+\lstinputlisting{listings/auto-als.py}
+
+\section{HeartPole}
+\todo{Turn this into actual text}
+
+\input{tables/patientspirl-metaheartpole.tex}
+
+\lstinputlisting{listings/metanurse-deepseek.py}
+
+\lstinputlisting{listings/metanurse-gpt.py}
+
+for 2868 iterations

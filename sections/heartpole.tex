@@ -3,7 +3,6 @@
 
 \citeimpl{liventsevVadim0x60Heartpole2024}
 
-\todo{Write based on the HEALTHINF short paper}
 \todo{Make sure a research question is explicitly mentioned}
 \todo{Ensure standard nomenclature}
 
@@ -35,13 +34,15 @@ However, many decisions that would help in the short term (not sleeping, consumi
 
 \emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $s_t$ consists of alertness $s^\text{alert}_t$, hypertension $s^\text{hypert}_t$, intoxication $s^\text{tox}_t$ time since slept $s^\text{tawake}_t$, \emph{total time elapsed} $s^\text{ttotal}_t$ and \emph{total work done} $s^\text{done}_t$.
 
-Over these parameters, we define \emph{productivity} $\eta(s^\text{alert}_t, s^\text{tox}_t)$ and \emph{heart attack risk} $r(s^\text{hypert}_t)$.
+Over these parameters, we define \emph{productivity} function $\eta(s^\text{alert}_t, s^\text{tox}_t)$ presented graphically on figure \ref{fig:productivity} and \emph{heart attack probability} $r(s^\text{hypert}_t)=\frac{\text{sigmoid}(s^\text{hypert}_t)}{2}$.
 The agent receives small positive rewards for productivity and a very large negative reward if a heart attack occurs.
 
 Every half an hour awake, the agent observes $s_t$ and picks an action $a_t$ from discrete action space of \emph{just work}, \emph{drink coffee} (increases $s^\text{alert}$ and $s^\text{hypert}$), \emph{drink beer} (decreases $s^\text{alert}$, increases $s^\text{hypert}$ and $s^\text{tox}_t$) and \emph{go to bed} (sleep takes a lot of time, but reduces $s^\text{hypert}$ and $s^\text{tox}_t$ and without it alertness starts to fall very fast)
 
 \section{Experiments}
 \label{sec:heartpole-experiments}
+
+\todo{cite deceptive diversity}
 
 We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{cem}, SARSA \cite[Chapter 6]{thebook} and DQN \cite{dqn1,dqn2} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
 
