@@ -1,0 +1,26 @@
+\section{Anthropodidactic learning: a modest proposal}
+
+\subsection{What is anthropodidactic learning?}
+
+_Anthropodidactic machine learning_ is using didactic materials developed for human students (textbooks, lectures and/or lecture notes, explanations](https://github.com/vadim0x60/awesome-explanations), homeworks, exercises, [games](http://www.virtu-als.com/) and other sorts of interactive edutainment) to train artificial intelligence. Examples of anthropodidactic learning include using language textbooks to train a machine translation model or using a flight simulator developed for pilot training to train an autopilot with reinforcement learning [[Staudinger Jorgensen Margineantu 2018]\footnote{\url{https://openreview.net/pdf?id=H1mMHwt9X}}.
+
+\subsection{Why should anyone care?}
+
+Because the education industry puts a lot of effort into curating and systematising knowledge in a way that can be useful for any learner, whether they run on carbon-](https://en.wikipedia.org/wiki/Human_brain) or [silicon-based\footnote{\url{https://en.wikipedia.org/wiki/Central\emph{processing}unit}} hardware. For example: 
+- Exercise sets in mathematics, physics and language learning, to name a few fields, are explicitly designed to cover all important clusters/corner cases of the subject area - something that isn't guaranteed in most datasets like logs, business records or text corpora.
+- Exercise sets are also sorted by difficulty. This creates a useful curriculum [Soviany 2021]\footnote{\url{https://arxiv.org/abs/2101.10382}} to follow when training a machine learning model. 
+- Educational software aims to give users immediate and precise feedback on their mistakes: delayed gratification, as it turns out, is hard for people](https://en.wikipedia.org/wiki/Stanford\emph{marshmallow}experiment) and reinforcement learning algorithms [[Gulwani et al 2017]\footnote{\url{https://www.nowpublishers.com/article/Details/PGL-010}} alike.
+
+See The Art of Problem Posing [Brown, Walter 2004]\footnote{\url{https://www.taylorfrancis.com/books/mono/10.4324/9781410611833/art-problem-posing-stephen-brown-marion-walter}} to learn more about... the art of problem posing.
+
+\subsection{This has been done already, hasn't it?}
+
+Machine learning community is undoubtedly interested in taking lessons from human learning, efforts to do so bear the umbrella term of antropomorphic machine learning](https://ieeexplore.ieee.org/document/8481253). The prime example is curiculum learning [[Soviany 2021]\footnote{\url{https://arxiv.org/abs/2101.10382}}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so perhaps it makes a difference for machines too.
+
+However, examples of directly reusing learning aids developed for human students are hard to come by. A notable exception is Reinforcement Learning where decision-making agents are often trained on games initially intended for people. And while the claim that Atari games](https://gym.openai.com/envs/#atari) and [Minecraft](https://www.microsoft.com/en-us/research/project/project-malmo/) are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include [X-plane](https://openreview.net/pdf?id=H1mMHwt9X) (used for training pilots) and Virtu-ALS [[Liventsev et al 2021]](https://pubmed.ncbi.nlm.nih.gov/34977561/) (used for training nurses). Some antropodidactic work has also been done in natural language processing, training language models on children's books [[Hill et al 2016]](https://arxiv.org/pdf/1511.02301.pdf) and exercises for language learning [[Mayhew et al 2020]](https://aclanthology.org/2020.ngt-1.28.pdf) from [Duolingo\footnote{\url{https://www.duolingo.com/}}
+
+These examples, however, are exceptions rather than the rule and, in general, anthropodidactic programming remains criminally underexplored. A couple of research directions that seem extremely promising to me are:
+- Training a language model on exercisebooks in subjects like mathematics and the sciences to achieve a system capable of problem solving in these fields.
+- Using beginner-level programming tasks to develop program synthesis.
+
+Didactic materials are a large class of useful data waiting for someone to turn them into a successful artificial intelligence system/product. Will it be \emph{you}, %username%?
