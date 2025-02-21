@@ -1,84 +1,33 @@
 \section{Anthropodidactic learning: a modest proposal}
 
+\emph{Anthropodidactic machine learning} is using didactic materials developed for human students (textbooks, lectures and/or lecture notes, explanations, homeworks, exercises, \href{http://www.virtu-als.com/}{games} and other sorts of interactive edutainment) to train artificial intelligence.
+Examples of anthropodidactic learning include using language textbooks to train a machine translation model or using a flight simulator developed for pilot training to train an autopilot with reinforcement learning \cite{staudingerXPlaneMLEnvironmentLearning2018}.
 
-\subsection{What is anthropodidactic learning?}
+\paragraph{Motivation}
 
-\emph{Anthropodidactic machine learning} is using didactic materials
-developed for human students (textbooks, lectures and/or lecture notes,
-explanations, homeworks, exercises, \href{http://www.virtu-als.com/}{games} and other
-sorts of interactive edutainment) to train artificial intelligence.
-Examples of anthropodidactic learning include using language textbooks
-to train a machine translation model or using a flight simulator
-developed for pilot training to train an autopilot with reinforcement
-learning \href{https://openreview.net/pdf?id=H1mMHwt9X}{{[}Staudinger
-Jorgensen Margineantu 2018{]}}.
+The education industry puts a lot of effort into curating and systematizing knowledge in ways that can be reasonably expected to be useful for a learner of any biological substrate
+For example: 
+\begin{itemize}
+    \item Exercise sets in mathematics, physics and language learning, to name a few fields, are explicitly designed to cover all important clusters/corner cases of the subject area, something that isn't guaranteed in most datasets like logs, business records or text corpora.
+    \item Exercise sets tend to be sorted by difficulty. This creates a useful curriculum to follow when training a machine learning model.
+    \item Educational software aims to give users immediate and precise feedback on their mistakes: delayed gratification (also known as \emph{temporal credit assignment problem}), as it turns out, is hard for people \cite{tobinDelayGratificationReview2010} and reinforcement learning algorithms alike.
+\end{itemize}
 
+See \cite{brownArtProblemPosing2005} for more on the art of problem posing.
 
-\subsection{Why should anyone care?}\label{why-should-anyone-care}
+\paragraph{Related Work}
 
-Because the education industry puts a lot of effort into curating and
-systematising knowledge in a way that can be useful for any learner,
-whether they run on
-\href{https://en.wikipedia.org/wiki/Human_brain}{carbon-} or
-\href{https://en.wikipedia.org/wiki/Central_processing_unit}{silicon-based}
-hardware. For example: - Exercise sets in mathematics, physics and
-language learning, to name a few fields, are explicitly designed to
-cover all important clusters/corner cases of the subject area -
-something that isn't guaranteed in most datasets like logs, business
-records or text corpora. - Exercise sets are also sorted by difficulty.
-This creates a useful curriculum
-\href{https://arxiv.org/abs/2101.10382}{{[}Soviany 2021{]}} to follow
-when training a machine learning model. - Educational software aims to
-give users immediate and precise feedback on their mistakes: delayed
-gratification, as it turns out, is hard for
-\href{https://en.wikipedia.org/wiki/Stanford_marshmallow_experiment}{people}
-and reinforcement learning algorithms
-\href{https://www.nowpublishers.com/article/Details/PGL-010}{{[}Gulwani
-et al 2017{]}} alike.
+Machine learning community is undoubtedly interested in taking lessons from human learning, efforts to do so bear the umbrella term of \emph{antropomorphic
+machine learning} \cite{angelovAnthropomorphicMachineLearning2018}. The prime example is curiculum learning \cite{sovianyCurriculumLearningSurvey2022, zhouCurBenchCurriculumLearning2024}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so it is likely a difference for machines as well.
 
-See The Art of Problem Posing
-\href{https://www.taylorfrancis.com/books/mono/10.4324/9781410611833/art-problem-posing-stephen-brown-marion-walter}{{[}Brown,
-Walter 2004{]}} to learn more about\ldots{} the art of problem posing.
+However, examples of directly reusing learning aids developed for human students are hard to come by. A notable exception is Reinforcement Learning where decision-making agents are often trained on games initially intended for people. And while the claim that \emph{Atari games} \cite{mnihPlayingAtariDeep2013} and 
+\emph{Minecraft} \cite{hofmannMinecraftAIPlayground2019} are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include \emph{X-plane} \cite{staudingerXPlaneMLEnvironmentLearning2018} (used for training pilots) and Virtu-ALS (used for training nurses), to be introduced in section \ref{sec:auto-als}. 
+Some antropodidactic work has also been done in natural language processing, training language models on children's books \cite{mayhewSimultaneousTranslationParaphrase2020} and exercises for language learning from \emph{Duolingo} \cite{mayhewSimultaneousTranslationParaphrase2020}
 
+More recently, curated datasets with a focus on educational materials like FineWeb-EDU \cite{penedoFineWebDatasetsDecanting2024} have been used to improve the quality of large language model pretraining.
 
-\subsection{This has been done already, hasn't it?}\label{this-has-been-done-already-hasnt-it}
+\paragraph{Conclusion}
 
-Machine learning community is undoubtedly interested in taking lessons
-from human learning, efforts to do so bear the umbrella term of
-\href{https://ieeexplore.ieee.org/document/8481253}{antropomorphic
-machine learning}. The prime example is curiculum learning
-\href{https://arxiv.org/abs/2101.10382}{{[}Soviany 2021{]}}: it was born
-with the observation that the order in which data is presented to human
-students is crucial for them achieving their learning goals, so perhaps
-it makes a difference for machines too.
-
-However, examples of directly reusing learning aids developed for human
-students are hard to come by. A notable exception is Reinforcement
-Learning where decision-making agents are often trained on games
-initially intended for people. And while the claim that
-\href{https://gym.openai.com/envs/\#atari}{Atari games} and
-\href{https://www.microsoft.com/en-us/research/project/project-malmo/}{Minecraft}
-are educational material may be somewhat stretching the definition of
-education, interactive simulators first developed for people and later
-adapted for reinforcement learning include
-\href{https://openreview.net/pdf?id=H1mMHwt9X}{X-plane} (used for
-training pilots) and Virtu-ALS
-\href{https://pubmed.ncbi.nlm.nih.gov/34977561/}{{[}Liventsev et al
-2021{]}} (used for training nurses). Some antropodidactic work has also
-been done in natural language processing, training language models on
-children's books \href{https://arxiv.org/pdf/1511.02301.pdf}{{[}Hill et
-al 2016{]}} and exercises for language learning
-\href{https://aclanthology.org/2020.ngt-1.28.pdf}{{[}Mayhew et al
-2020{]}} from \href{https://www.duolingo.com/}{Duolingo}
-
-These examples, however, are exceptions rather than the rule and, in
-general, anthropodidactic programming remains criminally underexplored.
-A couple of research directions that seem extremely promising to me are:
-- Training a language model on exercisebooks in subjects like
-mathematics and the sciences to achieve a system capable of problem
-solving in these fields. - Using beginner-level programming tasks to
-develop program synthesis.
-
-Didactic materials are a large class of useful data waiting for someone
-to turn them into a successful artificial intelligence system/product.
-Will it be \emph{you}, \%username\%?
+In general, however, anthropodidactic learning remains underexplored. 
+Didactic materials are a large class of useful data waiting for someone to turn them into a successful artificial intelligence system/product.
+In this chapter, we apply the idea of anthropodidactic learning to patient simulation and in secion \ref{sec:auto-als} propose \emph{Auto-ALS}
