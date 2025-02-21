@@ -264,12 +264,12 @@ The total loss function, combining the KL divergence, KL weight $w$ and reconstr
 
 During training, we perform teacher forcing, technique that is commonly used with sequence generation.
 
-\begin{figure*}[ht!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=\linewidth]{tree2treeLSTM2.png}
     \caption[Tree2Tree model high-level overview]{Tree to tree autoencoder overview. \textbf{First Fig.}: The piece of code considered. \textbf{Second Fig.}: The piece of code parsed to an AST tree format. \textbf{Third Fig.}: The order in which the encoder module encodes the tree structure bottom-up. Here, $h_c$ indicates the hidden state that travels from a child to a parent. \textbf{Fourth Fig.}: The order in which the decoder module decodes the tree structure top-down. Here, $h_p$ indicates the hidden state that travels from a parent to a child, and $h_s$ indicates the hidden state that travels from a node to its successor sibling.}
     \label{fig:tree2treeVAE}
-\end{figure*}
+\end{figure}
 
 \newpage
 \section{Evaluation}
@@ -283,12 +283,12 @@ The programs in the data set are generally structured to contain a main function
 \paragraph{Baseline}
 Our method is compared to a baseline inspired by autoencoders used for text generation in natural language. We can also evaluate how well these models generalize to source code synthesis by taking inspiration from natural language models. The model architecture is inspired from \cite{bowman2015generating}. In this architecture, both the encoder and decoder networks contain single-layer recurrent neural networks. A Gaussian prior is used for the regularization of the latent space. The model operates on the original sequences of source code and decodes the latent vector back to the source code without an intermediate structured representation. Therefore we refer to the baseline model as the Sequence-to-Sequence (Seq2Seq) model, and the architecture is depicted in figure \ref{fig:seq2seq}.
 
-\begin{figure*}[ht!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\linewidth]{seq2seq.png}
     \caption{The architecture of the Seq2Seq model}
     \label{fig:seq2seq}
-\end{figure*}
+\end{figure}
 
 Similar to our proposed autoencoder model, we employ methods to mitigate KL-vanishing. Again, we use cyclic KL annealing \cite{fu2019cyclical}, and we combine this with a technique called word dropout \cite{bowman2015generating} to weaken the decoder.
 

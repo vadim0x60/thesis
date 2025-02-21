@@ -54,12 +54,12 @@ They provide a privacy-preserving way to generate a lot of training data for tre
 What makes an \emph{effective} patient simulator? 
 We argue that there are two use cases for a patient simulator: {\sl modeling} and {\sl benchmarking}, with divergent effectiveness criteria.
 
-\begin{figure*}
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{sim.png}
     \caption{Trust graph of simulator as a model}
     \label{fig:model}
-\end{figure*}
+\end{figure}
 
 Firstly, a simulator can be used as a \emph{patient model} aiming to represent the real world evolution of patient health in response to various treatments as closely as possible.
 The effectiveness criterion for a patient model is simple - \emph{accuracy}.
@@ -89,12 +89,12 @@ In this simulator, a decision that violates the existing emergence care protocol
 
 \subsection{Simulators as benchmarks}
 
-\begin{figure*}
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{pseudosim.png}
     \caption{Trust graph of simulator as a benchmark}
     \label{fig:benchmark}
-\end{figure*}
+\end{figure}
 
 Heavily biased and otherwise inaccurate simulators should not be used as patient models and should not be used as a basis for treatment recommendations. 
 However, they can make a great \emph{benchmarks} for learning algorithms.

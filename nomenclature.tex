@@ -17,11 +17,20 @@
 \nomenclature[L]{GPT}{Generative Pre-trained Transformer}
 \nomenclature[L]{LLM}{Large Language Model}
 
+\newcommand{\langmodel}{\pi}
+\nomenclature[L]{$\langmodel(\text{text})$}{language model (probability distribution over texts)}
+
 \nomenclature[E]{CASE}{Computer-Aided Software Engineering, see \ref{sec:human}}
 
 \nomenclature[G]{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
 
 \nomenclature[G]{SEIDR}{Synthesize Execute Debug Rank, see \ref{ch:seidr}}
+
+\newcommand{\beamwidth}[0]{W}
+\nomenclature[G]{$\beamwidth$}{beam width in beam search}
+
+\newcommand{\treearity}[0]{m}
+\nomenclature[G]{$\treearity$}{tree arity, as in $\treearity$-ary tree}
 
 \nomenclature[S]{MHE}{Moving Horizon Estimator}
 
@@ -41,8 +50,8 @@
 \newcommand{\inputvec}{X}
 \nomenclature[G]{$\inputvec$}{a vector of input examples in a PBE system}
 
-\newcommand{\outputvec}{Y}
-\nomenclature[G]{$\outputvec$}{a vector of output examples a PBE system}
+\newcommand{\expoutputvec}{Y}
+\nomenclature[G]{$\expoutputvec$}{a vector of expected output examples a PBE system}
 
 \newcommand{\rlobss}{\mathcal{O}}
 \nomenclature[R]{$\rlobss$}{set of all possible states of a POMDP}

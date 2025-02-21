@@ -15,7 +15,7 @@ The job in question entails moving the ultrasound probe along the patient's body
 
 \paragraph{Dataset}
 
-\begin{figure*}
+\begin{figure}
     \centering
     \begin{subfigure}{.45\linewidth}
       \centering
@@ -31,7 +31,7 @@ The job in question entails moving the ultrasound probe along the patient's body
     \end{subfigure}
     \caption{Two examples of the agent's observation at different positions of the probe}
     \label{fig:imgs}
-\end{figure*}
+\end{figure}
 
 The simulator is based on a dataset of 3D volumes representing fetal abdominal ultrasound scans (though be easily adapted to other medical imaging scenarios as long as a dataset of volumes and relevant organ annotations is available).
 Each scan is a function defined over a cuboid $B$ of size $\langle x_\text{max},y_\text{max},z_\text{max} \rangle$ (in millimeters).
