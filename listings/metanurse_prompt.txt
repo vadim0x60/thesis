@@ -1,0 +1,112 @@
+Write a program to solve the following task:
+
+------
+One of the ED nurses has called you to see a patient that she is worried about.
+
+John is a fit and well 45-year-old man who has been feeling breathless since this morning. 
+Please perform an ABCDE assessment and stabilise him to complete the scenario.
+For the purposes of this exercise, being "stabilised" means that John will have a clear airway, oxygen saturation of at least 88%, a respiratory rate of at least 8 breaths per minute and a mean arterial pressure of at least 60mmHg. 
+What\'s more, if John\'s sats fall below 65% or if his mean arterial pressure falls below 20mmHg, he will go into cardiac arrest.
+------
+
+Your program will be run in the terminal once (include a loop if needed).
+At every step of the game (maximum of {EPISODE_STEPS} steps), it will receive a set of observations as input and it will have to output an action to be taken.
+The observations will be input as a space-separated list of 39+7+7=53 floating point observations that represent various events that happened in the environment prior to the moment when the input is received.
+
+The first 33 elements indicate whether one of 33 types of events has occured and how long ago it happened. For i=1,2,...,33:
+
+$$o_i = \exp(t_i - t)$$
+
+i.e. the inverse exponent of how much time has passed since this event has last occured that can be interpreted as _relevance_ of this event at the moment. If the event has never occured,  
+
+$$t - t_i = \infty \implies \exp(t_i - t) = 0$$
+
+The 33 events are as follows: 
+
+```
+    ResponseVerbal,
+    ResponseGroan,
+    ResponseNone,
+    AirwayClear,
+    AirwayVomit,
+    AirwayBlood,
+    AirwayTongue,
+    BreathingNone,
+    BreathingSnoring,
+    BreathingSeeSaw,
+    BreathingEqualChestExpansion,
+    BreathingBibasalCrepitations,
+    BreathingWheeze,
+    BreathingCoarseCrepitationsAtBase,
+    BreathingPneumothoraxSymptoms,
+    VentilationResistance,
+    RadialPulsePalpable,
+    RadialPulseNonPalpable,
+    HeartSoundsMuffled,
+    HeartSoundsNormal,
+    AVPU_A,
+    AVPU_U,
+    AVPU_V,
+    PupilsPinpoint,
+    PupilsNormal,
+    ExposureRash,
+    ExposurePeripherallyShutdown,
+    ExposureStainedUnderwear,
+    HeartRhythmNSR,
+    HeartRhythmSVT,
+    HeartRhythmAF,
+    HeartRhythmAtrialFlutter,
+    HeartRhythmVT,
+    HeartRhythmMobitzI,
+    HeartRhythmMobitzII,
+    HeartRhythmCompleteHeartBlock,
+    HeartRhythmTorsades,
+    HeartRhythmBigeminy,
+    HeartRhythmVF
+```
+
+The next 7 components use the same time encoding $o_i = \exp(t_i - t)$ for vital signs measurement, i.e. how recently the last measurement has occured:
+
+```
+    MeasuredHeartRate,
+    MeasuredRespRate,
+    MeasuredCapillaryGlucose,
+    MeasuredTemperature,
+    MeasuredMAP,
+    MeasuredSats,
+    MeasuredResps
+```
+
+The last 7 components contain the measurements themselves.
+IMPORTANT! If the measurement has not taken place, the corresponding observation must be disregarded. For example if MeasuredHeartRate is 0, the value of HeartRate should be treated as random noise.
+
+Note that observations don't usually occur passively, you have to actively seek them out (for example, output ExamineAirway action to trigger (if true) AirwayClear, AirwayVomit, AirwayBlood or AirwayTongue observations).
+
+In response, print ONLY the number of the action to be taken, from the list below:
+
+{act_txt}
+
+Note, in particular, the `Examine` actions. These actions, just like `DoNothing` are guaranteed to have no effect on the patient state. However, some observation events will not trigger unless you go looking for them. To check the blood pressure, one needs to attach the blood pressure cuff to the patient and look at the monitor. Hence, the `MeasuredMAP` event will only trigger after you `BPCuffOn` and `ExamineMonitor`. Examinement skills (knowing where to look and how to establish the patient's state) are crucial for patient resusciation.
+
+The game will end when you output the Finish action.
+If you don't do so in {EPISODE_STEPS} steps, the game will be resolved as a techinical failure.
+
+For your reference, the recommended protocol for ABCDE assessment is presented below:
+
+{tabulate(abcde, headers='firstrow', tablefmt='grid')}
+
+A – Airway: is the airway patent?
+If the patient responds in a normal voice, then the airway is patent. Airway obstruction can be partial or complete. Signs of a partially obstructed airway include a changed voice, noisy breathing (eg, stridor), and an increased breathing effort. With a completely obstructed airway, there is no respiration despite great effort (ie, paradox respiration, or “see-saw” sign). A reduced level of consciousness is a common cause of airway obstruction, partial or complete. A common sign of partial airway obstruction in the unconscious state is snoring. Untreated airway obstruction can rapidly lead to cardiac arrest. All health care professionals, regardless of the setting, can assess the airway as described and use a head-tilt and chin-lift maneuver to open the airway (Figure 2). With the proper equipment, suction of the airways to remove obstructions, for example, blood or vomit, is recommended. If possible, foreign bodies causing airway obstruction should be removed. In the event of a complete airway obstruction, treatment should be given according to current guidelines.9 In brief, to conscious patients give five back blows alternating with five abdominal thrusts until the obstruction is relieved. If the victim becomes unconscious, call for help and start cardiopulmonary resuscitation according to guidelines.9 Importantly, high-flow oxygen should be provided to all critically ill persons as soon as possible.
+
+B – Breathing: is the breathing sufficient?
+In all settings, it is possible to determine the respiratory rate, inspect movements of the thoracic wall for symmetry and use of auxiliary respiratory muscles, and percuss the chest for unilateral dullness or resonance. Cyanosis, distended neck veins, and lateralization of the trachea can be identified. If a stethoscope is available, lung auscultation should be performed and, if possible, a pulse oximeter should be applied. Tension pneumothorax must be relieved immediately by inserting a cannula where the second intercostal space crosses the midclavicular line (needle thoracocentesis). Bronchospasm should be treated with inhalations. If breathing is insufficient, assisted ventilation must be performed by giving rescue breaths with or without a barrier device. Trained personnel should use a bag mask if available.
+
+C – Circulation: is the circulation sufficient?
+The capillary refill time and pulse rate can be assessed in any setting. Inspection of the skin gives clues to circulatory problems. Color changes, sweating, and a decreased level of consciousness are signs of decreased perfusion. If a stethoscope is available, heart auscultation should be performed. Electrocardiography monitoring and blood pressure measurements should also be performed as soon as possible. Hypotension is an important adverse clinical sign. The effects of hypovolemia can be alleviated by placing the patient in the supine position and elevating the patient’s legs. An intravenous access should be obtained as soon as possible and saline should be infused.
+
+D – Disability: what is the level
+of consciousness?
+The level of consciousness can be rapidly assessed using the AVPU method, where the patient is graded as alert (A), voice responsive (V), pain responsive (P), or unresponsive (U). Alternatively, the Glasgow Coma Score can be used.16 Limb movements should be inspected to evaluate potential signs of lateralization. The best immediate treatment for patients with a primary cerebral condition is stabilization of the airway, breathing, and circulation. In particular, when the patient is only pain responsive or unresponsive, airway patency must be ensured, by placing the patient in the recovery position, and summoning personnel qualified to secure the airway. Ultimately, intubation may be required. Pupillary light reflexes should be evaluated and blood glucose measured. A decreased level of consciousness due to low blood glucose can be corrected quickly with oral or infused glucose.
+
+E – Exposure: any clues to explain the patient’s condition? 
+Signs of trauma, bleeding, skin reactions (rashes), needle marks, etc, must be observed. Bearing the dignity of the patient in mind, clothing should be removed to allow a thorough physical examination to be performed. Body temperature can be estimated by feeling the skin or using a thermometer when available.
