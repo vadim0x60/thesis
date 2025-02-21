@@ -1,5 +1,3 @@
-\section{Spring sampling for fast informed search}
-
 Consider the following search problem:
 
 \begin{figure}
@@ -46,10 +44,10 @@ We call this technique **spring sampling**, as it involves gradually, but contin
 
 Spring sampling can be used in any **informed search problem** (aka heuristic search problem): find an $x$ such that $t(x)=1$ given a heuristic function $p(x)$ estimating the probability that $t(x)=1$. 
 Informed search often comes up in conjunction with machine learning: many machine learning models are probability distributions $p(x)$ that estimate how likely some statement is to be true.
-For example, a model for ImageNet classification\footnote{\url{https://paperswithcode.com/sota/image-classification-on-imagenet) us a distribution $p(i,c}}$ indicating how likely it is that image $i$ belongs to class $c$.
-Likewise, language models are probability distributions $p(w_1,\dots,w_n)$ indicating how likely it is that sentence $w_1,\dots,w_n$ is appears in the training corpus and/or satisfies the RLHF\footnote{\url{https://en.wikipedia.org/wiki/Reinforcement\emph{learning}from\emph{human}feedback}} annotator.
+For example, a model for ImageNet classification \cite{dengImagenetLargescaleHierarchical2009} us a distribution $p(i,c)$ indicating how likely it is that image $i$ belongs to class $c$.
+Likewise, language models are probability distributions $p(w_1,\dots,w_n)$ indicating how likely it is that sentence $w_1,\dots,w_n$ is appears in the training corpus and/or satisfies the human feedback annotator.
 A particularly topical (but far from the only) application of spring sampling is thus using a large language model agent to achieve a certain testable goal: sample from the LLM with increasing temperature until the output passes the test.
-We use this technique](https://github.com/vadim0x60/seidr/blob/037c0f262921d88a22ae5b2888781082a891a0e2/seidr/llm.py#L112) in our program synthesis framework ([code](https://github.com/vadim0x60/seidr), [paper\footnote{\url{/publications/seidr)}} to sample programs that pass a given test suite.
+We use this technique in our program synthesis framework to sample programs that pass a given test suite.
 It improves search speed by making sure the likeliest programs are always tested first, but if they don't pass the test, higher temperatures help collect a diverse sample of programs, thus increasing the probability that one of them is correct.
 
 Meanwhile, did you find the tower? Here it is:

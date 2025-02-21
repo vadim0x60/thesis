@@ -13,7 +13,8 @@ A programming task is specified using both a natural language description and a 
 \emph{Synthesize, Execute, Debug} creates a first draft program using a generative model, compiles and executes it with given input examples.
 This is followed by a program repair step to fix the identified errors.
 
-Another relevant innovation is instruction fine-tuned large language models~\cite{zhang2024:instruction}. Instruction fine-tuned models use human feedback in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
+Another relevant innovation is instruction fine-tuned large language models~\cite{zhang2024:instruction}. 
+Instruction fine-tuned models use human feedback \cite{chaudhariRLHFDecipheredCritical2024, kaufmannSurveyReinforcementLearning2024} in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
 These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
 
@@ -41,7 +42,10 @@ We discuss related work in Section~\ref{sec:seidr-related-work}, introduce exper
 strategies for this framework in Section~\ref{sec:seidr-eval}. 
 Finally, in Section~\ref{sec:seidr-results}, we demonstrate that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
-\section{Methodology}
+\section{Spring Sampling}
+\input{blogposts/spring.tex}
+
+\section{SEIDR}
 \label{sec:seidr-methodology}
 The proposed five-agent SEIDR framework is summarized in Figure~\ref{fig:method}, which we discuss in detail in Section~\ref{sec:seidr-ingredients}.
 In essence, to solve a programming task defined as a text description and a collection of I/O examples, we split I/O examples into prompt and validation sets and use the prompt set in a large language model to SYNTHESIZE a population of candidate solutions.
@@ -104,8 +108,6 @@ We use spring sampling:\footnote{~\url{https://vadim.me/publications/spring/}} a
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
 %Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
 In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
-
-%\input{blogposts/spring.tex}
 
 \subsubsection{Execute}
 \label{sec:seidr-execute}
