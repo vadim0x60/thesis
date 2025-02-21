@@ -8,16 +8,16 @@
 
 Two recent innovations potentially make the latter task tractable.
 
-One is \emph{Synthesize, Execute, Debug}~\cite{gupta2020:synthesize}, a framework that attempts to bridge the ``last mile'' gap by introducing program repair into the program synthesis algorithm. 
-A programming task is specified using both a natural language description and a set of input/output (I/O) pairs that demonstrate what output is expected from the program, thereby combining text-to-code~\cite{iyer2018:mapping} and programming by example~\cite{halbert1984:programming,gulwani2016:programming} paradigms typical for competitive programming~\cite{zavershynskyi2018:naps}.
+One is \emph{Synthesize, Execute, Debug}~\cite{guptaSynthesizeExecuteDebug2020}, a framework that attempts to bridge the ``last mile'' gap by introducing program repair into the program synthesis algorithm. 
+A programming task is specified using both a natural language description and a set of input/output (I/O) pairs that demonstrate what output is expected from the program, thereby combining text-to-code~\cite{iyer2018:mapping} and programming by example~\cite{halbertProgrammingExample1984,gulwani2016:programming} paradigms typical for competitive programming~\cite{zavershynskyi2018:naps}.
 \emph{Synthesize, Execute, Debug} creates a first draft program using a generative model, compiles and executes it with given input examples.
 This is followed by a program repair step to fix the identified errors.
 
 Another relevant innovation is instruction fine-tuned large language models~\cite{zhang2024:instruction}. Instruction fine-tuned models use human feedback in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
-These models have been shown to be highly successful in automatic program repair~\cite{fan2023:automated}. 
+These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
 
-These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} initially introduced in our GECCO-2023 paper~\cite{liventsev2023:fully}. 
+These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} initially introduced in our GECCO-2023 paper~\cite{liventsevFullyAutonomousProgramming2023}. 
 %The current paper partly reiterates the methodology and findings of~\cite{liventsev2023:fully} and expands on them in this extended version of the original paper.
 SEIDR is a multi-agent iterative framework that uses feedback from code execution and failing test cases to update the initially generated buggy code. 
 Our initial explorations cover SEIDR with GPT-3 as the bug summarization model and Codex (or GPT-3 trained on code) as the program generation and debugging model.  
@@ -25,7 +25,7 @@ Our initial explorations cover SEIDR with GPT-3 as the bug summarization model a
 In addition, by modifying the tree arity parameter (see Section~\ref{sec:seidr-beam-search}), we investigate the trade-off between generating and repairing only one program versus regenerating any program that does not pass all the tests, as well as intermediate configurations, where we build a tree of programs and update the best ones.
 
 While Codex is an early code generation model, the emergence of new models that score better in programming and natural languages motivates further research into the use of SEIDR with newer models. 
-To study the generalizability of the initial SEIDR results, we use two other LLMs, Llama 3\footnote{~\url{https://ai.meta.com/blog/meta-llama-3/}} and GPT-3.5,\footnote{~\url{https://openai.com/form/researcher-access-program/}} and an additional dataset, HumanEval-X, with different tree arity parameters~\cite{brown2020:language, chen2021:evaluating, zheng2023:codegeex}. 
+To study the generalizability of the initial SEIDR results, we use two other LLMs, Llama 3\footnote{~\url{https://ai.meta.com/blog/meta-llama-3/}} and GPT-3.5,\footnote{~\url{https://openai.com/form/researcher-access-program/}} and an additional dataset, HumanEval-X, with different tree arity parameters~\cite{brown2020:language,chenEvaluatingLargeLanguage2021,zheng2023:codegeex}. 
 Moreover, we build up on the initial experiments with Codex and zoom in on the area with the best-performing tree arities in a hyperparameter search for a better repair-replace trade-off resolution. 
 
 To reflect on the parent selection strategies used in the Rank agent of SEIDR, we also explore whether the programs should be chosen based on the average performance across all tests or whether SEIDR can benefit from keeping such programs in the loop that fully cover individual tests, but do not perform well on average.
@@ -70,7 +70,7 @@ Note that $ \langmodel_\text{text} $ is optional, since alternatively the debugg
 %as described in~\cite{liventsev2023:fully}. 
 In general, SEIDR requires sequence-to-sequence generative models for these agents. 
 %In our experiments, we have chosen models $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ that are based on the state-of-the-art transformer architecture~\cite{vaswani2017:attention} as a backbone and its subsequent improvements (see Section~\ref{sec:seidr-models}). 
-In our experiments, we select models for $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ based on the state-of-the-art transformer architectures~\cite{vaswani2017:attention} 
+In our experiments, we select models for $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ based on the state-of-the-art transformer architectures~\cite{vaswaniAttentionAllYou2023} 
 %and its subsequent improvements 
 (see Section~\ref{sec:seidr-models}). 
 
@@ -230,33 +230,33 @@ Observe that a mutation-only genetic algorithm with tournament selection with fi
 
 % Changes: explicit author surnames, order and some phrasing
 
-Until recently, the tasks of neural program synthesis~\cite{gulwani2017:program} and program repair~\cite{legoues2019:automated, petke2018:genetic, legoues2012:systematic,zhang2024systematic} have been considered separately.
+Until recently, the tasks of neural program synthesis~\cite{gulwaniProgramSynthesis2017} and program repair~\cite{gouesAutomatedProgramRepair2019,petke2018:genetic,bugfixing,zhang2024systematic} have been considered separately.
 However, results from genetic programming~\cite{sobaniaRecentDevelopmentsProgram2021} suggest that evolution is a crucial step in synthesis.
 A number of important studies bridging this gap in the application of large language models have been carried out concurrently with this work, discussed below.
 
-The use of large language models for a program repair step within a program synthesis pipeline has been studied by \cite{joshi2022:repair:arxiv} and \cite{gupta2020:synthesize}, 
-while the specific case of instruction-driven LLMs has been explored by \cite{fan2023:automated}, where the initial synthesis is done by the Codex model~\cite{chen2021:evaluating} and for program repair both Codex and state-of-the-art specialized repair tools such as TBar and Recoder~\cite{just2014:defects4j} are considered and compared. 
-\cite{zhang2023:selfedit} do the same, but fine-tune PyCodeGPT-110M~\cite{zan2022:cert} to use it as a repair model. 
+The use of large language models for a program repair step within a program synthesis pipeline has been studied by \cite{joshi2022:repair} and \cite{guptaSynthesizeExecuteDebug2020}, 
+while the specific case of instruction-driven LLMs has been explored by \cite{fanAutomatedRepairPrograms2023}, where the initial synthesis is done by the Codex model~\cite{chenEvaluatingLargeLanguage2021} and for program repair both Codex and state-of-the-art specialized repair tools such as TBar and Recoder~\cite{just2014:defects4j} are considered and compared. 
+\cite{zhangSelfEditFaultAwareCode2023} do the same, but fine-tune PyCodeGPT-110M~\cite{zanCERTContinualPretraining2022} to use it as a repair model. 
 The resulting framework is a two-step process (1 draft step and 1 debug step), while iterative evolution and search are not explored. 
 
-Evolution through Large Models (ELM)~\cite{lehman2022:evolution} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model.\footnote{~\url{https://carper.ai/diff-models-a-new-way-to-edit-code/}}
+Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model.\footnote{~\url{https://carper.ai/diff-models-a-new-way-to-edit-code/}}
 %~\cite{DiffModelsNew2023}. 
 However, the model is directed neither to solve the programming problem at hand nor to fix bugs.
 Instead, it is provided with generic instructions such as ``Change function f.'' 
-This approach is meant for the cases where creative freedom~\cite{stanley2015:why} is encouraged rather than satisfying concrete requirements.
+This approach is meant for the cases where creative freedom~\cite{stanleyWhyGreatnessCannot2015a} is encouraged rather than satisfying concrete requirements.
 \cite{liu2023algorithm} demonstrate the advantages of applying ELM to modular components of a solution, rather than the entire solution to the given problem.
 
 Some related work is explicitly guided by the metaphor of conversation between agents. 
-\cite{zhang2023steam} implements a repair-only program synthesis loop as a conversation between an analyst agent, a coder, and a tester, while \cite{dong2024:selfcollaboration} does the same for tester, developer, and reviewer. 
+\cite{zhang2023steam} implements a repair-only program synthesis loop as a conversation between an analyst agent, a coder, and a tester, while \cite{dongSelfcollaborationCodeGeneration2023} does the same for tester, developer, and reviewer. 
 The coder and the developer are roughly equivalent to SYNTHESIZE, the tester to EXECUTE, and the reviewer to INSTRUCT, while the analyst is an agent that prepares a generation prompt for the coder. 
-Both testers are language models that predict the output of a program without actual compilation, execution, or testing, which makes \cite{dong2024:selfcollaboration} and \cite{zhang2023steam} specific cases of chain-of-thought prompting~\cite{yu2023:better} for program synthesis.
+Both testers are language models that predict the output of a program without actual compilation, execution, or testing, which makes \cite{dongSelfcollaborationCodeGeneration2023} and \cite{zhang2023steam} specific cases of chain-of-thought prompting~\cite{yuBetterChainofThoughtPrompting2023} for program synthesis.
 
-Several studies explore an iterative approach to program synthesis in a manner similar to SEIDR~\cite{xia2023:conversational,chen2023:teaching,shinn2023:reflexion}. 
+Several studies explore an iterative approach to program synthesis in a manner similar to SEIDR~\cite{xiaConversationalAutomatedProgram2023,chenTeachingLargeLanguage2023,shinnReflexionLanguageAgents2023}. 
 However, they do not explore the repair-replace trade-off and exclusively implement the repair-only approach that is prone to local minima.
-SelfEvolve~\cite{jiang2023:selfevolve} is a repair-only version of a framework similar to SEIDR.
+SelfEvolve~\cite{jiangSelfEvolveCodeEvolution2023} is a repair-only version of a framework similar to SEIDR.
 SeflEvolve demonstrates the benefits of LLMs evolving not just the source code but an additional natural language text file that acts as the system's knowledge base and is included in the model prompt when generating code. 
-Finally, Self-Taught Optimizer (STOP)~\cite{zelikman2023:selftaught} takes the concept of self-improvement to the meta level and uses a large language model to edit the evolutionary algorithm itself (i.e., blocks or contents of Figure~\ref{fig:method}). 
-Their reflections on the safety implications of such automated algorithm changes are of particular interest when considering this trajectory~\cite[Section 8]{zelikman2023:selftaught}. These concerns do not hold in the context of SEIDR because the algorithm is fixed.
+Finally, Self-Taught Optimizer (STOP)~\cite{zelikmanSelfTaughtOptimizerSTOP2023} takes the concept of self-improvement to the meta level and uses a large language model to edit the evolutionary algorithm itself (i.e., blocks or contents of Figure~\ref{fig:method}). 
+Their reflections on the safety implications of such automated algorithm changes are of particular interest when considering this trajectory~\cite[Section 8]{zelikmanSelfTaughtOptimizerSTOP2023}. These concerns do not hold in the context of SEIDR because the algorithm is fixed.
 In other words, SEIDR does not self-evolve but creates solutions that it improves, and the solutions that are synthesized are closely constrained by the validation set used by the EXECUTE agent.
 % that will prevent FizzBuzz from scheming a planetary takeover.
 
@@ -270,7 +270,7 @@ Large language models are a novel and promising~\cite{custodeComparingLargeLangu
 To explore the capabilities of SEIDR and its generalizability, we test the framework on two benchmarks (PSB2 and
 HumanEval-X), a total of two different ranking strategies (tournament selection and lexicase selection),
 three models in the coding part of SEIDR (Codex, GPT-3.5, and Llama 3), two programming languages (Python and C++), and various branching factors.
-We use three models over the two parts of our experiments: one model in the initial exploration (also reported by~\cite{liventsev2023:fully}) and two models in the generalizability part.
+We use three models over the two parts of our experiments: one model in the initial exploration (also reported by~\cite{liventsevFullyAutonomousProgramming2023}) and two models in the generalizability part.
 The problems in the benchmarks originate from coding competitions and human-written programming assignments. 
 
 During our empirical evaluation of SEIDR, we address the following research questions:
@@ -314,7 +314,7 @@ We use the PSB2 training set for ranking and selection of programs (validation) 
 Thus, we will refer to the PSB2 training set as the \emph{validation set}, to be more consistent with how it is used in SEIDR.
 
 \subsubsection{HumanEval-X}
-The second dataset that we use is a development from the original set of human-written programming tasks in HumanEval~\cite{chen2021:evaluating}, which is a standard code generation benchmark for LLMs.
+The second dataset that we use is a development from the original set of human-written programming tasks in HumanEval~\cite{chenEvaluatingLargeLanguage2021}, which is a standard code generation benchmark for LLMs.
 HumanEval consists of 164 problems with a docstring representing problem description, a function signature, a correct solution, and unit tests in Python. 
 HumanEval-X is the result of translating correct HumanEval programs and unit tests into five programming languages~\cite{zheng2023:codegeex}. 
 We use HumanEval-Python for experiments in Python to ensure a comparison with other models in the setup without SEIDR. 
@@ -544,10 +544,10 @@ TPR reflects the percentage of fully passed test cases based on the exact match 
 The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see Section~\ref{sec:seidr-execute}). 
 
 We define \emph{pass@k} as the number of problems that have $TPR=1$ if SEIDR is stopped after generating $k$ programs, following~\cite{kulal2019:spoc} \emph{``success rate at budget of $k$ programs.''}
-Note that \cite{jiang2023:selfevolve} and \cite{chen2023:teaching} define $k$ as the number of restarts of the iterative method, the budget in terms of trees of programs.
+Note that \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} define $k$ as the number of restarts of the iterative method, the budget in terms of trees of programs.
 We choose against this approach, since it threatens the validity of the comparison between iterative tree-based program synthesis and repair-only baseline by giving the iterative approach additional budget in terms of the number of programs it can generate.
 
-Codex \cite{chen2021:evaluating} calculates pass@n>k and constructs an unbiased estimator of pass@k with lower variance, ensuring statistically robust results.
+Codex \cite{chenEvaluatingLargeLanguage2021} calculates pass@n>k and constructs an unbiased estimator of pass@k with lower variance, ensuring statistically robust results.
 We cannot apply this adjustment for SEIDR, since the adjustment assumes that the programs are independent and identically distributed, while SEIDR is a Markov chain with dependencies between iterations. 
 
 EPG reflects the number of programs generated before the first occurrence of the program that passes all validation test cases.
@@ -592,7 +592,7 @@ For the first set of experiments, we set $M = 1000,$ and for the generalizabilit
 
 
 
-Following~\cite{helmuth2021:psb2}, we use 2000 I/O pairs ($\left(I, O\right)_{test}$ in Figure~\ref{fig:method}) from the test split of PSB2 to evaluate the candidate program that has passed all validation test cases ($\left(I, O\right)_{val}$ in Figure~\ref{fig:method}) during debugging. 
+Following~\cite{psb2}, we use 2000 I/O pairs ($\left(I, O\right)_{test}$ in Figure~\ref{fig:method}) from the test split of PSB2 to evaluate the candidate program that has passed all validation test cases ($\left(I, O\right)_{val}$ in Figure~\ref{fig:method}) during debugging. 
 Due to repetitive calls to EXECUTE, we have to resolve the speed of testing versus precision trade-off while choosing the number of validation test pairs.
 We resolve the trade-off by fixing the validation set size at 100 for the initial experiments and 50 for the generalizability exploration, which has more runs with the same hyperparameters. 
 We have run a preliminary experiment to confirm that we do not lose the final test pass rate points on 2000 tests when we decreased the validation test set size from 100 (which was used in the GECCO-2023 paper) to 50 for the generalizability exploration.
@@ -1181,7 +1181,7 @@ In the HumanEval-C++ experiments, SEIDR performs well at larger $k,$ i.e., when 
 Remarkably, the union of SEIDR experiments with both GPT-3.5 and a much smaller Llama~3 solve 163 problems (or 99.4\% in Table~\ref{tab:generalizability-he}) and 162 problems (or 98.8\%) in HumanEval-C++, correspondingly.
 SEIDR does not outperform other LLMs on HumanEval-Python, which, as mentioned earlier, could be the effect of HumanEval-Python being a popular benchmark for testing LLMs and indirectly optimizing the models.
 
-Direct comparison of SEIDR results with other iterative program synthesis frameworks is challenging because, in addition to differences in benchmarks used, \cite{jiang2023:selfevolve} and \cite{chen2023:teaching} do not always report the number of generated programs, which is the primary metric that we use to compare iteration against a replace-only baseline.\footnote{\cite{chen2023:teaching} does have a sentence "Note that typically one debugging turn is sufficient"}
+Direct comparison of SEIDR results with other iterative program synthesis frameworks is challenging because, in addition to differences in benchmarks used, \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} do not always report the number of generated programs, which is the primary metric that we use to compare iteration against a replace-only baseline.\footnote{\cite{chenTeachingLargeLanguage2023} does have a sentence "Note that typically one debugging turn is sufficient"}
 
 
 \begin{highlight}
@@ -1200,7 +1200,7 @@ A smaller Llama~3 model performs poorly on PSB2, which we appoint to the difficu
 
 External threats to validity concern SEIDR performance with benchmarks and language models different from those tested. 
 Specifically, PSB2 and HumanEval-X contain programming tasks that require smaller functions to be generated than production-scale software.
-Although some canonical solutions in HumanEval-Python have been criticised~\cite{liu2023:your}, we primarily use unit tests to evaluate the output of SEIDR and do not compute the exact match. Therefore, these weaknesses do not impact our results.
+Although some canonical solutions in HumanEval-Python have been criticised~\cite{liuYourCodeGenerated2023}, we primarily use unit tests to evaluate the output of SEIDR and do not compute the exact match. Therefore, these weaknesses do not impact our results.
 % We plan to extend our experiments in future work to explore the generalizability of results to more complex benchmarks.
 
 Internal threats relate to the implementation.
@@ -1216,7 +1216,7 @@ We acknowledge that more restarts can provide a more complete picture of the app
 although this is not the standard practice in the LLM domain~\cite{ouyang2023:llm} 
 and can come at considerable financial and environmental costs.
 Our temperature-based sampling procedure described in Section\ref{sec:seidr-synth} reduces this stochasticity significantly, especially for low-EPG results, because earlier solutions in the search tree are obtained with lower temperatures, and lower temperature limits the stochasticity.
-Codex, GPT-3, and GPT-3.5 are black-box models and can generate malicious code~\cite{pearce2022:asleep}. 
+Codex, GPT-3, and GPT-3.5 are black-box models and can generate malicious code~\cite{pearceAsleepKeyboardAssessing2022}. 
 Therefore, when coding in real life, the LLM output should be carefully reviewed before running it.
 % \ag{The Codex model was pre-trained on an unbalanced dataset across programming languages~\cite{chen2021:evaluating}. Thus, 
 
@@ -1272,3 +1272,4 @@ To support open science and allow for replication and verification of our work, 
 }
 % \footnote{~While the manuscript is under review, the replication package is made available as a shared Google Drive to allow for improvements \url{https://drive.google.com/drive/folders/1SP0CVJQ6CdktFtksVs7tYu9jdLHIjHxa?usp=sharing}. We have reserved Zenodo DOI \href{https://doi.org/10.5281/zenodo.13754705}{10.5281/zenodo.13754705} to upload it after the review process has concluded.
 % }
+
