@@ -107,7 +107,7 @@ Another desideratum for benchmarks is \emph{transparency}.
 When a learning algorithm fails to discover an effective treatment strategy, it is very useful to understand what went wrong in detail.
 Any information output by the simulator other than its predictions as well as having easy access to its internal logic can be useful for developers.
 
-Didactic simulators can be particularly good benchmarks \cite{anthropodidactic}, but synthetic games akin to CartPole \cite{cartpole} and MountainCar \cite{mountaincar} (commonly used as benchmarks for Reinforcement Learning algorithms) that aim to mimic only certain aspects of real life healthcare tasks can also be used.
+Didactic simulators can be particularly good benchmarks \cite{anthropodidactic}, but synthetic games akin to CartPole \cite{cartpole} and MountainCar \cite{mountain_car} (commonly used as benchmarks for Reinforcement Learning algorithms) that aim to mimic only certain aspects of real life healthcare tasks can also be used.
 A particularly illustrative example is \emph{Healing MNIST} \cite{healing-mnist} - a modified version of the industry standard MNIST Handwritten Digits \cite{mnist} dataset to which rotations and random noise have been added.
 The authors argue that this dataset reflects important properties of healthcare tasks: rotations represent evolution of patient state over time, while the randomised "squares within the sequences are intended to be analogous to seasonal flu or other ailments that a patient could exhibit that are independent of the actions and which last several timesteps."
 Due to the data shortage in Healthcare many proposals for data-driven clinical decision support systems are tested on such relatively unrealistic benchmarks with the assumption that the system can be retrained on real patient data and simulators shall they arrive in the future.
@@ -166,12 +166,12 @@ The issues persisted.
 
 Highlighting the gravity of contracting sepsis, \emph{GYMIC} has only 2 outcomes: patient is discharged from intensive care or patient dies.
 Its reward model reflects that, giving the agent a large positive or negative reward at the end of the episode, depending on the outcome.
-However, in order to lower the difficulty of the simulator (delayed gratification makes training significantly harder \cite{delayedgrat-humans, delayedgrat-ai}) an additional reward is provided during the episode, based on the evolution of the patient's SOFA score \cite{sofa} - a commonly used measure of sepsis severity:
+However, in order to lower the difficulty of the simulator (delayed gratification makes training significantly harder \cite{delayedgrat-humans,gulwaniProgramSynthesis2017}) an additional reward is provided during the episode, based on the evolution of the patient's SOFA score \cite{sofa} - a commonly used measure of sepsis severity:
 
 \begin{multline}
-r\left(s_{t}, s_{t+1}\right)=C_{0} \mathbb{1}\left(s_{t+1}^{\mathrm{SOFA}}=s_{t}^{\mathrm{SOFA}} \& s_{t+1}^{\text {SOFA }}>0\right) + \\ +
+r\left(s_{t}, s_{t+1}\right)=C_{0} \mathbb{1}\left(s_{t+1}^{\mathrm{SOFA}}=s_{t}^{\mathrm{SOFA}} \& s_{t+1}^{\text{SOFA }}>0\right) + \\ +
 C_{1}\left(s_{t+1}^{\mathrm{SOFA}}-s_{t}^{\mathrm{SOFA}}\right) + 
-C_{2} \tanh \left(s_{t+1}^{\text {Lactate }}-s_{t}^{\text {Lactate }}\right)
+C_{2} \tanh \left(s_{t+1}^{\text{Lactate }}-s_{t}^{\text{Lactate }}\right)
 \end{multline}
 
 A third reward component is proposed to negatively reinforce action severity and encourage the agent to use low doses of drugs - an instance of \emph{confirmation bias} as discussed in section \ref{sec:bias}, but a necessary step given the issues in section \ref{sec:gymic-results}.
