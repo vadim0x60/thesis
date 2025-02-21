@@ -1,13 +1,11 @@
+\chapter{(In)sanity check: HeartPole}
+\label{ch:heartpole}
 
-Create a \emph{transparent} benchmark for methods of Reinforcement Learning in Healthcare
+\citeimpl{liventsevVadim0x60Heartpole2024}
 
-\section{HeartPole environment}
-\label{sec:methodology}
-
-\emph{HeartPole} simulates a creative professional trying to become more productive.
-However, many decisions that would help in the short term (not sleeping, consuming coffee and alcohol) can create long-term health issues that negate all short term gains.
-
-Markov Decision Process state $s_t$:  alertness $s^\text{alert}_t$, hypertension $s^\text{hypert}_t$, intoxication $s^\text{tox}_t$ time since slept $s^\text{tawake}_t$, \emph{total time elapsed} $s^\text{ttotal}_t$ and \emph{total work done} $s^\text{done}_t$.
+\todo{Write based on the HEALTHINF short paper}
+\todo{Make sure a research question is explicitly mentioned}
+\todo{Ensure standard nomenclature}
 
 \begin{figure}[H]
     \centering
@@ -16,26 +14,41 @@ Markov Decision Process state $s_t$:  alertness $s^\text{alert}_t$, hypertension
     \label{fig:productivity}
 \end{figure}
 
-Action space: \emph{just work}, \emph{drink coffee} (increases $s^\text{alert}$ and $s^\text{hypert}$), \emph{drink beer} (decreases $s^\text{alert}$, increases $s^\text{hypert}$ and $s^\text{tox}_t$) and \emph{go to bed} (sleep takes a lot of time, but reduces $s^\text{hypert}$ and $s^\text{tox}_t$ and without it alertness starts to fall very fast)
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{example.png}
+    \includegraphics[width=\linewidth]{heartpole_example.png}
     \caption{Random agent's health indicators}
     \label{fig:random}
 \end{figure}
 
-Rewards: small positive for productivity, large negative for a heart attack.
+
+\section{Introduction}
+\label{sec:heartpole-introduction}
+
+Reinforcement learning in Healthcare is an emergent field that has created a demand for patient simulators like GYMIC \cite{gymic} - a black box neural model trained on MIMIC III dataset \cite{mimic} that predicts health outcomes of clinical decisions and can be used for training clinical decision-making models. We introduce a patient simulator inspired by \emph{CartPole} \cite{cartpole} that trades clinical accuracy off for \emph{simplicity} and \emph{transparency}, while still being \emph{non-trivial} to solve.
+
+\section{HeartPole environment}
+\label{sec:heartpole-methodology}
+
+\emph{HeartPole} simulates a creative professional trying to become more productive.
+However, many decisions that would help in the short term (not sleeping, consuming coffee and alcohol) can create long-term health issues that negate all short term gains.
+
+\emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $s_t$ consists of alertness $s^\text{alert}_t$, hypertension $s^\text{hypert}_t$, intoxication $s^\text{tox}_t$ time since slept $s^\text{tawake}_t$, \emph{total time elapsed} $s^\text{ttotal}_t$ and \emph{total work done} $s^\text{done}_t$.
+
+Over these parameters, we define \emph{productivity} $\eta(s^\text{alert}_t, s^\text{tox}_t)$ and \emph{heart attack risk} $r(s^\text{hypert}_t)$.
+The agent receives small positive rewards for productivity and a very large negative reward if a heart attack occurs.
+
+Every half an hour awake, the agent observes $s_t$ and picks an action $a_t$ from discrete action space of \emph{just work}, \emph{drink coffee} (increases $s^\text{alert}$ and $s^\text{hypert}$), \emph{drink beer} (decreases $s^\text{alert}$, increases $s^\text{hypert}$ and $s^\text{tox}_t$) and \emph{go to bed} (sleep takes a lot of time, but reduces $s^\text{hypert}$ and $s^\text{tox}_t$ and without it alertness starts to fall very fast)
 
 \section{Experiments}
-\label{sec:experiments}
+\label{sec:heartpole-experiments}
 
-We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: Cross-Entropy Method, State-Action-Reward-State-Action and Deep Q-Network and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
+We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{cem}, SARSA \cite[Chapter 6]{thebook} and DQN \cite{dqn1,dqn2} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
 
-We train all models with \texttt{keras-rl}, limiting all episodes to 1000 steps, and test 20 times.
-Scores in table \ref{tab:results} are obtained by averaging over total rewards for the 20 test episodes.
+We train all models with \texttt{keras-rl} \cite{kerasrl}, limiting all episodes to 1000 steps, and test 20 times.
+Scores in table \ref{tab:heartpole-results} are obtained by averaging over total rewards for the 20 test episodes.
 
-\begin{table}[H]
+\begin{table}[]
     \centering
     \begin{tabular}{c|c|c|c|c}
          Algorithm & Model & Score & Sleep & Drinks \\
@@ -48,7 +61,9 @@ Scores in table \ref{tab:results} are obtained by averaging over total rewards f
          Reference & - & -119.76 & Yes & Yes 
     \end{tabular}
     \caption{Reinforcement learning compared to reference strategy. All models trained to avoid caffeine and alcohol}
-    \label{tab:results}
+    \label{tab:heartpole-results}
 \end{table}
 
-All agents converge to a healthy sleep pattern with no coffee or beer.
+We have observed that during first epochs of training the models invariably tend towards high coffee and alcohol consumption (behavior with immediate positive reinforcement but long-term negative side effects), but then converge to more conservative strategies focused on timing sleep correctly and avoiding drinks. 
+This, together with the fact that only one of RL algorithms has outperformed the reference strategy supports our claim that HeartPole is \emph{non-trivial}.
+At the same time it provides a high level of \emph{transparency}, making it easy to develop and analyze algorithms for reinforcement learning in Healthcare.
