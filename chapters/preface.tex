@@ -63,11 +63,11 @@ Everything in the following chapters serves the main research goal of this thesi
 Chapter \ref{ch:promise} explains the background and motivation behind the research project: what is deep program induction and why is it a promising approach in safety-critical fields like healthcare. Chapter \ref{ch:proposal} proposes and motivates a reference architecture for harnessing the power of deep program induction in the field of healthcare: \emph{Patient Simulator Programmatically Interpretable Reinforcement Learning} (PatientSPIRL).
 
 PatientSPIRL requires 2 ingredients: a patient simulator and an algorithm for Programmatically Interpretable Reinforcement Learning.
-We review the research literature in both areas (chapters \ref{ch:methods} and \ref{ch:simulators-sota}), and argue that the current state of the art in each is inadequate to make PatientSPIRL a reality.
+We review the research literature in both areas (chapters \ref{ch:ps-methods} and \ref{ch:simulators-sota}), and argue that the current state of the art in each is inadequate to make PatientSPIRL a reality.
 In parts \ref{part:proginduction} and \ref{part:simulators} we address this and make novel contributions to PIRL and patient simulators respectively.
 
 Part \ref{part:proginduction} is dedicated to program induction methodology.
-Chapter \ref{ch:methods} reviews the state of the art and identifies gaps of particular importance to PatientSPIRL, particularly the nascent state of \emph{Programmatically Interpretable Reinforcement Learning} (PIRL).
+Chapter \ref{ch:ps-methods} reviews the state of the art and identifies gaps of particular importance to PatientSPIRL, particularly the nascent state of \emph{Programmatically Interpretable Reinforcement Learning} (PIRL).
 Chapters \ref{ch:bfpp}, \ref{ch:neurogen}, \ref{ch:tree2tree}, \ref{ch:boptest} and \ref{ch:seidr} propose, evaluate and compare different techniques to address these gaps.
 Chapter \ref{ch:bfpp} proposes \emph{BF++}, a novel domain-specific language specifically for PIRL settings and evaluates an LSTM-based BF++ program synthesis model on standard Gymnasium \cite{towersGymnasiumStandardInterface2024} benchmarks.
 Chapter \ref{ch:neurogen} improves upon the results of chapter \ref{ch:bfpp} by combining the strength of the LSTM and genetic programming techniques, a hybrid methodology we refer to as \emph{neurogenetic programming}.

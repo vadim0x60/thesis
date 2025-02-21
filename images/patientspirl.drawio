@@ -1,0 +1,104 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.15 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.15">
+  <diagram name="Page-1" id="HrHMyIfGSHC_NpaYxOu3">
+    <mxGraphModel dx="1242" dy="507" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_KREckL8SFvISsX__LVS-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="_KREckL8SFvISsX__LVS-1" target="_KREckL8SFvISsX__LVS-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="190" />
+              <mxPoint x="330" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-1" value="Doctor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="170" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="394.5" y="210" as="sourcePoint" />
+            <mxPoint x="245.5" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-2" value="Patient" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="399" y="170" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-12" value="Patient simulator" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.waf_bot;" vertex="1" parent="1">
+          <mxGeometry x="374" y="370" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-13" value="Doctor simulator" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.waf_bot;" vertex="1" parent="1">
+          <mxGeometry x="195" y="370" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="279" y="410" as="sourcePoint" />
+            <mxPoint x="369" y="408.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="329" y="408.5" />
+              <mxPoint x="329" y="408.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="317" y="430" as="sourcePoint" />
+            <mxPoint x="277" y="430" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="367" y="430" />
+              <mxPoint x="367" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-17" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="_KREckL8SFvISsX__LVS-19" target="_KREckL8SFvISsX__LVS-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="414" y="260" as="sourcePoint" />
+            <mxPoint x="414" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-18" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="_KREckL8SFvISsX__LVS-20" target="_KREckL8SFvISsX__LVS-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="234.5" y="260" as="sourcePoint" />
+            <mxPoint x="234.5" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-21" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="_KREckL8SFvISsX__LVS-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="450" as="sourcePoint" />
+            <mxPoint x="240" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-22" value="Doctor optimizer" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.waf_bot;" vertex="1" parent="1">
+          <mxGeometry x="196" y="546" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-25" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" target="_KREckL8SFvISsX__LVS-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="450" as="sourcePoint" />
+            <mxPoint x="280" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-23" value="reinforcement learning" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="274" y="480" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-26" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" target="_KREckL8SFvISsX__LVS-19">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="414" y="260" as="sourcePoint" />
+            <mxPoint x="414" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-19" value="imitation learning" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="384" y="300" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-27" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" target="_KREckL8SFvISsX__LVS-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="234.5" y="260" as="sourcePoint" />
+            <mxPoint x="234.5" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_KREckL8SFvISsX__LVS-20" value="imitation learning" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="205" y="302" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
