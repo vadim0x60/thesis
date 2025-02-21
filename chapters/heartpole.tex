@@ -6,21 +6,6 @@
 \todo{Make sure a research question is explicitly mentioned}
 \todo{Ensure standard nomenclature}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{productivity.png}
-    \caption{Productivity function}
-    \label{fig:productivity}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{heartpole_example.png}
-    \caption{Random agent's health indicators}
-    \label{fig:random}
-\end{figure}
-
-
 \section{Introduction}
 \label{sec:heartpole-introduction}
 
@@ -29,10 +14,24 @@ Reinforcement learning in Healthcare is an emergent field that has created a dem
 \section{HeartPole environment}
 \label{sec:heartpole-methodology}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{heartpole_example.png}
+    \caption{Random agent's health indicators}
+    \label{fig:random}
+\end{figure}
+
 \emph{HeartPole} simulates a creative professional trying to become more productive.
 However, many decisions that would help in the short term (not sleeping, consuming coffee and alcohol) can create long-term health issues that negate all short term gains.
 
 \emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $s_t$ consists of alertness $s^\text{alert}_t$, hypertension $s^\text{hypert}_t$, intoxication $s^\text{tox}_t$ time since slept $s^\text{tawake}_t$, \emph{total time elapsed} $s^\text{ttotal}_t$ and \emph{total work done} $s^\text{done}_t$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{productivity.png}
+    \caption{Productivity function}
+    \label{fig:productivity}
+\end{figure}
 
 Over these parameters, we define \emph{productivity} function $\eta(s^\text{alert}_t, s^\text{tox}_t)$ presented graphically on figure \ref{fig:productivity} and \emph{heart attack probability} $r(s^\text{hypert}_t)=\frac{\text{sigmoid}(s^\text{hypert}_t)}{2}$.
 The agent receives small positive rewards for productivity and a very large negative reward if a heart attack occurs.

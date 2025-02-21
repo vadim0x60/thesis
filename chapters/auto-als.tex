@@ -1,18 +1,54 @@
 \chapter{Anthropodidactic learning: Auto-ALS}
 \label{ch:auto-als}
+
+\citeself{chapter}{liventsevEffectivePatientSimulators2021}
+
 \todo{Make sure a research question is explicitly mentioned}
 \todo{Make sure Aki's comments are copied as TODOs}
 \todo{Ensure standard nomenclature}
 
-\input{blogposts/anthropodidactic.tex}
+\section{Anthropodidactic learning: a modest proposal}
+
+\emph{Anthropodidactic machine learning} is using didactic materials developed for human students (textbooks, lectures and/or lecture notes, explanations, homeworks, exercises, \href{http://www.virtu-als.com/}{games} and other sorts of interactive edutainment) to train artificial intelligence.
+Examples of anthropodidactic learning include using language textbooks to train a machine translation model or using a flight simulator developed for pilot training to train an autopilot with reinforcement learning \cite{staudingerXPlaneMLEnvironmentLearning2018}.
+
+\paragraph{Motivation}
+
+The education industry puts a lot of effort into curating and systematizing knowledge in ways that can be reasonably expected to be useful for a learner of any biological substrate
+For example: 
+\begin{itemize}
+    \item Exercise sets in mathematics, physics and language learning, to name a few fields, are explicitly designed to cover all important clusters/corner cases of the subject area, something that isn't guaranteed in most datasets like logs, business records or text corpora.
+    \item Exercise sets tend to be sorted by difficulty. This creates a useful curriculum to follow when training a machine learning model.
+    \item Educational software aims to give users immediate and precise feedback on their mistakes: delayed gratification (also known as \emph{temporal credit assignment problem}), as it turns out, is hard for people \cite{tobinDelayGratificationReview2010} and reinforcement learning algorithms alike.
+\end{itemize}
+
+See \cite{brownArtProblemPosing2005} for more on the art of problem posing.
+
+\paragraph{Related Work}
+
+Machine learning community is undoubtedly interested in taking lessons from human learning, efforts to do so bear the umbrella term of \emph{antropomorphic
+machine learning} \cite{angelovAnthropomorphicMachineLearning2018}. The prime example is curiculum learning \cite{sovianyCurriculumLearningSurvey2022, zhouCurBenchCurriculumLearning2024}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so it is likely a difference for machines as well.
+
+However, examples of directly reusing learning aids developed for human students are hard to come by. A notable exception is Reinforcement Learning where decision-making agents are often trained on games initially intended for people. And while the claim that \emph{Atari games} \cite{mnihPlayingAtariDeep2013} and 
+\emph{Minecraft} \cite{hofmannMinecraftAIPlayground2019} are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include \emph{X-plane} \cite{staudingerXPlaneMLEnvironmentLearning2018} (used for training pilots) and Virtu-ALS (used for training nurses), to be introduced in section \ref{sec:auto-als}. 
+Some antropodidactic work has also been done in natural language processing, training language models on children's books \cite{mayhewSimultaneousTranslationParaphrase2020} and exercises for language learning from \emph{Duolingo} \cite{mayhewSimultaneousTranslationParaphrase2020}
+More recently, curated datasets with a focus on educational materials like FineWeb-EDU \cite{penedoFineWebDatasetsDecanting2024} have been used to improve the quality of large language model pretraining.
+
+\paragraph{Conclusion}
+
+In general, however, anthropodidactic learning remains underexplored. 
+Didactic materials are a large class of useful data waiting for someone to turn them into a successful artificial intelligence system/product.
 
 \newpage
 \section{Auto-ALS}
 \label{sec:auto-als}
 
-\citeself{section}{liventsevEffectivePatientSimulators2021}
-
 \todo{Get technical details from github}
+
+In this chapter, we apply the idea of anthropodidactic learning to patient simulation in order to facilitate the transfer of healthcare knowledge into AI systems.
+We develop a reinforcement learning environment based on a learning aid for junior healthcare professionals.
+This is particularly important for validating PatientSPIRL (chapter \ref{ch:proposal}), since the correct protocol to follow is known and the simulator has been developed specifically for training this protocol, hence, the program synthesized by PatientSPIRL can be evaluated in terms of its similarity to the correct protocol.
+The downside of \emph{didactic} simulators like Auto-ALS is that their inherent \emph{confirmation bias} (any decision that's not prescribed by the standard emergency care protocol is considered a mistake and rewarded negatively) makes them a bad tool for discovering novel improved protocols.
 
 \begin{figure}
     \centering
@@ -21,8 +57,8 @@
     \label{fig:virtu-als}
 \end{figure}
 
-Virtu-ALS is a \emph{didactic} emergency care simulator mainly targeted at students and junior healthcare professionals, although its application as a reinforcement learning \emph{benchmark} was anticipated and accounted for by the authors \cite{briskAIEnhanceInteractive2018}.
-Its most prominent feature is its visual nature (figure \ref{fig:virtu-als}): the user has access to a 3D-rendered virtual copy of a hospital room, view the monitor, press buttons on a defibrillator, etc.
+Virtu-ALS is a \emph{didactic} emergency care simulator developed to teach students and junior healthcare professionals ABCDE assessment protocol \cite{thimInitialAssessmentTreatment2012}, although its application as a reinforcement learning \emph{benchmark} was anticipated and accounted for by the authors \cite{briskAIEnhanceInteractive2018}.
+Its most prominent feature is its graphical nature (figure \ref{fig:virtu-als}): the user has access to a 3D-rendered virtual copy of a hospital room, view the monitor, press buttons on a defibrillator, etc.
 However, the visual modality means that its observation space 
 \begin{equation}
     \mathcal{O} \subset R^{307200}
@@ -30,9 +66,7 @@ However, the visual modality means that its observation space
 
 Such a high dimensionality of the observation space makes it an extremely challenging reinforcement learning task.
 Tasks from this family have been solved with deep neural networks \cite{mnihPlayingAtariDeep2013}, however not only does it require a long and expensive training process, it also means that resulting treatment strategies are black box neural networks that no clinical expert understands.
-This approach to decision making is extremely hard to introduce into clinical practice \cite{priceBigDataBlackbox2018,watsonClinicalApplicationsMachine2019}
-
-Like most \emph{didactic} simulators, Virtu-ALS exhibits considerable \emph{confirmation bias} - any decision that's not supported by the standard emergency care protocol \cite{thimInitialAssessmentTreatment2012} is considered a mistake and rewarded negatively.
+This approach to decision-making is extremely hard to introduce into clinical practice \cite{priceBigDataBlackbox2018,watsonClinicalApplicationsMachine2019}
 
 As our first model, we propose a low-dimensional version of \emph{Virtu-ALS}.
 \emph{Auto-ALS} is a modification of Virtu-ALS that removes all the complexity of dealing with a visual 3D environment while retaining all the complexity of dealing with a patient that requires emergency care.
@@ -146,12 +180,8 @@ When an observation is modeled as $\langle \rlobs, t \rangle$, the most faithful
 
 This representation has 2 issues: 
 \begin{enumerate}
-    \item It has a variable size. There are, of course, \href{https://www.bioinf.jku.at/publications/older/2604.pdf}{machine
-learning algorithms that can work with variable size inputs}, however,
-most traditional RL approaches cannot and compatibility with them would
-be an advantage
-    \item There is a common type of observation that makes older
-observations obsolete. For example, in a thermostat a new temperature measurement for all intents and purposes overrides the old one. In a navigation task, a new "location observed" event means you are no longer in the previous location. In Auto-ALS, new measurement of a vital sign, such as heart rate, overrides earlier ones. This has to be taken into account, lest a vast array of outdated information will be fed to the agent at every decision point.
+    \item It has a variable size. There are, of course, machine learning algorithms that can work with variable size inputs \cite{hochreiterLongShorttermMemory1997}, however, most traditional RL approaches cannot and compatibility with them would be an advantage
+    \item There is a common type of observation that makes older observations obsolete. For example, in a thermostat a new temperature measurement for all intents and purposes overrides the old one. In a navigation task, a new "location observed" event means you are no longer in the previous location. In Auto-ALS, new measurement of a vital sign, such as heart rate, overrides earlier ones. This has to be taken into account, lest a vast array of outdated information will be fed to the agent at every decision point.
 \end{enumerate}
 
 A solution (probably \emph{the} solution?) to these is to sort observations into \emph{observation classes} $\rlobs_1 \cup \rlobs_2 \cup \dots
@@ -187,8 +217,7 @@ The agent has to output an action $\rlaction \in \rlactions$ and if that action 
 
 \texttt{MeasuredHeartRate, MeasuredRespRate, MeasuredCapillaryGlucose, MeasuredTemperature, MeasuredMAP, MeasuredSats, MeasuredResps} are \emph{measurements}, events that have a value $\-infty; +\infty)$ associated with them.
 
-    
-The events in table \ref{tab:auto-als} only get registered if the agent has \emph{learnt} some piece of information, meaning that, for example, \verb|AirwayVomit| will only occur if the patient has vomit in their airway \emph{and} the agent checked the airway (which is part of the standard protocol \cite{abcde}).
+The events in table \ref{tab:auto-als} only get registered if the agent has \emph{learnt} some piece of information, meaning that, for example, \verb|AirwayVomit| will only occur if the patient has vomit in their airway \emph{and} the agent checked the airway (which is part of the standard protocol \cite{thimInitialAssessmentTreatment2012}).
 Assessment skills (knowing where to look and how to establish the patient's state) are crucial for patient resuscitation, hence revealing all known health variables to the agent would jeopardize the simulation.
 
 The observation vector in \emph{Auto-ALS} is based on all observations that have occurred between the beginning of the episode and current time.
