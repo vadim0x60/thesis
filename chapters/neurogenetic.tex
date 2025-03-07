@@ -1,10 +1,97 @@
 \chapter{Neurogenetic Programming}\label{ch:neurogen}
 \citeself{chapter}{liventsev2021neurogenetic}
 
-\todo{Ensure standard nomenclature}
+\section{Motivating example: neurogenetic optimization}
 
-\section{Introduction}\label{sec:neurogen-intro}
-\todo{Make sure a research question is explicitly mentioned}
+\paragraph{Gradient-free optimization}
+
+Consider the task of finding the minimum of a function without any access to its derivative. For instance,
+
+\begin{equation}
+O(x) = \sin x + \sin 10x - 0.01x^2
+\end{equation}
+
+Using methods from single variable calculus, one can derive the gradient of this function can be derived analytically:
+
+\begin{equation}
+O'(x) = \cos x + 10 \cos 10x - 0.02x
+\end{equation}
+
+However, a lot of functions we would like to optimize in real life (phone battery life, travel time, QALYs \cite{ryenWillingnessPayQuality2015, torranceUtilitiesQualityadjustedLife1989}, profits) do not have a formula attached. 
+So, for this thought experiment, consider $ O(x) $ as an opaque function to be explored only via querying the values of $ O(x) $ for some $x$.
+This function is visualized on figure \ref{fig:neuropt-f}
+    
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/neuropt1.png}
+    \caption{$O(x)$}
+    \label{fig:neuropt-f}
+\end{figure}
+
+The goal is to find $ \arg\max_x O(x) $
+
+\paragraph{Evolutionary approach}
+
+Let us begin with an intitial population of 2 instances of $ x $ and, At every iteration of the evolutionary algorithm, draw $ x_1 $ and $ x_2 $ from the exponential reward distribution:
+
+\begin{equation}
+p(x) \sim e^{O(x)}
+\end{equation}
+
+and add $ \frac{x_1 + x_2}{2} $ to the population
+
+Repeat this offspring sampling procedure for 10000 iterations and from the resulting population of 10002 pick $ x $ with the maximal $ O(x) $.
+
+By generating new solutions as modifications of existing successful solutions we focus the search on the most promising part of the search space. 
+Note that the darker colored points of the visualization on figure \ref{fig:neuropt-search} were added to the population after the light colored ones. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/neuropt2.png}
+    \caption{Rollout of evolutionary optimization. The cross denotes the final solution}
+    \label{fig:neuropt-search}
+\end{figure}
+
+One can see that 10000 iterations were not enough to find the highest peak, although the one we finally found is close. Most of the iterations were spent navigating the far left part of the search space. 
+The right half of the search space remained unexplored - the rightmost solution $ x_\text{right} $ has an $ O(x_\text{right})=-2 $ which means it's almost never drawn from $ p(x) $. 
+This could be mitigated by various means, for instance, \emph{temperature sampling} adding a temperature parameter to $ p(x) $:
+
+\begin{equation}
+p_t(x) \sim e^{tO(x)}
+\end{equation}
+
+but the issue is fundamental to evolutionary algorithms - a few unrepresentative examples can erroneously exclude a large part of the search space.
+
+\paragraph{Neural Actor-Critic approach}
+
+In the deep learning approach we train a \emph{critic} neural network $ \hat{O}_{\phi}(x) $ to mimic $ O(x) $ as closely as possible. Then all we need is a second neural network that represents a probability distribution of $ x $s that have a high $ O(x) $ and sample from it. It is called the \emph{actor} network, $ x_{\phi}(z) $, representing a mapping from the normal distribution to the distribution of points with high $ O(x) $. See actor-critic methods in Reinforcement Learning \cite[section 13.5]{suttonReinforcementLearningSecond2018}.
+
+We start with an empty population and, at every step, sample $ z $ from $ N(0,1) $, add $ x_{\phi}(z) $ to the population and update both $ \hat{O}_{\phi}(x) $ and $ x_{\phi}(z) $. See figure \ref{fig:neuropt-actor-critic} for the resulting rollout.
+    
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/neuropt3.png}
+    \caption{Rollout of actor-critic optimization. $ O(x) $ in blue, $ \hat{O}_{\phi}(x) $ in orange}
+    \label{fig:neuropt-actor-critic}
+\end{figure}
+
+
+\paragraph{Neurogenetic approach}
+
+    
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/neuropt4.png}
+    \caption{Rollout of neurogenetic optimization. $ O(x) $ in blue, $ \hat{O}_{\phi}(x) $ in orange}
+    \label{fig:neuropt-combined}
+\end{figure}
+
+Now, what if we alternate between neural steps and genetic steps?
+On figure \ref{fig:neuropt-combined} we do exactly that: add one element to the population by sampling it from the actor distribution $ x_{\phi}(z) $, update the actor and the critic, then sample a pair $\langle x1,x2 \rangle$ as we did in the evolutionary approach and add their average.
+One can see that in the hybrid neural-genetic mode, the search process zeros in on the maximum really fast and finds it within 4000 iterations, faster than both pure neural and pure genetic approaches 
+
+\newpage
+\section{From Neurogenetic Optimization to Neurogenetic Programming}
 
 In \emph{genetic programming} \cite{genprog1,genprog2} new programs are generated by mutating and mixing a \emph{population} of programs. 
  A more recent approach, largely drawing on the earlier success of deep neural language models (see CodeBERT \cite{codebert} inspired by BERT \cite{devlinBERTPretrainingDeep2019}), have been to train black box \emph{neural models} that generate executable programs as text \cite{abolafiaNeuralProgramSynthesis2018,deepcoder,structural}. 
@@ -13,11 +100,14 @@ In \emph{genetic programming} \cite{genprog1,genprog2} new programs are generate
 
 After the introduction to the relevant background in the next section, we will give a detailed description of the proposed IS methodology. Next, we describe the experimental setup and the OpenAI gym test tasks, and the results of the experiments in several variations of the core IS method. Finally, we discuss the results and propose future research directions and potential applications for hybrid neurogenetic programming. 
 
-\newpage
-\input{blogposts/neurogenetic.tex}
+This chapter is dedicated to answering \rqneurogen:
+
+\begin{highlight}
+    Can neurogenetic program synthesis improve upon neural program synthesis with BF++?
+\end{highlight}
 
 \newpage
-\section{From Neurogenetic Optimization to Neurogenetic Programming}
+\section{Instant Scrum}
 
 How does one manage a composition of code generators in such a way that the composition yields better programs than individual contributors are capable of? 
 This question is studied extensively in software project management literature \cite{mythicalmanmonth}.
@@ -36,8 +126,6 @@ However, unlike in traditional genetic programming, the \emph{initial population
 
 \subsection{Modeling a software developer}
 \label{sec:developer}
-
-\todo{Explain T-notation better}
 
 A software developer can:
 \begin{enumerate}
