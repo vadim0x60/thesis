@@ -151,9 +151,8 @@ Consider the summary table of the ABCDE protocol:
 +-----------------+---------------------------------------------------+
 \end{lstlisting}
 
-We use 2 test, which are 2 identical copies of the Auto-ALS environment.
-This is useful due to the inherent stochasticity of the environment (see chapter \ref{ch:auto-als}).
-We use tournament selection for this experiment, since lexicase selection assumes multiple deterministic tests, while our setup involves 2 copies of the same stochastic test.
+Due to the inherent stochasticity of the environment (see chapter \ref{ch:auto-als}) we use 2 tests, which are 2 identical copies of the Auto-ALS environment.
+Since lexicase selection assumes multiple deterministic tests, tournament selection is used instead.
 We add hard limits on the length of the episode in terms of time (3 hours) as well as steps (350 environment steps).
 The initial prompt is as follows:
 

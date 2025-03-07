@@ -280,16 +280,13 @@ An extension of our methodology to high-dimensional POMDPs (such as Atari games 
 \paragraph{Hypotheses and goals}
 \label{sec:exgoals}
 
-\todo{Rewrite to make Aki happy}
-
-Our experiments were designed to test the following hypotheses:
+Our experiments were designed to answer the following research questions:
 
 \begin{description}
-    \item[$H_1$] \textbf{BF++} can be used in conjunction with a program synthesis algorithm to solve arbitrary reinforcement learning challenges (POMDPs)
-    \item[$H_2$] \textbf{BF++} can be used to take a program written by an expert and use program synthesis to automatically improve it
-    \item[$H_3$] \textbf{BF++} can be used to generate an interpretable solution to Reinforcement Learning Challenges that experts can learn from
-    \item[$H_4$] Optional commands \verb|@^~01234abcde| introduced for convenience make it easier for experts to write programs in \textbf{BF++}
-    \item[$H_5$] Optional commands \verb|@^~01234abcde| improve the quality of programs synthesized by neural models
+    \item[\rqbfpp] can \textbf{BF++} be used in conjunction with a program synthesis algorithm to solve arbitrary reinforcement learning challenges (POMDPs)?
+    \item[\rqbfppexpert] can \textbf{BF++} be used to take a program written by an expert and use program synthesis to automatically improve it?
+    \item[\rqbfppexplainable] can \textbf{BF++} be used to generate an interpretable solution to Reinforcement Learning Challenges that experts can learn from?
+    \item[\rqbfppablation] do optional commands \verb|@^~01234abcde| improve the quality of programs synthesized by neural models?
 \end{description}
 
 Hence we
@@ -501,14 +498,14 @@ GPU resources were not used, because the performance bottleneck of the system is
 The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
 Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it was not possible to implement expert inspiration with limited command sets.
 
-These results support (see section \ref{sec:exgoals}) hypothesis $H_1$ - we have obtained functional programs for all environments, $H_2$ - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and $H_4$ - ablation studies for optional operators do indeed show that those operators are useful.
+These results support positive answers to (see section \ref{sec:exgoals}) \rqbfpp - we have obtained functional programs for all environments, and \rqbfppexpert - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and \rqbfppablation - ablation studies for optional operators do indeed show that those operators are useful.
 
 \paragraph{Case studies}
 \label{sec:casestudies}
 % Need to make sure that this paragraph and "expert programs" paragraph help each other (same style, same terms)
 
 We have established that the program synthesis model is able to learn from human experts.
-But can experts learn from the model? ($H_3$) 
+But can experts learn from the model? (\rqbfppexplainable) 
 To confirm this, we offer a detailed explanation of the most successful program of all experiments listed in section \ref{sec:bfpp-experiments}.
 
 This program scored \emph{91.39} on \textbf{Mountain Car}:

@@ -49,16 +49,33 @@ As a result, some of the most notable early positive results were in an industry
 
 \paragraph{Logic programming}
 
-One domain that's particularly amenable to solving synthesis tasks is \emph{logic programming}: a programming paradigm based on formal logic \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}. 
-In contrast to other programming paradigms \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} all functions in logic programming languages are boolean, which drastically limits the space of possible functions and makes many search-based approaches possible.
+One domain that's particularly amenable \cite{devilleLogicProgramSynthesis1994} to solving synthesis tasks is \emph{logic programming} \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}: a programming paradigm \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} based on formal logic. 
+A program in a logic language such as Prolog \cite{clocksinProgrammingPROLOG2003} and its derivatives consists of logical relations (in the case of Prolog, Horn clauses \cite{kowalskiPredicateLogicProgramming1974}) assumed by the developer to be true, and the language interpreter runs \emph{logical inference} to establish other logical relations that must hold given the assumptions.
+In other words, logic languages have built-in instrumentation for \emph{deductive logic program synthesis}: generating logic programs based on a \emph{complete specification}.
+In the taxonomy introduced in section \ref{sec:tasks} this falls under \emph{code translation}.
 
-\todo{Deductive}
+Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example).
 
-\todo{Inductive}
+\newpage
+\section{Grammar guided synthesis}
+\label{sec:grammar-guided}
 
-%Instead of (or in addition to) generating a program first and testing whether it adheres to specification, \emph{deductive} methods apply equivalence rules to translate the specification into an executable.
-%This is hard to apply in \emph{programmatically interpretable reinforcement learning} where the specification is a black box, but can be a powerful approach in \emph{code translation} and \emph{programming by example} paradigms.
+\todo{Type driven synthesis}
 
+Another way to constrain the hypothesis space is to use the grammar of the programming language in question directly in the program generation process.
+Since in most implementations of compilers and interpreters, the first step of program execution is building an Abstract Syntax Tree representation of the code a software tool for AST parsing is available for most programming languages.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/ast.png}
+    \caption{Abstract syntax tree (AST) parser}
+    \label{fig:ast-parser}
+\end{figure}
+
+When program synthesis systems output ASTs, as opposed to raw text, a large class of errors (such as forgetting a semicolon) becomes impossible. 
+Research literature on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and grammar-guided genetic programming \cite{bunelLeveragingGrammarReinforcement2018, manriqueGrammarguidedGeneticProgramming2009, sobaniaChallengesProgramSynthesis2020a} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
+
+A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
 
 \newpage
 \section{Unsupervised pre-training}
@@ -66,6 +83,36 @@ In contrast to other programming paradigms \cite{floydParadigmsProgramming2007, 
 
 The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
 In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
+
+\paragraph{Data}
+
+\paragraph{Sequence modeling}
+
+With a few notable exceptions foundation models tend to be sequence models: estimating the probability a sequence of fixed-size elements
+
+\begin{equation}
+    \hat{p}(t_1, \dots, t_n)
+\end{equation}
+
+typically modeled as conditional probability of one (usually last) element given others
+
+\begin{equation}
+    \hat{p}(t_n | t_1, \dots, t_n)
+\end{equation}
+
+since most tasks in machine learning can be represented as sequence modeling. 
+There is evidence that this generality is a fundamental property of sequence models: see proofs that Recurrent Neural Networks \cite{siegelmannComputationTuringLimit1995} and Attention \cite{perezAttentionTuringComplete} are Turing-complete.
+
+\paragraph{Autoencoder models}
+
+% Motivation
+
+% Definition, architecture
+
+% Success stories
+
+% Downstream tasks, issues
+
 
 
 \paragraph{Autoregressive models}
@@ -80,35 +127,9 @@ This paradigm makes it easy to collect training data and parallelize computation
 % Models
 Autoregressive foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
 
-\paragraph{Autoencoder models}
-
-While undoubtedly useful in many program synthesis tasks, popular foundation models may fall short in the areas of genetic programming \cite{genprogast} and genetic improvement of software \cite{petke2018:genetic}.
-In these settings, new programs are found by exploring the space of programs similar to one or several reference programs.
-The task of applying these perturbations to programs could benefit from a foundational model, however, it's unclear how to achieve this with the current autoregressive models.
-Autoencoder Genetic Programming \cite{autoenc-gp,denoising-autoenc-gp,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
-These models embed programs into a high-dimensional vector space, making it easy to mutate a program by add random noise to the embedding vector or combine several programs by averaging their embedding vectors.
-Autoencoder-genetic programming is discussed in detail in chapter \ref{ch:tree2tree}.
-
-\newpage
-\section{Grammar guided synthesis}
-\label{sec:grammar-guided}
-
-Another way to constrain the hypothesis space is to use the grammar of the programming language in question directly in the program generation process.
-Since in most implementations of compilers and interpreters, the first step of program execution is building an Abstract Syntax Tree representation of the code a software tool for AST parsing is available for most programming languages.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{images/ast.png}
-    \caption{Abstract syntax tree (AST) parser}
-    \label{fig:ast-parser}
-\end{figure}
-
-When program synthesis systems  output ASTs, as opposed to raw text, a large class of errors (such as forgetting a semicolon) becomes impossible. 
-Research literature on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and grammar-guided genetic programming \cite{bunelLeveragingGrammarReinforcement2018, manriqueGrammarguidedGeneticProgramming2009, sobaniaChallengesProgramSynthesis2020a} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
+\paragraph{Constrained decoding}
 
 A hybrid solution, combining an unstructured pretrained language model with inference-time grammar guidance is \emph{constrained decoding} \cite{melcerConstrainedDecodingCode2024}: an algorithm based on excluding tokens disallowed by the grammar of the programming language when sampling tokens from a model.
-
-A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
 
 \newpage
 \section{Human in the loop}
@@ -146,78 +167,8 @@ According to a large-scale survey \cite{liangLargeScaleSurveyUsability2024} \tod
 \newpage
 \section{Open problem}
 \label{sec:goal}
+\todo{More PIRL overview}
 
-\todo{This clashes somewhat with section \ref{sec:objective}}
-\todo{Check subscripts}
-
-The methods above have led to significant progress in \emph{code translation} and \emph{programming by example}, to the point where these paradigms have current industrial applications.
-\emph{Programmatically Interpretable Reinforcement Learning}, however, largely remains an open problem.
-
-\begin{highlight}
-The goal of this thesis is to discover a methodology for Programmatically Interpretable Reinforcement Learning that can improve decision support systems in Healthcare and other safety-critical domains.
-\end{highlight}
-
-
-We model the task as {\em Episodic Partially Observable Markov Decision Process}:
-
-\begin{multline}
-\langle \rlnontermstates, \rltermstates, \rlactions, \rlobss, \rlobsdistr, \rlstatedistr, \rlrewardf, \rlinitdistr \rangle
-\end{multline}
-
-Here, $\rlnontermstates$ is the set of {\em non-terminal (environment) states} and $\rltermstates$ is the set of {\em terminal states}. 
-$\rlactions$ is the set of {\em actions} that the learning agent can perform, and $\rlobss$ is the set of {\em observations} about the current state that the agent can make. 
-
-A \emph{reinforcement learning episode} starts in a state $\rlstate \in \rlnontermstates$ sampled from $\rlinitdistr$, the {\em initial distribution} over environment states.
-An agent action $\rlaction \in \rlactions$ at the state $\rlstate$ causes the environment state to change probabilistically, and the destination state follows the distribution $\rlstatedistr$. 
-At state $\rlstate$, the probability of making observation $\rlobs$ is $\rlobsdistr$ and the \emph{reward} $\rlreward$ obtained by selecting action $\rlaction$ is defined by $\rlrewardf$. 
-The process continues until $\rlstatedistr$ yields a terminal state $\rlstate \in \rltermstates$.
-This distinction is what sets \emph{episodic} POMDP popularized by OpenAI gym \cite{openai-gym} apart from the more traditional approach \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012} where the process is infinite.
-
-A \emph{program} is a sequence of tokens
-
-\begin{equation}
-    \code=(\code^{(1)},\code^{(2)},\dots)
-\end{equation}
-
-that defines behavior of an agent.
-Depending on the programming language and implementation choices the tokens can be characters or higher-level tokens, i.e. keywords.
-We denote the language's \emph{alphabet}, i.e. the set of all possible tokens as $\alphabet$.
-
-An \emph{interpreter} is a tuple $\langle \rlactionf,\rlmemoryf \rangle$ where $\rlmemoryf(\code,\rlmemory,\rlobs)$ is the \emph{memorization function} that defines how the agent's memory updates upon making an observation and $\rlactionf(c, m_k)$ is the \emph{action function} defines which action the agent at a certain memory state takes in the POMDP.
-Memory is intialized at state $\rlmemory_\text{init}$
-
-The agent's goal is maximizing total reward collected in the environment, calculated as follows:
-
-\begin{algorithm}[H]
-\begin{algorithmic}[1]
-\caption{Evaluating total reward for a program}
-\Function{$\mathit{Eval}$}{$\code$}
-\State $\rlreturntot \gets 0$
-\State $\rlmemory \gets \rlmemory_\text{init}$
-\State $\rlstate \sim \rlinitdistr$
-\While{$\rlstate \in \rlnontermstates$}
-\State $\rlobs \sim \rlobsdistr$
-\Comment{Observe}
-\State $\rlmemory \gets \rlmemoryf(\code,\rlmemory,\rlobs)$
-\State $\rlaction \gets \rlactionf(\code, \rlmemory)$ 
-\Comment{Act}
-\State $r \sim p_r(s,a)$
-\State $R_\text{tot} \gets R_\text{tot} + r$
-\Comment{Get rewarded}
-\State $\rlstate_\text{next} \sim \rlstatedistr$
-\Comment{Next state}
-\State $\rlstate\gets s_\text{next}$
-\EndWhile
-\State \Return $\rlreturntot$
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-Since the algorithm for computing this function involves repeatedly sampling values from distributions, function $\mathit{Eval}(c)$ is a mapping from the set of programs to the set of real-valued random variables.
-
-The \emph{Programmatically Interpretable Reinforcement Learning} objective then becomes
-
-\begin{equation}
-    \expectation(\mathit{Eval}(\code)) \longrightarrow \max_{\code}
-    \label{eq:pirlgoal}
-\end{equation}
+The techniques above (especially unsupervised pretraining) have enabled significant progress in code translation settings such as \emph{natural language to machine language} \cite{chenEvaluatingLargeLanguage2021, conala, guoContentEnhancedBERTbased2020, hallerPECCProblemExtraction2024, hendrycksMeasuringCodingChallenge2021, honarvarTurbulenceSystematicallyAutomatically2025, huQualityFlowAgenticWorkflow2025, jimenezSWEbenchCanLanguage2024, leiPlanningDrivenProgrammingLarge2025, liEnablingProgrammingThinking2023, liExploringEffectivenessLlms2023, psb2, solimanMarianCGCodeGeneration2022, the-crypt-keeperThecryptkeeperCanaicode2025, zhuoBigCodeBenchBenchmarkingCode2024}.
+However, Programmatically Interpretable Reinforcement Learning is still a nascent field with no method available for us to deploy in a patient simulator in a plug and play fashion.
+Chapters \ref{ch:bfpp}-\ref{ch:seidr} are dedicated to developing such a method.

@@ -5,9 +5,16 @@
 
 \section{Introduction}
 
+While undoubtedly useful in many program synthesis tasks, autoregressive foundation models may fall short in the areas of genetic programming \cite{genprogast} and genetic improvement of software \cite{petke2018:genetic}.
+In these settings, new programs are found by exploring the space of programs similar to one or several reference programs.
+The task of applying these perturbations to programs could benefit from a foundational model, however, it's unclear how to achieve this with the current autoregressive models.
+Autoencoder Genetic Programming \cite{autoenc-gp,wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
+These models embed programs into a high-dimensional vector space, making it easy to mutate a program by add random noise to the embedding vector or combine several programs by averaging their embedding vectors.
+Autoencoder-genetic programming is discussed in detail in chapter \ref{ch:tree2tree}.
+
 To the best of our knowledge the advantage of structural models has not been tested in autoencoders for genetic programming. \cite{kusner2017grammar,grammar-vae} find that it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
 
-Thus the research question we set out to answer is: 
+Thus the research question  we set out to answer is
 
 \begin{highlight}
     would a model that operates directly on the program's Abstract Syntax Tree learn a better latent representation of the source code than a model that operates on a sequence of tokens?
