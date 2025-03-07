@@ -12,13 +12,13 @@ The above elevation map of Vaalserberg\footnote{\url{https://en.wikipedia.org/wi
 If you are anything like me, you would start by looking at the highest points on the map.
 If the tower is not there, you would move your gaze (more or less randomly) around the highest parts of the map.
 If it's still not found, you would gradually include lower and lower parts of the map into the search space covered by the random walk of your gaze.
-At some point, if you still don't see the communications tower, your gaze will be dashing all over the map, including the lowest points.
+At some point, if you still do not see the communications tower, your gaze will be dashing all over the map, including the lowest points.
 
 Let us now formalize this algorithm mathematically.
 
 The height above sea level of a point on this map is a heuristic function that represents the probability $p(x)$ of a telecommunications tower being located at point $x$.
 We can search the area by sampling points $x \sim p(x)$ and checking whether a tower is present at $x$, i.e. whether $t(x)=1$.
-We can control how much attention we give the high elevation/high likelihood points versus low elevation/low likelihood points with a technique known as **temperature sampling**: define temperature $t$ and sample from a modified distribution
+We can control how much attention we give the high elevation/high likelihood points versus low elevation/low likelihood points with a technique known as \emph{temperature sampling}: define temperature $t$ and sample from a modified distribution.
 
 \begin{equation}
 p_t(x) = \frac{p(x)^{\frac{1}{t}}}{\sum_{x'} p(x')^{\frac{1}{t}}}
@@ -48,7 +48,7 @@ For example, a model for ImageNet classification \cite{dengImagenetLargescaleHie
 Likewise, language models are probability distributions $p(w_1,\dots,w_n)$ indicating how likely it is that sentence $w_1,\dots,w_n$ is appears in the training corpus and/or satisfies the human feedback annotator.
 A particularly topical (but far from the only) application of spring sampling is thus using a large language model agent to achieve a certain testable goal: sample from the LLM with increasing temperature until the output passes the test.
 We use this technique in our program synthesis framework to sample programs that pass a given test suite.
-It improves search speed by making sure the likeliest programs are always tested first, but if they don't pass the test, higher temperatures help collect a diverse sample of programs, thus increasing the probability that one of them is correct.
+It improves search speed by making sure the likeliest programs are always tested first, but if they do not pass the test, higher temperatures help collect a diverse sample of programs, thus increasing the probability that one of them is correct.
 
 Meanwhile, did you find the tower? Here it is:
 

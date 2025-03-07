@@ -28,7 +28,7 @@ $$
 This way we can customize the model at inference time, by pretraining a repository of *factors* and then mixing and matching them as required: $p_\text{style}(t)$ to prioritize texts that follow *the Elements of Style* [Strunk 1918]\footnote{\url{https://g.co/kgs/4hvnNp), $p_\text{lawyer}(t}}$ to pessimize texts that can get your company in legal trouble, etc. 
 And if it turns out that the desired generative model cannot be assembled out of existing *factors*, one can train a new (small) one while re-using evergreen *factors* like $p_\text{grammar}(t)$ and thus vastly reduce computational costs.
 
-But "wait!" I hear you proclaim. Perhaps the *factors* don't need to be retrained as often as a single model. But we just went from 1 LLM (L for large) to $N$ where $N$ might be in the hundreds. Can that negate the benefits of higher reusability? I don't think so, because in practice, the factors will share a common encoding stack, i.e.
+But "wait!" I hear you proclaim. Perhaps the *factors* do not need to be retrained as often as a single model. But we just went from 1 LLM (L for large) to $N$ where $N$ might be in the hundreds. Can that negate the benefits of higher reusability? I do not think so, because in practice, the factors will share a common encoding stack, i.e.
 $$
 p_i(t) = q_i(f_\text{enc}(t))
 $$
