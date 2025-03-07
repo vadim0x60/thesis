@@ -16,7 +16,7 @@ Methods of program synthesis can be classified by how they address these challen
 \section{Genetic programming}
 \label{sec:gp}
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{gp.png}
     \caption{Genetic Programming, schematic definition}
@@ -54,7 +54,7 @@ A program in a logic language such as Prolog \cite{clocksinProgrammingPROLOG2003
 In other words, logic languages have built-in instrumentation for \emph{deductive logic program synthesis}: generating logic programs based on a \emph{complete specification}.
 In the taxonomy introduced in section \ref{sec:tasks} this falls under \emph{code translation}.
 
-Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example).
+Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{cropperInductiveLogicProgramming2022, muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example).
 
 \newpage
 \section{Grammar guided synthesis}
@@ -65,7 +65,7 @@ Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017
 Another way to constrain the hypothesis space is to use the grammar of the programming language in question directly in the program generation process.
 Since in most implementations of compilers and interpreters, the first step of program execution is building an Abstract Syntax Tree representation of the code a software tool for AST parsing is available for most programming languages.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/ast.png}
     \caption{Abstract syntax tree (AST) parser}

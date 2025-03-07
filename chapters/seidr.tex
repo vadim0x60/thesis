@@ -53,7 +53,7 @@ We EXECUTE the solutions, test them against the validation set, generate a text 
 We RANK the candidates
 by correctness, measured as matching I/O pairs, discard the worst candidates, and repeat until a fully correct solution is found.
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth,trim={0mm 0mm 0mm 0mm}]{images/codex-for-psb-seidr-methodology-5.drawio.pdf}
     \caption{Overview of SEIDR, a multi-agent iterative framework that uses LLMs to implement the Synthesize, Execute, Instruct, Debug, and Rank feedback loop.}
@@ -94,7 +94,7 @@ The framework starts with the SYNTHESIZE agent, which is responsible for generat
 % to programming tasks to be repaired in later stages of SEIDR.
 We start with a basic template for a chosen programming language that contains a number of standard library imports, as shown in Figure~\ref{fig:template}.
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth, trim={0mm 40mm 0mm 0mm}, clip]{images/Templates-new-v2.pdf}
     \caption{Anatomy of SYNTHESIZE templates}
@@ -136,7 +136,7 @@ We consider two different designs of the INSTRUCT agent: INSTRUCT$^{\text{static
 In both cases, if \texttt{stderr} is not empty, i.e., execution exits with code 0 before getting any output to compare it with the expected output, the \texttt{stderr}-based template engine generates the instruction to fix the error. 
 However, the designs differ in the way they transform failing I/O pairs to generate instructions in case \texttt{stderr} is empty.
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \includegraphics[width=0.85\linewidth,trim={0mm 0mm 0mm 0mm}]{images/codex-for-psb-seidr-instruct-2.drawio.pdf}
     \caption{Overview of the two designs for the INSTRUCT agent.}
@@ -200,7 +200,7 @@ This ensures that even if the average quality of the selected candidates is lowe
 \subsection{Meaning of Hyperparameters}
 \label{sec:seidr-beam-search}
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \includegraphics[width=0.7\linewidth, trim={0mm 4mm 0mm 0mm}]{images/beamsearch.pdf}
     \caption{Repair-replace trade-off as a tree search problem.}
@@ -619,7 +619,7 @@ The results of SEIDR are compared to the baseline performance of PushGP on the P
 Note that experiments with $N=1$ and $N=\infty$ can be considered as ablation studies, where the replace option and repair option are turned off correspondingly. 
  %
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth, trim={0mm 2.8mm 0mm 2mm}, clip]{images/num_solved_problems_vs_bf_1000_v3_zenodo.pdf}
   %
@@ -643,9 +643,9 @@ We zoom in to the cases with solutions found with up to the first 10 program can
 In addition, we break down the results into each tree arity in Figure~\ref{fig:seidr:epg-bf}, showing the EPG on a heatmap scale and the TPR as a number between 0 and 1, or the signs ``+'' if a problem is solved and ``-'' if the final TPR is 0. 
 
 
-\begin{figure}[t]
+\begin{figure}
  %
-\begin{subfigure}[t]{\columnwidth}
+\begin{subfigure}{\columnwidth}
 \centering
 \includegraphics[width=.7\linewidth, trim={0mm 4mm 0mm 0mm}]{images/epg_distribution_solved_maxprog_1000_1_v3_zenodo.pdf}
   \caption{0 $\leq$ EPG $\leq$ 10 with step 1.}
@@ -654,7 +654,7 @@ In addition, we break down the results into each tree arity in Figure~\ref{fig:s
 
 % \vspace{2mm}
 
-\begin{subfigure}[t]{\columnwidth}
+\begin{subfigure}{\columnwidth}
 \centering
 \includegraphics[width=.7\linewidth, trim={0mm 4mm 0mm 0mm}]{images/epg_distribution_solved_maxprog_1000_100_v3_zenodo.pdf}
   \caption{0 $\leq$ EPG $\leq$ 1000 with step 100.}
@@ -665,7 +665,7 @@ In addition, we break down the results into each tree arity in Figure~\ref{fig:s
 \label{fig:seidr:epg-distribution}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=.56\textwidth, trim={3mm 1.6mm 3mm 2mm}, clip]{images/num_programs_generated_vs_bf_test_pass_rate_vertical_maxprog_1000_v3.pdf}
   \caption{Number of excess programs generated (in color) and test pass rate (as numbers) depending on tree arity. Higher EPG values are shown in darker shades. We denote solved problems with ``+'' (test pass rate = 1), unsolved problems with ``-'' (test pass rate = 0), and show the test pass rate for partially solved problems. }
@@ -719,7 +719,7 @@ The boxplots show the inter-quartile range between the first and third quartiles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Num solved problems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[bt]
+\begin{figure}
 \begin{subfigure}{\linewidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 0mm 0mm 0mm}]{images/num_solved_problem_psb2_6runs_boxplot_v5.pdf}
@@ -760,7 +760,7 @@ Meanwhile, some problems are solved by Codex earlier than at the debugging attem
 Therefore, the reduction of the maximum generated programs has only a partial effect on the difference between the results of the two models. 
 
 
-\begin{figure}[bt]
+\begin{figure}
 \begin{subfigure}{\linewidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 0mm 0mm 0mm}]{images/mean_tpr_psb2_6runs_boxplot_v5.pdf}
@@ -799,7 +799,7 @@ For Llama~3, most of the solutions are obtained in 1--3 runs.
 The trend for both datasets is that, for problems where a solution is found, SEIDR with GPT-3.5 makes fewer attempts in Python (brighter colors prevail in the corresponding parts of Figures~\ref{fig:epg-num-solved-psb2} and~\ref{fig:epg-num-solved-he-python}) than SEIDR with GPT-3.5 in C++ or SEIDR with Llama~3 in both languages (darker shades in the GPT-3.5 on C++ and Llama~3 parts of Figures~\ref{fig:epg-num-solved-psb2} and \ref{fig:epg-num-solved-he-c++}).
 
 
-\begin{figure}[tb]
+\begin{figure}
   \centering
   \includegraphics[width=\linewidth, trim={3mm 2.8mm 3mm 2mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_psb2_6runs_heatmap_v5.pdf}
   \caption{PSB2: mean Excess Programs Generated (in color) and the number of runs in which a task is solved. The experiments in which a specific problem is not solved in any run are shown in white.}
@@ -852,7 +852,7 @@ The coarser-grained EPG distribution with the step of 10 candidates is shown in 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % EPG distribution
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[tb]
+\begin{figure}
 \begin{subfigure}{.8\columnwidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_step_1_psb2_6runs_barplot_v5.pdf}
@@ -971,7 +971,7 @@ Specifically, when an LLM gets the prompt that fixes exactly the error in a prog
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Num solved problems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[bt]
+\begin{figure}
 \begin{subfigure}{.45\linewidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 4mm 0mm 0mm}]{images/num_solved_problem_lexicase_psb2_6runs_boxplot_v5.pdf}
@@ -990,7 +990,7 @@ Specifically, when an LLM gets the prompt that fixes exactly the error in a prog
 \end{figure}
 
 
-\begin{figure}[bt]
+\begin{figure}
 \begin{subfigure}{.45\linewidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 4mm 0mm 0mm}]{images/mean_tpr_lexicase_psb2_6runs_boxplot_v5.pdf}
@@ -1007,7 +1007,7 @@ Specifically, when an LLM gets the prompt that fixes exactly the error in a prog
 \label{fig:mean-tpr-lexicase-selection}
 \end{figure}
 
-\begin{figure}[bt]
+\begin{figure}
 \centering
 \includegraphics[width=\linewidth, trim={2mm 123mm 3mm 130mm}, clip]{images/best-avg-score-seidr-telo-humaneval-gpt-3.5-turbo-run3.pdf}
 \caption{The best score on validation tests (y-axis) obtained up to an indicated logging step (x-axis) for problems solved from the second or later attempts with lexicase selection using SEIDR with GPT-3.5. Results are obtained for HumanEval. ``Step'' on the x-axis corresponds to logging settings and roughly indicates the speed of finding solutions to different problems. Each line stands for a unique solution.}

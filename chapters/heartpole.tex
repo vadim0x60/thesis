@@ -14,7 +14,7 @@ Reinforcement learning in Healthcare is an emergent field that has created a dem
 \section{HeartPole environment}
 \label{sec:heartpole-methodology}
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{heartpole_example.png}
     \caption{Random agent's health indicators}
@@ -26,7 +26,7 @@ However, many decisions that would help in the short term (not sleeping, consumi
 
 \emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $s_t$ consists of alertness $s^\text{alert}_t$, hypertension $s^\text{hypert}_t$, intoxication $s^\text{tox}_t$ time since slept $s^\text{tawake}_t$, \emph{total time elapsed} $s^\text{ttotal}_t$ and \emph{total work done} $s^\text{done}_t$.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{productivity.png}
     \caption{Productivity function}
