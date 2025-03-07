@@ -18,8 +18,8 @@ Instruction fine-tuned models use human feedback \cite{chaudhariRLHFDecipheredCr
 These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
 
-These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} initially introduced in our GECCO-2023 paper~\cite{liventsevFullyAutonomousProgramming2023}. 
-%The current paper partly reiterates the methodology and findings of~\cite{liventsev2023:fully} and expands on them in this extended version of the original paper.
+These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} initially introduced in our GECCO-2023  chapter~\cite{liventsevFullyAutonomousProgramming2023}. 
+%The current  chapter partly reiterates the methodology and findings of~\cite{liventsev2023:fully} and expands on them in this extended version of the original  chapter.
 SEIDR is a multi-agent iterative framework that uses feedback from code execution and failing test cases to update the initially generated buggy code. 
 Our initial explorations cover SEIDR with GPT-3 as the bug summarization model and Codex (or GPT-3 trained on code) as the program generation and debugging model.  
 % We test a number of prompting strategies for LLMs to fix a working prompt.
@@ -32,9 +32,6 @@ Moreover, we build up on the initial experiments with Codex and zoom in on the a
 To reflect on the parent selection strategies used in the Rank agent of SEIDR, we also explore whether the programs should be chosen based on the average performance across all tests or whether SEIDR can benefit from keeping such programs in the loop that fully cover individual tests, but do not perform well on average.
 Therefore, as an alternative to the tournament selection, we test the best tree arity setups with lexicase selection-based ranking~\cite{helmuth2015:solving}.
 Moreover, since language models bring in stochasticity, we run the experiments several times to measure the variability of results obtained with fixed hyperparameters and reflect on the results repeatability.
-
-Overall, the current paper contributes to the field of Large Language Models for Software Engineering (LLM4SE) with a framework for code generation and its iterative repair. 
-Compared to the earlier GECCO-2023 paper, this article refines and extends the preliminary results by providing a more in-depth explanation of SEIDR as a multi-agent framework for autonomous programming, extending the original experiments and analysis to include HumanEval-X as an additional benchmark, evaluating GPT-3.5 and Llama 3 as additional LLMs, investigating lexicase selection as an alternative to tournament selection, and conducting a repeatability analysis of the framework’s performance over multiple independent runs. Overall, this extension adds three research questions and doubles the number of configurations considered in these questions compared to our preliminary work. 
 
 Section~\ref{sec:seidr-methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction-tuned Large Language Models in agents that can solve programming tasks in an autonomous fashion. 
 We discuss related work in Section~\ref{sec:seidr-related-work}, introduce experiments to explore effective search 
@@ -597,7 +594,7 @@ For the first set of experiments, we set $M = 1000,$ and for the generalizabilit
 Following~\cite{psb2}, we use 2000 I/O pairs ($\left(I, O\right)_{test}$ in Figure~\ref{fig:method}) from the test split of PSB2 to evaluate the candidate program that has passed all validation test cases ($\left(I, O\right)_{val}$ in Figure~\ref{fig:method}) during debugging. 
 Due to repetitive calls to EXECUTE, we have to resolve the speed of testing versus precision trade-off while choosing the number of validation test pairs.
 We resolve the trade-off by fixing the validation set size at 100 for the initial experiments and 50 for the generalizability exploration, which has more runs with the same hyperparameters. 
-We have run a preliminary experiment to confirm that we do not lose the final test pass rate points on 2000 tests when we decreased the validation test set size from 100 (which was used in the GECCO-2023 paper) to 50 for the generalizability exploration.
+We have run a preliminary experiment to confirm that we do not lose the final test pass rate points on 2000 tests when we decreased the validation test set size from 100 (which was used in the GECCO-2023  chapter) to 50 for the generalizability exploration.
 Due to a small number of tests in HumanEval-X, all tests are made visible to the debugging LLM and during the validation step.  
 To operate with the chosen LLMs in SEIDR, we use ollama\footnote{~\url{https://ollama.ai/}} and LangChain.\footnote{~\url{https://www.langchain.com/}}  
 To ensure that the program candidates generated from the same parent program are different from each other, we change the temperature parameter of the LLMs. 
