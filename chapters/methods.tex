@@ -54,13 +54,14 @@ A program in a logic language such as Prolog \cite{clocksinProgrammingPROLOG2003
 In other words, logic languages have built-in instrumentation for \emph{deductive logic program synthesis}: generating logic programs based on a \emph{complete specification}.
 In the taxonomy introduced in section \ref{sec:tasks} this falls under \emph{code translation}.
 
-Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{cropperInductiveLogicProgramming2022, muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example).
+Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{cropperInductiveLogicProgramming2022, muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example) and even programmatically interpretable reinforcement learning \cite{caoGALOISBoostingDeep}.
+
+Logic program synthesis has been applied in domains that can be described in a logic programming language such as low level hardware design \cite{siscoControlLogicSynthesis2024}, but proved difficult to generalize. 
+For instance, \cite{polikarpovaStructuringSynthesisHeapmanipulating2019} proposes an extension of inductive logic programming to (more expressive) imperative programming languages that relies on the task specification (pre- and postconditions of functions to be synthesized) formulated in a logic programming language that provides the necessary structural constraints.
 
 \newpage
 \section{Grammar guided synthesis}
 \label{sec:grammar-guided}
-
-\todo{Type driven synthesis}
 
 Another way to constrain the hypothesis space is to use the grammar of the programming language in question directly in the program generation process.
 Since in most implementations of compilers and interpreters, the first step of program execution is building an Abstract Syntax Tree representation of the code a software tool for AST parsing is available for most programming languages.
@@ -73,8 +74,10 @@ Since in most implementations of compilers and interpreters, the first step of p
 \end{figure}
 
 When program synthesis systems output ASTs, as opposed to raw text, a large class of errors (such as forgetting a semicolon) becomes impossible. 
-Research literature on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and grammar-guided genetic programming \cite{bunelLeveragingGrammarReinforcement2018, manriqueGrammarguidedGeneticProgramming2009, sobaniaChallengesProgramSynthesis2020a} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
+Grammatical rules of the language can also be used to narrow down the values a node can take based on rules associated with its parent node.
+This is especially helpful in programming languages with \emph{strong typing}: structured program synthesis systems often make use of it to narrow down the space of possible identifiers that can be inserted in a location, such as a function call \cite{fengComponentbasedSynthesisComplex2017, guoProgramSynthesisTypeguided2020, oseraConstraintbasedTypedirectedProgram2019, peter-michaelProgramSynthesisTypes2015, polikarpovaProgramSynthesisPolymorphic2016}.
 
+Research literature on structural code encoding \cite{alon2019structural,zhang2015tree}, structural code decoding \cite{jiang2021ast,zhu2019grammarcnn} and grammar-guided genetic programming \cite{bunelLeveragingGrammarReinforcement2018, manriqueGrammarguidedGeneticProgramming2009, sobaniaChallengesProgramSynthesis2020a} suggests that models that operate directly on the tree structure of the program can achieve better performance than models that operate on a sequence of tokens.
 A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
 
 \newpage
