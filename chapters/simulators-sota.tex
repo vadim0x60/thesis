@@ -72,7 +72,7 @@ Unfortunately, these conditions often hold only partially, or do not hold at all
 One type of bias, present in most data-driven healthcare simulators is \emph{sampling bias}.
 If patient data is used to develop a simulator, this data is a sample (and, potentially, a biased sample) of the patient population that may or may not represent the population accurately.
 This problem is exacerbated by a profound shortage of healthcare datasets available to the research community.
-The biggest currently available dataset is MIMIC-IV \cite{mimic} - a large database of electronic health records in intensive care.
+The biggest currently available dataset is MIMIC-IV \cite{johnsonMIMICIVFreelyAccessible2023} - a large database of electronic health records in intensive care.
 However, MIMIC-IV was collected in one hospital in Boston and thus represents a demographically biased sample of the population.
 This bias is likely to percolate into any simulator developed based on MIMIC-IV.
 
@@ -140,8 +140,8 @@ It provides $p_o(o | s, a)$ and $p_s(s_\text{next} | s_\text{prev}, a)$ (see sec
 \label{sec:gymic}
 
 \subsubsection{Scope}
-GYMIC \cite{gymic} is, unlike the previous examples, a fully data-driven simulator. 
-It harnesses a subset of MIMIC \cite{mimic} dataset to address on one of the most challenging problems in emergency care - sepsis.
+GYMIC \cite{gym-sepsis} is, unlike the previous examples, a fully data-driven simulator. 
+It harnesses a subset of MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} dataset to address on one of the most challenging problems in emergency care - sepsis.
 The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{sepsis-motivation1,sepsis-motivation2}.
 
 \subsubsection{Prediction model}
