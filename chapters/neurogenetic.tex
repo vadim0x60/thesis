@@ -11,7 +11,7 @@ Consider the task of finding the minimum of a function without any access to its
 O(x) = \sin x + \sin 10x - 0.01x^2
 \end{equation}
 
-Using methods from single variable calculus, one can derive the gradient of this function can be derived analytically:
+Using methods from single variable calculus \cite{antonCalculusSingleVariable2021}, one can derive the gradient of this function analytically:
 
 \begin{equation}
 O'(x) = \cos x + 10 \cos 10x - 0.02x
@@ -32,15 +32,8 @@ The goal is to find $ \arg\max_x O(x) $
 
 \paragraph{Evolutionary approach}
 
-Let us begin with an intitial population of 2 instances of $ x $ and, At every iteration of the evolutionary algorithm, draw $ x_1 $ and $ x_2 $ from the exponential reward distribution:
-
-\begin{equation}
-p(x) \sim e^{O(x)}
-\end{equation}
-
-and add $ \frac{x_1 + x_2}{2} $ to the population
-
-Repeat this offspring sampling procedure for 10000 iterations and from the resulting population of 10002 pick $ x $ with the maximal $ O(x) $.
+Let us begin with an intitial population of 2 instances of $ x $ and, At every iteration of the evolutionary algorithm, draw $ x_1 $ and $ x_2 $ from the exponential reward distribution $p(x) \sim e^{O(x)}$ and add $ \frac{x_1 + x_2}{2} $ to the population.
+This offspring sampling procedure is repeated for 10000 iterations and from the resulting population of 10002 pick $ x $ with the maximal $ O(x) $.
 
 By generating new solutions as modifications of existing successful solutions we focus the search on the most promising part of the search space. 
 Note that the darker colored points of the visualization on figure \ref{fig:neuropt-search} were added to the population after the light colored ones. 
@@ -54,13 +47,8 @@ Note that the darker colored points of the visualization on figure \ref{fig:neur
 
 One can see that 10000 iterations were not enough to find the highest peak, although the one we finally found is close. Most of the iterations were spent navigating the far left part of the search space. 
 The right half of the search space remained unexplored - the rightmost solution $ x_\text{right} $ has an $ O(x_\text{right})=-2 $ which means it's almost never drawn from $ p(x) $. 
-This could be mitigated by various means, for instance, \emph{temperature sampling} adding a temperature parameter to $ p(x) $:
-
-\begin{equation}
-p_t(x) \sim e^{tO(x)}
-\end{equation}
-
-but the issue is fundamental to evolutionary algorithms - a few unrepresentative examples can erroneously exclude a large part of the search space.
+This could be mitigated by various means, for instance, \emph{temperature sampling} \cite{holtzman2019curious}, namely, adding a temperature parameter to $ p(x) $: $p_t(x) \sim e^{tO(x)}$.
+But the issue is fundamental to evolutionary algorithms - a few unrepresentative examples can erroneously exclude a large part of the search space.
 
 \paragraph{Neural Actor-Critic approach}
 
