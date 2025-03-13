@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:
+  release:
+    types:
+      - created
 
 jobs:
   build-test:
@@ -27,3 +30,10 @@ jobs:
         with:
           filename: thesis.tex
           options: -lualatex
+
+      - uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: thesis.pdf
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
