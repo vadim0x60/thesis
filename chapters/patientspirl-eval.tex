@@ -1,6 +1,7 @@
 \chapter{Evaluating PatientSPIRL}
 \label{ch:eval}
 
+\begin{comment}
 \section{Selecting the simulator}
 
 \begin{table}[]
@@ -29,7 +30,6 @@
          Virtu-ALS \cite{briskAIEnhanceInteractive2018} & emergency care & & & & confirmation bias \\
          Auto-ALS & emergency care & & & & confirmation bias \\
          HeartPole & healthy lifestyle & & & & no factual basis \\
-         GraphSim & intensive care & MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} & 40000 & graph compression & \\
     \end{tabular}
     \caption{Summary of each simulator: trust view}
     \label{tab:trustview}
@@ -49,17 +49,15 @@ Thus, the only simulators \emph{difficult} enough to be benchmarks for novel app
 Table \ref{tab:structview} reviews the structural complexity of the simulators, a factor that directly contributes to \emph{difficulty}.
 Note that \emph{Virtu-ALS} is an unusually high-dimensional environment.
 As such, solving it is likely to require more parameters and longer training times.
-\emph{GraphSim} is the only simulator that does not provide non-zero rewards in non-terminal states $S_{nt}$, making it harder for the agent to attribute the results of the episode to particular actions.
-\emph{GYMIC} (see section \ref{sec:gymic}) solves this problem with an additional metric (SOFA score), but unlike \emph{GYMIC} \emph{GraphSim} covers a wide range of clinical conditions and there is no single health metric applicable to each.
-
 
 Automatic discovery of clinical strategies is a nascent field of research that has a potential to considerably improve patient outcomes and become a new modus operandi in healthcare research.
 The goal of this chapter is to provide a solid foundation for further development of this field with better patient simulators and better understanding thereof.
 We have reviewed the state of the art in patient simulators, identified some of the problems the field is facing and proposed novel simulators to address them.
-We believe that \emph{HeartPole} and \emph{Auto-ALS} can become new standard benchmarks for reinforcement learning in healthcare, while \emph{GraphSim} can become a stepping stone to improved patient outcomes in intensive care.
+We believe that \emph{HeartPole} and \emph{Auto-ALS} can become new standard benchmarks for reinforcement learning in healthcare.
 
 \newpage
 \section{Selecting the algorithm}
+\end{comment}
 
 We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:patientspirl-auto-als}
 
@@ -80,17 +78,21 @@ We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) w
 
 \paragraph{Prompts}
 
-\input{tables/patientspirl-metaheartpole.tex}
-
 \paragraph{Generated program}
 
+With a Deepseek model:
+
 \lstinputlisting{listings/metanurse-deepseek.py}
+
+With GPT:
 
 \lstinputlisting{listings/metanurse-gpt.py}
 
 for 2868 iterations
 
 \paragraph{Evaluation}
+
+\input{tables/patientspirl-metaheartpole.tex}
 
 \newpage
 \section{Auto-ALS results}
