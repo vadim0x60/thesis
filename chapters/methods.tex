@@ -112,15 +112,13 @@ With differentiable programming machine learning can be used to adjust all const
 
 Probabilistic programming \cite{gordonProbabilisticProgramming2014} is a programming paradigm where the developer is allowed to specify non-deterministic branching so that which pathway gets executed is decided randomly or externally.
 The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{programmatically interpretable reinforcement learning} fashion.
-As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand.
-
-\todo{TerpreT}
+As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand \cite{gauntTerpreTProbabilisticProgramming2016}.
 
 \paragraph{Sketch completion}
 
 The paradigm of program synthesis by sketching predates large language models for code \cite{solar-lezamaProgramSynthesisSketching2008} and involves a human developer writing an approximate sketch of the desired program and a program synthesis system fills in the gaps and adds the missing details.
 
-Today, this can be done with a \emph{programming copilot}: a software tool integrated into the text editor as a core feature or an extension, that used a pretrained language model to recommend code snippets based on the context (the code already present in the file).
+Today, this can be done with a \emph{programming copilot} \cite{liangLargeScaleSurveyUsability2024}: a software tool integrated into the text editor as a core feature or an extension, that used a pretrained language model to recommend code snippets based on the context (the code already present in the file).
 At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task: see figure \ref{fig:fastinversesqrt} for an example.
 
 \begin{figure}
@@ -129,8 +127,6 @@ At first glance \emph{copilots} may seem like a tool to accelerate typing, howev
     \caption{Github Copilot \cite{dakhelGithubCopilotAi2023, nguyenEmpiricalEvaluationGitHub2022, wermelingerUsingGithubCopilot2023} suggests an efficient algorithm for calculating inverse square root \cite{lomontFastInverseSquare2003} before the developer has finished typing the name of the method}
     \label{fig:fastinversesqrt}
 \end{figure}
-
-According to a large-scale survey \cite{liangLargeScaleSurveyUsability2024} \todo{what?}
 
 \newpage
 \section{Open problem}
