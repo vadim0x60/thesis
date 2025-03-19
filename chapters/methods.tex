@@ -81,6 +81,38 @@ Research literature on structural code encoding \cite{alon2019structural,zhang20
 A novel approach to grammar guided program synthesis is proposed in chapter \ref{ch:tree2tree}
 
 \newpage
+\section{Human in the loop}
+\label{sec:human}
+
+Alternatively, one can narrow the scope of the problem by retaining a human developer in the loop, but supporting them with CASE \cite{caseComputeraidedSoftwareEngineering1985} tools that solve some of the subtasks involved in developing a program.
+
+\paragraph{Parametrization}
+
+Differentiable programming \cite{blondelElementsDifferentiableProgramming2024} involves programming languages designed such that if a program computes function $f(x)$ the compiler can compute a derivative $f'(x)$. 
+Machine learning can then be used to adjust all constants defined by the human developer.
+
+Probabilistic programming \cite{gordonProbabilisticProgramming2014} is a programming paradigm where the developer is allowed to specify non-deterministic branching so that which pathway gets executed is decided randomly or externally.
+The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{programmatically interpretable reinforcement learning} fashion.
+As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand \cite{gauntTerpreTProbabilisticProgramming2016}.
+
+\paragraph{Sketch completion}
+
+The paradigm of program synthesis by sketching \cite{solar-lezamaProgramSynthesisSketching2008} involves a human developer writing an approximate sketch of the desired program and a program synthesis system fills in the gaps and adds the missing details.
+
+Today, this can be done with a \emph{programming copilot}: a software tool integrated into the text editor as a core feature or an extension, that used a pretrained language model to recommend code snippets based on the context (the code already present in the file).
+At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task: see figure \ref{fig:fastinversesqrt} for an example.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/fastinversesqrt.png}
+    \caption{Github Copilot \cite{dakhelGithubCopilotAi2023, nguyenEmpiricalEvaluationGitHub2022, wermelingerUsingGithubCopilot2023} suggests an efficient inverse square root algorithm  \cite{lomontFastInverseSquare2003} before the developer finishes typing the name of the method}
+    \label{fig:fastinversesqrt}
+\end{figure}
+
+Programming copilots haven proven to increase the productivity of software developers \cite{liangLargeScaleSurveyUsability2024}.
+Modern copilot tools largely owe their power to unsupervised pretraining, described in section \ref{sec:pretrain}.
+
+\newpage
 \section{Unsupervised pre-training}
 \label{sec:pretrain}
 
@@ -98,39 +130,10 @@ It just so happens, however, that there has recently been significant progress i
 \end{enumerate}
 
 As a result of this trifecta of antecedents, unsupervised pretraining has enabled significant progress in code translation settings such as \emph{natural language to machine language} \cite{chenEvaluatingLargeLanguage2021, conala, guoContentEnhancedBERTbased2020, hallerPECCProblemExtraction2024, hendrycksMeasuringCodingChallenge2021, honarvarTurbulenceSystematicallyAutomatically2025, huQualityFlowAgenticWorkflow2025, jimenezSWEbenchCanLanguage2024, leiPlanningDrivenProgrammingLarge2025, liEnablingProgrammingThinking2023, liExploringEffectivenessLlms2023, psb2, solimanMarianCGCodeGeneration2022, the-crypt-keeperThecryptkeeperCanaicode2025, zhuoBigCodeBenchBenchmarkingCode2024} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022,openaiCompetitiveProgrammingLarge2025}.
+However, for the purposes of PatientSPIRL
 
-\newpage
-\section{Human in the loop}
-\label{sec:human}
+\begin{highlight}
+    Programmatically Interpretable Reinforcement Learning is still a nascent field with no method available for us to deploy in a patient simulator.
+\end{highlight}
 
-Alternatively, one can narrow the scope of the problem by retaining a human developer in the loop, but supporting them with CASE \cite{caseComputeraidedSoftwareEngineering1985} tools that solve some of the subtasks involved in developing a program.
-
-\paragraph{Parametrization}
-
-Differentiable programming \cite{blondelElementsDifferentiableProgramming2024} involves programming languages designed such that if a program computes function $f(x)$ the compiler can compute a derivative $f'(x)$. 
-With differentiable programming machine learning can be used to adjust all constants defined by the human developer.
-
-Probabilistic programming \cite{gordonProbabilisticProgramming2014} is a programming paradigm where the developer is allowed to specify non-deterministic branching so that which pathway gets executed is decided randomly or externally.
-The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{programmatically interpretable reinforcement learning} fashion.
-As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand \cite{gauntTerpreTProbabilisticProgramming2016}.
-
-\paragraph{Sketch completion}
-
-The paradigm of program synthesis by sketching predates large language models for code \cite{solar-lezamaProgramSynthesisSketching2008} and involves a human developer writing an approximate sketch of the desired program and a program synthesis system fills in the gaps and adds the missing details.
-
-Today, this can be done with a \emph{programming copilot} \cite{liangLargeScaleSurveyUsability2024}: a software tool integrated into the text editor as a core feature or an extension, that used a pretrained language model to recommend code snippets based on the context (the code already present in the file).
-At first glance \emph{copilots} may seem like a tool to accelerate typing, however, the developer can also imitate the "natural language to machine language" paradigm by describing the task at hand in a comment (or function name or docstring) and letting the copilot solve the task: see figure \ref{fig:fastinversesqrt} for an example.
-
-\begin{figure}
-    \centering
-    \includegraphics{images/fastinversesqrt.png}
-    \caption{Github Copilot \cite{dakhelGithubCopilotAi2023, nguyenEmpiricalEvaluationGitHub2022, wermelingerUsingGithubCopilot2023} suggests an efficient algorithm for calculating inverse square root \cite{lomontFastInverseSquare2003} before the developer has finished typing the name of the method}
-    \label{fig:fastinversesqrt}
-\end{figure}
-
-\newpage
-\section{Open problem}
-\label{sec:goal}
-
-However, Programmatically Interpretable Reinforcement Learning is still a nascent field with no method available for us to deploy in a patient simulator in a plug and play fashion.
 Chapters \ref{ch:bfpp}-\ref{ch:seidr} are dedicated to developing such a method.
