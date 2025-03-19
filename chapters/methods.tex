@@ -84,38 +84,20 @@ A novel approach to grammar guided program synthesis is proposed in chapter \ref
 \section{Unsupervised pre-training}
 \label{sec:pretrain}
 
-\paragraph{Foundation models}
+In \emph{unsupervised pretraining} a model is first trained on an unstructured dataset.
+This model that acts as a \emph{foundation model} \cite{yangFoundationModelsDecision2023, yuanPowerFoundationModels2023, zhouComprehensiveSurveyPretrained2023} that can be adapted to solving more specific practical tasks via fine tuning \cite{panTransferLearning2020, weissSurveyTransferLearning2016a, zhuangComprehensiveSurveyTransfer2020} or composition \cite{shivakumarStudyImpactLanguage2017}.
+In practice, foundation models of code are usually \emph{autoregressive} models trained to carry out \emph{next-token prediction} \cite{shlegerisLanguageModelsAre2024} - a task that does not require a structured dataset (a corpus of programs is enough) and has clear downstream applications such as programming copilots (see section \ref{sec:human}).
+This paradigm is an attractive solution to the \emph{sparsity problem}, as it allows for a model to learn a subspace of the space of all possible strings that contains known programs in a data driven fashion.
 
-The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
-In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
+Unsupervised pretraining can be very powerful, but it requires a large amount of \emph{data} and \emph{hardware} as well as \emph{algorithms} that can make use of available data and hardware efficiently. 
+It just so happens, however, that there has recently been significant progress in all 3 areas:
+\begin{enumerate}
+    \item 88.12\% of the world's software developers have decided to store all of their code together in one place \cite{GithubMarketShare}. The collective wisdom of the planet's programming experts is thus pre-aggregated into a dataset that requires only minimal filtering and preprocessing \cite{kocetkovStack3TB2022} to be used for unsupervised pretraining of language models.
+    \item recent advances in hardware architectures for data parallelism (applying one mathematical operation to a set of different inputs at the same time) like GPU \cite{dallyEvolutionGraphicsProcessing2021} and TPU \cite{jouppiMotivationEvaluationFirst2018} have enabled much faster model training \cite{wangBenchmarkingTPUGPU2019}. 
+    \item the Transformer architecture \cite{vaswaniAttentionAllYou2023} has replaced Recurrent Neural Networks \cite{hochreiterLongShorttermMemory1997,choPropertiesNeuralMachine2014} as the industry standard for neural sequence modeling. Unlike RNNs, the Transformer processes elements of the sequence in parallel, making better use of data parallelism afforded by GPU/TPU hardware. All the leading models in benchmarks cited below implement the Transformer with minor variations \cite{raffelExploringLimitsTransfer2023, wangGrokkedTransformersAre2024, geipingCrammingTrainingLanguage2022, liuBetterFewShotFinetuning2023, liuSwinTransformerV22022, rabeSelfattentionDoesNot2022, soPrimerSearchingEfficient2022, sunLengthExtrapolatableTransformer2022, xieResiDualTransformerDual2023, burtsevMemoryTransformer2021a, dingCogViewMasteringTexttoImage2021, dingERNIEDocRetrospectiveLongDocument2021, henryQueryKeyNormalizationTransformers2020, heRealFormerTransformerLikes2021, huangAttentionAttentionImage2019, luUnderstandingImprovingTransformer2019, nguyenTransformersTearsImproving2019, parisottoStabilizingTransformersReinforcement2019, PathwaysLanguageModel, pressImprovingTransformerModels2020, pressTRAINSHORTTEST2022, shazeerFastTransformerDecoding2019, shazeerGLUVariantsImprove2020, shazeerTalkingHeadsAttention2020, shleiferNormFormerImprovedTransformer2021, sukhbaatarAugmentingSelfattentionPersistent2019a, wangCrossFormerVersatileVision2021, zhangRootMeanSquare2019, zhaoExplicitSparseTransformer2019, ZhiXuJiXingDaiMaGaiJinTransformerZiZhuYiLiJiZhiJiHuBuZengJiaJiSuanLiang}.
+\end{enumerate}
 
-\paragraph{Autoencoder models}
-
-% Motivation
-
-% Definition, architecture
-
-% Success stories
-
-% Downstream tasks, issues
-
-
-
-\paragraph{Autoregressive models}
-
-% Why this approach
-Most modern foundation models are \emph{autoregressive}, i.e. trained to predict the a token in a program given all the preceding tokens.
-This paradigm makes it easy to collect training data and parallelize computation.
-
-% Architectures
-\todo{Some words on architectures}
-
-% Models
-Autoregressive foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022,openaiCompetitiveProgrammingLarge2025}.
-
-\paragraph{Constrained decoding}
-
-A hybrid solution, combining an unstructured pretrained language model with inference-time grammar guidance is \emph{constrained decoding} \cite{melcerConstrainedDecodingCode2024}: an algorithm based on excluding tokens disallowed by the grammar of the programming language when sampling tokens from a model.
+As a result of this trifecta of antecedents, unsupervised pretraining has enabled significant progress in code translation settings such as \emph{natural language to machine language} \cite{chenEvaluatingLargeLanguage2021, conala, guoContentEnhancedBERTbased2020, hallerPECCProblemExtraction2024, hendrycksMeasuringCodingChallenge2021, honarvarTurbulenceSystematicallyAutomatically2025, huQualityFlowAgenticWorkflow2025, jimenezSWEbenchCanLanguage2024, leiPlanningDrivenProgrammingLarge2025, liEnablingProgrammingThinking2023, liExploringEffectivenessLlms2023, psb2, solimanMarianCGCodeGeneration2022, the-crypt-keeperThecryptkeeperCanaicode2025, zhuoBigCodeBenchBenchmarkingCode2024} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022,openaiCompetitiveProgrammingLarge2025}.
 
 \newpage
 \section{Human in the loop}
@@ -153,8 +135,6 @@ According to a large-scale survey \cite{liangLargeScaleSurveyUsability2024} \tod
 \newpage
 \section{Open problem}
 \label{sec:goal}
-\todo{More PIRL overview}
 
-The techniques above (especially unsupervised pretraining) have enabled significant progress in code translation settings such as \emph{natural language to machine language} \cite{chenEvaluatingLargeLanguage2021, conala, guoContentEnhancedBERTbased2020, hallerPECCProblemExtraction2024, hendrycksMeasuringCodingChallenge2021, honarvarTurbulenceSystematicallyAutomatically2025, huQualityFlowAgenticWorkflow2025, jimenezSWEbenchCanLanguage2024, leiPlanningDrivenProgrammingLarge2025, liEnablingProgrammingThinking2023, liExploringEffectivenessLlms2023, psb2, solimanMarianCGCodeGeneration2022, the-crypt-keeperThecryptkeeperCanaicode2025, zhuoBigCodeBenchBenchmarkingCode2024}.
 However, Programmatically Interpretable Reinforcement Learning is still a nascent field with no method available for us to deploy in a patient simulator in a plug and play fashion.
 Chapters \ref{ch:bfpp}-\ref{ch:seidr} are dedicated to developing such a method.
