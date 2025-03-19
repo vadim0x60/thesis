@@ -32,6 +32,11 @@ To use an example from section \ref{sec:datasets}, sepsis presents a high risk o
 In light of existing research on generalist models, it is likely that considering them separately is counterproductive.
 This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare a particularly important research goal.
 
+\paragraph{Sequence modeling}
+
+Foundation models (see section \ref{sec:pretrain}) tend to be sequence models: estimating the probability a sequence of fixed-size elements $\hat{p}(t_1, \dots, t_n)$ typically modeled as conditional probability of one (usually last) element given others $\hat{p}(t_n | t_1, \dots, t_n)$ since most tasks in machine learning can be represented as sequence modeling. 
+There is evidence that this generality is a fundamental property of sequence models: see proofs that Recurrent Neural Networks \cite{siegelmannComputationTuringLimit1995} and Attention \cite{perezAttentionTuringComplete} are Turing-complete.
+
 \paragraph{Healthcare as Sequence Modeling}
 \label{sec:sequencemodel}
 

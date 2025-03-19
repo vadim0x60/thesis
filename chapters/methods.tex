@@ -84,27 +84,10 @@ A novel approach to grammar guided program synthesis is proposed in chapter \ref
 \section{Unsupervised pre-training}
 \label{sec:pretrain}
 
+\paragraph{Foundation models}
+
 The paradigm of foundation models \cite{foundation-models} has recently been very prominent in machine learning and machine learning on source code is no exception.
 In this paradigm, a model is first trained on a large dataset to solve a generic task such as next-token prediction and then used as a central component in solutions of various specific tasks.
-
-\paragraph{Data}
-
-\paragraph{Sequence modeling}
-
-With a few notable exceptions foundation models tend to be sequence models: estimating the probability a sequence of fixed-size elements
-
-\begin{equation}
-    \hat{p}(t_1, \dots, t_n)
-\end{equation}
-
-typically modeled as conditional probability of one (usually last) element given others
-
-\begin{equation}
-    \hat{p}(t_n | t_1, \dots, t_n)
-\end{equation}
-
-since most tasks in machine learning can be represented as sequence modeling. 
-There is evidence that this generality is a fundamental property of sequence models: see proofs that Recurrent Neural Networks \cite{siegelmannComputationTuringLimit1995} and Attention \cite{perezAttentionTuringComplete} are Turing-complete.
 
 \paragraph{Autoencoder models}
 
@@ -128,7 +111,7 @@ This paradigm makes it easy to collect training data and parallelize computation
 \todo{Some words on architectures}
 
 % Models
-Autoregressive foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022}.
+Autoregressive foundation models for source code, based on architectures such as GPT Codex \cite{radfordImprovingLanguageUnderstanding,chenEvaluatingLargeLanguage2021,codegen,gpt-neo} and BERT \cite{devlinBERTPretrainingDeep2019,codebert} have enabled significant process in tasks like programming by example \cite{halbertProgrammingExample1984} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022,openaiCompetitiveProgrammingLarge2025}.
 
 \paragraph{Constrained decoding}
 
