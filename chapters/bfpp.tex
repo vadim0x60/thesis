@@ -1,25 +1,42 @@
 \chapter{BF++}\label{ch:bfpp}
 
-\citeself{chapter}{liventsev2021:bf}
+\citeself{chapter}{liventsevBFLanguageGeneralpurpose2022}
 
-\section{BF++}
-\label{sec:language}
+\section{Motivation}
 
-\paragraph{BF syntax}
-\label{sec:bf}
+As discussed in section \ref{sec:constrainedpl}, domain specific languages like SQL make program synthesis tasks tractable by virtue of being simpler than industry-grade programming languages like Python or Java.
+In the absense of a programming language both simple enough to sufficiently limit the optimization space and yet expressive enough to be general purpose, DSLs trade off the complexity of the optimization problem against the range of application domains a program synthesis system can tackle: SQL, for example, is only applied in the domain of relational databases.
+But what if such a language were to exist?
 
-Abolafia {\sl et al} \cite{abolafiaNeuralProgramSynthesis2018} picked BF\footnote{Brainfuck} \cite{brainfuck} as their language for program synthesis for the following reasons:
+State of the art Programmatically Interpretable Reinforcement Learning work \cite{abolafiaNeuralProgramSynthesis2018} identifies BF\footnote{Brainfuck} \cite{brainfuck} as a promising program synthesis language for arbitrary reinforcement learning environments for the following reasons:
 \begin{itemize}
-    \item In industry-grade programming languages like Python or Java program code can contain a very large variety of characters since any of the 143859 Unicode \cite{allenUnicodeStandard2012} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
+    \item In industry programming languages a program $\code$ can contain a very large variety of characters since any of the 143859 Unicode \cite{allenUnicodeStandard2012} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
     \item BF's simple syntax means that an arbitrary string of valid characters is likely to be a valid program. 
     In more complex languages, most possible strings result in a syntax error. 
     A generative model being trained to write programs in such a language risks being stuck in a long exploration phase when all the programs it generates are invalid and it has no positive examples in the dataset.
     \item Despite all of the above, it is a Turing-complete language.
 \end{itemize}
 
-The simplicity of the language also means that it is relatively easy to develop a compiler that translates programs from an industry-standard programming languages like Java and Python to BF thus making use of the expert knowledge existing in those languages. 
+BF is indeed simple and general, but not so simple that a randomly generated BF program will be valid and meaningful. 
+This property is essential for PIRL settings, since learning requires positive and negative examples which, without a pre-existing training set of programs, can only be obtained by trial-and-error.
+In particular, to be grammatical and meaningful in a POMDP environment, a BF program must:
+\begin{enumerate}
+    \item Contain equal number of opening and closing loop commands, \texttt{[} and \texttt{]}
+    \item Execute one write operation for every read operation
+\end{enumerate}
 
-In the current chapter, we introduce an extended version of the original BF language, BF++. As explained below, the extensions to the original BF syntax are particularly useful in the RL use cases. 
+Due to these limitations, as well as the lack of a general enough input output system in BF, the framework proposed in \cite{abolafiaNeuralProgramSynthesis2018} is only applicable in \emph{programming by example} settings such as string manipulation tasks, despite using Reinforcement Learning techniques.
+In this chapter we propose an extension of BF with additional constructs that address these limitations and make BF++, the proposed language, suitable for programmatically interpretable reinforcement learning in an arbitrarily Partially Observable Markov Decision Process (POMDP) environment.
+
+\newpage
+\section{BF++}
+\label{sec:language}
+
+We introduce an extended version of the original BF language, BF++. 
+As explained below, the extensions to the original BF syntax are particularly useful in the Reinforcement Learning use cases. 
+
+\paragraph{BF syntax}
+\label{sec:bf}
 
 BF's runtime model is inspired by the classic Turing Machine \cite{turing}: at any point during the program's execution, the state of the program consists of:
 
