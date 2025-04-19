@@ -1,8 +1,6 @@
 \chapter{Multiagent Programming with LLMs}
 \label{ch:seidr}
 
-\todo{Ensure standard nomenclature}
-
 \section{Introduction}
 \label{sec:seidr-intro}
 
@@ -61,28 +59,28 @@ by correctness, measured as matching I/O pairs, discard the worst candidates, an
 \subsection{Ingredients}
 \label{sec:seidr-ingredients}
 
-SEIDR makes use of instruction fine-tuned large language models: a \emph{synthesis} model $p_{\text{synth}}(\text{code, }$ descr), a \emph{debugging} model $ \langmodel_\text{debug} $, as well as a model $ \langmodel_\text{text} $ that can be used for writing textual instructions, which are forwarded to the code generation model $ \langmodel_\text{debug} $ for code updates. 
+SEIDR makes use of instruction fine-tuned large language models: a \emph{synthesis} model $\prob_{\text{synth}}(\text{code, }$ descr), a \emph{debugging} model $ \policy_\text{debug} $, as well as a model $ \policy_\text{text} $ that can be used for writing textual instructions, which are forwarded to the code generation model $ \policy_\text{debug} $ for code updates. 
 Therefore, the design can be described as two agents communicating with each other, whereby one generates code and another provides critical or supervising comments on what should be changed in the generated code. 
 
-The models $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ can be either separate or the same model.
-The prerequisites are that $ \langmodel_\text{synth} $ and $ \langmodel_\text{debug} $ models are able to ``understand'' natural language (descr) and partial or full programs (code) and generate code based on them. 
-The model $ \langmodel_\text{text} $ should be able to ``understand'' code and natural language and either autocomplete or generate the debugging instruction from scratch. 
-Note that $ \langmodel_\text{text} $ is optional, since alternatively the debugging instructions can be generated from failing tests using static pre-defined templates.
+The models $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ can be either separate or the same model.
+The prerequisites are that $ \policy_\text{synth} $ and $ \policy_\text{debug} $ models are able to ``understand'' natural language (descr) and partial or full programs (code) and generate code based on them. 
+The model $ \policy_\text{text} $ should be able to ``understand'' code and natural language and either autocomplete or generate the debugging instruction from scratch. 
+Note that $ \policy_\text{text} $ is optional, since alternatively the debugging instructions can be generated from failing tests using static pre-defined templates.
 %as described in~\cite{liventsev2023:fully}. 
 In general, SEIDR requires sequence-to-sequence generative models for these agents. 
-%In our experiments, we have chosen models $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ that are based on the state-of-the-art transformer architecture~\cite{vaswani2017:attention} as a backbone and its subsequent improvements (see Section~\ref{sec:seidr-models}). 
-In our experiments, we select models for $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $ based on the state-of-the-art transformer architectures~\cite{vaswaniAttentionAllYou2023} 
+%In our experiments, we have chosen models $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ that are based on the state-of-the-art transformer architecture~\cite{vaswani2017:attention} as a backbone and its subsequent improvements (see Section~\ref{sec:seidr-models}). 
+In our experiments, we select models for $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ based on the state-of-the-art transformer architectures~\cite{vaswaniAttentionAllYou2023} 
 %and its subsequent improvements 
 (see Section~\ref{sec:seidr-models}). 
 
 Each LLM is a highly parameterised probability distribution over the space of (code, description)-tuples with parameters estimated on a large diverse (i.e., non-task-specific) corpus.
-This stochastic nature of language models is an important prerequisite for SEIDR, since it allows us to sample batches of diverse candidate solutions from $ \langmodel_\text{synth} $, $ \langmodel_\text{debug} $, and $ \langmodel_\text{text} $. 
+This stochastic nature of language models is an important prerequisite for SEIDR, since it allows us to sample batches of diverse candidate solutions from $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $. 
 We denote the number of outputs generated with $\treearity_\text{draft},$ $\treearity_\text{debug},$ and $\treearity_\text{explain},$ correspondingly.
 Moreover, each model generates the most probable and less probable outputs in each batch, which helps diversify problem solving attempts. 
 In the following implementation-related subsections, we explain how we vary the number of candidate solutions, debug instructions, and repairs generated in a batch by each LLM in SEIDR.
 
-While SEIDR is described here as a multi-agent system, it can equally be seen as a form of evolutionary algorithm or genetic programming, where the initialization and mutation steps of the system are performed by LLMs, $ \langmodel_\text{synth} $ and $ \langmodel_\text{debug} $, correspondingly.
-Throughout this work, we use agent-oriented programming terminology~\cite{shoham1993:agentoriented} and evolutionary optimization terminology interchangeably to try to bridge the gaps between these domains.
+While SEIDR is described here as a multi-agent system, it can equally be seen as a form of evolutionary algorithm or genetic programming, where the initialization and mutation steps of the system are performed by LLMs, $ \policy_\text{synth} $ and $ \policy_\text{debug} $, correspondingly.
+Throughout this chapter, we use agent-oriented programming terminology~\cite{shoham1993:agentoriented} and evolutionary optimization terminology interchangeably to try to bridge the gaps between these domains.
 
 \subsubsection{Synthesize}
 \label{sec:seidr-synth}
@@ -100,8 +98,8 @@ We start with a basic template for a chosen programming language that contains a
 
 We populate this template with a comment indicating a textual task description and several I/O examples from the training set.
 We design the templates with prompt engineering guidelines\footnote{~\url{https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results}} and prior work~\cite{debruin2021:autoencoders} in mind.
-We then sample $\treearity_\text{draft}$ programs from $ \langmodel_\text{synth} $, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
-We use spring sampling:\footnote{~\url{https://vadim.me/publications/spring/}} a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_i \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
+We then sample $\treearity_\text{draft}$ programs from $ \policy_\text{synth} $, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
+We use spring sampling:\footnote{~\url{https://vadim.me/publications/spring/}} a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
 %Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
 In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
@@ -109,21 +107,19 @@ In combination with the naturalness principle of source code \cite{allamanis2018
 \subsubsection{Execute}
 \label{sec:seidr-execute}
 
-\todo{Holy war on the letter n}
-
 The EXECUTE agent compiles the programs (if necessary) and launches them using the standard tools for the programming language.
 The program is run once for every I/O pair in the validation set. 
 Its \texttt{stdin} stream receives all input lines in a given input pair, and its \texttt{stdout} and \texttt{stderr} streams are captured and saved.
-We then measure the \emph{score} of the program defined as the accuracy over the output lines, with \expoutputvec{} being the expected output, and $n=\max\{|\expoutputvec{}|, |\text{stdout}|\}$:
+We then measure the \emph{score} of the program defined as the accuracy over the output lines, with $\mloutputvec{}$ being the expected output, and $n=\max\{|\mloutputvec{}|, |\text{stdout}|\}$:
 \[    
-\text{score}(\expoutputvec{}, \text{stdout}) = \frac{\sum^{n}_i{\mathbb{I}[\text{stdout}_i = O_i]}}{n} 
+\text{score}(\mloutputvec{}, \text{stdout}) = \frac{\sum^{n}_\step{\mathbb{I}[\text{stdout}_\step = \mloutputvec_\step]}}{n} 
 \]
 unless \texttt{stderr} is non-empty during compilation or execution, which is considered to indicate failure and is assigned a score of 0.
 
 \subsubsection{Instruct}
 \label{sec:seidr-instruct}
 
-The goal of the INSTRUCT agent is to provide instructions that summarize bugs in a candidate program and suggest a solution for $ \langmodel_\text{debug} $. 
+The goal of the INSTRUCT agent is to provide instructions that summarize bugs in a candidate program and suggest a solution for $ \policy_\text{debug} $. 
 The resulting instructions with the bug summary should indicate what requirement is violated and instruct the LLM to edit the candidate program accordingly. 
 The input to INSTRUCT consists of failing I/O pairs from the validation set and \texttt{stderr} output of the candidate execution. 
 In order to represent this heterogeneous input as text that can be further processed by an LLM, we use template engines that replace placeholders in files or strings with input values and return a formatted string. 
@@ -143,8 +139,8 @@ However, the designs differ in the way they transform failing I/O pairs to gener
 INSTRUCT$^{\text{static}}$ uses a fixed template and substitutes placeholders for input and output with the corresponding strings of the first failing test case in its template engine.
 For example, we show the resulting instruction for an exemplar template in Figure~\ref{fig:method-instruct}.
 In contrast, INSTRUCT$^{\text{LLM}}$ uses the failing I/O pair in the LLM for text completion, thereby prompting the text LLM to produce the bug explanation and a summary for debugging. 
-In addition to providing a failing test case or \texttt{stderr}, one may choose to give the model $ \langmodel_\text{text} $ more context, such as the problem name, task description, and the code generated so far. 
-Each call to $ \langmodel_\text{text} $ can result in $\treearity_\text{explain}\ge1$ instructions, a batch output of an LLM.
+In addition to providing a failing test case or \texttt{stderr}, one may choose to give the model $ \policy_\text{text} $ more context, such as the problem name, task description, and the code generated so far. 
+Each call to $ \policy_\text{text} $ can result in $\treearity_\text{explain}\ge1$ instructions, a batch output of an LLM.
 The prompt templates used for the experiments are detailed in Section~\ref{sec:seidr-prompts}.
 
 % An exemplar output of the code behavior template engine in Figure~\ref{fig:method-instruct} describes that the code returns output O instead of expected output O$_{\text{val}}$ for the failing test case with input string I$_{\text{val}}.$
@@ -155,10 +151,10 @@ The prompt templates used for the experiments are detailed in Section~\ref{sec:s
 
 The main component of SEIDR that addresses the ``near-miss syndrome'' is the DEBUG agent.  
 This agent iterates over all programs in the population to repair candidate programs and pass more tests. 
-It uses the instructions written by INSTRUCT to sample from the $ \langmodel_\text{debug} $ model $\treearity_\text{debug}$ times
-to repair each candidate and create a new population of \treearity{} candidates.
-For $ \langmodel_\text{debug} $, the parameter \texttt{code} is set to the current version of the candidate solution and \texttt{descr} to the output of INSTRUCT and any additional context chosen for a specific implementation.
-The current generation of candidates is then replaced by \treearity{} outputs of DEBUG.
+It uses the instructions written by INSTRUCT to sample from the $ \policy_\text{debug} $ model $\treearity_\text{debug}$ times
+to repair each candidate and create a new population of $\treearity{}$ candidates.
+For $ \policy_\text{debug} $, the parameter \texttt{code} is set to the current version of the candidate solution and \texttt{descr} to the output of INSTRUCT and any additional context chosen for a specific implementation.
+The current generation of candidates is then replaced by $\treearity{}$ outputs of DEBUG.
 
 \subsubsection{Rank}
 
@@ -166,7 +162,7 @@ The RANK agent implements what is known in genetic programming as \emph{parent s
 We consider two different parent selection algorithms: tournament selection and lexicase selection. 
 See Section~\ref{sec:seidr-lexicase-results} for their empirical comparison.
 
-\emph{Tournament selection} variant used in this work sorts the programs according to their average test score and selects top $\beamwidth{}$ candidates. 
+\emph{Tournament selection} variant used in this chapter sorts the programs according to their average test score and selects top $\beamwidth{}$ candidates. 
 % Such ranking approach is a \emph{quality-based} selection method.
 The programs are selected based on the intuition that repair of the best so far (yet imperfect) programs begets good programs. 
 The simple ranking is also referred to as \emph{tournament selection}, where the best-performing candidates are chosen to participate in the next round.  
@@ -231,7 +227,7 @@ Observe that a mutation-only genetic algorithm with tournament selection with fi
 
 Until recently, the tasks of neural program synthesis~\cite{gulwaniProgramSynthesis2017} and program repair~\cite{gouesAutomatedProgramRepair2019,petke2018:genetic,bugfixing,zhang2024systematic} have been considered separately.
 However, results from genetic programming~\cite{sobaniaRecentDevelopmentsProgram2021} suggest that evolution is a crucial step in synthesis.
-A number of important studies bridging this gap in the application of large language models have been carried out concurrently with this work, discussed below.
+A number of important studies bridging this gap in the application of large language models have been carried out concurrently with this chapter, discussed below.
 
 The use of large language models for a program repair step within a program synthesis pipeline has been studied by \cite{joshi2022:repair} and \cite{guptaSynthesizeExecuteDebug2020}, 
 while the specific case of instruction-driven LLMs has been explored by \cite{fanAutomatedRepairPrograms2023}, where the initial synthesis is done by the Codex model~\cite{chenEvaluatingLargeLanguage2021} and for program repair both Codex and state-of-the-art specialized repair tools such as TBar and Recoder~\cite{just2014:defects4j} are considered and compared. 
@@ -331,12 +327,12 @@ In other words, we do not have a held-out test split for HumanEval-X in the same
 \subsection{Models}
 \label{sec:seidr-models}
 
-SEIDR uses up to three LLMs --- $ \langmodel_\text{synth} $, $ \langmodel_\text{text} $, and $ \langmodel_\text{debug} $ ---
+SEIDR uses up to three LLMs --- $ \policy_\text{synth} $, $ \policy_\text{text} $, and $ \policy_\text{debug} $ ---
 in SYNTHESIZE, INSTRUCT$^{\text{LLM}}$, and DEBUG, respectively. 
 % These models can be instantiated with the same LLM or different ones. 
-The main prerequisite is that $ \langmodel_\text{synth} $ and $ \langmodel_\text{debug} $ are a text-to-code models which take both a textual description and a draft code as input.
-Therefore, $ \langmodel_\text{synth} $ and $ \langmodel_\text{debug} $ can be a chat model, a code completion model, an instruction fine-tuned, or a foundation generative language model pre-trained on code in addition to text. 
-By analogy, the text-to-text $ \langmodel_\text{text} $ can be a chat, instruction fine-tuned, a text completion, or a text generation model pre-trained on text and code.
+The main prerequisite is that $ \policy_\text{synth} $ and $ \policy_\text{debug} $ are a text-to-code models which take both a textual description and a draft code as input.
+Therefore, $ \policy_\text{synth} $ and $ \policy_\text{debug} $ can be a chat model, a code completion model, an instruction fine-tuned, or a foundation generative language model pre-trained on code in addition to text. 
+By analogy, the text-to-text $ \policy_\text{text} $ can be a chat, instruction fine-tuned, a text completion, or a text generation model pre-trained on text and code.
 % In our experiments, all three models are instantiated with the same fixed model. 
 
 In our experiments, we use Open AI Generative Pre-trained Transformer (GPT) models by Open AI and Llama 3 by Meta~\cite{roziere2023:code}. 
@@ -374,7 +370,7 @@ The prompts presented in this section are used in the experiments with GPT-3.5 a
 This implementation is optimized for instruction and chat models, which use prompts as inputs represented as text, partially with code fragments.
 The models use a system message that describes the ``role'' of the LLM and a regular message that works as an instruction or a chat message from a user.
 To provide more context, we always use a problem description, problem name, and programming language to the model as textual input (\texttt{descr}). 
-As code, we also add an initial template depicted in Figure~\ref{fig:template} to $ \langmodel_\text{synth} $ and the current program candidate to $ \langmodel_\text{text} $ and $ \langmodel_\text{debug} $. The resulting prompts are as follows:
+As code, we also add an initial template depicted in Figure~\ref{fig:template} to $ \policy_\text{synth} $ and the current program candidate to $ \policy_\text{text} $ and $ \policy_\text{debug} $. The resulting prompts are as follows:
 
 The system message is: 
 \begin{lstlisting}
@@ -383,7 +379,7 @@ The system message is:
   The code must read input from user and return output corresponding to the task description.
 \end{lstlisting}
 
-The input to $ \langmodel_\text{synth} $ looks as follows: 
+The input to $ \policy_\text{synth} $ looks as follows: 
 \begin{lstlisting}
 
 Solve the following code contest problem: {problem_name.}
@@ -392,7 +388,7 @@ Problem description: {problem_description.}
 Only complete the code, do not add triple quotes, do not give explanations.
 \end{lstlisting}
 
-Bug explanations are generated with $ \langmodel_\text{text} $ using the following instructions:
+Bug explanations are generated with $ \policy_\text{text} $ using the following instructions:
 \begin{lstlisting}
 I'm trying to solve the following code contest problem: {problem_name.}
 Problem description: {problem_description.}
@@ -406,7 +402,7 @@ but it returns {output".}
 Describe how I should fix the code in a very concise manner. 
 \end{lstlisting}
 
-And the debugging model $ \langmodel_\text{debug} $ operates on the following instruction:
+And the debugging model $ \policy_\text{debug} $ operates on the following instruction:
 \begin{lstlisting}
 Solve the following code contest problem: {problem_name.} 
 Problem description: {problem_description.} 
@@ -450,7 +446,7 @@ tree arity, $\treearity{}$ & 1 & 10 & 100 & $\infty$ (1000) \\[1pt]
 \midrule
 max programs generated & \multicolumn{4}{c}{1000} \\[1pt]
 prompt & \multicolumn{4}{c}{\ref{seidr:prompt-0}} \\[1pt]
-models  & \multicolumn{4}{c}{\parbox{5cm}{\centering Codex as $p_\text{synth} \text{ and } p_\text{debug}$ 
+models  & \multicolumn{4}{c}{\parbox{5cm}{\centering Codex as $\prob_\text{synth} \text{ and } \prob_\text{debug}$ 
 % \\and the static prompt for explanations
 }} \\[1pt]
 \midrule
@@ -474,7 +470,7 @@ This ensures that a second generation of programs does not exist.
 \label{sec:seidr-tree arity-ollama} 
 With the shift to chat and instruction models in the generalizability part of our study, we move from generating one bug explanation and one code draft or update to a batch of those. 
 Specifically, each of the three LLMs in SYNTHESIZE, INSTRUCT, and DEBUG  can generate sequences in batches. 
-We generate $\treearity_\text{draft}$ programs in the first generation with $ \langmodel_\text{synth} $ model, $\treearity_\text{explain}$ bug explanations with $ \langmodel_\text{text} $ for each program in a generation, and $\treearity_\text{debug}$ candidate repairs for each of the debugging instructions using $ \langmodel_\text{debug} $.
+We generate $\treearity_\text{draft}$ programs in the first generation with $ \policy_\text{synth} $ model, $\treearity_\text{explain}$ bug explanations with $ \policy_\text{text} $ for each program in a generation, and $\treearity_\text{debug}$ candidate repairs for each of the debugging instructions using $ \policy_\text{debug} $.
 A new generation of $\treearity_\text{explain} \cdot \treearity_\text{debug} \cdot \beamwidth{}$ programs created from each of $ \beamwidth{}$ parents in a previous generation is ranked and filtered to keep the best-performing $\beamwidth{}$ candidates for generating the next candidates. 
 
 To balance between a reasonable number of experiments and diverse sets of hyperparameters, we fix $\treearity_\text{explain}=2$ to moderately vary the bug descriptions and set $\treearity_\text{draft} = \treearity_\text{debug} = \treearity{}.$
@@ -520,8 +516,8 @@ max programs generated & \multicolumn{6}{c}{100} \\[4pt]
 prompts & \multicolumn{6}{c}{see Section~\ref{sec:seidr-ollama-prompts}} \\[4pt]
 models  & \multicolumn{6}{c}{
  \parbox{5cm}{
-     (a) GPT-3.5 as $p_\text{synth,} \; p_\text{debug,} \; p_\text{explain,}$ \\
-     (b) Llama 3 as $p_\text{synth,} \; p_\text{debug,} \; p_\text{explain}$
+     (a) GPT-3.5 as $\prob_\text{synth,} \; \prob_\text{debug,} \; \prob_\text{explain,}$ \\
+     (b) Llama 3 as $\prob_\text{synth,} \; \prob_\text{debug,} \; \prob_\text{explain}$
      }
 } \\[10pt]
 \midrule
@@ -798,7 +794,7 @@ The trend for both datasets is that, for problems where a solution is found, SEI
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth, trim={3mm 2.8mm 3mm 2mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_psb2_6runs_heatmap_v5.pdf}
+  \includegraphics[width=\linewidth, trim={3mm 2.8mm 3mm 2mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_psb2_6runs_heatma\prob_v5.pdf}
   \caption{PSB2: mean Excess Programs Generated (in color) and the number of runs in which a task is solved. The experiments in which a specific problem is not solved in any run are shown in white.}
   \label{fig:epg-num-solved-psb2}
   %\vspace{-3ex}
@@ -807,7 +803,7 @@ The trend for both datasets is that, for problems where a solution is found, SEI
 \begin{figure}[hbt!]
   \centering
   % {left bottom right top},
-  \includegraphics[width=.88\linewidth, trim={0mm 3mm 0mm 2.6mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_humaneval_Python_6runs_heatmap_v5.pdf}
+  \includegraphics[width=.88\linewidth, trim={0mm 3mm 0mm 2.6mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_humaneval_Python_6runs_heatma\prob_v5.pdf}
   \vspace{-4pt}
   \caption{HumanEval-Python: mean Excess Programs Generated (in color) and the number of runs in which a task is solved. The problems that are not solved in any run are colored white.}
   \label{fig:epg-num-solved-he-python}
@@ -816,7 +812,7 @@ The trend for both datasets is that, for problems where a solution is found, SEI
 
 \begin{figure}[hbt!]
   \centering
-  \includegraphics[width=.88\linewidth, trim={0mm 3mm 0mm 2.6mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_humaneval_C++_6runs_heatmap_v5.pdf}  %
+  \includegraphics[width=.88\linewidth, trim={0mm 3mm 0mm 2.6mm}, clip]{images/epg_mean_and_num_runs_problem_solved_avg_score_check_w_lexicase_humaneval_C++_6runs_heatma\prob_v5.pdf}  %
   \vspace{-4pt}
   \caption{HumanEval-C++: mean Excess Programs Generated (in color) and the number of runs in which a task is solved. The problems that are not solved in any run are colored white.}
   \label{fig:epg-num-solved-he-c++}
@@ -852,7 +848,7 @@ The coarser-grained EPG distribution with the step of 10 candidates is shown in 
 \begin{figure}
 \begin{subfigure}{.8\columnwidth}
 \centering
-\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_step_1_psb2_6runs_barplot_v5.pdf}
+\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_ste\prob_1_psb2_6runs_barplot_v5.pdf}
   \caption{PSB2: 0 $\leq$ EPG $\leq$ 10 with step 1.}
   \label{fig:psb2-epg-distrib-step-1}
 \end{subfigure}
@@ -860,21 +856,21 @@ The coarser-grained EPG distribution with the step of 10 candidates is shown in 
 % 
 \begin{subfigure}{.8\columnwidth}
 \centering
-\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_step_10_psb2_6runs_barplot_v5.pdf}
+\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_ste\prob_10_psb2_6runs_barplot_v5.pdf}
   \caption{PSB2: 0 $\leq$ EPG $\leq$ 100 with step 10.}
   \label{fig:psb2-epg-distrib-step-10}
 \end{subfigure}
 % 
 \begin{subfigure}{.8\columnwidth}
 \centering
-\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_step_1_humaneval_6runs_barplot_v5.pdf}
+\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_ste\prob_1_humaneval_6runs_barplot_v5.pdf}
   \caption{HumanEval: 0 $\leq$ EPG $\leq$ 10 with step 1.}
   \label{fig:humaneval-epg-distrib-step-1}
 \end{subfigure}
 % 
 \begin{subfigure}{.8\columnwidth}
 \centering
-\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_step_10_humaneval_6runs_barplot_v5.pdf}
+\includegraphics[width=\linewidth, trim={0mm 3mm 0mm 0mm}, clip]{images/epg_distribution_ste\prob_10_humaneval_6runs_barplot_v5.pdf}
   \caption{HumanEval: 0 $\leq$ EPG $\leq$ 100 with step 10.}
   \label{fig:humaneval-epg-distrib-step-10}
 \end{subfigure}

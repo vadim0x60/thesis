@@ -1,7 +1,7 @@
 \chapter{Tree Variational Autoencoder}\label{ch:tree2tree}
 \citeself{chapter}{liventsevTreeVariationalAutoencoder}
 
-\todo{The patch from the  chapter did not apply correctly}
+\todo{The patch from the paper did not apply correctly}
 
 \section{Introduction}
 
@@ -41,18 +41,18 @@ The encoder network aims to capture the most relevant information in a program a
 % Define h and other things here. Also, you could clarify that taking tanh and \sigma from a vector is elementwise and marked that way to 
 % simplify notation
 % TODO: define x_y
-\begin{align}\label{eq:tree_lstm_encocer}
-    \mathbf{h}^y_* &= \sum_{z \in C(y)} \mathbf{h}^z \\
-    \mathbf{i}^y &= \sigma(\mathbf{W}_{i} \cdot \mathbf{x}^y + \mathbf{U}_{i} \cdot \mathbf{h}^y_* + \mathbf{b}_{i})  \\ 
-    \mathbf{f}^{yz} &= \sigma(\mathbf{W}_{f} \cdot \mathbf{x}^y + \mathbf{U}_{f} \cdot \mathbf{h}^z + \mathbf{b}_{f}) \\\label{eq:child_sum_4}
-    \mathbf{o}^y &= \sigma(\mathbf{W}_{o} \cdot \mathbf{x}^y + \mathbf{U}_{o} \cdot \mathbf{h}^y_* + \mathbf{b}_{o}) \\
-    \mathbf{u}^y &= tanh(\mathbf{W}_{u} \cdot \mathbf{x}^y + \mathbf{U}_{u} \cdot \mathbf{h}^y_* + \mathbf{b}_{u}) \\
+\begin{align}\label{eq:tree_lstm_encoder}
+    \hidden^y_* &= \sum_{z \in C(y)} \hidden^z \\
+    \mathbf{i}^y &= \sigma(\weights_{i} \cdot \mathbf{x}^y + \mathbf{U}_{i} \cdot \hidden^y_* + \biases_{i})  \\ 
+    \mathbf{f}^{yz} &= \sigma(\weights_{f} \cdot \mathbf{x}^y + \mathbf{U}_{f} \cdot \hidden^z + \biases_{f}) \\\label{eq:child_sum_4}
+    \mathbf{o}^y &= \sigma(\weights_{o} \cdot \mathbf{x}^y + \mathbf{U}_{o} \cdot \hidden^y_* + \biases_{o}) \\
+    \mathbf{u}^y &= tanh(\weights_{u} \cdot \mathbf{x}^y + \mathbf{U}_{u} \cdot \hidden^y_* + \biases_{u}) \\
     \mathbf{c}^y &= \mathbf{i}^y \odot \mathbf{u}^y + \sum_{z \in C(y)} \mathbf{f}^{yz} \odot \mathbf{c}^z \\
-    \mathbf{h}^y &= \mathbf{o}^y \odot tanh(\mathbf{c}^y)
+    \hidden^y &= \mathbf{o}^y \odot tanh(\mathbf{c}^y)
 \end{align}
 
 In eq. \ref{eq:child_sum_4}, $z \in C(y)$ and $\odot$ denotes the element-wise product (Hadamard product), whereas $\sigma$ and $\tanh$ refer to elementwise sigmoid and hyperbolic tangent. 
-$W$, $U$ and $b$ denote trainable parameters of the model. 
+$\weights$, $U$ and $b$ denote trainable parameters of the model. 
 Note that node $y$ depends on the hidden states of all of the children $C(y)$, in other words, the computation order of the Tree-LSTM is bottom-up. 
 Just like with the standard LSTM model, Tree-LSTM can be stacked to create a multilayer Tree-LSTM. 
 In such a multilayer architecture, the hidden state of a Tree-LSTM unit in layer $l$ is then used as input to the Tree-LSTM unit in layer $l + 1$ in the same time step, the same as with the standard LSTM \cite{graves2013hybrid}. 
@@ -72,7 +72,7 @@ In the case of Tree-LSTMs, this translates to capturing longer-term dependencies
 \paragraph{Neural attention} Tree-LSTM layers are followed by an attention layer. 
 The node importance calculation is based on \cite{winata2018attention}, and updates the hidden states as follows:
 \begin{align}
-    \mathbf{h}_{at} = \mathbf{h} \odot tanh(\mathbf{W} \cdot \mathbf{h} + \mathbf{b})
+    \hidden_{at} = \hidden \odot tanh(\weights \cdot \hidden + \biases)
 \end{align}
 
 Here, $h$ denotes the hidden states of the last Tree-LSTM layer. This additional layer allows the network to prioritize nodes that contain the most information. 
@@ -101,25 +101,25 @@ The idea here is that the first steps of decoding the tree are more related to t
 A method called the doubly-recurrent neural network (DRNN) \cite{alvarezmelis2017tree} allows for top-down tree generation from an encoded vector representation. This method operates solely on the vector representation and does not require that either the tree structure or the nodes are given. The DRNN is based on two recurrent neural networks, breadth and depth-wise, to model ancestral and fraternal information flow. For some node $y$ with parent $pa(y)$ and previous sibling $s(y)$, the ancestral and fraternal hidden states are computed as follows:
 
 \begin{align}
-    \mathbf{h}_a^y &= rnn_a(\mathbf{h}_a^{pa(y)}, \mathbf{i}^{pa(y)}) \\ \label{eq:ancestral_update}
-    \mathbf{h}_f^y &= rnn_f(\mathbf{h}_f^{s(y)}, \mathbf{i}^{s(y)}) 
+    \hidden_a^y &= rnn_a(\hidden_a^{pa(y)}, \mathbf{i}^{pa(y)}) \\ \label{eq:ancestral_update}
+    \hidden_f^y &= rnn_f(\hidden_f^{s(y)}, \mathbf{i}^{s(y)}) 
 \end{align}
 
 Where $rnn_a$, $rnn_f$ are functions that apply one step of the ancestral and fraternal RNNs, respectively. Furthermore, $\mathbf{i}^{pa(y)}$, $\mathbf{i}^{s(y)}$ are the input values (label vectors) of the parent and previous sibling respectively. After the ancestral and fraternal states of $y$ have been computed with the observed labels of its parent and previous sibling, these states can be combined to form a predictive hidden state:
 
 \begin{align}
-    \mathbf{h}^y_{pred} = \tanh\left((\mathbf{W}_a \cdot \mathbf{h}_a^y + \mathbf{b}_a) + (\mathbf{W}_f \cdot \mathbf{h}_f^y + \mathbf{b}_f)\right)
+    \hidden^y_{pred} = \tanh\left((\weights_a \cdot \hidden_a^y + \biases_a) + (\weights_f \cdot \hidden_f^y + \biases_f)\right)
 \end{align}
 
-Where the operations applied to $\mathbf{h}_a^y$, $\mathbf{h}_f^y$ are linear layers with learnable weights and biases. This combined state then contains information about the nodes' surroundings in the tree.
+Where the operations applied to $\hidden_a^y$, $\hidden_f^y$ are linear layers with learnable weights and biases. This combined state then contains information about the nodes' surroundings in the tree.
 
 
 
-For each node in the tree, the model needs to decide whether it has offspring and whether it has any successor siblings. We can use the predictive hidden state of a node $\mathbf{h}^y_{pred}$, with a linear layer and a sigmoid activation to compute the probability for offspring and successor siblings as:
+For each node in the tree, the model needs to decide whether it has offspring and whether it has any successor siblings. We can use the predictive hidden state of a node $\hidden^y_{pred}$, with a linear layer and a sigmoid activation to compute the probability for offspring and successor siblings as:
 
 \begin{align}
-    p_a^y &= \sigma(\mathbf{W}_{pa} \cdot \mathbf{h}_{pred}^y + \mathbf{b}_{pa}) \label{eq:prob_ancestral} \\
-    p_f^y &= \sigma(\mathbf{W}_{pf} \cdot \mathbf{h}_{pred}^y + \mathbf{b}_{pf})\label{eq:prob_fraternal}
+    \prob_a^y &= \sigma(\weights_{pa} \cdot \hidden_{pred}^y + \biases_{pa}) \label{eq:prob_ancestral} \\
+    \prob_f^y &= \sigma(\weights_{pf} \cdot \hidden_{pred}^y + \biases_{pf})\label{eq:prob_fraternal}
 \end{align}
 
 During training, we use the actual values for whether a node has children and successor siblings. 
@@ -130,7 +130,7 @@ During inference, we can either greedily choose any confidence level to continue
 Besides topological predictions, the model should also predict the label of each token. Again the predictive hidden state can be used for label prediction as follows:
 
 \begin{align}
-    \mathbf{o}^y =  softmax\left(\mathbf{W}_o \cdot \mathbf{h}_{pred}^y + \mathbf{b}_{o}\right) \label{eq:label_pred}
+    \mathbf{o}^y =  softmax\left(\weights_o \cdot \hidden_{pred}^y + \biases_{o}\right) \label{eq:label_pred}
 \end{align}
 
 
@@ -145,7 +145,7 @@ The first issue is the possibly infinitely large vocabulary that source code all
 The model can keep track of a list of the declared identifiers while generating an AST. Each time a new identifier is declared, a new reusable ID is added to the list. Then for each reference, we can compute the similarity to each of the declared identifiers using some similarity function and predict the most similar identifier. We can keep track of what type of node we are currently trying to predict due to the AST structure and because we have access to the parent node label, i.e., the parent node indicates whether the child node is a declaration or reference. Let $D$ be the set of currently declared identifier nodes and $y$ be the current reference node we are trying to predict, the most similar declared identifier can be computed as follows:
 
 \begin{align}
-    \mathbf{s}^{yz} &= similarity(\mathbf{W}_c \cdot \mathbf{h}^y_{pred} + \mathbf{b}_c,  \mathbf{W}_c \cdot \mathbf{h}^z_{pred} + \mathbf{b}_c) \\
+    \mathbf{s}^{yz} &= similarity(\weights_c \cdot \hidden^y_{pred} + \biases_c,  \weights_c \cdot \hidden^z_{pred} + \biases_c) \\
     \mathbf{r}^y &= \min_{z \in D}(\mathbf{s}^{yz})
 \end{align}
 
@@ -175,7 +175,7 @@ Hence if a node has offspring, the category of the current node must be a reserv
 However, if a node has no offspring, it can be either of the categories, and we need to somehow decide which category to predict a label for. Note that a reserved token can also be on a leaf node on the tree. For example, consider an empty return statement. For that reason, similar to the topology predictions, we have the model predict whether a node is of the reserved token category or not. This prediction  is computed in the same way as the topology predictions using the predictive hidden state of the node as follows: 
 
 \begin{align}
-    p_r^y &= \sigma(\mathbf{W}_{pr} \cdot \mathbf{h}_{pred}^y + \mathbf{b}_{pr}) \label{eq:res_pred}
+    \prob_r^y &= \sigma(\weights_{pr} \cdot \hidden_{pred}^y + \biases_{pr}) \label{eq:res_pred}
 \end{align}
 
 
@@ -183,9 +183,9 @@ However, if a node has no offspring, it can be either of the categories, and we 
 \paragraph{Add gate} The DRNN model has a large flaw, where it is not able to differentiate between paths with the same prefix. For example, consider the situation depicted in figure \ref{fig:treeAddGate}, where we have two function declarations named `add' and `main'. Due to the information flow downwards, both name nodes have the same hidden state and the model is not able to distinguish the leaf nodes and will therefore predict the same label for both. This issue is depicted in the left image of figure \ref{fig:treeAddGate}. To solve this issue, we would like to incorporate the fraternal states in the downwards flow for the model to learn to differentiate the paths downwards. Hence we would like to revise eq. \ref{eq:ancestral_update}, where we take inspiration from the LSTM model and apply the idea of the add gate to our ancestral update formula as follows:
 
 \begin{align}
-    &\mathbf{m}_f^y = \sigma(\mathbf{W}_m \cdot \mathbf{h}_f^y + \mathbf{b}_m)\\
-    &\mathbf{a}_f^y = tanh(\mathbf{W}_a \cdot \mathbf{h}_f^y + \mathbf{b}_a)\\
-    &\mathbf{h}_a^y = \mathbf{h}_a^y + (\mathbf{a}_f * \mathbf{m}_f)
+    &\mathbf{m}_f^y = \sigma(\weights_m \cdot \hidden_f^y + \biases_m)\\
+    &\mathbf{a}_f^y = tanh(\weights_a \cdot \hidden_f^y + \biases_a)\\
+    &\hidden_a^y = \hidden_a^y + (\mathbf{a}_f * \mathbf{m}_f)
 \end{align}
 
 This update to the fraternal state is applied after predicting the label for node $y$, which is depicted in the right image of figure \ref{fig:treeAddGate}. Here, $a_f^y$ is the value of the transformation on the previous sibling state that should be added to the parent state, where the $tanh$ transforms it between -1 and +1 to mitigate exploding gradients. Furthermore, $m_f^y$ decides which elements should be added using a sigmoid function that outputs values between 0 and 1. By multiplying $a_f^y$ with $m_f^y$, the model can learn to decide what and how much to add from the previous sibling state to each parent state's element to help predict the next steps of the tree.
@@ -218,14 +218,14 @@ Predicting whether a node has offspring and successor siblings are binary choice
 Let $a^y$, $f^y$ represent the actual values of having offspring and successor siblings for node $y$, the topological losses for this node are then computed as follows:
 
 \begin{align}
-    \mathcal{L}_{a}(y) = - a^y \cdot \log(p^y_a) + (1 - a^y) \cdot \log(1 - p^y_a) \\
-    \mathcal{L}_{f}(y) = - f^y \cdot \log(p^y_f) + (1 - f^y) \cdot \log(1 - p^y_f)
+    \loss_{a}(y) = - a^y \cdot \log(p^y_a) + (1 - a^y) \cdot \log(1 - p^y_a) \\
+    \loss_{f}(y) = - f^y \cdot \log(p^y_f) + (1 - f^y) \cdot \log(1 - p^y_f)
 \end{align}
 
-\noindent where $\mathcal{L}_{a}$, $\mathcal{L}_{f}$ denote the ancestral and fraternal loss respectively. Because the reserved token category prediction (eq. \ref{eq:res_pred}) is so similar to the topological predictions, the loss for that component can be defined similarly:
+\noindent where $\loss_{a}$, $\loss_{f}$ denote the ancestral and fraternal loss respectively. Because the reserved token category prediction (eq. \ref{eq:res_pred}) is so similar to the topological predictions, the loss for that component can be defined similarly:
 
 \begin{align}
-    \mathcal{L}_{r}(y) = - r^y \cdot \log(p^y_r) + (1 - r^y) \cdot \log(1 - p^y_r)
+    \loss_{r}(y) = - r^y \cdot \log(p^y_r) + (1 - r^y) \cdot \log(1 - p^y_r)
 \end{align}
 
 \noindent where we define $r^y$ to represent the actual value of node $y$ being in the reserved token category. 
@@ -236,7 +236,7 @@ Label prediction is a classification problem for all label categories, except th
 Hence, we can compute the cross entropy loss (or negative log likelihood):
 
 \begin{align}
-    \mathcal{L}_{l}(y) = - \log(\mathbf{o}^y[l^y])
+    \loss_{l}(y) = - \log(\mathbf{o}^y[l^y])
 \end{align}
 
 \noindent where we assume that $l^y$ is the index of the true label, and hence $\mathbf{o}^y[l^y]$ retrieves the softmax value at the index of the correct class. 
@@ -245,18 +245,18 @@ Lastly, since predicting the labels of identifier (reference) tokens is treated 
 To compute the loss of a reference node $y$, we select the true declaration node $z$ and sample a negative declaration node $x$; the loss is then defined as follows:
 
 \begin{align}
-    \mathcal{L}_i(y)=\max(\mathbf{s}^{yx} - \mathbf{s}^{yz},0)
+    \loss_i(y)=\max(\mathbf{s}^{yx} - \mathbf{s}^{yz},0)
 \end{align}
 
 \noindent We can then combine all of the separate components to form a single reconstruction loss function for a node:
 
 \begin{small}
 \begin{align}
-   \mathcal{L}_{rec}(y) = 
+   \loss_{rec}(y) = 
 \begin{cases}
-    \mathcal{L}_{a}(y) + \mathcal{L}_{f}(y) + \mathcal{L}_{r}(y),& \text{if } y \text{ is a declaration} \\
-    \mathcal{L}_{a}(y) + \mathcal{L}_{f}(y) + \mathcal{L}_{r}(y) + \mathcal{L}_{i}(y),& \text{if } y \text{ is a reference} \\
-    \mathcal{L}_{a}(y) + \mathcal{L}_{f}(y) + \mathcal{L}_{r}(y) + \mathcal{L}_{l}(y),& \text{otherwise}
+    \loss_{a}(y) + \loss_{f}(y) + \loss_{r}(y),& \text{if } y \text{ is a declaration} \\
+    \loss_{a}(y) + \loss_{f}(y) + \loss_{r}(y) + \loss_{i}(y),& \text{if } y \text{ is a reference} \\
+    \loss_{a}(y) + \loss_{f}(y) + \loss_{r}(y) + \loss_{l}(y),& \text{otherwise}
 \end{cases}
 \end{align}
 \end{small}
@@ -266,7 +266,7 @@ Because the loss is decoupled, this allows us to weigh the objectives differentl
 The total loss function, combining the KL divergence, KL weight $w$ and reconstruction loss becomes:
 
 \begin{align}
-    \mathcal{L}(N) = \mathcal{L}_{tot\_rec}(N) = \sum_{y \in N}\mathcal{L}_{rec}(y) - w \cdot D_{KL}\left(Q(z|N)||P(N)\right)
+    \loss(N) = \loss_{tot\_rec}(N) = \sum_{y \in N}\loss_{rec}(y) - w \cdot D_{KL}\left(Q(z|N)||P(N)\right)
 \end{align}
 
 During training, we perform teacher forcing, technique that is commonly used with sequence generation.
@@ -365,7 +365,7 @@ To evaluate the performance on different sized inputs, we split the test data se
 
  
 
-We compute the BLEU scores and compilation percentage again using greedy decoding on the smaller subsets for the best performing Seq2Seq and Tree2Tree models, based on the results of table \ref{tab:rec_results}. Here, performance is based on the combination of BLEU-4 and compilation percentage. For Seq2Seq, this is the model with latent size 500. Similarly, for Tree2Tree, this is the model with latent size 150. The results are depicted in table \ref{tab:rec_results_inp_sizes}.
+We compute the BLEU scores and compilation percentage again using greedy decoding on the smaller subsets for the best performing Seq2Seq and Tree2Tree models, based on the results of table \ref{tab:rec_results}. Here, performance is based on the combination of BLEU-4 and compilation percentage. For Seq2Seq, this is the model with latent size 500. Similarly, for Tree2Tree, this is the model with latent size 150. The results are depicted in table \ref{tab:rec_results_in\prob_sizes}.
 
 
 
@@ -393,12 +393,12 @@ We compute the BLEU scores and compilation percentage again using greedy decodin
 \end{tabular}
 \endgroup
 \caption{Reconstruction results of the best models on different input sizes.}
-\label{tab:rec_results_inp_sizes}
+\label{tab:rec_results_in\prob_sizes}
 \end{table}
 
 
 
-From table \ref{tab:rec_results_inp_sizes} we can observe that both models follow the same logical trend: the larger the input size, the lower BLEU-scores and compilation percentages. For the Tree2Tree model, the BLEU scores for the medium subset seem to be similar to the BLEU scores on the entire test set, whereas, for the Seq2Seq model, the BLEU scores are much lower on the medium subset. The models seem to be fairly close in terms of performance degradation from small to large program sizes. For example, we can measure performance degradation for the large versus small subset by dividing the BLEU-4 scores on the large set by the BLEU-4 score on the small set. For the Seq2Seq model, we get a score of $0.372$, and for the Tree2Tree model, we get $0.389$. Similarly, we get $0.593$ and $0.645$ for the Seq2Seq and Tree2Tree model for the medium versus small subset. While the performance degrades less with increasing input sizes for the Tree2Tree model, this difference is insignificant. 
+From table \ref{tab:rec_results_in\prob_sizes} we can observe that both models follow the same logical trend: the larger the input size, the lower BLEU-scores and compilation percentages. For the Tree2Tree model, the BLEU scores for the medium subset seem to be similar to the BLEU scores on the entire test set, whereas, for the Seq2Seq model, the BLEU scores are much lower on the medium subset. The models seem to be fairly close in terms of performance degradation from small to large program sizes. For example, we can measure performance degradation for the large versus small subset by dividing the BLEU-4 scores on the large set by the BLEU-4 score on the small set. For the Seq2Seq model, we get a score of $0.372$, and for the Tree2Tree model, we get $0.389$. Similarly, we get $0.593$ and $0.645$ for the Seq2Seq and Tree2Tree model for the medium versus small subset. While the performance degrades less with increasing input sizes for the Tree2Tree model, this difference is insignificant. 
 
 
 
@@ -406,7 +406,7 @@ An issue with the aforementioned computation of performance degradation is that 
 
 
 
-Therefore, we apply a correction on the BLEU scores to focus on the prediction based on the information in the latent vector. We compute corrected scores by feeding the decoder with random latent vectors and computing BLEU scores on the subsets of the test data set. Then, we subtract these correction scores from the computed BLEU scores in table \ref{tab:rec_results_inp_sizes}, and take 0 if the result of the subtraction is negative. The corrected BLEU scores including the correction scores are presented in table \ref{tab:corrected_rec_results_inp_sizes}.
+Therefore, we apply a correction on the BLEU scores to focus on the prediction based on the information in the latent vector. We compute corrected scores by feeding the decoder with random latent vectors and computing BLEU scores on the subsets of the test data set. Then, we subtract these correction scores from the computed BLEU scores in table \ref{tab:rec_results_in\prob_sizes}, and take 0 if the result of the subtraction is negative. The corrected BLEU scores including the correction scores are presented in table \ref{tab:corrected_rec_results_in\prob_sizes}.
 
 \begin{table}[ht!]
 \centering
@@ -430,12 +430,12 @@ Therefore, we apply a correction on the BLEU scores to focus on the prediction b
 }
 \endgroup
 \caption{Corrected BLEU scores of reconstructed results of the best models on different input sizes. (correction scores in parenthesis)}
-\label{tab:corrected_rec_results_inp_sizes}
+\label{tab:corrected_rec_results_in\prob_sizes}
 \end{table}
 
 
 
-Table \ref{tab:corrected_rec_results_inp_sizes} indicates a large difference in performance degradation between the Seq2Seq model and the Tree2Tree model. A noticeable result is that the corrected BLEU scores for large programs predicted by the Seq2Seq model are 0. Hence, the Seq2Seq model extracts no information from the latent vector at all for large programs. Similarly, for medium-sized programs, little information is transferred between the encoder and decoder. We can again compute the performance degradation scores for the Seq2Seq model, which are $0.280$ and $0.00$ for the medium versus small and large versus small subsets, respectively, on the corrected BLEU-4.
+Table \ref{tab:corrected_rec_results_in\prob_sizes} indicates a large difference in performance degradation between the Seq2Seq model and the Tree2Tree model. A noticeable result is that the corrected BLEU scores for large programs predicted by the Seq2Seq model are 0. Hence, the Seq2Seq model extracts no information from the latent vector at all for large programs. Similarly, for medium-sized programs, little information is transferred between the encoder and decoder. We can again compute the performance degradation scores for the Seq2Seq model, which are $0.280$ and $0.00$ for the medium versus small and large versus small subsets, respectively, on the corrected BLEU-4.
 
 
 
@@ -443,7 +443,7 @@ In contrast, the performance degradation is much smaller for the Tree2Tree model
 
 
 
-An interesting observation is that the latent vector conveys relatively little information in terms of BLEU scores. The correction scores make up a large part of the total BLEU scores as presented in table \ref{tab:rec_results_inp_sizes}. Hence, the BLEU scores are largely determined by the models' general knowledge of how C++ programs are built up and not the specific content.
+An interesting observation is that the latent vector conveys relatively little information in terms of BLEU scores. The correction scores make up a large part of the total BLEU scores as presented in table \ref{tab:rec_results_in\prob_sizes}. Hence, the BLEU scores are largely determined by the models' general knowledge of how C++ programs are built up and not the specific content.
 
 \paragraph{Generative results}
 \label{results:gen}

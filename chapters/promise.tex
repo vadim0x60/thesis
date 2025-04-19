@@ -58,11 +58,11 @@ Another approach to specification is specifying the expected output of the progr
     \label{fig:pbe}
 \end{figure}
 
-The goal of a programming by example system is to find a program $f$ such that $\expoutputvec=f(\inputvec)$ for a given vector of input-output pairs $(\inputvec,\expoutputvec)$. 
+The goal of a programming by example system is to find a program $f$ such that $\mloutputvec=f(\mlinputvec)$ for a given vector of input-output pairs $(\mlinputvec,\mloutputvec)$. 
 Note that this is exactly the definition of \emph{supervised learning}~\cite{cunninghamSupervisedLearning2008}.
 Indeed, \emph{programming by example} is an unusual type of \emph{supervised learning}, one where the trained model is expressed as source code.
 
-The prime application of \emph{programming by example} is \emph{data wrangling} tools such as Microsoft Excel \cite{gulwaniProgrammingExamplesandIts2016} where it is used as a data extrapolation tool: if a formula $f$ can be synthesized that satisfies $\expoutputvec=f(\inputvec)$, one can generate $\expoutputvec '=f(\inputvec ')$ for future values $\inputvec '$.
+The prime application of \emph{programming by example} is \emph{data wrangling} tools such as Microsoft Excel \cite{gulwani2016:programming} where it is used as a data extrapolation tool: if a formula $f$ can be synthesized that satisfies $\mloutputvec=f(\mlinputvec)$, one can generate $\mloutputvec '=f(\mlinputvec ')$ for future values $\mlinputvec '$.
 \emph{Programming by example} is also used in scientific domains to generate formulas that fit experimental observations, where it is known as \emph{symbolic regression} \cite{makkeInterpretableScientificDiscovery2022}.
 
 \paragraph{PIRL}
@@ -82,12 +82,12 @@ Given enough trial and error it's still possible to generate a correct program w
 In this setting, each generated program is tested (see \textcolor{accent}{test} in figure \ref{fig:ap}) via deployment of an \textcolor{accent}{agent} controlled by this program in an environment that responds with positive and negative \textcolor{accent}{rewards} (the highlights of figure \ref{fig:pirl} match the highlights of this sentence).
 The fitness of the program is then determined by the total reward collected by the agent during such a deployment (also known as an \emph{episode}).
 
-The most common formalism for such an environment is Episodic Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \rlactions$ it has an impact on  the state of the environment $s_i \in \rlstates$ via distribution $\rlstatedistr$ of conditional probabilities of possible subsequent states. 
-State $\rlstate$ is a latent variable that the agent cannot observe.
-Instead, the agent has access to an observation $o_i \in \rlobss$ which is a random variable that depends on the latent state via distribution $\rlobsdistr$.
-$\rlactions$, $\rlstates$ and $\rlobss$ are sets of all possible actions, states and observations respectively.
-Finally, at every step the agent observes a reward $\rlrewardf$.
-The agent's goal is then to maximize its $n$-step return $\rlreturnn=\sum_{t=i}^{n} r_t$. Outside of explicitly stated special cases, the agent's planning horizon $n$ is always set equal to the length of the episode.
+The most common formalism for such an environment is Episodic Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \actions$ it has an impact on  the state of the environment $s_i \in \states$ via distribution $\prob_\state(\state_{\step+1} | \step_\step, \action_\step)$ of conditional probabilities of possible subsequent states. 
+State $\state$ is a latent variable that the agent cannot observe.
+Instead, the agent has access to an observation $o_i \in \obss$ which is a random variable that depends on the latent state via distribution $\prob_\obs(\obs_\step | \state_\step, \action_\step)$.
+$\actions$, $\states$ and $\obss$ are sets of all possible actions, states and observations respectively.
+Finally, at every step the agent observes a reward $\reward(\state_\step,\action_\step)$.
+The agent's goal is then to maximize its expected $n$-step return $\expectation [ \sum_{t=i}^{n} r_t ]$. Outside of explicitly stated special cases, the agent's planning horizon $n$ is always set equal to the length of the episode.
 
 \newpage
 \section{Why not just use Machine Learning?}

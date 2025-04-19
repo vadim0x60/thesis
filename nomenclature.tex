@@ -1,141 +1,180 @@
-\renewcommand\nomgroup[1]{%
-  \item[\bfseries
-  \ifstrequal{#1}{R}{Reinforcement Learning}{%
-  \ifstrequal{#1}{G}{Program Synthesis}{%
-  \ifstrequal{#1}{L}{Language Modeling}{%
-  \ifstrequal{#1}{E}{Software Engineering}{
-  \ifstrequal{#1}{S}{Statistics}{
-  \ifstrequal{#1}{B}{Building Optimization}{}}}}}}%
-]}
+\nomenclature{PBE}{Programming by example \cite{gulwani2016:programming, halbertProgrammingExample1984}}
+\nomenclature{PIRL}{Programmatically Interpretable Reinforcement Learning \cite{pirl}}
+\nomenclature{PatientSPIRL}{Patient Simulator Programmatically Interpretable Reinforcement Learning, introduced in chapter \ref{ch:proposal}}
 
-\nomenclature[G]{PBE}{Programming by example, see \ref{sec:ps-task-taxonomy}}
+\nomenclature{RL}{Reinforcement Learning \cite{suttonReinforcementLearningSecond2018}}
+\nomenclature{PQT}{Priority Queue Training \cite{abolafiaNeuralProgramSynthesis2018}}
+\nomenclature{POMDP}{Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964}}
+\nomenclature{MPC}{Model Predictive Control \cite{garciaModelPredictiveControl1989, holkarOverviewModelPredictive2010, kouvaritakisModelPredictiveControl2016, schwenzerReviewModelPredictive2021}}
+\nomenclature{MDPD}{Message Passing Decision Process, introduced in section \ref{sec:mpdp}}
 
-\nomenclature[R]{RL}{Reinforcement Learning}
-\nomenclature[R]{POMDP}{Partically Observable Markov Decision Process, see \ref{sec:ps-task-taxonomy}}
-\nomenclature[R]{MPC}{Model Predictive Control}
+\nomenclature{GPT}{Generative Pre-trained Transformer \cite{radfordImprovingLanguageUnderstandinga}}
+\nomenclature{LLM}{Large Language Model}
+\nomenclature{AI}{Artificial Intelligence}
 
-\nomenclature[L]{GPT}{Generative Pre-trained Transformer}
-\nomenclature[L]{LLM}{Large Language Model}
+\nomenclature{CASE}{Computer-Aided Software Engineering \cite{ComputeraidedSoftwareEngineering2025}}
+\nomenclature{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
 
-\newcommand{\langmodel}{\pi}
-\nomenclature[L]{$\langmodel(\text{text})$}{language model (probability distribution over texts)}
+\nomenclature{SEIDR}{Synthesize Execute Debug Rank, introduced in chapter \ref{ch:seidr}}
 
-\nomenclature[E]{CASE}{Computer-Aided Software Engineering, see \ref{sec:human}}
+\nomenclature{MHE}{Moving Horizon Estimator}
 
-\nomenclature[G]{AST}{Abstract Syntax Tree, see \ref{sec:grammar-guided}}
+\nomenclature{CAPFT}{Capacity modifier function with temperature}
+\nomenclature{CO2}{Carbon dioxide}
+\nomenclature{EIR}{Energy input ratio}
+\nomenclature{EIRFT}{Energy input ratio function with temperature}
+\nomenclature{EIRFPLR}{Energy input ratio function with partial load ratio}
+\nomenclature{HVAC}{Heating Ventilation Air Conditioning}
+\nomenclature{IDEAS}{Integrated District Energy Assessment Simulations}
+\nomenclature{IPOPT}{Interior Point Optimizer}
+\nomenclature{KPI}{Key Performance Indicator}
+\nomenclature{PI}{Proportional Integral}
+\nomenclature{PLR}{Partial load ratio}
+\nomenclature{RC}{Resistance capacitance}
 
-\nomenclature[G]{SEIDR}{Synthesize Execute Debug Rank, see \ref{ch:seidr}}
+\nomenclature{ALS}{Advanced Life Support \cite{AMLSAdvancedMedical2021}}
 
-\newcommand{\beamwidth}[0]{W}
-\nomenclature[G]{$\beamwidth$}{beam width in beam search}
+\newcommand{\obs}{\mathbf{o}}
+\nomenclature{$\obs$}{a single observation of an agent}
 
-\newcommand{\treearity}[0]{m}
-\nomenclature[G]{$\treearity$}{tree arity, as in $\treearity$-ary tree}
+\newcommand{\policy}{\pi}
+\nomenclature{$\policy(\action)$}{a \emph{policy distribution} that stochastically defines the agent's actions}
+\nomenclature{$\policy(\text{text})$}{language model (probability distribution over texts)}
 
-\nomenclature[S]{MHE}{Moving Horizon Estimator}
+\newcommand{\discretebins}{\Upsilon^\text{bins}}
+\nomenclature{$\discretebins$}{number of discretization bins}
 
-\nomenclature[B]{CAPFT}{Capacity modifier function with temperature}
-\nomenclature[B]{CO2}{Carbon dioxide}
-\nomenclature[B]{EIR}{Energy input ratio}
-\nomenclature[B]{EIRFT}{Energy input ratio function with temperature}
-\nomenclature[B]{EIRFPLR}{Energy input ratio function with partial load ratio}
-\nomenclature[B]{HVAC}{Heating Ventilation Air Conditioning}
-\nomenclature[B]{IDEAS}{Integrated District Energy Assessment Simulations}
-\nomenclature[B]{IPOPT}{Interior Point Optimizer}
-\nomenclature[B]{KPI}{Key Performance Indicator}
-\nomenclature[B]{PI}{Proportional Integral}
-\nomenclature[B]{PLR}{Partial load ratio}
-\nomenclature[B]{RC}{Resistance capacitance}
+\newcommand{\historylen}{\Upsilon^\text{history}}
+\nomenclature{$\historylen$}{history length, the number of past steps considered by the algorithm}
 
-\newcommand{\inputvec}{X}
-\nomenclature[G]{$\inputvec$}{a vector of input examples in a PBE system}
+\newcommand{\mlinput}{x}
+\newcommand{\mlinputvec}{\mathbf{x}}
+\nomenclature{$\mlinput$, $\mlinputvec$}{input examples in a machine learning system}
 
-\newcommand{\expoutputvec}{Y}
-\nomenclature[G]{$\expoutputvec$}{a vector of expected output examples a PBE system}
+\newcommand{\step}{i}
+\newcommand{\stepp}{j}
+\newcommand{\steppp}{k}
+\nomenclature{$\step$,$\stepp$,$\steppp$}{iteration, step, moment in discrete time}
 
-\newcommand{\rlobss}{\mathcal{O}}
-\nomenclature[R]{$\rlobss$}{set of all possible states of a POMDP}
+\newcommand{\mloutput}{y}
+\newcommand{\mloutputvec}{\mathbf{y}}
+\nomenclature{$\mloutput$, $\mloutputvec$}{expected output examples in a machine learning system}
 
-\newcommand{\rlstates}{\mathcal{S}}
-\nomenclature[R]{$\rlstates$}{set of all possible states of a POMDP}
+\newcommand{\obss}{\mathcal{O}}
+\nomenclature{$\obss$}{set of all possible observations $\obs$}
 
-\newcommand{\rltermstates}{\mathcal{S}_t}
-\nomenclature[R]{$\rltermstates$}{set of all terminal states of a POMDP}
+\newcommand{\state}{\textbf{s}}
+\nomenclature{$\state$}{a state of an environment}
 
-\newcommand{\rlnontermstates}{\mathcal{S}_{nt}}
-\nomenclature[R]{$\rlnontermstates$}{set of all non-terminal states of a POMDP}
+\newcommand{\states}{\mathcal{S}}
+\nomenclature{$\states$}{set of all possible states $\state$ of an environment}
 
-\newcommand{\rlactions}{\mathcal{A}}
-\nomenclature[R]{$\rlactions$}{set of all possible actions of a POMDP}
+\newcommand{\termstates}{\mathcal{S}_t}
+\nomenclature{$\termstates$}{set of all terminal states $\state$ of an environment}
 
-\newcommand{\rlaction}{a}
-\nomenclature[R]{$\rlaction$}{sa single action in a POMDP}
+\newcommand{\nontermstates}{\mathcal{S}_{nt}}
+\nomenclature{$\nontermstates$}{set of all non-terminal states $\state$ of an environment}
 
-\newcommand{\rlobs}{o}
-\nomenclature[R]{$\rlobs$}{a single observation in a POMDP}
+\newcommand{\action}{a}
+\nomenclature{$\action$}{an action of an agent}
 
-\newcommand{\rlstate}{s}
-\nomenclature[R]{$\rlstate$}{a single state in a POMDP}
+\newcommand{\actions}{\mathcal{A}}
+\nomenclature{$\actions$}{set of all possible actions $\action$}
 
-\newcommand{\rlreward}{r}
-\nomenclature[R]{$\rlreward$}{a single reward in a POMDP}
+\newcommand{\actionqueue}{\alpha}
+\nomenclature{$\actionqueue$}{action queue of an agent}
 
-\newcommand{\rlmemory}{m}
-\nomenclature[R]{$\rlmemory$}{a single state of the memory of a reinforcement learning agent}
+\newcommand{\reward}{r}
+\nomenclature{$\reward$}{a reward}
 
-\newcommand{\rlmemoryf}{\mu}
-\nomenclature[R]{$\rlmemoryf$}{memorization function of a reinforcement learning agent}
+\newcommand{\returnn}{R_n}
+\nomenclature{$\returnn$}{n-step return}
 
-\newcommand{\rlactionf}{\alpha}
-\nomenclature[R]{$\rlactionf$}{action function of a reinforcement learning agent}
+\newcommand{\returntot}{R_\text{tot}}
+\nomenclature{$\returntot$}{total episode return}
 
-\newcommand{\rlreturnn}{R_n}
-\nomenclature[R]{$\rlreturnn$}{n-step return in a POMDP}
+\newcommand{\realnums}{\mathbb{R}}
+\nomenclature{$\realnums$}{real numbers}
 
-\newcommand{\rlreturntot}{R_\text{tot}}
-\nomenclature[R]{$\rlreturntot$}{total episode return in an episodic POMDP}
+\newcommand{\memory}{m}
+\nomenclature{$\memory$}{memory of an agent}
 
-\newcommand{\rlinitdistr}{p_\text{init}(s)}
-\nomenclature[R]{$\rlinitdistr$}{initial state distribution of a POMDP}
+\newcommand{\alphabet}{\aleph}
+\nomenclature{$\alphabet$}{the alphabet of a programming language (set of all possible tokens $\token$)}
 
-\newcommand{\rlstatedistr}{p_s(s_{i+1} | s_i, a_i)}
-\nomenclature[R]{$\rlstatedistr$}{subsequent state distribution of a POMDP}
+\newcommand{\token}{c}
+\nomenclature{$\token$}{a \emph{token}, a minimal unit of code, such as a character}
 
-\newcommand{\rlobsdistr}{p_o(o_i | s_i, a_i)}
-\nomenclature[R]{$\rlobsdistr$}{observation distribution of a POMDP}
+\newcommand{\code}{\mathcal{C}}
+\nomenclature{$\code$}{\emph{program code}, a sequence of tokens $\token_1,\token_2,\dots$ that constitutes a program}
 
-\newcommand{\rlrewardf}{r(s_i,a_i)}
-\nomenclature[R]{$\rlrewardf$}{reward function in a POMDP}
-
-\newcommand{\alphabet}{\mathcal{L}}
-\nomenclature[G]{$\alphabet$}{the alphabet of a programming language (set of all possible tokens)}
-
-\newcommand{\code}{c}
-\nomenclature[G]{$\code$}{a sequence of tokens $c1,c2,\dots$ that constitutes a program}
+\newcommand{\codebase}{\kappa}
+\nomenclature{$\codebase$}{\emph{codebase}, a population of programs}
 
 \newcommand{\expectation}{\mathbb{E}}
-\nomenclature[S]{$\expectation$}{expected value}
+\nomenclature{$\expectation$}{expected value}
 
-\newcommand{\cardinality}[1]{|#1|}
-\nomenclature[S]{$\cardinality{X}$}{cardinality of a set $X$}
+\newcommand{\loss}{\lambda}
+\nomenclature{$\loss(x)$}{a differentiable loss function to be minimized by an optimization algorithm}
 
-\newcommand{\zonetemp}{T_z}
-\nomenclature[B]{$\zonetemp$}{Indoor dry bulb air temperature in a thermal zone $z$ in a building}
+\newcommand{\obj}{\omega}
+\nomenclature{$\obj(x)$}{an objective function to be maximized by an optimization algorithm}
 
-\newcommand{\outdoortemp}{T_o}
-\nomenclature[B]{$\zonetemp$}{Outdoor dry bulb air temperature in the vicinity of the building}
+\newcommand{\learnables}{\Phi}
+\nomenclature{$\learnables$}{learnable parameters of a model}
 
-\newcommand{\inputheat}{Q_z}
-\nomenclature[B]{$\inputheat$}{Input heat rate to a thermal zone $z$ in a building}
+\newcommand{\weights}{\mathbf{W}}
+\nomenclature{$\weights$}{weight matrix in a model, element of $\learnables$}
 
-\newcommand{\modsignal}{u}
-\nomenclature[B]{$\modsignal$}{Modulation signal for a heating system}
+\newcommand{\biases}{\mathbf{b}}
+\nomenclature{$\biases$}{bias vector in a model, element of $\learnables$}
 
-\newcommand{\supplytemp}{T_\text{sup}}
-\nomenclature[B]{$\supplytemp$}{Supply water temperature in a heating system}
+\newcommand{\hidden}{\mathbf{h}}
+\nomenclature{$\hidden$}{a hidden state within a model}
 
-\newcommand{\returntemp}{T_\text{ret}}
-\nomenclature[B]{$\returntemp$}{Return water temperature in a heating system}
+\newcommand{\latent}{\mathbf{z}}
+\nomenclature{$\latent$}{a latent representation of input $\mlinput$}
 
-\newcommand{\electricpower}{\mathcal{P}_\text{el}}
-\nomenclature[B]{$\electricpower$}{Electrical power of the heat pump}
+\newcommand{\mean}{\mu}
+\nomenclature{$\mean$}{mean}
+
+\newcommand{\variance}{\sigma}
+\nomenclature{$\variance$}{variance}
+
+\newcommand{\normaldistr}{\nu}
+\nomenclature{$\normaldistr(\mu,\sigma)$}{the normal distribution}
+
+\newcommand{\pointer}{P}
+\nomenclature{$\pointer$}{pointer}
+
+\newcommand{\prob}{p}
+\nomenclature{$\prob$}{probability}
+
+\newcommand{\team}{\Xi}
+\nomenclature{$\team$}{a cooperative \emph{team} of agents}
+
+\newcommand{\temp}{T}
+\nomenclature{$\temp$}{sampling temperature}
+\nomenclature{$\temp$}{physical temperature}
+
+\newcommand{\timepoint}{t}
+\nomenclature{$\timepoint$}{a moment in continuous time}
+
+\newcommand{\threshold}{\theta}
+\nomenclature{$\threshold$}{threshold value for discretization}
+
+\newcommand{\hyperparam}{\Upsilon}
+\nomenclature{$\Upsilon$}{hyperparameter of an algorithm}
+
+\newcommand{\beamwidth}[0]{\hyperparam^\text{beam}}
+\nomenclature{$\beamwidth$}{beam width in beam search}
+
+\newcommand{\treearity}[0]{\hyperparam^\text{tree}}
+\nomenclature{$\treearity$}{tree arity, as in $\treearity$-ary tree}
+
+\newcommand{\integers}{\mathbb{Z}}
+\nomenclature{$\integers$}{integers}
+
+\printnomenclature
+
+\emph{A note on notation:} bold lowercase characters $\mathbf{x}$ represent vectors, bold uppercase characters $X$ represent matrices, calligraphic letters $\mathcal{X}$ represent sets and tuples. This holds for functions as well, i.e. $f(\mathbf{x})$ maps vectors to scalars

@@ -1,8 +1,6 @@
 \chapter{High-dimensional challenge: imagym}
 \label{ch:imagym}
-\todo{Insert the imagym OCUPAI  chapter and edit}
 \todo{Make sure a research question is explicitly mentioned}
-\todo{Ensure standard nomenclature}
 
 \section{Introduction}
 
@@ -10,7 +8,7 @@ Patient simulators are the cornerstone of clinical decision support solutions, p
 Unlike other machine learning applications, notably language modeling that can obtain a near-unlimited amount of data from the internet\footnote{See CommonCrawl \cite{commoncrawl} \url{commoncrawl.org}}, Healthcare suffers from an acute shortage of training data \cite{datashortage}.
 As a result, many existing patient simulators are not trained on data from real patients, but instead rely upon expert knowledge, leading to issues like \emph{confirmation bias} (the types of interventions currently favoured by clinical experts will work well in simulators developed by said experts irregardless of their real-world performance) and a high Sim2Real \cite{sim2real} gap.
 
-In this work, we utilize a dataset of fetal ultrasound images to propose a novel data-driven patient simulator for decision support and automation in the field of obstetric ultrasonography \cite{obstetrics-sonography}.
+In this chapter, we utilize a dataset of fetal ultrasound images to propose a novel data-driven patient simulator for decision support and automation in the field of obstetric ultrasonography \cite{obstetrics-sonography}.
 
 The goal of this simulator is to accurately model the job of an ultrasound sonographer in the context of a patient undergoing a pregnancy in a way compatible with modern Reinforcement Learning methods \cite{liDeepReinforcementLearning2017}
 to pave the way for autonomous or semi-autonomous ultrasound sonography \cite{autonomous-ultrasound-review}.
@@ -40,57 +38,44 @@ The job in question entails moving the ultrasound probe along the patient's body
 \end{figure}
 
 The simulator is based on a dataset of 3D volumes representing fetal abdominal ultrasound scans (though be easily adapted to other medical imaging scenarios as long as a dataset of volumes and relevant organ annotations is available).
-Each scan is a function defined over a cuboid $B$ of size $\langle x_\text{max},y_\text{max},z_\text{max} \rangle$ (in millimeters).
-\begin{equation}
-    I(x,y,z): B \rightarrow [0;1]
-\end{equation}
-
-Each scan is accompanied by three mask images $M_\text{heart}$, $M_\text{stomach}$ and $M_\text{uv}$ over the same domain, indicating which parts of the scan are considered to be the heart, the stomach and the umbilical vein respectively.
-
-\begin{equation}
-    M(x,y,z): B \rightarrow \{0,1\}
-\end{equation}
+Each scan is a 3d tensor $\mlinputvec \in \realnums^{n_1 \times n_2 \times n_3}$ along with three mask images $\mlinputvec_\text{heart}, \mlinputvec_\text{stomach}, \mlinputvec_\text{uv} \in \realnums^{n_1 \times n_2 \times n_3}$ over the same domain, indicating which parts of the scan are considered to be the heart, the stomach and the umbilical vein respectively.
 
 \paragraph{Framework}
 
-We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}, implemented as a Gymnasium \cite{towersGymnasiumStandardInterface2024} where every simulator is a 8-tuple of non-terminal state space $\mathcal{S}$, action space $\mathcal{A}$, observation space $\mathcal{O}$, stochastic observation model $\mathcal{O}, p_o(o | s, a)$, stochastic transition model $p_s(s_\text{next} | s_\text{prev}, a)$, stochastic reward model $p_r(r | s, a)$, initial state distribution $p_\text{init}(s)$ and episode termination model $p_\text{end}(s)$.
+We adopt the industry-standard framework of {\em Episodic Partially Observable Markov Decision Process} \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}, implemented as a Gymnasium \cite{towersGymnasiumStandardInterface2024} where every simulator is a 8-tuple of non-terminal state space $\states$, action space $\actions$, observation space $\obss$, stochastic observation model $\obss, \prob_\obs(\obs | \state, \action)$, stochastic transition model $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$, stochastic reward model $\prob_\reward(\reward | \state, \action)$, initial state distribution $\prob_\text{init}(\state)$ and episode termination model $\prob_\text{end}(\state)$.
 
 \paragraph{State}
 
-The state, in this case, is the current position of the probe defined by 2 3-vectors, the position of the probe $s_\text{loc} \in \mathcal{S}_\text{loc}$ and its direction $s_\text{dir} \in R^{3}$.
+The state, in this case, is the current position of the probe defined by 2 3-vectors, the position of the probe $\state_\text{loc} \in \states_\text{loc}$ and its direction $\state_\text{dir} \in R^{3}$.
 
-The simulator has 2 modes for the space of possible locations $\mathcal{S}_\text{loc}$: \emph{free} and \emph{realistic} movement.
-In \emph{free movement} mode, $\mathcal{S}_\text{loc} = B$, thus the agent can place the probe anywhere within the bounds of the image, even inside the patient.
-In \emph{realistic movement} mode, $\mathcal{S}_\text{loc} \subset B$ representing the surface of the patient's body available to the agent.
+The simulator has 2 modes for the space of possible locations $\states_\text{loc}$: \emph{free} and \emph{realistic} movement.
+In \emph{free movement} mode, $\states_\text{loc} = [0; n_1] \times [0, n_2] \times [0, n_3]$, thus the agent can place the probe anywhere within the bounds of the image, even inside the patient.
+In \emph{realistic movement} mode, $\states_\text{loc} \subset [0; n_1] \times [0, n_2] \times [0, n_3]$ representing the surface of the patient's body available to the agent.
 
 \paragraph{Actions}
 
-The action space $\mathcal{A} = R^{7}$, where any $a \in \mathcal{A}$ can be decomposed as
+The action space $\actions = \realnums^{7}$, where any $\action \in \actions$ can be decomposed as
 
 \begin{equation}
-    a = (a_{x} , a_{y} , a_{z} , a_\text{roll} , a_\text{pitch} , a_\text{yaw}, a_\text{end})
+    \action = (\action_1 , \action_2 , \action_3 , \action_\text{roll} , \action_\text{pitch} , \action_\text{yaw}, \action_\text{end})
 \end{equation}
 
-The first 3 components modify the $s_\text{loc}$, the next 3 modify $s_\text{dir}$ and, finally if $a_\text{end} > 0$, the episode terminates and the current image is considered final.
-Note that in \emph{realistic movement} mode, blind application of $(a_{x} , a_{y} , a_{z})$ can lead to the probe being placed outside of the allowed domain of $\mathcal{S}_\text{loc}$.
+The first 3 components modify the $\state_\text{loc}$, the next 3 modify $\state_\text{dir}$ and, finally if $\action_\text{end} > 0$, the episode terminates and the current image is considered final.
+Note that in \emph{realistic movement} mode, blind application of $(\action_1 , \action_2 , \action_3$ can lead to the probe being placed outside of the allowed domain of $\states_\text{loc}$.
 In this case, a legal location will be chosen, in a manner that minimizes the distance between requested and real probe position:
 
 \begin{equation}
-    s_\text{loc} \leftarrow \min_{s \in \mathcal{S}_\text{loc}} \left\{ \lVert s - (s_\text{loc} + (a_{x} , a_{y} , a_{z})) \rVert \right\}
+    \state_\text{loc} \leftarrow \min_{\state \in \states_\text{loc}} \left\{ \lVert \state - (\state_\text{loc} + (\action_1 , \action_2 , \action_3)) \rVert \right\}
 \end{equation}
 
 \paragraph{Observations}
 
-The observation is obtained by projecting $I(x,y,z)$ onto a plane defined by the current position of the probe $s_\text{loc}$ and its direction $s_\text{dir}$, simulating the image that the sonographer would see on their screen.
-It is, theoretically, a function $I_\text{proj}(x_\text{proj}, y_\text{proj})$, however, since it is customary in POMDP framework for observations $o$ to be matrices, we replace it with a matrix of evaluations of $I_\text{proj}(x_\text{proj}, y_\text{proj})$ on an arbitrary (hyperparametrized) coordinate grid $\{(x_\text{proj}, y_\text{proj})\}$.
+The observation is obtained by projecting $\mlinputvec$ onto a plane defined by the current position of the probe $\state_\text{loc}$ and its direction $\state_\text{dir}$, simulating the image that the sonographer would see on their screen.
+The projection $\obs$ is evaluated on a coordinate grid the scale of which is a hyperparameter.
 
 \paragraph{Rewards}
 
 The quality of the image is defined in accordande with ISOUG guidelines \cite{isoug-guidelines} to be measured by the surface area of the heart, the stomach and the umbilical vein on the projection, normalized by the volume of these organs.
-
-\begin{equation}
-    Q(I_\text{proj}) = \frac{S_\text{stomach}(I_\text{proj})}{V_\text{stomach}(I)} + \frac{S_\text{heart}(I_\text{proj})}{V_\text{heart}(I)} + \frac{S_\text{uv}(I_\text{proj})}{V_\text{uv}(I)}
-\end{equation}
 
 The reward then is the difference in quality between the current image and the one obtained at the previous iteration, so that probe movements that improve the image are rewarded positively and all rewards obtained during the episode sum up to the quality of the chosen image.
 

@@ -6,7 +6,6 @@
 
 \todo{Connect to other chapters}
 \todo{Make sure there is an explicit research question}
-\todo{Ensure standard nomenclature}
 
 \paragraph{Intensive Care databases: a nano-review}
 \label{sec:datasets}
@@ -45,7 +44,7 @@ One of the tasks that has recently been reimagined as a Sequence Modeling task i
 Consider a \emph{trajectory} in a Partially Observable Markov Decision Process, i.e. a history of actions $a$, observations $o$ and rewards $r$:
 
 \begin{equation}
-    \tau = (o_1, a_1, r_1, o_2, a_2, r_2, o_3, a_3, r_3, \dots)
+    (o_1, a_1, r_1, o_2, a_2, r_2, o_3, a_3, r_3, \dots)
 \end{equation}
 
 A model $\hat{p}$ that can predict the next element in a trajectory can be used as a \emph{dynamics model} to predict the next observation from the patient:
@@ -226,7 +225,7 @@ as well as many others.
 \section{Baseline}
 \label{sec:baseline}
 
-Our baseline model consists of a two-layer multilayer perceptron (MLP) with 1000 hidden layer size RELU \cite{agarapDeepLearningUsing2018} activation function and batch normalization after each layer. As input, all events from the first day are used and one-hot encoded in a 87899-dimensional vector. As prediction target, all events from the second day are used and encoded via their clustering mapping, e.g. c10, c100, c1000, c10000, into a vector of the corresponding dimension. As objective function we used binary cross entropy. The last layer contains a sigmoid function which transforms the output to probabilities for each vector element. A threshold is set at 0.5 to decide if an event occurs or not. All models were trained with batch size 512 for 3 epochs.
+Our baseline model consists of a two-layer multilayer perceptron (MLP) with 1000 hidden layer size RELU \cite{agarapDeepLearningUsing2018} activation function and batch normalization after each layer. As input, all events from the first day are used and one-hot encoded in a 87899-dimensional vector. As prediction target, all events from the second day are used and encoded via their clustering mapping, e.g. c10, c100, c1000, c10000, into a vector of the corresponding dimension. As loss function we used binary cross entropy. The last layer contains a sigmoid function which transforms the output to probabilities for each vector element. A threshold is set at 0.5 to decide if an event occurs or not. All models were trained with batch size 512 for 3 epochs.
 
 We test our baseline on the \emph{second day event prediction task} and summarize the results for different clusterings in table \ref{tab:mytable2}. It can be seen that the more classes are in the clustering, the harder the prediction task becomes. As noted above, accuracy is a deceptive metric in this scenario.
 

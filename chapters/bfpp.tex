@@ -12,7 +12,7 @@ State of the art Programmatically Interpretable Reinforcement Learning work \cit
 \begin{itemize}
     \item In industry programming languages a program $\code$ can contain a very large variety of characters since any of the 143859 Unicode \cite{allenUnicodeStandard2012} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
     \item BF's simple syntax means that a large percentage of possible strings of valid characters are valid programs. 
-    This property is essential for PIRL settings, since learning requires positive and negative examples which, without a pre-existing training set of programs, can only be obtained by trial-and-error.
+    This property is essential for PIRL settings, since learning requires positive and negative examples, which, without a pre-existing training set of programs, can only be obtained by trial-and-error.
     Without it, the training process risks being stuck in a long exploration phase.
     \item Despite all of the above, it is a Turing-complete language.
 \end{itemize}
@@ -21,7 +21,7 @@ BF falls short of the platonic ideal of a language for program synthesis, in whi
 In particular, to be grammatical and meaningful in a POMDP environment, a BF program must:
 \begin{enumerate}
     \item Contain equal number of opening and closing loop commands, \texttt{[} and \texttt{]}
-    \item Execute one write operation for every read operation to maintain the action - observation loop.
+    \item Always alternate between one read operation and one write operation
 \end{enumerate}
 
 The framework proposed in \cite{abolafiaNeuralProgramSynthesis2018} uses Reinforcement Learning techniques, however, due to the above limitations, as well as the lack of a general enough input output system in BF, it is only applied in non-interactive \emph{programming by example} settings such as string manipulation tasks.
@@ -40,24 +40,24 @@ As explained below, the extensions to the original BF syntax are particularly us
 BF's runtime model is inspired by the classic Turing Machine \cite{turing}: at any point during the program's execution, the state of the program consists of:
 
 \begin{itemize}
-    \item An infinite\footnote{If one happens to be executing a BF program on a computer with finite memory, the tape will be finite due to hardware limitations.} tape of cells $T$ where each cell holds an integer number.
-    \item A \textit{memory pointer} $p_T$ that points to a certain cell in the tape (\textit{active cell} $T^{p_T}$).
-    \item A string of characters $C$ that represents program code.
-    \item A \textit{code pointer} $p_C$ pointing to a character about to be executed.
+    \item An infinite\footnote{If one happens to be executing a BF program on a computer with finite memory, the tape will be finite due to hardware limitations.} tape of cells $\memory$ where each cell holds an integer number.
+    \item A \textit{memory pointer} $\pointer_\memory$ that points to a certain cell in the tape (\textit{active cell} $\memory^{\pointer_\memory}$).
+    \item A string of characters $\code$ that represents program code.
+    \item A \textit{code pointer} $\pointer_\code$ pointing to a character about to be executed.
 \end{itemize}
 
 The code pointer starts at the first character, then this character gets executed and the pointer is incremented (moved to the next character).
 There are 8 possible characters:
 
 \begin{description}
-\item[\texttt{>}] Move the memory pointer one cell right. $p_T := p_T + 1$
-\item[\texttt{<}] Move the memory pointer one cell left. $p_T := p_T - 1$
-\item[\texttt{+}] Increment the \textit{active cell}. $T^{p_T} := T^{p_T} + 1$
-\item[\texttt{-}] Decrement the \textit{active cell}. $T^{p_T} := T^{p_T} - 1$
-\item[\texttt{.}] Write $T^{p_T}$ from the \textit{active cell} to the \textit{output stream}\footnote{The definition of input and output streams is purposefully underspecified, it may depend on the particular implementation.}
-\item[\texttt{,}] Read $x$ from the \textit{input stream} to the \textit{active cell}. $T^{p_T} := x$
-\item[ \texttt{[} ] If the \textit{active cell} $T^{p_T} = 0$, jump (move $p_C$) to the matching $]$.
-\item[ \texttt{]} ] If the \textit{active cell} $T^{p_T} \neq 0$, jump (move $p_C$) to the matching $[$
+\item[\texttt{>}] Move the memory pointer one cell right. $\pointer_\memory := \pointer_\memory + 1$
+\item[\texttt{<}] Move the memory pointer one cell left. $\pointer_\memory := \pointer_\memory - 1$
+\item[\texttt{+}] Increment the \textit{active cell}. $\memory^{\pointer_\memory} := \memory^{\pointer_\memory} + 1$
+\item[\texttt{-}] Decrement the \textit{active cell}. $\memory^{\pointer_\memory} := \memory^{\pointer_\memory} - 1$
+\item[\texttt{.}] Write $\memory^{\pointer_\memory}$ from the \textit{active cell} to the \textit{output stream}\footnote{The definition of input and output streams is purposefully underspecified, it may depend on the particular implementation.}
+\item[\texttt{,}] Read $x$ from the \textit{input stream} to the \textit{active cell}. $\memory^{\pointer_\memory} := x$
+\item[ \texttt{[} ] If the \textit{active cell} $\memory^{\pointer_\memory} = 0$, jump (move $\pointer_\code$) to the matching $]$.
+\item[ \texttt{]} ] If the \textit{active cell} $\memory^{\pointer_\memory} \neq 0$, jump (move $\pointer_\code$) to the matching $[$
 \end{description}
 
 [ and ] commands constitute a loop that will be executed repeatedly until the \textit{active cell} becomes zero.
@@ -67,13 +67,13 @@ They are also the only way to write a BF program with a syntax error: a valid BF
 
 \paragraph{Negative values}
 
-In \textbf{BF} memory cells $T^i$ hold non-negative values only.
-In \textbf{BF++} $T^i \in \mathbb{Z}$, a negation operator \texttt{\~} is introduced and operators \texttt{[]}are redefined to loop while the \textit{active cell} is non-positive, i.e.
+In \textbf{BF} memory cells $\memory^\step$ hold non-negative values only.
+In \textbf{BF++} $\memory^\step \in \integers$, a negation operator \texttt{\~} is introduced and operators \texttt{[]}are redefined to loop while the \textit{active cell} is non-positive, i.e.
 
 \begin{description}
-\item[ \texttt{\~} ] If the \textit{active cell} $T^{p_T} := - T^{p_T}$.
-\item[ \texttt{[} ] If the \textit{active cell} $T^{p_T} \geq 0$, jump (move $p_C$) to the matching $]$.
-\item[ \texttt{]} ] If the \textit{active cell} $T^{p_T} < 0$, jump (move $p_C$) to the matching $[$
+\item[ \texttt{\~} ] If the \textit{active cell} $\memory^{\pointer_\memory} := - \memory^{\pointer_\memory}$.
+\item[ \texttt{[} ] If the \textit{active cell} $\memory^{\pointer_\memory} \geq 0$, jump (move $\pointer_\code$) to the matching $]$.
+\item[ \texttt{]} ] If the \textit{active cell} $\memory^{\pointer_\memory} < 0$, jump (move $\pointer_\code$) to the matching $[$
 \end{description}
 
 This decision was taken because negative observations are common in control problems (see section \ref{sec:bfpp-experiments}) as is branching on whether the observed value is positive or negative. 
@@ -100,20 +100,20 @@ If we simply assume that inputs are observations and outputs are actions, such p
 In other words, operators \texttt{.} and \texttt{,} are blocking: \texttt{.} stops program execution and waits until new input is received to resume execution, \texttt{,} stops program execution and waits until there is an opportunity to act in the environment.
 
 To address this, in \textbf{BF++} \texttt{.} operator is non-blocking.
-It outputs the current value of the active cell by placing it at the bottom of the \textit{action queue} $S$ - a sequence of integer numbers that represent actions the program is planning to take in the environment. We also introduce a non-blocking operator \texttt{!} that places $T^{p_T}$ on top of the action queue.
+It outputs the current value of the active cell by placing it at the bottom of the \textit{action queue} $\actionqueue$ - a sequence of integer numbers that represent actions the program is planning to take in the environment. We also introduce a non-blocking operator \texttt{!} that places $\memory^{\pointer_\memory}$ on top of the action queue.
 
 \begin{equation}
     \begin{array}{cc}
-         . & S := S^\frown (T^{p_T}) \\
-         ! & S := (T^{p_T})^\frown S
+         . & \actionqueue := \actionqueue^\frown (\memory^{\pointer_\memory}) \\
+         ! & \actionqueue := (\memory^{\pointer_\memory})^\frown \actionqueue
     \end{array}
 \end{equation}
 
 where $\frown$ denotes concatenation of tuples
 
 The program can thus decide by using \texttt{.} or \texttt{!} whether the newly added action takes precedence over ones already in the queue.
-As soon as an opportunity to act arises, the top of the action queue (item $S^1$ or several items $S^1,S^2,\dots$, see section \ref{sec:envs}) defines which action the program takes and is then removed from the queue. 
-If $S^k$ does not exist (the queue is empty or shorter than $k$) default value of $S^k=0$ is assumed.
+As soon as an opportunity to act arises, the top of the action queue (item $\actionqueue^1$ or several items $\actionqueue^1,\actionqueue^2,\dots$, see section \ref{sec:envs}) defines which action the program takes and is then removed from the queue. 
+If $\actionqueue^\steppp$ does not exist (the queue is empty or shorter than $\steppp$) default value of $\actionqueue^\steppp=0$ is assumed.
 
 \texttt{,} operator, on the other hand, is blocking. 
 Thus its function is more important than just reading an observation into memory.
@@ -130,8 +130,8 @@ Since the original goal is to develop a language where most random programs woul
 
 We decided to turn any \textbf{BF++} program into an infinite loop with a \texttt{,} operator by default:
 \begin{enumerate}
-    \item Every \textbf{BF++} program starts with a virtual \texttt{,} operator at address $p_C = -1$: it is executed before all operators in the code of the program, they are indexed starting from $p_C = 0$
-    \item When the code pointer $p_C$ reaches the end of the program it loops back to the virtual comma $p_C := -1$
+    \item Every \textbf{BF++} program starts with a virtual \texttt{,} operator at address $\pointer_\code = -1$: it is executed before all operators in the code of the program, they are indexed starting from $\pointer_\code = 0$
+    \item When the code pointer $\pointer_\code$ reaches the end of the program it loops back to the virtual comma $\pointer_\code := -1$
 \end{enumerate}
 
 Due to the virtual comma, every program starts executing with the initial observation already stored in memory and available for branching/decision-making.
@@ -143,27 +143,27 @@ Another issue complicating applications of \textbf{BF} to Reinforcement Learning
 And this issue cannot be fixed simply by replacing an integer tape with a tape of floating point numbers as \textbf{BF}'s only operations for manipulating numbers are \texttt{+} and \texttt{-} - increment and decrement.
 Non-integer action and observation spaces are fairly common in reinforcement learning tasks hence \textbf{BF++} implements coercion mechanisms for reading and writing continuous vectors into discrete memory.
 
-We assume that the vector observation space $O$ is an intersection of $n$ separate scalar observation spaces $O^k$ such that 
+We assume that the vector observation space $\obss$ is an intersection of $n$ separate scalar observation spaces $\obss^\steppp$ such that 
 \begin{equation}
- o_1 \in O_1^k,o_2 \in O_2^k,\dots,o_n \in O_n^k \Leftrightarrow (o_1,o_2,\dots,o_n) \in O  
+ \obs_1 \in \obs_1^\steppp,\obs_2 \in \obs_2^\steppp,\dots,\obs_n \in \obs_n^\steppp \Leftrightarrow (\obs_1,\obs_2,\dots,\obs_n) \in \obss  
 \end{equation}
 
-This assumption theoretically excludes some possible observation spaces, but almost all POMDP tasks discussed in the research literature and all Gymnasium tasks conform to this assumption.
+This assumption theoretically excludes some possible observation spaces, but almost all POMDPs discussed in the research literature and all Gymnasium tasks conform to it.
 
-To write an observation onto the memory tape we the observation vector of size $n$ is aligned with memory cells $T^{p_T},T^{p_T+1},\dots,T^{p_T+n-1}$ and turned into an integer with the use of $d$ discretization bins.
+To write an observation onto the memory tape the observation vector of size $n$ is aligned with memory cells $\memory^{\pointer_\memory},\memory^{\pointer_\memory+1},\dots,\memory^{\pointer_\memory+n-1}$ and discretized with the use of $\discretebins$ bins.
 
 \begin{equation}
 \label{eq:discretization}
-T^{p_T+k-1} := \min_{\omega \in 1,\dots d | o^k < \tau^k_\omega} \omega
+\memory^{\pointer_\memory+\steppp-1} := \min_{\stepp \in 1,\dots \discretebins | o^\steppp < \threshold^\steppp_\stepp} \stepp
 \end{equation}
 
-If $O^k$ is an interval $O^k=[o_{low}, o_{high}]$, it is split into discretization bins evenly, as in eq. \ref{eq:static-thresholds}:
+If $\obss^\steppp$ is an interval $\obss^\steppp=[\obs_{low}, \obs_{high}]$, it is split into discretization bins evenly:
 
 \begin{equation}
 \label{eq:static-thresholds}
-\tau_\omega = \begin{cases}
-o_{low}+\frac{o_{high}-o_{low}}{d}\omega, \omega=1,2,\dots,d-1 \\
-+\infty, \omega=d 
+\threshold_\stepp = \begin{cases}
+\obs_{low}+\frac{\obs_{high}-\obs_{low}}{\discretebins}\stepp, \stepp=1,2,\dots,\discretebins-1 \\
++\infty, \stepp=\discretebins 
 \end{cases}
 \end{equation}
 
@@ -174,60 +174,60 @@ o_{low}+\frac{o_{high}-o_{low}}{d}\omega, \omega=1,2,\dots,d-1 \\
     \label{fig:obs}
 \end{figure}
 
-Some environments, however, have unbounded observation spaces $O^k=(-\infty;+\infty)$, $O^k=(-\infty;o_{high}]$,  $O^k=[o_{low};+\infty)$.
-This spaces are challenging because the formal description $O^k$ does not in any way reflect the actual underlying distributions of observations.
-It can be the case, for example, that $O^k=(-\infty;+\infty)$ but most observations found in the environment fall in the interval $O^k=[42;43]$.
-For such observation spaces, \textbf{BF++} uses a \textit{fluid discretization} system that learns the true distribution of observations online. The idea was inspired by a work of Touati {\sl et al} \cite{adaptivediscretization}, although, they assumed that $O^k$ has a finite diameter and did not support unbounded observation spaces.
-Initial thresholds $\tau_\omega$ can be arbitrary.
-With each new observation, thresholds $\tau_\omega$ are readjusted so that among $h$ prior observations, roughly $\omega$ out of $d$  observations are lower values that $\tau_\omega$:
+Some environments, however, have unbounded observation spaces $\obss^\steppp=(-\infty;+\infty)$, $\obss^\steppp=(-\infty;\obs_{high}]$,  $\obss^\steppp=[\obs_{low};+\infty)$.
+These spaces are challenging because the formal description $\obss^\steppp$ does not in any way reflect the actual underlying distributions of observations.
+It can be the case, for example, that $\obss^\steppp=(-\infty;+\infty)$ but most observations found in the environment fall in the interval $\obss^\steppp=[42;43]$.
+For such observation spaces, \textbf{BF++} uses a \textit{fluid discretization} system that learns the true distribution of observations online. The idea was inspired by a work of Touati {\sl et al} \cite{adaptivediscretization}, although, they assumed that $\obss^\steppp$ has a finite diameter and did not support unbounded observation spaces.
+Initial thresholds $\threshold_\stepp$ can be arbitrary.
+With each new observation, thresholds $\threshold_\stepp$ are readjusted so that among $\historylen$ prior observations, roughly $\stepp$ out of $\discretebins$  observations are lower values that $\threshold_\stepp$:
 
 \begin{equation}
-\underset{\tau}{\text{minimize}} \sum_{\omega \in 0,1,\dots d} |\frac{\omega}{d} - \frac{\sum_{i' \in i-h,i-h+1,\dots,i-1} \mathbb{I}(o_{i'}^k < \tau_\omega)}{h}|
+\underset{\threshold}{\text{minimize}} \sum_{\stepp \in 0,1,\dots \discretebins} |\frac{\stepp}{\discretebins} - \frac{\sum_{\step' \in \step-\historylen,\step-\historylen+1,\dots,\step-1} \mathbb{I}(\obs_{\step'}^\steppp < \threshold_\stepp)}{\historylen}|
 \end{equation}
 
-To solve this optimization problem, one has to sort previous $d$ observations in ascending order so that 
+To solve this optimization problem, one has to sort previous $\discretebins$ observations in ascending order so that 
 
 \begin{equation}
-    \text{sort}: \{o_i | i \in i-h,i-h+1,\dots,i-1\} \longrightarrow \{ s_i | i \in 1,2,\dots,h \}
+    \text{sort}: \{\obs_i | \step \in \step-\historylen,\step-\historylen+1,\dots,\step-1\} \longrightarrow \{ \obs'_i | \step \in 1,2,\dots,\historylen \}
 \end{equation}
 
-is such a bijection that $s_1 < s_2 < \dots < s_h$ holds and set
+is such a bijection that $\obs'_1 < \obs'_2 < \dots < \obs'_h$ holds and set
 
 \begin{equation}
-    \tau_{\omega} = s_{\lceil \frac{\omega}{d} h \rceil}
+    \threshold_{\stepp} = \obs'_{\lceil \frac{\stepp}{\discretebins} \historylen \rceil}
 \end{equation}
 
 See figure \ref{fig:obs} for a visual example.
 
 %TODO: prove
 
-This system has 2 hyperparameters: $d$ and $h$.
-With a low $d$ a lot of the information observed form the environment is lost, while when $d$ is in the hunderds the generated programs can become very complex.
-$h$ switches between relative and absolute observations.
-With a very high $h$, $\omega=0$ means that this observation is one of the lowest that can be observed in this environment, with $h=1$ it means that the observation is lower than the previous one.
+This system has 2 hyperparameters: $\discretebins$ and $\historylen$.
+With a low $\discretebins$ a lot of the information observed form the environment is lost, while when $\discretebins$ is in the hunderds the generated programs can become very complex.
+$\historylen$ switches between relative and absolute observations.
+With a very high $\historylen$, $\stepp=0$ means that this observation is one of the lowest that can be observed in this environment, with $\historylen=1$ it means that the observation is lower than the previous one.
 
-High values of $h$ present an additional challenge: how to correctly discretize observation in the first $h$ iterations?
-We implemented \textit{burn-in}: before training or evaluation we run $h$ iterations of a random agent (see section \ref{sec:random}) to collect a history of $h$ observations and pick correct thresholds.
+High values of $\historylen$ present an additional challenge: how to correctly discretize observation in the first $\historylen$ iterations?
+We implemented \textit{burn-in}: before training or evaluation we run $\historylen$ iterations of a random agent (see section \ref{sec:random}) to collect a history of $\historylen$ observations and pick correct thresholds.
 
 \paragraph{Action coercion}
 \label{sec:act}
 
 A symmetrical problem arises with actions taken by the agent. 
-Memory tape holds integer numbers $T^k \in \mathbb{Z}$ and any value can be pushed onto the action stack.
-However, the action that's output to the environment has to belong to a $N$-dimensional action space $A$, an intersection of unidimensional action spaces $A^k$.
+Memory tape holds integer numbers $\memory^\steppp \in \integers$ and any value can be pushed onto the action stack.
+However, the action that's output to the environment has to belong to a $N$-dimensional action space $\actions$, an intersection of unidimensional action spaces $\actions^\steppp$.
 The "act" operation thus includes a coercion system and is defined as:
 
 \begin{equation}
 \label{eq:act}
 \begin{array}{l}
-    a^k := \begin{cases}
-\frac{S^k}{d-1}, A^k = (- \infty; + \infty) \\
-a_{\text{min}} + |\frac{S^k}{d-1} - a_{\text{min}}|, A^k = [a_{\text{min}}; + \infty) \\
-a_{\text{max}} - |a_{\text{max}} - \frac{S^k}{d-1}|, A^k = (- \infty; a_{\text{max}}] \\
-a_{\text{min}} + \frac{(S^k \bmod d)}{d - 1} * (a_{\text{max}} - a_{\text{min}}), A^k = [a_{\text{min}}; a_{\text{max}}] \\
-S^k, A^k \subset \mathbb{Z}
+    \action^\steppp := \begin{cases}
+\frac{\actionqueue^\steppp}{\discretebins-1}, \actions^\steppp = (- \infty; + \infty) \\
+\action_{\text{min}} + |\frac{\actionqueue^\steppp}{\discretebins-1} - \action_{\text{min}}|, \actions^\steppp = [\action_{\text{min}}; + \infty) \\
+\action_{\text{max}} - |\action_{\text{max}} - \frac{\actionqueue^\steppp}{\discretebins-1}|, \actions^\steppp = (- \infty; \action_{\text{max}}] \\
+\action_{\text{min}} + \frac{(\actionqueue^\steppp \bmod \discretebins)}{\discretebins - 1} * (\action_{\text{max}} - \action_{\text{min}}), \actions^\steppp = [\action_{\text{min}}; \action_{\text{max}}] \\
+\actionqueue^\steppp, \actions^\steppp \subset \integers
 \end{cases} \\
-    S := (S^{N+1}, S^{N+2}, \dots)
+    \actionqueue := (\actionqueue^{N+1}, \actionqueue^{N+2}, \dots)
 \end{array}
 \end{equation}
 
@@ -238,7 +238,7 @@ It is notoriously hard to introduce any kind of branching behavior in \textbf{BF
 To facilitate if-then style programs we introduce a \textit{goto} operator \verb|^| defined as 
 
 \begin{equation}
-   p_T := T^{p_T} 
+   \pointer_\memory := \memory^{\pointer_\memory} 
 \end{equation}
 
 Note that it is not a \texttt{goto;} in the traditional C sense, since the memory pointer is being moved, not the code pointer.
@@ -261,10 +261,10 @@ With all the commands we introduced in sections \ref{sec:bf} - \ref{sec:goto} it
 \end{lstlisting}
 \end{center}
 
-This program moves the memory pointer right until it hits a cell that contains zero, increments it five times, and then pushes $T^{p_T}$ to the top of the action queue. It also loses the current value of the memory pointer which might be meaningful. Our experiments have shown that it takes a very long time for the neural model to learn to write this kind of combinations.
+This program moves the memory pointer right until it hits a cell that contains zero, increments it five times, and then pushes $\memory^{\pointer_\memory}$ to the top of the action queue. It also loses the current value of the memory pointer which might be meaningful. Our experiments have shown that it takes a very long time for the neural model to learn to write this kind of combinations.
 
 To mitigate this issue we introduce \textit{shorthands}: commands \texttt{01234} mean "write the respective number (0,1,2,3 or 4)" into the \textit{cell} and commands \texttt{abcde} mean "move the memory pointer to cell a,b,c,d or e" where cells a,b,c,d and e are the first 5 cells in the memory tape.
-We intentionally made the number of \textit{shorthands} equal to discretization constant $d=5$.
+We intentionally made the number of \textit{shorthands} equal to discretization constant $\discretebins=5$.
 Due to our method of discretization of continious action spaces (see sections \ref{sec:observe}, \ref{sec:act}) the program will often encounter situations when it can choose between $d$ different actions and thanks to shorthands taking them can be encoded as \texttt{1!}, \texttt{2!}, \dots
 
 \paragraph{Summary}
@@ -283,7 +283,7 @@ The number of shorthand commands can be increased or decreased.
 
 % Achilles hill
 Observation discretization and action coercion techniques built into the language mean that \textbf{BF++} is compatible with any POMDP environment. 
-However, in practice, there is one important limitation: the complexity of the program required to operate in an environment is directly proportional to dimensionality of it's action and observation spaces $A$ and $O$. 
+However, in practice, there is one important limitation: the complexity of the program required to operate in an environment is directly proportional to dimensionality of it's action and observation spaces $\actions$ and $\obss$. 
 If, for example the observation space is 10000-dimensional, once an observation is read onto tape $T$ it takes 9999 \verb|>| operators to reach second to last observation.
 Thus, in practice, \textbf{BF++} should be used with low-dimensional POMDPs.
 
@@ -309,7 +309,7 @@ Hence we
 
 \begin{enumerate}
     \item Pick several commonly studied reinforcement learning environments
-    \item Employ an expert\footnote{the author fo the present thesis} to write \textbf{BF++} programs to solve them
+    \item Employ an expert\footnote{the author of the present thesis} to write \textbf{BF++} programs to solve them
     \item Develop a program synthesis model following from \cite{abolafiaNeuralProgramSynthesis2018}
     \item Compare the best programs generated by the model with expert programs in terms of program quality
     \item Perform ablation studies: remove some of the optional commands from the language (resulting language is called \textbf{BF+}), remove the expert program from the model's program pool, compare program quality
@@ -366,7 +366,7 @@ With action vector of size 4 the agent controls speeds of the robots hip and kne
 
 \paragraph{Hyperparameters}
 
-For observation discretization (section \ref{sec:observe}) we picked $d=5$ (so that it's equal to the number of shorthands) and $h=500$ for our experiments, hence when the observation is among the highest 20\% of the last 500 observations it is written into memory as 4 while if it falls between 40-th and 60-th percentiles it is 2.
+For observation discretization (section \ref{sec:observe}) we picked $\discretebins=5$ (so that it's equal to the number of shorthands) and $\historylen=500$ for our experiments, hence when the observation is among the highest 20\% of the last 500 observations it is written into memory as 4 while if it falls between 40-th and 60-th percentiles it is 2.
 
 \paragraph{Expert programs}
 \label{sec:expert-progs}
@@ -420,37 +420,36 @@ A more rigorous way to confirm it would be employing several human experts to de
 Developing BF++ programs for \textbf{Bipedal Walker} manually is very challenging and left outside the scope.
 
 \paragraph{Program synthesis model}
-\todo{ensure standard nomenclature}
 
-In order to train a generative model $g$ to write \textbf{BF++} programs we treat the writing process as a reinforcement learning episode in its own right \cite{abolafiaNeuralProgramSynthesis2018} .
+In order to train a generative model $\policy$ to write \textbf{BF++} programs we treat the writing process as a reinforcement learning episode in its own right \cite{abolafiaNeuralProgramSynthesis2018} .
 Every character of a program is an action taken by the \emph{writer agent}, the programs are terminated by a NULL character.
-When the NULL character is written, a \emph{BF++ agent} is created in the target POMDP environment (e.g. CartPole) and sum total of rewards $Q$ collected in that episode is assigned as a reward to the \emph{writer agent} for the NULL character.
+When the NULL character is written, a \emph{BF++ agent} is created in the target POMDP environment (e.g. CartPole) and sum total of rewards $\returntot$ collected in that episode is assigned as a reward to the \emph{writer agent} for the NULL character.
 All other characters are rewarded with zero.
 
 The \emph{writer agent's} policy is modeled with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network and is trained with a modified version of REINFORCE \cite{williamsSimpleStatisticalGradientfollowing1992}algorithm.
 While standard REINFORCE optimizes Policy Gradient:
 
 \begin{equation}
-    O_{\text{PG}}(\phi) = \mathbb{E_{\pi(C; \phi)}}(Q)
+    \obj_{\text{PG}}(\learnables) = \mathbb{E_{\policy(\code; \learnables)}}(\returntot)
 \end{equation}
 
-where $\phi$ are LSTM parameters, $C$ - program, $Q$ - reward obtained by the program in target environment,
+where $\learnables$ are LSTM parameters, $\code$ - program, $\returntot$ - reward obtained by the program in target environment,
 
 we optimize
 
 \begin{equation}
-    O(\phi)=O_{PG}(\phi)+O_{PQT}(\phi)
+    \obj(\learnables)=\obj_{PG}(\learnables)+\obj_{PQT}(\learnables)
 \end{equation}
 
 where
 
 \begin{equation}
-    O_{\text{PQT}} = \frac{1}{K} \sum_{k=0}^K \log \pi(C_k; \phi)
+    \obj_{\text{PQT}} = \frac{1}{N} \sum_{\steppp=0}^N \log \pi(\code_\steppp; \learnables)
 \end{equation}
 
-where $C_1$ is the best (highest $Q$) known program, $C_2$ - second best, \dots
+where $\code_1$ is the best (highest $\returntot$) known program, $\code_2$ - second best, \dots
 
-Intuitively, both $O_{\text{PG}}(\phi)$ and $O_{\text{PQT}}(\phi)$ when optimized update the weights of the LSTM so that programs that we have found to be successful are more likely.
+Intuitively, both $\obj_{\text{PG}}(\learnables)$ and $\obj_{\text{PQT}}(\learnables)$ when optimized update the weights of the LSTM so that programs that we have found to be successful are more likely.
 But Policy Gradient weighs programs proportionately to their respective rewards while PQT creates a \textit{priority queue} of the \textit{best known programs} and assigns a high importance to them and zero to the rest.
 
 \begin{figure}
@@ -460,8 +459,8 @@ But Policy Gradient weighs programs proportionately to their respective rewards 
     \label{fig:cycle}
 \end{figure}
 
-$O_{\text{PQT}}$ component has been shown to have "a stabilizing affect and helps reduce catastrophic forgetting in the policy" \cite{abolafiaNeuralProgramSynthesis2018}.
-In addition to this, we use $O_{\text{PQT}}$ to implement \textbf{expert inspiration}.
+$\obj_{\text{PQT}}$ component has been shown to have "a stabilizing affect and helps reduce catastrophic forgetting in the policy" \cite{abolafiaNeuralProgramSynthesis2018}.
+In addition to this, we use $\obj_{\text{PQT}}$ to implement \textbf{expert inspiration}.
 By default, the \textit{priority queue} of the \textit{best known programs} is initialized as an empty set.
 But if expert-written programs are available, it can be prepopulated with these programs that act as useful positive examples for teaching the \emph{writer agent}.
 This approach is used to incorporate programs from section \ref{sec:expert-progs} and transfer knowledge from experts to the neural developer.
@@ -475,7 +474,7 @@ In all experiments below, the \emph{writer agent}'s LSTM has hidden size of 50, 
 
 All experiments were run with an upper limit of 100000 training episodes.
 Environments other than \textbf{Taxi} also used Exponential Variance Elimination \cite{evestop} early stopping technique - training was stopped when the postive trend in the quality of the best found program stopped, i.e. when the exponential moving average of program quality is lower that it was 1000 episodes ago.
-Agents for \textbf{Taxi} are trained for a fixed number of episodes, because we noticed that in this environment the longest part of the training process is learning to pick up the first passenger and until that happens $Q=-200$ holds.
+Agents for \textbf{Taxi} are trained for a fixed number of episodes, because we noticed that in this environment the longest part of the training process is learning to pick up the first passenger and until that happens $\returntot=-200$ holds.
 
 Once the training process is finished, we take the best known programs and since each of them was only tested once (leading to high variance) we test them again, averaging total rewards over 100 episodes. 
 We use this averaged reward to pick the best program.
@@ -491,7 +490,7 @@ GPU resources were not used, because the performance bottleneck of the system is
 \paragraph{Quantitative results}
 
 \begin{table}[H]
-  \caption{Total episode reward $Q$ achieved by best programs found, averaged over 100 episodes}
+  \caption{Total episode reward $\returntot$ achieved by best programs found, averaged over 100 episodes}
   \label{tab:quality}
   \centering
   \begin{tabular}{lcccc}
@@ -551,7 +550,7 @@ So this program is equivalent to:
 \end{figure}
 
 When the virtual comma is executed, car position and car velocity are read into memory, discretized into integers $0\dots4$.
-The position is read into the active memory cell $p_T$, while the velocity is in cell $p_T+1$.
+The position is read into the active memory cell $\pointer_\memory$, while the velocity is in cell $\pointer_\memory+1$.
 Then the active cell is decremented and the resulting number is put onto the action stack twice.
 There is 1 read operation and 2 write operations to the end of the action stack, which introduces a delay before the actions get executed.
 When it's time to act, the number on the action stack is coerced to one of the actions possible in this environment (0 for going left, 1 for doing nothing, 2 for right). 
