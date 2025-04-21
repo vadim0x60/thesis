@@ -135,20 +135,20 @@
 \newcommand{\latent}{\mathbf{z}}
 \nomenclature{$\latent$}{a latent representation of input $\mlinput$}
 
-\newcommand{\mean}{\mu}
+\newcommand{\mean}{\boldsymbol\mu}
 \nomenclature{$\mean$}{mean}
 
-\newcommand{\variance}{\sigma}
-\nomenclature{$\variance$}{variance}
+\newcommand{\stddev}{\boldsymbol\sigma}
+\nomenclature{$\stddev$}{variance}
 
 \newcommand{\normaldistr}{\nu}
-\nomenclature{$\normaldistr(\mu,\sigma)$}{the normal distribution}
+\nomenclature{$\normaldistr(\mean,\stddev)$}{the normal distribution}
 
 \newcommand{\pointer}{P}
 \nomenclature{$\pointer$}{pointer}
 
 \newcommand{\prob}{p}
-\nomenclature{$\prob$}{probability}
+\nomenclature{$\prob(x)$}{a probability distribution}
 
 \newcommand{\team}{\Xi}
 \nomenclature{$\team$}{a cooperative \emph{team} of agents}
@@ -174,6 +174,18 @@
 
 \newcommand{\integers}{\mathbb{Z}}
 \nomenclature{$\integers$}{integers}
+
+\newcommand{\treenode}{\delta}
+\nomenclature{$\treenode$}{a node in a tree}
+
+\newcommand{\kldivergence}{D_{KL}}
+\nomenclature{$\kldivergence(\prob_L \parallel \prob_R)$}{Kullback Leibner divergence between probability distributions $\prob_L(x)$ and $\prob_R(x)$, $\sum_x \prob_L(x)\ \log\left(\frac{\ \prob_L(x)\ }{ \prob_R(x) }\right)$}
+
+\newcommand{\identitymatrix}{I}
+\nomenclature{$\identitymatrix$}{identity matrix}
+
+\newcommand{\regularization}{\hyperparam^\text{regularization}}
+\nomenclature{$\regularization$}{weight of a regularization term in $\obj(x)$}
 
 \printnomenclature
 

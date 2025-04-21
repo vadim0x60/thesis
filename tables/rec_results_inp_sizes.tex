@@ -1,0 +1,13 @@
+\begingroup
+\setlength{\tabcolsep}{3pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.4} % Default value: 1
+\begin{tabular}{clccccc}
+ & \textbf{Input} & \textbf{BLEU-1} & \textbf{BLEU-2} & \textbf{BLEU-3} & \textbf{BLEU-4} & \textbf{Compiles}\\ \hline
+\multirow{3}{*}{Seq}    &   small   &   0.513  &    0.403    &      0.321    &  0.258      &  95.334\%     \\
+                            &   medium   &  0.306      &    0.244        &      0.192     & 0.153      & 86.812\% \\
+                            &   large   &    0.196   &      0.157   &   0.123       &   0.096       &  87.971\% \\ \hline
+\multirow{3}{*}{Tree}  &   small   &   0.633  &    0.516     &     0.424     &     0.355      &  59.022\%                \\
+                            &   medium   &   0.478  &   0.371        &          0.289 &     0.229   & 21.241\%            \\
+                            &   large   &  0.324 &      0.242  & 0.181    &    0.138     &    5.001\%         \\ 
+\end{tabular}
+\endgroup
