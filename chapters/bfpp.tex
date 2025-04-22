@@ -1,6 +1,8 @@
 \chapter{BF++}\label{ch:bfpp}
 
-\citeself{chapter}{liventsevBFLanguageGeneralpurpose2022}
+\begin{remark}
+    An earlier revision of this chapter \cite{liventsevBFLanguageGeneralpurpose2022} was presented at ECML-PKDD 2023
+\end{remark}
 
 \section{Motivation}
 
@@ -480,6 +482,10 @@ Once the training process is finished, we take the best known programs and since
 We use this averaged reward to pick the best program.
 
 \paragraph{Implementation}
+
+\begin{remark}
+    A BF++ interpreter is available as part of Cibi \cite{liventsevVadim0x60Cibi2024} package
+\end{remark}
 
 \textbf{BF++} interpreter and the training system were written in Python with TensorFlow for neural models.
 GPU resources were not used, because the performance bottleneck of the system is not backpropagation but rather testing a \textbf{BF++} program in the environment, single experiment runtime was between 1 hour (CartPole) and 10 (Taxi).

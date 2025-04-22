@@ -1,5 +1,8 @@
 \chapter{Multiagent Programming with LLMs}
 \label{ch:seidr}
+\begin{remark}
+  An earlier revision of this chapter was presented at GECCO 2023 \cite{liventsevFullyAutonomousProgramming2023} and subsequently extended for TELO \cite{grishinaFullyAutonomousProgramming2025}
+\end{remark}
 
 \section{Introduction}
 \label{sec:seidr-intro}
@@ -16,7 +19,7 @@ Instruction fine-tuned models use human feedback \cite{chaudhariRLHFDecipheredCr
 These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
 
-These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.} initially introduced in our GECCO-2023  chapter~\cite{liventsevFullyAutonomousProgramming2023}. 
+These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.}. 
 %The current  chapter partly reiterates the methodology and findings of~\cite{liventsev2023:fully} and expands on them in this extended version of the original  chapter.
 SEIDR is a multi-agent iterative framework that uses feedback from code execution and failing test cases to update the initially generated buggy code. 
 Our initial explorations cover SEIDR with GPT-3 as the bug summarization model and Codex (or GPT-3 trained on code) as the program generation and debugging model.  

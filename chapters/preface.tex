@@ -30,7 +30,11 @@ This work was funded by the European Union’s Horizon 2020 research and innovat
 
 Some chapters of this thesis overlap with my previous publications.
 Such overlaps are clearly marked in advance of the text in question, using the following warning box:
-\citeself{chapter/section}{liventsev2021neurogenetic}
+
+\begin{remark}
+    An earlier revision of this chapter \cite{liventsev2021neurogenetic} was presented at SCIENCE 2023
+\end{remark}
+
 Some of these publications have been prepared in collaboration with other researchers: as a result, some passages written by my co-authors could make their way into this thesis.
 Outside of these specifically designated exceptions, all text in this thesis is by me, Vadim Liventsev.
 As a matter of principle (and perhaps misplaced personal pride), no text in this thesis has been generated with a large language model.
@@ -39,7 +43,10 @@ Some text in this thesis has been recorded in spoken language and transcribed wi
 \paragraph{Reproducibility}
 
 To facilitate reproducibility of the research presented herein, all the code repositories and datasets developed in relation to the experiments discussed in this thesis have been released to the public. Look for the following box:
-\citeimpl{liventsevVadim0x60Programlib2024}
+
+\begin{remark}
+    A reproducibility package for this experiment has been published at \cite{liventsevReplicationPackageFully2023}
+\end{remark}
 
 \paragraph{Contact}
 
@@ -80,5 +87,5 @@ Chapter \ref{ch:heartpole} introduces a simple and deliberately clinically inacc
 Chapter \ref{ch:auto-als} introduces Auto-ALS: an \emph{antropodidactic} emergency care simulator based on a training software package for junior healthcare professionals.
 Finally, chapter \ref{ch:mimicseq} makes the first step towards a big data driven patient simulator, proposing a sequential dataset for training foundation models in intensive care.
 
-Part \ref{part:RLCEPS} concludes the thesis: chapter \ref{ch:eval} implements a limited proof of concept RLCEPS system with program induction methodology proposed in chapter \ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole} and \ref{ch:auto-als}.
+Part \ref{part:RLCEPS} concludes the thesis: chapter \ref{ch:rlceps-eval} implements a limited proof of concept RLCEPS system with program induction methodology proposed in chapter \ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole} and \ref{ch:auto-als}.
 Chapter \ref{ch:conclusion} discusses the results and the implications thereof for the future of program synthesis in healthcare.
