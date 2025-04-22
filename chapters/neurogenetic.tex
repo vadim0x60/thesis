@@ -46,8 +46,8 @@ Note that the darker colored points of the visualization on figure \ref{fig:neur
 \end{figure}
 
 One can see that 10000 iterations were not enough to find the highest peak, although the one we finally found is close. Most of the iterations were spent navigating the far left part of the search space. 
-The right half of the search space remained unexplored - the rightmost solution $ \mlinput_\text{right} $ has an $ O(\mlinput_\text{right})=-2 $ which means it's almost never drawn from $ \prob(\mlinput) $. 
-This could be mitigated by various means, for instance, \emph{temperature sampling} \cite{holtzman2019curious}, namely, adding a temperature parameter to $ \prob(\mlinput) $: $\prob_t(\mlinput) \sim e^{t\obj(\mlinput)}$.
+The right half of the search space remained unexplored - the rightmost solution $ \mlinput_\text{right} $ has an $ \obj(\mlinput_\text{right})=-2 $ which means it's almost never drawn from $ \prob(\mlinput) $. 
+This could be mitigated by various means, for instance, \emph{temperature sampling} \cite{holtzman2019curious}, namely, adding a temperature parameter to $ \prob(\mlinput) $: $\policy_t(\mlinput) \sim e^{t\obj(\mlinput)}$.
 But the issue is fundamental to evolutionary algorithms - a few unrepresentative examples can erroneously exclude a large part of the search space.
 
 \paragraph{Neural Actor-Critic approach}
@@ -125,9 +125,9 @@ A software developer can:
     \item Learn from the feedback by modifying its strategy
 \end{enumerate}
 
-Thus, a developer is a 2-tuple of a program distribution $\prob_\text{dev}(c | \learnables, \codebase)$ and a parameter update procedure $\mathit{Update}(\learnables, \code, \obj)$
+Thus, a developer is a 2-tuple of a program distribution $\policy_\text{dev}(c | \learnables, \codebase)$ and a parameter update procedure $\mathit{Update}(\learnables, \code, \obj)$
 
-Distribution $\prob_{\text{dev}}(c | \learnables, \codebase)$ is defined over programs and is parametrized with learnable parameters $\learnables$ as well as codebase $\codebase$. 
+Distribution $\policy_{\text{dev}}(c | \learnables, \codebase)$ is defined over programs and is parametrized with learnable parameters $\learnables$ as well as codebase $\codebase$. 
 Having codebase as parameter enables the developer to generate new programs as a modification and/or combination of existing programs, i.e. to apply genetic programming.
 
 Learnable parameters $\learnables$ encode the developer's current methodology of programming that can be modified upon receipt of positive or negative feedback using the developer's update procedure. 
@@ -162,7 +162,7 @@ The idea behind exponentiating the total reward is to encourage \emph{exploratio
 Programs that on average perform poorly, but sometimes, stochastically, collect high rewards, will have a higher $\obj(\code|\codebase)$ than $\reward(\code|\codebase)$.
 We consider these programs to be \emph{high-fitness additions to the codebase} because they contain the knowledge necessary for solving environment $M$, even if on average they do not solve it.
 We hypothesize that applying \emph{genetic operators} (section \ref{sec:genetic}) to programs with high $\obj(\code|\codebase)$ can yield programs with high $\reward(\code|\codebase)$.
-For this reason we train developers to maximize $\obj$, but when the training is complete, we pick programs from the codebase with the highest $R$ as "best programs".
+For this reason we train developers to maximize $\obj$, but when the training is complete, we pick programs from the codebase with the highest $\returntot$ as "best programs".
  
 $\obj(\code|\codebase)$ has an additional technical advantage over $\reward(\code|\codebase)$: invariant $\obj(\code|\codebase) \geq 0$ holds for all $\code$.
 This lets one sample programs from the codebase with probabilities proportional to their fitness, see eq. \ref{eq:genmixture}.
@@ -179,9 +179,9 @@ Just like \emph{instant run-off voting} achieves similar results to \emph{exhaus
 \State $N \gets 0$
 \While{$N < N_\text{max}$}
 \LineComment{For each developer in the team}
-\For{$\step = 1,2,\dots,|T|$}
+\For{$\step = 1,2,\dots,\team$}
 \LineComment{Sample a program from the developer}
-\State $\code_\text{new}\sim \prob_i(\code | \learnables_i, \codebase)$ 
+\State $\code_\text{new}\sim \policy_i(\code | \learnables_i, \codebase)$ 
 \LineComment{Test the program}
 \State $\returntot \gets \mathit{Eval}(\code_\text{new})$
 \LineComment{Save the code and test result to the codebase}
@@ -201,24 +201,22 @@ To combine genetic programming and neural program synthesis we introduce 3 types
 \newpage \subsection{Genetic developers}
 \label{sec:genetic}
 
-\todo{Why these 7?}
-
 A genetic developer writes programs by
 \begin{enumerate}
     \item Selecting one of the 7 available stochastic \emph{genetic operators} (described below)
-    \item Selecting two programs from the \emph{codebase} $C$ (parents $\code_1$ and $\code_2$) 
+    \item Selecting two programs from the \emph{codebase} $\codebase$ (parents $\code_1$ and $\code_2$) 
     \item Using the operator to modify the parents and yield a new (child) program
 \end{enumerate}
 
-A genetic operator is a probability distribution $\prob_\text{op}$ over child programs given 2 parent programs. 
+A genetic operator is a probability distribution $\policy_\text{op}$ over child programs given 2 parent programs. 
 
 \begin{equation}
-    \prob_\text{op}(\code_\text{child}|\code_1,\code_2)
+    \policy_\text{op}(\code_\text{child}|\code_1,\code_2)
 \end{equation}
 
-Operators whose $\prob_\text{op}$ is invariant to $\code_2$ and depends on $\code_1$ only are called \emph{mutation} operators: they generate a new program by \emph{mutating} one program $\code_1$.
+Operators whose $\policy_\text{op}$ is invariant to $\code_2$ and depends on $\code_1$ only are called \emph{mutation} operators: they generate a new program by \emph{mutating} one program $\code_1$.
 The rest are called \emph{combination} operators as they \emph{combine} 2 existing programs to generate a new one.
-
+The choice of operators follows from DEAP \cite{deap, derainvilleDEAPEnablingNimbler2014, derainvilleDEAPPythonFramework2012} which we also use to implement the experiments.
 
 \paragraph{Mutation operators}
 
@@ -227,28 +225,28 @@ Let $\mathrm{A}$ be the set of all possible permutations of size $|\code_1|$. $|
 Then
 
 \begin{equation}
-    \prob_\text{shuffle}(\code_\text{child}|\code_1,\code_2) =
+    \policy_\text{shuffle}(\code_\text{child}|\code_1,\code_2) =
             \frac{\sum\limits_{\action \in \mathrm{A}} \mathbb{I}[\action(\code_\text{parent}) = \code_\text{child}]}{|\code_1|!}
 \end{equation}
 
 Another approach is \emph{uniform mutation} where a loaded coin is tossed for every token in $\code_1$. 
-With probability $\prob_\text{ind}$ it is replaced with a random token from the alphabet $\mathcal{L}$ of the programming language, with probability $1-\prob_\text{ind}$ it stays the same.
+With probability $\policy_\text{ind}$ it is replaced with a random token from the alphabet $\alphabet$ of the programming language, with probability $1-\policy_\text{ind}$ it stays the same.
 The evolution of a single token under shuffle mutation is defined by distribution
 
 \begin{equation}
-    \prob(\code^\text{new} | \code^\text{old}) = \frac{\prob_\text{ind}}{|L|} +  (1 - \prob_\text{ind}) \mathbb{I}[\code^\text{new} = \code^\text{old}]
+    \prob(\code^\text{new} | \code^\text{old}) = \frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \mathbb{I}[\code^\text{new} = \code^\text{old}]
 \end{equation}
 
 Hence over full programs the operator is defined as
 
 \begin{equation}
-    \prob_\text{unimut}(\code_\text{child}|\code_1,\code_2) = \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ 
-    \prod\limits_{\step=0}^{|\code_1|}  \left(\frac{\prob_\text{ind}}{|L|} +  (1 - \prob_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
+    \policy_\text{unimut}(\code_\text{child}|\code_1,\code_2) = \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ 
+    \prod\limits_{\step=0}^{|\code_1|}  \left(\frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
 \end{equation}
 
 \paragraph{Combination operators}
 
-The combination operators we propose are all variants of \emph{crossover} - a classic genetic programming technique rooted in the way a pair of DNA molecules exchanges genes during mitosis and meiosis, displayed on figure \ref{fig:crossover}.
+The combination operators we propose are all variants of \emph{crossover} - a classic genetic programming technique rooted in the way a pair of DNA molecules exchanges genes during mitosis and meiosis.
 
 In DNA \cite{evocritique}, as well as in most genetic programming literature \cite{genprog1,genprog2} the crossover operator combines 2 parent sequences to produce 2 children.
 In this section, in order to reduce complexity, we define the distributions as if only the first child program is saved and the second one is forgotten.
@@ -264,7 +262,7 @@ If the parent programs have different lengths, the cut point has to fit within b
 Hence the probability of $\code_\text{child}$ being born out of \emph{one-point crossover} is
 
 \begin{equation}
-    \prob_\text{1ptcx}(\code_\text{child}|\code_1,\code_2) =
+    \policy_\text{1ptcx}(\code_\text{child}|\code_1,\code_2) =
         \frac{\mathbb{I}[|\code_\text{child}|=|\code_2|]}{|\code_1,\code_2|-1}
         \sum\limits_{k=2}^{|\code_1,\code_2|} \prod\limits_{\step=1}^{k-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=k}^{|\code_2|} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}]
 \end{equation}
@@ -272,7 +270,7 @@ Hence the probability of $\code_\text{child}$ being born out of \emph{one-point 
 \emph{Two-point crossover} is similar, but instead of swapping the trailing ends of programs, a section in the middle of the programs is chosen, determined by randomly selected cut-off indices $k_1$ and $k_2$ and swapped:
 
 \begin{multline}
-    \prob_\text{2ptcx}(\code_\text{child}|\code_1,\code_2) =
+    \policy_\text{2ptcx}(\code_\text{child}|\code_1,\code_2) =
         \frac{2 \mathbb{I}[|\code_\text{child}|=|\code_1|]}{(|\code_1,\code_2|-2)(|\code_1,\code_2|-1)} 
         \cdot \\ \cdot
         \sum\limits_{k_1=2}^{|\code_1,\code_2|-1}
@@ -281,27 +279,18 @@ Hence the probability of $\code_\text{child}$ being born out of \emph{one-point 
         \prod\limits_{\step=k_2}^{|\code_1|} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}]
 \end{multline}
 
-\emph{Uniform crossover} mirrors \emph{uniform mutation} in that a loaded coin is tossed for each token in $\code_1$. With probability $\prob_\text{ind}$ the token is replaced, but the replacement is not drawn randomly from the alphabet. Instead, the replacement comes from $\code_2$:
+\emph{Uniform crossover} mirrors \emph{uniform mutation} in that a loaded coin is tossed for each token in $\code_1$. With probability $\policy_\text{ind}$ the token is replaced, but the replacement is not drawn randomly from the alphabet. Instead, the replacement comes from $\code_2$:
 
 \begin{equation}
-    \prob_\text{unicx}(\code_\text{child}|\code_1,\code_2) = \prod\limits_{\step=0}^{|\code_1|} \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ \left(\prob_\text{ind} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}] + (1 - \prob_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
+    \policy_\text{unicx}(\code_\text{child}|\code_1,\code_2) = \prod\limits_{\step=0}^{|\code_1|} \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ \left(\policy_\text{ind} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}] + (1 - \policy_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
 \end{equation}
 
 Finally, \emph{messy crossover} is a version of \emph{one-point crossover} without the assumption that both parent programs have to be cut at the same index $k$.
 In \emph{messy crossover}, one parent is cut at index $k_1$, another is cut at index $k_2$ and the head of one is attached to the tail of the other:
 
 \begin{multline}
-    \prob_\text{messy}(\code_\text{child}|\code_1,\code_2) = \frac{1}{(|\code_1,\code_2|-1)^2} \cdot \\ \cdot \sum\limits_{k_1=2}^{|\code_1,\code_2|} \sum\limits_{k_2=2}^{|\code_1,\code_2|} \mathbb{I}[|\code_\text{child}|=k_1+|\code_2|-k_2] \prod\limits_{\step=1}^{k_1-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=1}^{|\code_2|-k_2} \mathbb{I}[\code_\text{child}^{(k_1+\step)} = \code_2^{(k_2+\step)}]
+    \policy_\text{messy}(\code_\text{child}|\code_1,\code_2) = \frac{1}{(|\code_1,\code_2|-1)^2} \cdot \\ \cdot \sum\limits_{k_1=2}^{|\code_1,\code_2|} \sum\limits_{k_2=2}^{|\code_1,\code_2|} \mathbb{I}[|\code_\text{child}|=k_1+|\code_2|-k_2] \prod\limits_{\step=1}^{k_1-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=1}^{|\code_2|-k_2} \mathbb{I}[\code_\text{child}^{(k_1+\step)} = \code_2^{(k_2+\step)}]
 \end{multline}
-
-\todo{img copyright issues}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\linewidth]{Morgan_crossover_1.jpg}
-    \includegraphics[width=0.5\linewidth]{Morgan_crossover_2.jpg}
-    \caption{1-point and 2-point crossover \cite{evocritique}}
-    \label{fig:crossover}
-\end{figure}
 
 \begin{table}
     \centering
@@ -329,30 +318,30 @@ To address this, we introduced an additional operator for removing dead code (\e
 Implementation of the pruning operator depends on the programming language at hand, here we define it as a pruning function $\code_\text{pruned}=\mathit{Prune}(\code_1)$ that outputs a program functionally equivalent to $\code_1$ (memory functions $(\action,\memory)$ of $\code_\text{pruned}$ are equal to that of $\code_1$) and $|\code_\text{pruned}| \leq \code_1$ and a degenerate probability distribution:
 
 \begin{equation}
-    \prob_\text{prune}(\code_\text{child}|\code_1,\code_2)= \begin{cases}
+    \policy_\text{prune}(\code_\text{child}|\code_1,\code_2)= \begin{cases}
         1 & \code_\text{child} = \mathit{Prune}(\code_1) \\
         0 & \text{otherwise}
         \end{cases}
 \end{equation}
 
+\newpage
 \paragraph{Operator and parent selection}
-\label{sec:selection}
 
-Let $\mathcal{P}_\text{genetic}$ be a tuple of all available genetic operators, in order of introduction, i.e. $\mathcal{P}_\text{genetic}^{(1)}=\prob_\text{shuffle}$ and $\mathcal{P}_\text{genetic}^{(4)}=\prob_\text{2ptcx}$
+Let $\probs_\text{genetic}$ be a tuple of all available genetic operators, in order of introduction, i.e. $\probs_\text{genetic}^{(1)}=\policy_\text{shuffle}$ and $\probs_\text{genetic}^{(4)}=\policy_\text{2ptcx}$
 
 Genetic developer's program distribution is a mixture distribution, combining different operators that can be applied, weighted by learnable parameters, and different programs that can be sampled from the codebase, weighted by \emph{empirical fitness} (eq. \ref{eq:empfitness}).
 
 \begin{equation}
-    \prob_\text{genetic}(\code | \learnables, \codebase) = 
-    \sum\limits_{\code_1}^{C}  
-    \sum\limits_{\code_2}^{C} 
-    \frac{\obj(\code_1|\codebase) \obj(\code_2|\codebase)}{(\sum\limits_{\code}^{C} \obj(\code|\codebase))^2} 
-    \sum\limits_{\step=0}^{|\mathcal{P}_\text{genetic}|} 
-    \learnables_i \mathcal{P}_\text{genetic}^{(\step)} (\code|\code_1,\code_2)
+    \policy_\text{genetic}(\code | \learnables, \codebase) = 
+    \sum\limits_{\code_1}^{\codebase}  
+    \sum\limits_{\code_2}^{\codebase} 
+    \frac{\obj(\code_1|\codebase) \obj(\code_2|\codebase)}{(\sum\limits_{\code}^{\codebase} \obj(\code|\codebase))^2} 
+    \sum\limits_{\step=0}^{|\probs_\text{genetic}|} 
+    \learnables_i \probs_\text{genetic}^{(\step)} (\code|\code_1,\code_2)
     \label{eq:genmixture}
 \end{equation}
 
-This is a true probability distribution if and only if $\sum\limits_{\step=0}^{|\mathcal{P}_\text{genetic}|} 
+This is a true probability distribution if and only if $\sum\limits_{\step=0}^{|\probs_\text{genetic}|} 
     \learnables_i = 1$
 
 
@@ -363,24 +352,24 @@ To do this, we notice that equation \ref{eq:genmixture} contains a \emph{multi-a
 Indeed, once the \emph{genetic} developer samples $\code_1$ and $\code_2$ from the codebase, it has to pick one of 7 available options (pull one of 7 \emph{levers}) to then receive a reward $\mathit{Eval}(\code_\text{child})$.
 This subproblem can be represented with a POMDP of its own and solved using one of the standard bandit algorithms \cite{banditsolutions}.
 
-Following \emph{Occam's razor}, we picked the simplest method, \emph{epsilon-greedy optimization}: we calculate the value of each operator as mean total reward of programs generated with this operator:
+Following \emph{Occam's razor}, we picked the simplest method, \emph{epsilon-greedy optimization}, where the value of each operator is mean total reward of programs generated with it:
 
 \begin{equation}
-    V^{(\step)} = \frac{1}{|\codebase(\mathcal{P}_\text{genetic}^{(\step)})|} 
-    \sum\limits_{k=1}^{|\codebase(\mathcal{P}_\text{genetic}^{(\step)})|}
-    \codebase(\mathcal{P}_\text{genetic}^{(\step)})_R^{(k)} 
+    \statevalue^{(\step)} = \frac{1}{|\codebase(\probs_\text{genetic}^{(\step)})|} 
+    \sum\limits_{k=1}^{|\codebase(\probs_\text{genetic}^{(\step)})|}
+    \codebase(\probs_\text{genetic}^{(\step)})_R^{(k)} 
 \end{equation}
 
-where $C(\mathcal{P}_\text{genetic}^{(\step)})$ is the subset of the codebase produced via operator $\mathcal{P}_\text{genetic}^{(\step)}$.
+where $\codebase(\probs_\text{genetic}^{(\step)})$ is the subset of the codebase produced via operator $\probs_\text{genetic}^{(\step)}$.
 
-The $\mathit{Update}_\text{genetic}$ procedure recalculates values $V$ and sets operator probabilities to
+The $\mathit{Update}_\text{genetic}$ procedure recalculates values $\statevalue$ and sets operator probabilities to
 
 \begin{equation}
-    \learnables_i = \frac{\epsilon}{|\mathcal{P}_\text{genetic}^{(\step)}|} +
-    \mathbb{I}[\step = \underset{\step}{\arg\max} V^{(\step)}] (1 - \epsilon)
+    \learnables_i = \frac{\greed}{|\probs_\text{genetic}^{(\step)}|} +
+    \mathbb{I}[\step = \underset{\step}{\arg\max} \statevalue^{(\step)}] (1 - \greed)
 \end{equation}
 
-where $\epsilon$ is a hyperparameter responsible for regulating the \emph{exploration-exploitation tradeoff} \cite{banditsexplo}
+where $\greed$ is a hyperparameter that controls the \emph{exploration-exploitation tradeoff} \cite{banditsexplo}
 
 In future work, however, other bandit optimization algorithms can be used in its place \footnote{Our open-source software implementation allows for drop-in replacement of bandit algorithms}.
 
@@ -390,8 +379,8 @@ In future work, however, other bandit optimization algorithms can be used in its
 The genetic developer, as described above, has 2 hyperparameters:
 
 \begin{enumerate}
-    \item $\prob_\text{ind}$ defines severity of mutation in $\prob_\text{unimut}$ and $\prob_\text{unicx}$
-    \item $\epsilon$ defines learnability of genetic operator distribution
+    \item $\policy_\text{ind}$ defines severity of mutation in $\policy_\text{unimut}$ and $\policy_\text{unicx}$
+    \item $\greed$ defines learnability of genetic operator distribution
 \end{enumerate}
 
 Note that the \emph{team} mechanism afforded by \emph{Instant Scrum} can be used not only to combine genetic and neural program synthesis, but also to combine several genetic developers with different hyperparameters.
@@ -399,24 +388,24 @@ Note that the \emph{team} mechanism afforded by \emph{Instant Scrum} can be used
 \newpage \subsection{Neural developers}
 \label{sec:neural}
 
-The \emph{neural developer}, also known as the \emph{senior developer} because of their unique ability to write original programs, is an LSTM \cite{hochreiterLongShorttermMemory1997} network followed by a linear layer that generates a sequence of vectors $h_{1},h_{2},h_{3},\dots$ where $h_i \in \mathbb{R}^{|\mathcal{L}| + 1} \forall \step$ and $j$-th element of vector $h_i$, $h_i^{(j)}$, represents the probability of $\step$-th token of the program being $j$-th token in the alphabet, $\prob(\code^{(\step)}=\mathcal{L}^{(j)})$.
+The \emph{neural developer}, also known as the \emph{senior developer} because of their unique ability to write original programs, is an LSTM \cite{hochreiterLongShorttermMemory1997} network followed by a linear layer that generates a sequence of vectors $\hidden_{1},\hidden_{2},\hidden_{3},\dots$ where $\hidden_i \in \realnums^{|\alphabet| + 1} \forall \step$ and $\stepp$-th element of vector $\hidden_i$, $\hidden_i^{(\stepp)}$, represents the probability of $\step$-th token of the program being $\stepp$-th token in the alphabet, $\prob(\code^{(\step)}=\alphabet^{(\stepp)})$.
 The last element of the vector represents a special \emph{end of program} symbol.
-This vector depends deterministically on the full set of neural network parameters (LSTM and linear layer) $\learnables$ and can be represented as a function $h_i(\learnables)$.
+This vector depends deterministically on the full set of neural network parameters (LSTM and linear layer) $\learnables$ and can be represented as a function $\hidden_i(\learnables)$.
 Then
 
 \begin{equation}
-    \prob_\text{neural}(\code | \learnables, \codebase) = h_{(|\code|+1)}^{\mathcal{L}+1}
+    \policy_\text{neural}(\code | \learnables, \codebase) = \hidden_{(|\code|+1)}^{\alphabet+1}
     \prod\limits_{\step=1}^{|\code|}
-    \sum\limits_{j=1}^{|\mathcal{L}|} \mathbb{I}[\code^{(\step)}=\mathcal{L}^{(j)}]
-    h_i(\learnables)
+    \sum\limits_{j=1}^{|\alphabet|} \mathbb{I}[\code^{(\step)}=\alphabet^{(j)}]
+    \hidden_i(\learnables)
 \end{equation}
 
 For the $\mathit{Update}_\text{neural}$ procedure we use the algorithm proposed in \cite{abolafiaNeuralProgramSynthesis2018}.
-The subproblem of generating a program $\code$ is considered as a reinforcement learning episode of it's own, where tokens are actions and token number $|\code|+1$ (\emph{end of program} token) is assigned reward $\obj = e^R; R \sim Eval(\code)$. 
-In this subenvironment $h_i(\learnables)$ is the policy network \cite[chapter 13]{suttonReinforcementLearningSecond2018} trained using REINFORCE algorithm with Priority Queue Training.
-This algorithm involves a priority queue of best known programs: we implement it as programs from $C$ with highest $\obj(\code|\codebase)$ which means that the neural developer can train on programs written by other developers.
+The subproblem of generating a program $\code$ is considered as a reinforcement learning episode of it's own, where tokens are actions and token number $|\code|+1$ (\emph{end of program} token) is assigned reward $\obj = e^\returntot; \returntot \sim Eval(\code)$. 
+In this subenvironment $\hidden_\step(\learnables)$ is the policy network \cite[chapter 13]{suttonReinforcementLearningSecond2018} trained using REINFORCE algorithm with Priority Queue Training.
+This algorithm involves a priority queue of best known programs: we implement it as programs from $\codebase$ with highest $\obj(\code|\codebase)$ which means that the neural developer can train on programs written by other developers.
 
-$h_i(\learnables)$ can also represent several LSTM layers stacked or a different type of recurrent neural network, i.e. GRU \cite{choPropertiesNeuralMachine2014,chung2014empirical}.
+$\hidden_i(\learnables)$ can also represent several LSTM layers stacked or a different type of recurrent neural network, i.e. GRU \cite{choPropertiesNeuralMachine2014,chung2014empirical}.
 Hyperparameters of this neural network, such as hidden state size and/or number of stacked layers are hyperparameters of the neural developer.  
 
 \newpage \subsection{Dummy developer}
@@ -424,8 +413,8 @@ Hyperparameters of this neural network, such as hidden state size and/or number 
 The last developer we introduce is the simplest one:
 
 \begin{equation}
-    \prob_\text{dummy}(\code_\text{child}|\code_1,\code_2) = 
-    \frac{\obj(\code_\text{child}|\codebase)}{\sum\limits_{\code}^{C} \obj(\code|\codebase)} 
+    \policy_\text{dummy}(\code_\text{child}|\code_1,\code_2) = 
+    \frac{\obj(\code_\text{child}|\codebase)}{\sum\limits_{\code}^{\codebase} \obj(\code|\codebase)} 
     \label{eq:dummy}
 \end{equation}
 
@@ -445,7 +434,7 @@ On the other hand, we could test each program many times before adding it to the
 
 In the table below, we introduce 5 teams.
 Neural developers are denoted as lstm(hidden state dimensionality), several numbers mean a stacked LSTM.
-Genetic developers are denoted as $\text{gen}(\prob_\text{ind},\epsilon)$, see section \ref{sec:genhyper}.
+Genetic developers are denoted as $\text{gen}(\policy_\text{ind},\greed)$, see section \ref{sec:genhyper}.
 $\team_\text{small}$ and $\team_\text{large}$ are recommended configurations while $\team_\text{genetic}$, $\team_\text{neural}$ are \emph{ablation studies} to prove that combination of neural and genetic methods is useful.
 
 \begin{table}[H]
@@ -497,17 +486,13 @@ Exceptions to this rule are
 
 \paragraph{Stopping and scoring}
 
-For Taxi we set an $N_\text{max}$ to $100000 |T|$ sprints where $|T|$ is the team size, meaning every developer in the team trains for 100000 iterations.
+For Taxi we set an $N_\text{max}$ to $100000 \team$ sprints where $\team$ is the team size, meaning every developer in the team trains for 100000 iterations.
 For other tasks we used Exponential Variance Elimination \cite{evestop} early stopping algorithm to stop the process when the positive trend in $\returntot$ is not present for 10000 sprints.
 This approach rules out the hypothesis that \emph{Instant Scrum} is equivalent to enumerative search and it finds good programs by exhaustion as opposed to learning - if that was the case, early stopping would fire immediately.
 Taxi environment is treated differently because programs that cannot pick up and drop off at least one passenger are always rewarded with -200 and at first it takes many iterations to synthesize at least one program that can.
 In addition to these stopping rules, a hard timelimit was set.
 
 After the process is stopped, we pick 100 programs with the highest $\returntot$ and make sure each of them has been tested at least 100 times, running additional evaluations if needed.
-
-\paragraph{Implementation}
-
-We implemented the framework with Python and Tensorflow as well as DEAP \cite{deap} for genetic operators.
 
 \newpage
 \section{Results}
@@ -531,12 +516,10 @@ We implemented the framework with Python and Tensorflow as well as DEAP \cite{de
 \end{table*}
 
 See table \ref{tab:neurogenetic-results} for a summary of best programs generated.
-The metric used, average $R$ over 100 evaluations is the same metric that's used in the OpenAI gym leaderboard, so we include the threshold required to join the leaderboard for context.
+The metric used, average $\returntot$ over 100 evaluations is the same metric that's used in the OpenAI gym leaderboard, so we include the threshold required to join the leaderboard for context.
 \emph{Initial programs} refers to the best program in the codebase before \emph{Instant Scrum} starts when it is prepopulated with  programs from chapter \ref{ch:bfpp}.
 
-\todo{Convince Aki that it's indeed confirmed}
-
-The main hypothesis of this chapter is \textbf{confirmed}: neurogenetic approach is superior to neural program induction or genetic programming separately.
+Hybrid teams $\team_\text{small}$ and $\team_\text{large}$ perform significantly better than $\team_\text{genetic}$ and $\team_\text{neural}$, hence we can answer \rqneurogen positively: neurogenetic approach can be superior to neural program induction or genetic programming separately.
 
 Besides, one unintuitive result of our experiments is that initialization of the codebase with previously available programs can be harmful, see $\team_\text{large}$.
 Overall, best results were acheived without inspiration from human experts, however, it is very valuable for lightweight teams with few small (in terms of $|\learnables|$) developers.
@@ -570,7 +553,7 @@ The same is true for $\team_\text{small}$:
 CartPole-v1 & \checkmark & 143.9 & lstm(50,50) \\
 MountainCar & & 92.53 & lstm(50,50) \\
 MountainCar & \checkmark & 88.2 & lstm(50,50) \\
-Taxi-v3 & & -148.23 & $\text{gen}(0.2,0.2)$, $\prob_\text{unicx}$ \\
+Taxi-v3 & & -148.23 & $\text{gen}(0.2,0.2)$, $\policy_\text{unicx}$ \\
 Taxi-v3 & \checkmark & -150.44 & human \\
 BipedalWalker-v2 & & -0.15 & lstm(50,50)\\
 \end{tabular}
@@ -579,11 +562,6 @@ BipedalWalker-v2 & & -0.15 & lstm(50,50)\\
 
 However, comparing results for $\team_\text{small}$ versus $\team_\text{neural}$ proves that genetic developers have been intstrumental to the fitness of these neural networks - this is to be expected with Priority Queue Training (see sec. \ref{sec:neural}).
 
-\newpage
-\section{Discussion}
-
-We have introduced a neurogenetic programming framework, demonstrated its efficacy and advantages over simpler program induction methods.
-
-We believe that this framework can become a basis for many future methods - new methods of program synthesis can be built into the \emph{Instant Scrum} framework as developers and combined with existing ones as necessary.
-In particular, one type of developer currently absent from our experiments is a \emph{neural mutation} - a neural network that modifies existing programs and can be trained to modify them in a way that improves their performance.
-Another important direction is applying the framework to more specialized tasks like robotics or healthcare decision support. 
+The biggest limitation of neurogenetic programming as implemented in the experiments of this chapter is our reliance on \textbf{BF++}, a general purpose but excessively simple language.
+This presents challenges for both the range of algorithms that can be expressed and the ease of knowledge import from and export to human written programs as discussed in section \ref{sec:whynotml}.
+Addressing this limitation will be explored in chapter \ref{ch:tree2tree}
