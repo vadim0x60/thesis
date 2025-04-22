@@ -14,7 +14,7 @@
 UVA/Padova \cite{sim-diabetes-fda} is a set of equations used to model type 1 diabetes.
 The equations, outlined on figure \ref{fig:uvapadova}, were developed by clinical experts and validated on a dataset of 32 people aged 38 ± 12 years.
 It is widely used in Healthcare and even approved in the United States as a replacement for clinical trials.
-It provides $\prob_\obs(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$ (see section \ref{sec:rlcef}), so to be a full-fledged Markov Decision Process it only need $\prob_r(r|\state,\action)$.
+It provides $\prob_\obs(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$ (see section \ref{sec:rlcef}), so to be a full-fledged Markov Decision Process it only needs $\prob_r(r|\state,\action)$.
 \cite{simglucose} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{diabetesrisk} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
 
 \subsection{GYMIC}
