@@ -34,7 +34,7 @@ The goal is to impose as few constraints as possible onto the \emph{specificatio
 \section{Taxonomy of tasks}
 \label{sec:ps-task-taxonomy}
 
-\paragraph{Code translation}
+\subsection{Code translation}
 
 The humble compiler from section \ref{sec:quest} is an instance of \emph{code translation}: a \emph{program synthesis} setup where the specification is given as text (highlighted in figure \ref{fig:nl2ml}), either in a natural language (\emph{NL2Code translation} \cite{wangNaturalLanguageCode2023, zanLargeLanguageModels2023}) or in a programming language (\emph{code2code translation} \cite{radfordImprovingLanguageUnderstanding})
 Code to natural language translation is studied as well \cite[section 5.1]{leDeepLearningSource2020}, but it is less common and out-of-scope for this work.
@@ -47,7 +47,7 @@ Intelligent conversational assistants (\href{https://chat.openai.com/}{ChatGPT},
     \label{fig:nl2ml}
 \end{figure}
 
-\paragraph{Programming by example}
+\subsection{Programming by example}
 
 Another approach to specification is specifying the expected output of the program. Or, since in most interesting programs the output depends on the input, \emph{input-output pairs} (highlighted in figure \ref{fig:pbe}). This task is known as \emph{programming by example} \cite{halbertProgrammingExample1984, psb2}.
 
@@ -65,7 +65,8 @@ Indeed, \emph{programming by example} is an unusual type of \emph{supervised lea
 The prime application of \emph{programming by example} is \emph{data wrangling} tools such as Microsoft Excel \cite{gulwani2016:programming} where it is used as a data extrapolation tool: if a formula $f$ can be synthesized that satisfies $\mloutputvec=f(\mlinputvec)$, one can generate $\mloutputvec '=f(\mlinputvec ')$ for future values $\mlinputvec '$.
 \emph{Programming by example} is also used in scientific domains to generate formulas that fit experimental observations, where it is known as \emph{symbolic regression} \cite{makkeInterpretableScientificDiscovery2022}.
 
-\paragraph{PIRL}
+\subsection{PIRL}
+\label{sec:pirl}
 
 Not every task, however, can be easily described with input-output examples. 
 Take chess: it's relatively simple to evaluate the performance of a chess-playing program, but what are the \emph{correct} moves? 
@@ -96,7 +97,7 @@ The agent's goal is then to maximize its expected $n$-step return $\expectation 
 As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{PIRL} are  used in settings where more traditional machine learning methods that do not involve code generation could also be used.
 What are then the advantages conferred by this programmatic representation?
 
-\paragraph{Expressiveness and performance}
+\subsection{Expressiveness and performance}
 \citeimpl{Vadim0x60FizzbuzzlmSearching}
 
 Programming languages benefit from decades of research into making them \textcolor{accent}{expressive} - able to efficiently represent any algorithm one can design - and \textcolor{accent}{performant} - making those algorithms executable with minimal requirements of time and hardware.
@@ -130,7 +131,8 @@ We can see that the programming language implementations are somewhat faster tha
 The only reason these performance costs are accepted is that it's easier to implement optimization in the space of possible neural network parameters than in the space of possible programs. 
 When the problem of optimal program synthesis is solved, it becomes the "best of both worlds" approach: data-driven and trainable, but using an expressive and performant representation.
  
-\paragraph{Import and export of knowledge}
+\subsection{Import and export of knowledge}
+\label{sec:importexport}
 
 Programs as a representation for decision-making of a model have a chance to become the \emph{lingua franca} for representing decision processes as they can be understood by a wide variety of intelligent systems, including humans and machine learning models. 
 This enables humans and robots attempting to tackle the same problem to learn from each other.
@@ -159,7 +161,7 @@ Even if the resulting program is never deployed, one can read it and \textcolor{
 
 \epigraph{The Future's So Bright, \\ I Gotta Wear Shades}{Timbuk 3}
 
-\paragraph{Capability}
+\subsection{Capability}
 
 The \emph{expressivity and performance} of programming languages can lead to \emph{decision support systems}, also known as \emph{digital assistants}, that are more capable, able to make more accurate predictions and provide better recommendations.
 
@@ -167,7 +169,7 @@ The ability to \emph{import, verify and export knowledge} into or out of a decis
 
 Insufficient capability in digital assistants is a major safety risk, especially when deployed fully autonomously. For example, misidentification of obstacles in autonomous driving \cite{sheebajoiceObstacleDetectionSafe2023} or wrongful diagnosis in healthcare \cite{wintersDiagnosticErrorsIntensive2012} can be a matter of life and death.
 
-\paragraph{Alignment}
+\subsection{Alignment}
 
 Highly capable digital assistants present their own family of safety risks. 
 If perverse incentives are present in the optimization goals of the decision system, then a highly capable decision system can bring about harmful situations intentionally.
@@ -202,7 +204,7 @@ The interpretability afforded by the program synthesis approach provides a secon
 
 As technology advances, this advances both the generative tools and the verification tools, making program synthesis a promising approach to scalable oversight \cite[sec. 5]{amodeiConcreteProblemsAI2016}.
 
-\paragraph{Human-Robot Teams}
+\subsection{Human-Robot Teams}
 
 Transparency is a foremost principle of effective teamwork: every member of the team is supposed to know what and why every other member is doing. 
 This principle is supported by the study of human teams \cite{bagPeerTransparencyTeams2012, solomonInferenceTransparencyEffective2021} and human-robot teams \cite{ezenyilimbaImpactTransparencyExplanations2022, guznovRobotTransparencyTeam2019, holderDesigningBiDirectionalTransparency2021, lakhmaniExploringEffectCommunication2019, lakhmaniProposedApproachDetermining2016, mercadoIntelligentAgentTransparency2016, ososkyDeterminantsSystemTransparency2014, panganibanTransparencyAutonomousTeammates2020, ronconeTransparentRoleAssignment2017} alike.
@@ -215,7 +217,7 @@ A program, on the other hand, offers the experts a way to explicitly examine why
 Consequently, a black box system can only be used to completely replace a certain job - any setting where a collaboration is required between a human and decision system requires some degree of transparency that can be afforded by technology like program synthesis. 
 This ensures synergistic decision-making where the analysis of every participant is taken into account of the final decision.
 
-\paragraph{Compliance}
+\subsection{Compliance}
 
 Both individual organizations and regulatory authorities often impose requirements onto decision systems that are impossible to effectively enforce without transparency. 
 An audit has to be able to establish whether the system violates discrimination law \cite{hochDiscriminationSakeFairness2024, schererApplyingOldRules2019}, accounting standards \cite{julischComplianceDesignBridging2011} or clinical norms \cite{flodgrenExternalInspectionCompliance}.
@@ -224,14 +226,14 @@ A program, on the other hand, can be audited and proven to be compliant.
 Program synthesis can bring all the advantages of big data-driven systems into such fields without necessitating a regulatory reform.
 These concerns become increasingly relevant as explainability of intelligent systems evolves from an implicit legal incentive \cite{hackerExplainableAIContract2020} to an explicit requirement \cite{linardatosExplainableAiReview2020}.
 
-\paragraph{Privacy}
+\subsection{Privacy}
 
 The ineffiency of inference of current machine learning models is (along with competitive pressures) a core reason of the "cloudification" of machine learning: as of 2024, the most powerful models \cite{achiamGpt4TechnicalReport2023} are distributed as remote services that can be interacted with, but not fully copied, via the Internet.
 Asking a state of the art decision support system for advice means sending the (potentially sensitive) request to the model provider and making both requests and responses known to said provider \cite{PrivacyPolicy}.
 Programs, in contrast, are easier to distribute and performant enough to run on most devices most of the time.
 The advent of program synthesis paves the way to more privacy-preserving decision support: even if the generative model remains in the cloud, one can first use the model to synthesize the program, then download it and submit the sensitive data to the program locally.
 
-\paragraph{Scientific discovery}
+\subsection{Scientific discovery}
 
 Lastly, export of knowledge out of a automatic programming system can be a powerful tool of scientific discovery. 
 Symbolic regression is already widely used in physics in order to find formulas that fit experimental results \cite{angelisArtificialIntelligencePhysical2023, tenachiDeepSymbolicRegression2023}. 

@@ -461,7 +461,7 @@ $\team_\text{small}$ and $\team_\text{large}$ are recommended configurations whi
 
 Instant Scrum can be used to generate programs in any programming language provided:
 \begin{enumerate}
-    \item An interpreter $\langle \action,\memory \rangle$, see section \ref{sec:ps-task-taxonomy}
+    \item An interpreter $\langle \action,\memory \rangle$, see section \ref{sec:pirl}
     \item A known finite alphabet $\alphabet$
     \item A pruning function $\mathit{Prune}(\code)$
 \end{enumerate}
@@ -563,5 +563,5 @@ BipedalWalker-v2 & & -0.15 & lstm(50,50)\\
 However, comparing results for $\team_\text{small}$ versus $\team_\text{neural}$ proves that genetic developers have been intstrumental to the fitness of these neural networks - this is to be expected with Priority Queue Training (see sec. \ref{sec:neural}).
 
 The biggest limitation of neurogenetic programming as implemented in the experiments of this chapter is our reliance on \textbf{BF++}, a general purpose but excessively simple language.
-This presents challenges for both the range of algorithms that can be expressed and the ease of knowledge import from and export to human written programs as discussed in section \ref{sec:whynotml}.
-Addressing this limitation will be explored in chapter \ref{ch:tree2tree}
+This presents challenges for both the range of algorithms that can be expressed and the ease of knowledge import from and export to human written programs as discussed in section \ref{sec:importexport}.
+Addressing this limitation will be explored in chapter \ref{ch:tree2tree}.

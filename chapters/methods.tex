@@ -44,13 +44,14 @@ Another way to address the complexity of the search space is to select a program
 For examples, a language where any combination of valid characters is a valid program \cite{brainfuck} eliminates a significant share of the complexity of the problem.
 This family of approaches is explored in more detail in chapter \ref{ch:bfpp}, including  introduction of a novel constrained programming language for \emph{programmatically interpretable reinforcement learning}
 
-\paragraph{Domain specific languages}
+\subsection{Domain specific languages}
+\label{sec:dsl}
 
 In some application domains it is common to express algorithms in domain specific programming languages \cite{fowlerDomainspecificLanguages2010, hudakDomainspecificLanguages1997, karsaiDesignGuidelinesDomain2014, kosarComparingGeneralpurposeDomainspecific2010, kosarDomainspecificLanguagesSystematic2016, mernikWhenHowDevelop2005} that tend to be more limited in terms of token vocabulary and grammatical complexity.
 This provides the program synthesis community with a natural experiment in constraining the complexity of a language to simplify (automatic or manual) programming.
 As a result, some of the most notable early positive results were in an industry standard database query language (SQL \cite{groffSQLCompleteReference2002}) \cite{liCanLlmAlready2024, yuSpiderLargescaleHumanlabeled2018} and an educational 2D robot control language (Karel \cite{pattisKarelRobotGentle1994}) \cite{metainduction}.
 
-\paragraph{Logic programming}
+\subsection{Logic programming}
 
 One domain that's particularly amenable \cite{devilleLogicProgramSynthesis1994} to solving synthesis tasks is \emph{logic programming} \cite{doetsLogicLogicProgramming1994, lloydFoundationsLogicProgramming2012}: a programming paradigm \cite{floydParadigmsProgramming2007, gorodniaiaStudyProgrammingParadigms2016, krishnamurthi13ProgrammingParadigms2019, vanroyProgrammingParadigmsDummies2009} based on formal logic. 
 A program in a logic language such as Prolog \cite{clocksinProgrammingPROLOG2003} and its derivatives consists of logical relations (in the case of Prolog, Horn clauses \cite{kowalskiPredicateLogicProgramming1974}) assumed by the developer to be true, and the language interpreter runs \emph{logical inference} to establish other logical relations that must hold given the assumptions.
@@ -89,7 +90,7 @@ A novel approach to grammar guided program synthesis is proposed in chapter \ref
 
 Alternatively, one can narrow the scope of the problem by retaining a human developer in the loop, but supporting them with CASE \cite{caseComputeraidedSoftwareEngineering1985} tools that solve some of the subtasks involved in developing a program.
 
-\paragraph{Parametrization}
+\subsection{Parametrization}
 
 Differentiable programming \cite{blondelElementsDifferentiableProgramming2024} involves programming languages designed such that if a program computes function $f(x)$ the compiler can compute a derivative $f'(x)$. 
 Machine learning can then be used to adjust all constants defined by the human developer.
@@ -98,7 +99,8 @@ Probabilistic programming \cite{gordonProbabilisticProgramming2014} is a program
 The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{programmatically interpretable reinforcement learning} fashion.
 As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand \cite{gauntTerpreTProbabilisticProgramming2016}.
 
-\paragraph{Sketch completion}
+\subsection{Sketch completion}
+\label{sec:sketching}
 
 The paradigm of program synthesis by sketching \cite{solar-lezamaProgramSynthesisSketching2008} involves a human developer writing an approximate sketch of the desired program and a program synthesis system fills in the gaps and adds the missing details.
 
@@ -121,7 +123,7 @@ Modern copilot tools largely owe their power to unsupervised pretraining, descri
 
 In \emph{unsupervised pretraining} a model is first trained on an unstructured dataset.
 This model that acts as a \emph{foundation model} \cite{yangFoundationModelsDecision2023, yuanPowerFoundationModels2023, zhouComprehensiveSurveyPretrained2023} that can be adapted to solving more specific practical tasks via fine tuning \cite{panTransferLearning2020, weissSurveyTransferLearning2016a, zhuangComprehensiveSurveyTransfer2020} or composition \cite{shivakumarStudyImpactLanguage2017}.
-In practice, foundation models of code are usually \emph{autoregressive} models trained to carry out \emph{next-token prediction} \cite{shlegerisLanguageModelsAre2024} - a task that does not require a structured dataset (a corpus of programs is enough) and has clear downstream applications such as programming copilots (see section \ref{sec:human}).
+In practice, foundation models of code are usually \emph{autoregressive} models trained to carry out \emph{next-token prediction} \cite{shlegerisLanguageModelsAre2024} - a task that does not require a structured dataset (a corpus of programs is enough) and has clear downstream applications such as programming copilots (see section \ref{sec:sketching}).
 This paradigm is an attractive solution to the \emph{sparsity problem}, as it allows for a model to learn a subspace of the space of all possible strings that contains known programs in a data driven fashion.
 
 Unsupervised pretraining can be very powerful, but it requires a large amount of \emph{data} and \emph{hardware} as well as \emph{algorithms} that can make use of available data and hardware efficiently. 

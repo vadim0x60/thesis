@@ -86,7 +86,7 @@ For memory efficiency, for all $i$ that correspond to binary observations, $\obs
 \subsection{Decision process}
 \label{sec:mpdp}
 
-Implementing Auto-ALS requires grappling with some of the limitations of POMDP framework (as described in section \ref{sec:ps-task-taxonomy})
+Implementing Auto-ALS requires grappling with some of the limitations of POMDP framework (as described in section \ref{sec:pirl})
 \begin{enumerate}
     \item Some decision making scenarios legitimately have a discrete flow of time: a CPU, for example, makes a decision every $\frac{1}{\text{clock frequency, Hz}}$ of a second. However, most real-life decision making settings (such as the hospital setting) happen in a continuous time flow with no limits on how often or how rare actions and observations occur.
     \item The agent cannot respond to an observation with less than one (i.e.~zero) or more than one action. This can be fixed by modeling $\action_n)$ as a set of actions.
