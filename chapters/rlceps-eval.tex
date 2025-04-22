@@ -1,5 +1,5 @@
-\chapter{Evaluating PatientSPIRL}
-\label{ch:eval}
+\chapter{Evaluating RLCEPS}
+\label{ch:rlceps-eval}
 
 \begin{comment}
 \section{Selecting the simulator}
@@ -59,7 +59,7 @@ We believe that \emph{HeartPole} and \emph{Auto-ALS} can become new standard ben
 \section{Selecting the algorithm}
 \end{comment}
 
-We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:patientspirl-auto-als}
+We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
 
 \begin{table}
     \centering
@@ -68,8 +68,8 @@ We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) w
         \midrule
         gpt-4o & 3 & 2 & 2 & 5 & tournament
     \end{tabular}
-    \caption{Hyperparameter choice for evaluating PatientSPIRL on Auto-ALS}
-    \label{tab:patientspirl-auto-als}
+    \caption{Hyperparameter choice for evaluating RLCEPS on Auto-ALS}
+    \label{tab:rlceps-auto-als}
 \end{table}
 
 \newpage
@@ -92,7 +92,7 @@ for 2868 iterations
 
 \paragraph{Evaluation}
 
-\input{tables/patientspirl-metaheartpole.tex}
+\input{tables/rlceps-metaheartpole.tex}
 
 \newpage
 \section{Auto-ALS results}

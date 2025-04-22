@@ -47,7 +47,7 @@ Didactic materials are a large class of useful data waiting for someone to turn 
 
 In this chapter, we apply the idea of anthropodidactic learning to patient simulation in order to facilitate the transfer of healthcare knowledge into AI systems.
 We develop a reinforcement learning environment based on a learning aid for junior healthcare professionals.
-This is particularly important for validating PatientSPIRL (chapter \ref{ch:proposal}), since the correct protocol to follow is known and the simulator has been developed specifically for training this protocol, hence, the program synthesized by PatientSPIRL can be evaluated in terms of its similarity to the correct protocol.
+This is particularly important for validating RLCEPS (chapter \ref{ch:proposal}), since the correct protocol to follow is known and the simulator has been developed specifically for training this protocol, hence, the program synthesized by RLCEPS can be evaluated in terms of its similarity to the correct protocol.
 The downside of \emph{didactic} simulators like Auto-ALS is that their inherent \emph{confirmation bias} (any decision that's not prescribed by the standard emergency care protocol is considered a mistake and rewarded negatively) makes them a bad tool for discovering novel improved protocols.
 
 \begin{figure}
@@ -86,7 +86,7 @@ For memory efficiency, for all $i$ that correspond to binary observations, $\obs
 \subsection{Decision process}
 \label{sec:mpdp}
 
-Implementing Auto-ALS requires grappling with some of the limitations of POMDP framework (as described in section \ref{sec:pirl})
+Implementing Auto-ALS requires grappling with some of the limitations of POMDP framework (as described in section \ref{sec:rlcef})
 \begin{enumerate}
     \item Some decision making scenarios legitimately have a discrete flow of time: a CPU, for example, makes a decision every $\frac{1}{\text{clock frequency, Hz}}$ of a second. However, most real-life decision making settings (such as the hospital setting) happen in a continuous time flow with no limits on how often or how rare actions and observations occur.
     \item The agent cannot respond to an observation with less than one (i.e.~zero) or more than one action. This can be fixed by modeling $\action_n)$ as a set of actions.

@@ -65,22 +65,23 @@ Indeed, \emph{programming by example} is an unusual type of \emph{supervised lea
 The prime application of \emph{programming by example} is \emph{data wrangling} tools such as Microsoft Excel \cite{gulwani2016:programming} where it is used as a data extrapolation tool: if a formula $f$ can be synthesized that satisfies $\mloutputvec=f(\mlinputvec)$, one can generate $\mloutputvec '=f(\mlinputvec ')$ for future values $\mlinputvec '$.
 \emph{Programming by example} is also used in scientific domains to generate formulas that fit experimental observations, where it is known as \emph{symbolic regression} \cite{makkeInterpretableScientificDiscovery2022}.
 
-\subsection{PIRL}
-\label{sec:pirl}
+\subsection{RLCEF}
+\label{sec:rlcef}
 
 Not every task, however, can be easily described with input-output examples. 
 Take chess: it's relatively simple to evaluate the performance of a chess-playing program, but what are the \emph{correct} moves? 
 That is simply not known in advance.
-Given enough trial and error it's still possible to generate a correct program with such black box specification, a task known as \emph{Programmatically Interpretable Reinforcement Learning} \cite{pirl}.
+Given enough trial and error it's still possible to generate a correct program with such black box specification, a task known as \emph{Programmatically Interpretable Reinforcement Learning} \cite{pirl}, later renamed to Reinforcement Learning from Code Execution Feedback (RLCEF) \cite{douStepCoderImproveCode2024, gehringRLEFGroundingCode2025, liuRLTFReinforcementLearning2023, PoolsideAnnouncingOur, shojaeeExecutionbasedCodeGeneration2023, yangIntercodeStandardizingBenchmarking2023}.
+The newer term will be preferred from now on\footnote{for search engine optimization reasons}.
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{pirl.png}
-    \caption{Programmatically Interpretable Reinforcement Learning, schematic definition}
-    \label{fig:pirl}
+    \caption{Reinforcement Learning From Code Execution Feedback, schematic definition}
+    \label{fig:RLCEF}
 \end{figure}
 
-In this setting, each generated program is tested (see \textcolor{accent}{test} in figure \ref{fig:ap}) via deployment of an \textcolor{accent}{agent} controlled by this program in an environment that responds with positive and negative \textcolor{accent}{rewards} (the highlights of figure \ref{fig:pirl} match the highlights of this sentence).
+In this setting, each generated program is tested (see \textcolor{accent}{test} in figure \ref{fig:ap}) via deployment of an \textcolor{accent}{agent} controlled by this program in an environment that responds with positive and negative \textcolor{accent}{rewards} (the highlights of figure \ref{fig:RLCEF} match the highlights of this sentence).
 The fitness of the program is then determined by the total reward collected by the agent during such a deployment (also known as an \emph{episode}).
 
 The most common formalism for such an environment is Episodic Partially Observable Markov Decision Process \cite{kramerjdavidrPartiallyObservableMarkov1964, spaanPartiallyObservableMarkov2012}: when at step $i$ the agent takes action $a_i \in \actions$ it has an impact on  the state of the environment $s_i \in \states$ via distribution $\prob_\state(\state_{\step+1} | \step_\step, \action_\step)$ of conditional probabilities of possible subsequent states. 
@@ -94,7 +95,7 @@ The agent's goal is then to maximize its expected $n$-step return $\expectation 
 \section{Why not just use Machine Learning?}
 \label{sec:whynotml}
 
-As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{PIRL} are  used in settings where more traditional machine learning methods that do not involve code generation could also be used.
+As programmatically interpretable cousins of \emph{supervised learning} and \emph{reinforcement learning} respectively, \emph{Programming by example} and \emph{RLCEF} are  used in settings where more traditional machine learning methods that do not involve code generation could also be used.
 What are then the advantages conferred by this programmatic representation?
 
 \subsection{Expressiveness and performance}

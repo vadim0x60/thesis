@@ -18,7 +18,7 @@ This survey only includes interactive patient simulators where a (human or softw
     \item \emph{Rewards} or punishes (negatively rewards) that judges if the result of the treatment is positive or negative. The model can be as simple as just negatively rewarding patient deaths or as complex as using the predictions of the \emph{prediction model} to help the agent recognize during the episode whether they are on the right track to a positive outcome.
 \end{enumerate}
 
-Any interactive simulator with a prediction model and a reward model (and thus, all simulators in this chapter) can be represented as {\em Episodic Partially Observable Markov Decision Process} (EPOMDP) as described in section \ref{sec:pirl}, so standard RL algorithms can be used in conjunction with any simulator from this chapter for treatment discovery.
+Any interactive simulator with a prediction model and a reward model (and thus, all simulators in this chapter) can be represented as {\em Episodic Partially Observable Markov Decision Process} (EPOMDP) as described in section \ref{sec:rlcef}, so standard RL algorithms can be used in conjunction with any simulator from this chapter for treatment discovery.
 
 There are 2 notable examples of systems that can be referred to as patient simulators, but do not make it easy to evaluate treatment strategies and fall outside the scope of this survey: 
 \begin{enumerate}

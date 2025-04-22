@@ -1,4 +1,4 @@
-\chapter{Proposal: PatientSPIRL}
+\chapter{Proposal: RLCEPS}
 \label{ch:proposal}
 
 \section{Program Synthesis in Healthcare}
@@ -29,7 +29,7 @@ We argue that this limitation makes reinforcement learning a necessity for forwa
 Note in particular that program synthesis driven scientific discovery is not possible in a pure imitation learning setting.
 
 Reinforcement learning on live patients is both unethical and infeasible.
-Instead, one can take a multi-stage learning approach described on figure \ref{fig:patientspirl}: 
+Instead, one can take a multi-stage learning approach described on figure \ref{fig:RLCEPS}: 
 \begin{enumerate}
   \item Use imitation learning on clinical histories to develop an accurate patient simulator
   \item Use reinforcement learning to develop a decision support system that can potentially achieve better health outcomes for the patient than the clinican
@@ -37,17 +37,17 @@ Instead, one can take a multi-stage learning approach described on figure \ref{f
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\linewidth]{images/patientspirl.pdf}
+  \includegraphics[width=0.9\linewidth]{images/rlceps.pdf}
   \caption{Patient simulator reinforcement learning}
-  \label{fig:patientspirl}
+  \label{fig:RLCEPS}
 \end{figure}
 
 \newpage
-\section{PatientSPIRL}
-\label{sec:patient-spirl}
+\section{RLCEPS}
+\label{sec:patient-sRLCEF}
 
 \begin{highlight}
-Patient Simulator Programmatically Interpretable Reinforcement Learning (PatientSPIRL) is \emph{the application of program synthesis methods to solve reinforcement learning environments that simulate patients}.
+Reinforcement Learning from Code Evaluation in Patient Simulators (RLCEPS) is \emph{the application of program synthesis methods to solve reinforcement learning environments that simulate patients}.
 As the intersection of reinforcement learning and program synthesis in Healthcare, it combines the high degree of expert supervision afforded by program synthesis with the opportunity to exceed human performance in some areas afforded by reinforcement learning.
-This makes PatientSPIRL a powerful framework for developing decision support systems in Healthcare.
+This makes RLCEPS a powerful framework for developing decision support systems in Healthcare.
 \end{highlight}

@@ -461,13 +461,13 @@ $\team_\text{small}$ and $\team_\text{large}$ are recommended configurations whi
 
 Instant Scrum can be used to generate programs in any programming language provided:
 \begin{enumerate}
-    \item An interpreter $\langle \action,\memory \rangle$, see section \ref{sec:pirl}
+    \item An interpreter $\langle \action,\memory \rangle$, see section \ref{sec:rlcef}
     \item A known finite alphabet $\alphabet$
     \item A pruning function $\mathit{Prune}(\code)$
 \end{enumerate}
 
 The complexity of the chosen language is important since in complex languages random perturbations of program source code often produce grammatically invalid programs.
-This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{programmatically interpretable reinforcement learning} where most random combinations of characters are valid programs.
+This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{reinforcement learning from code execution feedback} where most random combinations of characters are valid programs.
 Each BF++ command is represented with a single character, thus the only way to tokenize it is to let tokens $\token_1,\token_2,\token_3,\dots$ be single characters.
 
 \paragraph{Tasks}

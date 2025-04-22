@@ -8,11 +8,11 @@ As discussed in section \ref{sec:dsl}, domain specific languages like SQL make p
 In the absense of a programming language both simple enough to sufficiently limit the optimization space and yet expressive enough to be general purpose, DSLs trade off the complexity of the optimization problem against the range of application domains a program synthesis system can tackle: SQL, for example, is only applied in the domain of relational databases \cite{atzeniRelationalDatabaseTheory1993}.
 But what if such a language were to exist?
 
-State of the art Programmatically Interpretable Reinforcement Learning work \cite{abolafiaNeuralProgramSynthesis2018} identifies BF\footnote{Brainfuck} \cite{brainfuck} as a promising program synthesis language for arbitrary reinforcement learning environments for the following reasons:
+State of the art Reinforcement Learning from Code Execution Feedback work \cite{abolafiaNeuralProgramSynthesis2018} identifies BF\footnote{Brainfuck} \cite{brainfuck} as a promising program synthesis language for arbitrary reinforcement learning environments for the following reasons:
 \begin{itemize}
     \item In industry programming languages a program $\code$ can contain a very large variety of characters since any of the 143859 Unicode \cite{allenUnicodeStandard2012} characters can be used in string literals. In BF, however, only 8 characters can be used: they can be one-hot-encoded with vectors of size 8. 
     \item BF's simple syntax means that a large percentage of possible strings of valid characters are valid programs. 
-    This property is essential for PIRL settings, since learning requires positive and negative examples, which, without a pre-existing training set of programs, can only be obtained by trial-and-error.
+    This property is essential for RLCEF settings, since learning requires positive and negative examples, which, without a pre-existing training set of programs, can only be obtained by trial-and-error.
     Without it, the training process risks being stuck in a long exploration phase.
     \item Despite all of the above, it is a Turing-complete language.
 \end{itemize}
@@ -25,7 +25,7 @@ In particular, to be grammatical and meaningful in a POMDP environment, a BF pro
 \end{enumerate}
 
 The framework proposed in \cite{abolafiaNeuralProgramSynthesis2018} uses Reinforcement Learning techniques, however, due to the above limitations, as well as the lack of a general enough input output system in BF, it is only applied in non-interactive \emph{programming by example} settings such as string manipulation tasks.
-In this chapter we propose an extension of BF with additional constructs that address these limitations and make BF++, the proposed language, suitable for Programmatically Interpretable Reinforcement Learning in an arbitrarily Partially Observable Markov Decision Process environment.
+In this chapter we propose an extension of BF with additional constructs that address these limitations and make BF++, the proposed language, suitable for Reinforcement Learning from Code Execution Feedback in an arbitrarily Partially Observable Markov Decision Process environment.
 
 \newpage
 \section{BF++}
@@ -561,7 +561,7 @@ This strategy helps the car successfully reach the right fringe every time it is
 \newpage
 \section{Conclusions}
 
-In this chapter, we have introduced a new programming language tailored to the task of programmatically interpretable reinforcement learning.
+In this chapter, we have introduced a new programming language tailored to the task of Reinforcement Learning from Code Execution Feedback.
 We have shown experimentally that this language can facilitate program synthesis as well as knowledge transfer between expert-based systems and data-driven systems. 
 
 The results in the OpenAI gym test examples show that the proposed system is able to find a functional solution to the problem. In some cases the performance is similar to the best deep learning solution but the obtained program remains still explainable. This is a very encouraging result and suggest that the use of program induction methods may indeed be a viable way towards explainable solutions in RL applications. 

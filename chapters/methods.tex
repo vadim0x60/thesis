@@ -9,7 +9,7 @@ And since the field's inception it has been grappling with the challenging prope
 \begin{enumerate}
     \item valid error-free programs constitute an exceedingly small part of the space of possible strings, so any program synthesis algorithm that incorporates random guessing (for instance, Reinforcement Learning with random initialization \cite{suttonReinforcementLearningSecond2018}) is exceedingly unlikely to guess a valid program;
     \item a small edit in a program can result in a large difference in it's behavior (and, conversely, the same algorithm can be expressed with very different programs), hence the programs we would like to find are not clustered in any compact part of the optimization space;
-    \item some of the evaluation mechanisms of programs, especially in the \emph{Programmatically Interpretable Reinforcement Learning} paradigm involve stochasticity and can yield different results for the same program.
+    \item some of the evaluation mechanisms of programs, especially in the \emph{Reinforcement Learning from Code Execution Feedback} paradigm involve stochasticity and can yield different results for the same program.
 \end{enumerate}
 
 In other words, the search space in program synthesis is \emph{sparse}, \emph{brittle} and sometimes \emph{noisy} \cite{arnoldNoisyOptimizationEvolution2002} - all known challenges in Optimization Theory.
@@ -42,7 +42,7 @@ If evaluation of a generated program is computationally expensive, this translat
 
 Another way to address the complexity of the search space is to select a programming language such that the space of possible programs in that programming language exhibits less of the undesirable properties of optimization spaces.
 For examples, a language where any combination of valid characters is a valid program \cite{brainfuck} eliminates a significant share of the complexity of the problem.
-This family of approaches is explored in more detail in chapter \ref{ch:bfpp}, including  introduction of a novel constrained programming language for \emph{programmatically interpretable reinforcement learning}
+This family of approaches is explored in more detail in chapter \ref{ch:bfpp}, including  introduction of a novel constrained programming language for \emph{Reinforcement Learning from Code Execution Feedback}
 
 \subsection{Domain specific languages}
 \label{sec:dsl}
@@ -58,7 +58,7 @@ A program in a logic language such as Prolog \cite{clocksinProgrammingPROLOG2003
 In other words, logic languages have built-in instrumentation for \emph{deductive logic program synthesis}: generating logic programs based on a \emph{complete specification}.
 In the taxonomy introduced in section \ref{sec:tasks} this falls under \emph{code translation}.
 
-Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{cropperInductiveLogicProgramming2022, muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example) and even programmatically interpretable reinforcement learning \cite{caoGALOISBoostingDeep}.
+Using tools from formal logic, such as SAT solvers \cite{gongSurveySATSolver2017} and SMT solvers \cite{reynoldsInductionSMTSolvers2015,bjornerSmtSolversFoundations2016} one can also develop search-based algorithms for \emph{inductive logic programming} \cite{cropperInductiveLogicProgramming2022, muggletonInductiveLogicProgramming1994} based on incomplete specification (programming by example) and even Reinforcement Learning from Code Execution Feedback \cite{caoGALOISBoostingDeep}.
 
 Logic program synthesis has been applied in domains that can be described in a logic programming language such as low level hardware design \cite{siscoControlLogicSynthesis2024}, but proved difficult to generalize. 
 For instance, \cite{polikarpovaStructuringSynthesisHeapmanipulating2019} proposes an extension of inductive logic programming to (more expressive) imperative programming languages that relies on the task specification (pre- and postconditions of functions to be synthesized) formulated in a logic programming language that provides the necessary structural constraints.
@@ -96,7 +96,7 @@ Differentiable programming \cite{blondelElementsDifferentiableProgramming2024} i
 Machine learning can then be used to adjust all constants defined by the human developer.
 
 Probabilistic programming \cite{gordonProbabilisticProgramming2014} is a programming paradigm where the developer is allowed to specify non-deterministic branching so that which pathway gets executed is decided randomly or externally.
-The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{programmatically interpretable reinforcement learning} fashion.
+The probabilities of different branches can be uniform or they can be learned in a \emph{programming by example} or \emph{Reinforcement Learning from Code Execution Feedback} fashion.
 As a result, human developer outlines the options for behavior of the system at every stage and then machine learning computes which options are better suited to the data at hand \cite{gauntTerpreTProbabilisticProgramming2016}.
 
 \subsection{Sketch completion}
@@ -135,10 +135,10 @@ It just so happens, however, that there has recently been significant progress i
 \end{enumerate}
 
 As a result of this trifecta of antecedents, unsupervised pretraining has enabled significant progress in code translation settings such as \emph{natural language to machine language} \cite{chenEvaluatingLargeLanguage2021, conala, guoContentEnhancedBERTbased2020, hallerPECCProblemExtraction2024, hendrycksMeasuringCodingChallenge2021, honarvarTurbulenceSystematicallyAutomatically2025, huQualityFlowAgenticWorkflow2025, jimenezSWEbenchCanLanguage2024, leiPlanningDrivenProgrammingLarge2025, liEnablingProgrammingThinking2023, liExploringEffectivenessLlms2023, psb2, solimanMarianCGCodeGeneration2022, the-crypt-keeperThecryptkeeperCanaicode2025, zhuoBigCodeBenchBenchmarkingCode2024} and even human-comparable performance in coding competitions \cite{liCompetitionLevelCodeGeneration2022,openaiCompetitiveProgrammingLarge2025}.
-However, for the purposes of PatientSPIRL
+However, for the purposes of RLCEPS
 
 \begin{highlight}
-    Programmatically Interpretable Reinforcement Learning is still a nascent field with no method available for us to deploy in a patient simulator.
+    Reinforcement Learning from Code Execution Feedback is still a nascent field with no method available for us to deploy in a patient simulator.
 \end{highlight}
 
 Chapters \ref{ch:bfpp}-\ref{ch:seidr} are dedicated to developing such a method.
