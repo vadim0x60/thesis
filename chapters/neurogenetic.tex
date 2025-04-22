@@ -5,7 +5,7 @@
 
 \section{Motivating example: neurogenetic optimization}
 
-\paragraph{Gradient-free optimization}
+\subsection{Gradient-free optimization}
 
 Consider the task of finding the maximum of a function without any access to its derivative. For instance,
 
@@ -32,7 +32,7 @@ This function is visualized on figure \ref{fig:neuropt-f}
 
 The goal is to find $ \arg\max_\mlinput \obj(\mlinput) $
 
-\paragraph{Evolutionary approach}
+\subsection{Evolutionary approach}
 
 Let us begin with an intitial population of 2 instances of $ \mlinput $ and, At every iteration of the evolutionary algorithm, draw $ x_1 $ and $ x_2 $ from the exponential reward distribution $\prob(\mlinput) \sim e^{\obj(\mlinput)}$ and add $ \frac{x_1 + x_2}{2} $ to the population.
 This offspring sampling procedure is repeated for 10000 iterations and from the resulting population of 10002 pick $ \mlinput $ with the maximal $ \obj(\mlinput) $.
@@ -52,7 +52,7 @@ The right half of the search space remained unexplored - the rightmost solution 
 This could be mitigated by various means, for instance, \emph{temperature sampling} \cite{holtzman2019curious}, namely, adding a temperature parameter to $ \prob(\mlinput) $: $\policy_t(\mlinput) \sim e^{t\obj(\mlinput)}$.
 But the issue is fundamental to evolutionary algorithms - a few unrepresentative examples can erroneously exclude a large part of the search space.
 
-\paragraph{Neural Actor-Critic approach}
+\subsection{Neural Actor-Critic approach}
 
 In the deep learning approach we train a \emph{critic} neural network $ \obj_{\learnables}(\mlinput) $ to mimic $ \obj(\mlinput) $ as closely as possible. Then all we need is a second neural network that represents a probability distribution of $ \mlinput $s that have a high $ \obj(\mlinput) $ and sample from it. It is called the \emph{actor} network, $ \mlinput_{\learnables}(\latent) $, representing a mapping from the normal distribution to the distribution of points with high $ \obj(\mlinput) $. See actor-critic methods in Reinforcement Learning \cite[section 13.5]{suttonReinforcementLearningSecond2018}.
 
@@ -66,7 +66,7 @@ We start with an empty population and, at every step, sample $ \latent $ from $ 
 \end{figure}
 
 
-\paragraph{Neurogenetic approach}
+\subsection{Neurogenetic approach}
 
     
 \begin{figure}
@@ -380,7 +380,6 @@ where $\greed$ is a hyperparameter that controls the \emph{exploration-exploitat
 In future work, however, other bandit optimization algorithms can be used in its place \footnote{Our open-source software implementation allows for drop-in replacement of bandit algorithms}.
 
 \paragraph{Hyperparameters}
-\label{sec:genhyper}
 
 The genetic developer, as described above, has 2 hyperparameters:
 
@@ -434,13 +433,12 @@ On the other hand, we could test each program many times before adding it to the
 
 \newpage
 \section{Experimental setup}
-\label{sec:neurogen-experiments}
 
-\paragraph{Teams}
+\subsection{Teams}
 
 In the table below, we introduce 5 teams.
 Neural developers are denoted as lstm(hidden state dimensionality), several numbers mean a stacked LSTM.
-Genetic developers are denoted as $\text{gen}(\policy_\text{ind},\greed)$, see section \ref{sec:genhyper}.
+Genetic developers are denoted as $\text{gen}(\policy_\text{ind},\greed)$, see section \ref{sec:genetic}.
 $\team_\text{small}$ and $\team_\text{large}$ are recommended configurations while $\team_\text{genetic}$, $\team_\text{neural}$ are \emph{ablation studies} to prove that combination of neural and genetic methods is useful.
 
 \begin{table}[H]
@@ -463,7 +461,7 @@ $\team_\text{small}$ and $\team_\text{large}$ are recommended configurations whi
 \end{table}
 
 
-\paragraph{Language}
+\subsection{Language}
 
 Instant Scrum can be used to generate programs in any programming language provided:
 \begin{enumerate}
@@ -476,12 +474,12 @@ The complexity of the chosen language is important since in complex languages ra
 This issue has been addressed with \emph{structural models} \cite{grammargp,structural} \cite[chapter 4]{genprog1}, however, we sidestep the issue entirely by using \emph{BF++} (see chapter \ref{ch:bfpp}) - a simple language developed for \emph{reinforcement learning from code execution feedback} where most random combinations of characters are valid programs.
 Each BF++ command is represented with a single character, thus the only way to tokenize it is to let tokens $\token_1,\token_2,\token_3,\dots$ be single characters.
 
-\paragraph{Tasks}
+\subsection{Tasks}
 \label{sec:tasks}
 
 Following from the previous chapter we synthesize programs for \textbf{CartPole-v1} \cite{cartpole}, MountainCarContinuous-v0 (\textbf{MCC-v0}) \cite{mountain_car}, \textbf{Taxi-v3} \cite{taxi} BipedalWalker-v2 (\textbf{BW-v2})  Gymnasium \cite{towersGymnasiumStandardInterface2024} environments, see figure \ref{fig:envs}.
 
-\paragraph{Initial populations}
+\subsection{Initial populations}
 
 Where possible, we run all experiments twice - a control experiment with empty intial codebase, and an experiment where codebase is pre-populated with human-written programs from chapter \ref{ch:bfpp}.
 Exceptions to this rule are 
@@ -490,7 +488,7 @@ Exceptions to this rule are
     \item \textbf{BipedalWalker-v2} environment, because this environment proved challenging to manually develop BF++ for (see chapter \ref{ch:bfpp})
 \end{itemize}
 
-\paragraph{Stopping and scoring}
+\subsection{Stopping and scoring}
 
 For Taxi we set an $N_\text{max}$ to $100000 \team$ sprints where $\team$ is the team size, meaning every developer in the team trains for 100000 iterations.
 For other tasks we used Exponential Variance Elimination \cite{evestop} early stopping algorithm to stop the process when the positive trend in $\returntot$ is not present for 10000 sprints.
