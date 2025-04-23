@@ -67,7 +67,7 @@ The design intention is to allow higher layers to capture longer-term dependenci
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{pooling.pdf}
-    \caption[RNN pooling]{\textbf{Top}: Typical architecture of encoder model of VAE in which only the last hidden state from the RNN is used to compute the mean $\mean$ and variance $\stddev^2$. \textbf{Bottom}: A pooling method to aggregate the hidden states from the RNN to compute the mean $\mean$ and variance $\stddev^2$.}
+    \caption[RNN pooling]{\textbf{Top}: Typical architecture of encoder model of VAE in which only the last hidden state from the RNN is used to compute the mean $\mean$ and variance $\stddev^2$. \textbf{Bottom}: A pooling method to aggregate RNN hidden states to compute the mean $\mean$ and variance $\stddev^2$.}
     \label{fig:pooling}
 \end{figure}
 
@@ -84,15 +84,15 @@ Here, $\hidden$ denotes the hidden states of the last Tree-LSTM layer. This addi
 
 
 \paragraph{Pooling} 
-The last step in the architecture is the pooling layer responsible for compressing the sequence of $h_{at}$ into a fixed size vector $h_\text{pooled}$. 
-We rejected a common \cite{fabius2015variational} approach of only taking the last hidden state of the RNN as the input to the decoder due to the long-term memory loss problem \cite{kao2020comparison} and use max pooling instead.
-See figure \ref{fig:pooling} for details.
+The last step in the architecture is the pooling layer responsible for compressing the sequence of $\hidden_{at}$ into a fixed size vector $\hidden_\text{pooled}$. 
+We reject a common \cite{fabius2015variational} approach of only taking the last hidden state of the RNN as the input to the decoder due to the long-term memory loss problem \cite{kao2020comparison} and use max pooling instead.
+See fig. \ref{fig:pooling}.
 
 \paragraph{Sampling latent code} The pooled vector is then used to compute the mean and variance of the approximate posterior to sample a latent code $\latent \sim \normaldistr(\mean, \stddev)$ with the help of the reparametrization trick \cite{kingma2013auto}. The mean and variance are computed using linear layers with learnable weights $\weights_{\mean}$, $\weights_{\stddev}$ and biases $\biases_{\mean}$, $\biases_{\stddev}$:
 
 \begin{align}
-\mean& = \weights_{\mean} h_\text{pooled} + \biases_{\mean} \\
-\stddev& = \weights_{\stddev} h_\text{pooled} + \biases_{\stddev} \\
+\mean& = \weights_{\mean} \hidden_\text{pooled} + \biases_{\mean} \\
+\stddev& = \weights_{\stddev} \hidden_\text{pooled} + \biases_{\stddev} \\
 \latent & = \mean+ \stddev\odot \boldsymbol{\epsilon}, \quad \boldsymbol{\epsilon} \sim \normaldistr(0, \hidden_i)
 \end{align}
 \newpage
@@ -297,7 +297,7 @@ During training, we perform teacher forcing \cite[section 11.6.6]{kolenFieldGuid
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{tree2treeLSTM2.pdf}
-    \caption[Tree2Tree model high-level overview]{Tree to tree autoencoder overview. \textbf{First Fig.}: The piece of code considered. \textbf{Second Fig.}: The piece of code parsed to an AST tree format. \textbf{Third Fig.}: The order in which the encoder module encodes the tree structure bottom-up. Here, $h_c$ indicates the hidden state that travels from a child to a parent. \textbf{Fourth Fig.}: The order in which the decoder module decodes the tree structure top-down. Here, $h_p$ indicates the hidden state that travels from a parent to a child, and $h_s$ indicates the hidden state that travels from a node to its successor sibling.}
+    \caption[Tree2Tree model high-level overview]{Tree to tree autoencoder overview. \textbf{First Fig.}: The piece of code considered. \textbf{Second Fig.}: The piece of code parsed to an AST tree format. \textbf{Third Fig.}: The order in which the encoder module encodes the tree structure bottom-up. Here, $\hidden_c$ indicates the hidden state that travels from a child to a parent. \textbf{Fourth Fig.}: The order in which the decoder module decodes the tree structure top-down. Here, $\hidden_p$ indicates the hidden state that travels from a parent to a child, and $\hidden_s$ indicates the hidden state that travels from a node to its successor sibling.}
     \label{fig:tree2treeVAE}
 \end{figure}
 
@@ -334,7 +334,7 @@ We also measure program size in terms of number of tokens: keywords, identifiers
 \end{figure}
 
 The programs in the dataset generally contain a main function, standard input and output stream elements, computation and memory optimizations, and possibly other elements such as helper functions/classes. Due to this general structure, the programs tend to overlap in their content, in contrast to, for example, natural language sentences. 
-Due to the limitations on performance imposed by code contests, these programs contain an unusually high amount of low-level optimizations, such as \verb|sync_with_stdio(false); cin.tie(nullptr);| for faster input and output \cite{FastInputOutput}.
+Due to the limitations on performance imposed by code contests, these programs contain an unusually high amount of low-level optimizations, such as \verb|sync_wit\hidden_stdio(false); cin.tie(nullptr);| for faster input and output \cite{FastInputOutput}.
 
 \subsection{Pre-processing}
 \label{sec:preprocessing}
