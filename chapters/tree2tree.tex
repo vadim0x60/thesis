@@ -3,19 +3,27 @@
     An earlier revision of this chapter \cite{liventsevTreeVariationalAutoencoder2025} has been published at IEEE Access
 \end{remark}
 
-\section{Introduction}
+\section{Motivation}
 
-Autoencoder Genetic Programming \cite{autoenc-gp,wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt} argues for using autoencoder \cite{autoencoders} models instead.
-These models embed programs into a high-dimensional vector space, making it easy to mutate a program by adding random noise to its embedding vector or combine several programs by averaging their embedding vectors.
-Autoencoder-genetic programming is discussed in detail in chapter \ref{ch:tree2tree}.
+In chapters \ref{ch:bfpp} and \ref{ch:neurogen} we used \text{BF++}, a \emph{domain-specific language} (section \ref{sec:dsl}) to prevent the optimization space from growing unmanageably sparse (as discussed in section \ref{sec:ps-challenge}).
+Extending these techniques to work with an arbitrarily complex programming language would offer numerous benefits in terms of expressivity and compatibility with the rest of the software ecosystem.
 
-To the best of our knowledge the advantage of structural models has not been tested in autoencoders for genetic programming. \cite{kusner2017grammar,grammar-vae} find that it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
+Can we combine the simplicity of neurogenetic optimization in \emph{BF++} space with the advantages of a popular language \cite{tiobe2017tiobe}?
+One approach would be to train a foundational (section \ref{sec:pretrain}) autoencoder \cite{autoencoders} model for code.
+Such a model can be trained in an unsupervised fashion on a corpus of code and be used to represent a complex program as a vector in a latent space of lower dimensionality.
+Then, neural, genetic and/or neurogenetic optimization methods could operate directly on this low-dimensional representation, i.e. a program can be mutated by adding random noise to its embedding vector and several can be merged by averaging their embedding vectors.
 
-Thus the research question  we set out to answer is
+Indeed, Autoencoder Genetic Programming has been studied previously \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt}, though often with underwhelming results \cite{autoenc-gp}.
+Following the success of structural models of code (see section \ref{sec:grammar-guided}), we hypothesize that the difficulties facing Autoencoder Genetic Programming can be addressed by harnessing the grammatical structure of code that can be trivially obtained from a compiler, but gets ignored in \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt,autoenc-gp}.
+
+In this chapter we develop a variational autoencoder for code that operates on programs as abstract syntax trees rather than sequences of tokens to explore \rqtree:
 
 \begin{highlight}
     would a model that operates directly on the program's Abstract Syntax Tree learn a better latent representation of the source code than a model that operates on a sequence of tokens?
 \end{highlight}
+
+To the best of our knowledge the advantage of structural models has not been tested in autoencoders for genetic programming. 
+\cite{kusner2017grammar,grammar-vae} find that it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
 
 \newpage
 \section{Proposed architecture}
