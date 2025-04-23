@@ -16,7 +16,7 @@ Then, neural, genetic and/or neurogenetic optimization methods could operate dir
 Indeed, Autoencoder Genetic Programming has been studied previously \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt}, though often with underwhelming results \cite{autoenc-gp}.
 Following the success of structural models of code (see section \ref{sec:grammar-guided}), we hypothesize that the difficulties facing Autoencoder Genetic Programming can be addressed by harnessing the grammatical structure of code that can be trivially obtained from a compiler, but gets ignored in \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt,autoenc-gp}.
 
-In this chapter we develop a variational autoencoder for code that operates on programs as abstract syntax trees rather than sequences of tokens to explore \rqtree:
+In this chapter we develop a variational autoencoder for code that operates on programs as abstract syntax trees rather than sequences of tokens to explore \rqtree{}:
 
 \begin{highlight}
     would a model that operates directly on the program's Abstract Syntax Tree learn a better latent representation of the source code than a model that operates on a sequence of tokens?
@@ -537,7 +537,7 @@ The Tree2Tree model makes minor alterations to the programs each interpolation s
 Our results indicate that Tree Variational Autoencoders have a significant advantage over sequence-to-sequence models in low-dimensional latent spaces, achieving both a higher compilation rate and a higher reconstruction quality.
 In higher-dimensional latent spaces seq2seq programs offer a higher compilation rate, but corrected BLEU scores indicate that this benefit is often achieved by sacrificing reconstruction quality, even to the point of ignoring the input completely.
 
-Overall, \rqtree can be answered \emph{positively}: structured autoencoder models can significantly improve upon sequence-to-sequence alternatives for program synthesis tasks.
+Overall, \rqtree{} can be answered \emph{positively}: structured autoencoder models can significantly improve upon sequence-to-sequence alternatives for program synthesis tasks.
 We believe this result to be a significant step towards an autoencoder-based foundation model for genetic programming and genetic improvement of software.
 
 Employing this method in Genetic Programming and Reinforcement Learning from Code Execution Feedback environments, however, requires further research and development.
