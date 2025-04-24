@@ -5,6 +5,16 @@
 
 The chronological order of work that went into this thesis is intentionally kept somewhat secret, but in this case it is too relevant to omit: OpenAI Codex \cite{chenEvaluatingLargeLanguage2021}, the first autoregressive foundation model for program synthesis, was released concurrently with the preparation of chapter \ref{ch:tree2tree}.
 
+One is \emph{Synthesize, Execute, Debug}~\cite{guptaSynthesizeExecuteDebug2020}, a framework that attempts to bridge the ``last mile'' gap by introducing program repair into the program synthesis algorithm. 
+A programming task is specified using both a natural language description and a set of input/output (I/O) pairs that demonstrate what output is expected from the program, thereby combining text-to-code~\cite{iyer2018:mapping} and programming by example~\cite{halbertProgrammingExample1984,gulwani2016:programming} paradigms typical for competitive programming~\cite{zavershynskyi2018:naps}.
+\emph{Synthesize, Execute, Debug} creates a first draft program using a generative model, compiles and executes it with given input examples.
+This is followed by a program repair step to fix the identified errors.
+
+Another relevant innovation is instruction fine-tuned large language models~\cite{zhang2024:instruction}. 
+Instruction fine-tuned models use human feedback \cite{chaudhariRLHFDecipheredCritical2024, kaufmannSurveyReinforcementLearning2024} in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
+These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
+However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
+
 \emph{test time scaling}
 
 The program synthesis approach is implemented with a Synthesize Execute Instruct Debug loop over GPT-4 \cite{GPT2023} language model. This approach has demonstrated its ability to tackle programming challenges in \cite{Reflexion2023,teaching2023,Fully2023}, however two modifications are applied to adapt it to the building optimization domain:
