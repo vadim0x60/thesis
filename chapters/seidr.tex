@@ -24,25 +24,25 @@ These innovations have led to the proposal of a framework, \emph{Synthesize, Exe
 SEIDR is a multi-agent iterative framework that uses feedback from code execution and failing test cases to update the initially generated buggy code. 
 Our initial explorations cover SEIDR with GPT-3 as the bug summarization model and Codex (or GPT-3 trained on code) as the program generation and debugging model.  
 % We test a number of prompting strategies for LLMs to fix a working prompt.
-In addition, by modifying the tree arity parameter (see Section~\ref{sec:seidr-beam-search}), we investigate the trade-off between generating and repairing only one program versus regenerating any program that does not pass all the tests, as well as intermediate configurations, where we build a tree of programs and update the best ones.
+In addition, by modifying the tree arity parameter (see section~\ref{sec:seidr-beam-search}), we investigate the trade-off between generating and repairing only one program versus regenerating any program that does not pass all the tests, as well as intermediate configurations, where we build a tree of programs and update the best ones.
 
 While Codex is an early code generation model, the emergence of new models that score better in programming and natural languages motivates further research into the use of SEIDR with newer models. 
-To study the generalizability of the initial SEIDR results, we use two other LLMs, Llama 3\footnote{~\url{https://ai.meta.com/blog/meta-llama-3/}} and GPT-3.5,\footnote{~\url{https://openai.com/form/researcher-access-program/}} and an additional dataset, HumanEval-X, with different tree arity parameters~\cite{brown2020:language,chenEvaluatingLargeLanguage2021,zheng2023:codegeex}. 
+To study the generalizability of the initial SEIDR results, we use two other LLMs, Llama 3~\cite{grattafioriLlama3Herd2024} and GPT-3.5~\cite{yeComprehensiveCapabilityAnalysis2023} and an additional dataset, HumanEval-X, with different tree arity parameters~\cite{brown2020:language,chenEvaluatingLargeLanguage2021,zheng2023:codegeex}. 
 Moreover, we build up on the initial experiments with Codex and zoom in on the area with the best-performing tree arities in a hyperparameter search for a better repair-replace trade-off resolution. 
 
 To reflect on the parent selection strategies used in the Rank agent of SEIDR, we also explore whether the programs should be chosen based on the average performance across all tests or whether SEIDR can benefit from keeping such programs in the loop that fully cover individual tests, but do not perform well on average.
 Therefore, as an alternative to the tournament selection, we test the best tree arity setups with lexicase selection-based ranking~\cite{helmuth2015:solving}.
 Moreover, since language models bring in stochasticity, we run the experiments several times to measure the variability of results obtained with fixed hyperparameters and reflect on the results repeatability.
 
-Section~\ref{sec:seidr-methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction-tuned Large Language Models in agents that can solve programming tasks in an autonomous fashion. 
-We discuss related work in Section~\ref{sec:seidr-related-work}, introduce experiments to explore effective search 
+section~\ref{sec:seidr-methodology} presents a framework that adapts \emph{Synthesize, Execute, Debug} to instruction-tuned Large Language Models in agents that can solve programming tasks in an autonomous fashion. 
+We discuss related work in section~\ref{sec:seidr-related-work}, introduce experiments to explore effective search 
 % and prompting 
-strategies for this framework in Section~\ref{sec:seidr-eval}. 
-Finally, in Section~\ref{sec:seidr-results}, we demonstrate that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
+strategies for this framework in section~\ref{sec:seidr-eval}. 
+Finally, in section~\ref{sec:seidr-results}, we demonstrate that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
 \section{SEIDR}
 \label{sec:seidr-methodology}
-The proposed five-agent SEIDR framework is summarized in Figure~\ref{fig:method}, which we discuss in detail in Section~\ref{sec:seidr-ingredients}.
+The proposed five-agent SEIDR framework is summarized in Figure~\ref{fig:method}, which we discuss in detail in section~\ref{sec:seidr-ingredients}.
 In essence, to solve a programming task defined as a text description and a collection of I/O examples, we split I/O examples into prompt and validation sets and use the prompt set in a large language model to SYNTHESIZE a population of candidate solutions.
 We EXECUTE the solutions, test them against the validation set, generate a text description of the identified problems used to INSTRUCT a large language model to produce repaired candidate solutions similar to the way a human developer DEBUGs a program.
 We RANK the candidates
@@ -68,10 +68,10 @@ The model $ \policy_\text{text} $ should be able to ``understand'' code and natu
 Note that $ \policy_\text{text} $ is optional, since alternatively the debugging instructions can be generated from failing tests using static pre-defined templates.
 %as described in~\cite{liventsev2023:fully}. 
 In general, SEIDR requires sequence-to-sequence generative models for these agents. 
-%In our experiments, we have chosen models $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ that are based on the state-of-the-art transformer architecture~\cite{vaswani2017:attention} as a backbone and its subsequent improvements (see Section~\ref{sec:seidr-models}). 
+%In our experiments, we have chosen models $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ that are based on the state-of-the-art transformer architecture~\cite{vaswani2017:attention} as a backbone and its subsequent improvements (see section~\ref{sec:seidr-models}). 
 In our experiments, we select models for $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $ based on the state-of-the-art transformer architectures~\cite{vaswaniAttentionAllYou2023} 
 %and its subsequent improvements 
-(see Section~\ref{sec:seidr-models}). 
+(see section~\ref{sec:seidr-models}). 
 
 Each LLM is a highly parameterised probability distribution over the space of (code, description)-tuples with parameters estimated on a large diverse (i.e., non-task-specific) corpus.
 This stochastic nature of language models is an important prerequisite for SEIDR, since it allows us to sample batches of diverse candidate solutions from $ \policy_\text{synth} $, $ \policy_\text{debug} $, and $ \policy_\text{text} $. 
@@ -97,9 +97,9 @@ We start with a basic template for a chosen programming language that contains a
 \end{figure}
 
 We populate this template with a comment indicating a textual task description and several I/O examples from the training set.
-We design the templates with prompt engineering guidelines\footnote{~\url{https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results}} and prior work~\cite{debruin2021:autoencoders} in mind.
+We design the templates with prompt engineering guidelines~\cite{PromptEngineering} and prior work~\cite{debruin2021:autoencoders} in mind.
 We then sample $\treearity_\text{draft}$ programs from $ \policy_\text{synth} $, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
-We use spring sampling (appendix \ref{apdx:spring}) a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
+We use \emph{spring sampling} (appendix \ref{apdx:spring}), a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
 %Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
 In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
@@ -141,7 +141,7 @@ For example, we show the resulting instruction for an exemplar template in Figur
 In contrast, INSTRUCT$^{\text{LLM}}$ uses the failing I/O pair in the LLM for text completion, thereby prompting the text LLM to produce the bug explanation and a summary for debugging. 
 In addition to providing a failing test case or \texttt{stderr}, one may choose to give the model $ \policy_\text{text} $ more context, such as the problem name, task description, and the code generated so far. 
 Each call to $ \policy_\text{text} $ can result in $\treearity_\text{explain}\ge1$ instructions, a batch output of an LLM.
-The prompt templates used for the experiments are detailed in Section~\ref{sec:seidr-prompts}.
+The prompt templates used for the experiments are detailed in section~\ref{sec:seidr-prompts}.
 
 % An exemplar output of the code behavior template engine in Figure~\ref{fig:method-instruct} describes that the code returns output O instead of expected output O$_{\text{val}}$ for the failing test case with input string I$_{\text{val}}.$
 % The LLM is then prompted to auto-complete this description of program behavior with the bug summary. 
@@ -160,7 +160,7 @@ The current generation of candidates is then replaced by $\treearity{}$ outputs 
 
 The RANK agent implements what is known in genetic programming as \emph{parent selection}~\cite{koza1994:genetic}: it selects the best $\beamwidth{}$ programs to be further improved by the DEBUG agent.
 We consider two different parent selection algorithms: tournament selection and lexicase selection. 
-See Section~\ref{sec:seidr-lexicase-results} for their empirical comparison.
+See section~\ref{sec:seidr-lexicase-results} for their empirical comparison.
 
 \emph{Tournament selection} variant used in this chapter sorts the programs according to their average test score and selects top $\beamwidth{}$ candidates. 
 % Such ranking approach is a \emph{quality-based} selection method.
@@ -216,7 +216,7 @@ Here, the repair-only scenario can also be seen as an LLM-guided random walk~\ci
 Strategies with tree arities between $1$ and $\infty$ are similar to population-based evolutionary algorithms.
 Note that $\treearity{}$ is defined by $\treearity_\text{draft}$ for the initial draft solutions in the first generation and $\treearity_\text{explain} \cdot \treearity_\text{debug}$ for later generations. 
 
-Observe that a mutation-only genetic algorithm with tournament selection with fixed population size $\beamwidth{},$ such as SEIDR, is equivalent to \emph{local beam search} with beam width $\beamwidth{}$ on an $\treearity{}$-ary tree ~\cite[Section 4.1.4]{russell2010:artificial}. This corresponds to a known property of local beam search: it degenerates into a depth-first search at $\beamwidth{} = 1$, whereas setting $\beamwidth{} = \infty$ yields a breadth-first search.
+Observe that a mutation-only genetic algorithm with tournament selection with fixed population size $\beamwidth{},$ such as SEIDR, is equivalent to \emph{local beam search} with beam width $\beamwidth{}$ on an $\treearity{}$-ary tree ~\cite[section 4.1.4]{russell2010:artificial}. This corresponds to a known property of local beam search: it degenerates into a depth-first search at $\beamwidth{} = 1$, whereas setting $\beamwidth{} = \infty$ yields a breadth-first search.
 
 % Hence, we refer to $\treearity{}$ as \emph{tree arity} and $\beamwidth{}$ as \emph{beam width}.
 
@@ -234,7 +234,7 @@ while the specific case of instruction-driven LLMs has been explored by \cite{fa
 \cite{zhangSelfEditFaultAwareCode2023} do the same, but fine-tune PyCodeGPT-110M~\cite{zanCERTContinualPretraining2022} to use it as a repair model. 
 The resulting framework is a two-step process (1 draft step and 1 debug step), while iterative evolution and search are not explored. 
 
-Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model.\footnote{~\url{https://carper.ai/diff-models-a-new-way-to-edit-code/}}
+Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model~\cite{DiffModelsNew2023}.
 %~\cite{DiffModelsNew2023}. 
 However, the model is directed neither to solve the programming problem at hand nor to fix bugs.
 Instead, it is provided with generic instructions such as ``Change function f.'' 
@@ -251,7 +251,7 @@ However, they do not explore the repair-replace trade-off and exclusively implem
 SelfEvolve~\cite{jiangSelfEvolveCodeEvolution2023} is a repair-only version of a framework similar to SEIDR.
 SeflEvolve demonstrates the benefits of LLMs evolving not just the source code but an additional natural language text file that acts as the system's knowledge base and is included in the model prompt when generating code. 
 Finally, Self-Taught Optimizer (STOP)~\cite{zelikmanSelfTaughtOptimizerSTOP2023} takes the concept of self-improvement to the meta level and uses a large language model to edit the evolutionary algorithm itself (i.e., blocks or contents of Figure~\ref{fig:method}). 
-Their reflections on the safety implications of such automated algorithm changes are of particular interest when considering this trajectory~\cite[Section 8]{zelikmanSelfTaughtOptimizerSTOP2023}. These concerns do not hold in the context of SEIDR because the algorithm is fixed.
+Their reflections on the safety implications of such automated algorithm changes are of particular interest when considering this trajectory~\cite[section 8]{zelikmanSelfTaughtOptimizerSTOP2023}. These concerns do not hold in the context of SEIDR because the algorithm is fixed.
 In other words, SEIDR does not self-evolve but creates solutions that it improves, and the solutions that are synthesized are closely constrained by the validation set used by the EXECUTE agent.
 % that will prevent FizzBuzz from scheming a planetary takeover.
 
@@ -300,8 +300,7 @@ The key criteria for this choice are the availability of task descriptions in En
 \subsubsection{PSB2}
 The first dataset is a benchmark suite of 25 problems for program synthesis that resemble small real-world tasks. PSB2 was developed as a more realistic and challenging version of PSB1~\cite{helmuth2015:general}, the latter consisting of textbook problems and is widely used in genetic programming~\cite{sobania2022:choose}. 
 The problems require different data structures and control flows to be used for effective solutions and are taken from sources, such as competitive programming platforms and educational courses. 
-The problems have descriptions in English, as well as 1 million~(M) tests for training and 1M testing-stage tests, including edge or corner cases that test the resulting program on complicated inputs. 
-The tests are provided as I/O pairs and are distributed together with the problem descriptions as a PyPI package.\footnote{~\url{https://pypi.org/project/psb2/}} 
+The problems have descriptions in English, as well as 1 million~(M) tests (as I/O pairs) for training and 1M testing-stage tests, including edge or corner cases that test the resulting program on complicated inputs. 
 
 In PSB1, the training set consists of the edge test cases and is augmented by random test cases if the number of edge tests is not enough. The test set is formed by random test cases. 
 This terminology is preserved in PSB2.
@@ -339,9 +338,9 @@ In our experiments, we use Open AI Generative Pre-trained Transformer (GPT) mode
 GPT models are auto-regressive transformer models that have the decoder-only architecture as opposed to the original full encoder-decoder transformer.
 They are pre-trained on both text and code and excel at sequence-to-sequence generative tasks, including code-to-code, text-to-code, and code-to-text.
 
-In our initial experiments, we use Codex-edit\footnote{~\href{https://openai.com/index/gpt-3-edit-insert/}{code-davinci-edit-001}} 
-as the LLM for writing and debugging programs and GPT-3\footnote{~\href{https://platform.openai.com/docs/deprecations}{text-davinci-003}} for bug summarization via text completion~\cite{brown2020:language} --- both being 175B-parameter models.
-In our generalizability experiments, we use the GPT-3.5 model\footnote{~\href{https://platform.openai.com/docs/models/gpt-3-5-turbo}{gpt-3.5-turbo}} for program synthesis, bug summarization, and debugging. 
+In our initial experiments, we use Codex-edit (\href{https://openai.com/index/gpt-3-edit-insert/}{code-davinci-edit-001})
+as the LLM for writing and debugging programs and GPT-3 (\href{https://platform.openai.com/docs/deprecations}{text-davinci-003}) for bug summarization via text completion~\cite{brown2020:language} --- both being 175B-parameter models.
+In our generalizability experiments, we use the GPT-3.5 model (\href{https://platform.openai.com/docs/models/gpt-3-5-turbo}{gpt-3.5-turbo}) for program synthesis, bug summarization, and debugging. 
 The GPT-3.5 model is an improvement over GPT-3 that is optimized for chat and available through an API.
 This switch is mainly motivated by rapid model updates, an OpenAI announcement that GPT-3 was due to become obsolete, i.e., not actively supported by the company, along with the company's recommendation to switch to GPT-3.5. 
 
@@ -424,7 +423,7 @@ The settings for tree arity will also be divided into two experiment sets: the o
 
 \subsubsection{Tree Arity for the Initial Exploration of SEIDR}
 \label{sec:seidr-tree arity-gpt-3}
-As described in Section~\ref{sec:seidr-beam-search}, the population size (number of parents to choose from in the tournament selection or beam width from the beam search perspective) $\beamwidth{}$ and tree arity $\treearity{}$ define the repair-replace trade-off, where higher $\beamwidth{}$ and $\treearity{}$ correspond to repair over replace. 
+As described in section~\ref{sec:seidr-beam-search}, the population size (number of parents to choose from in the tournament selection or beam width from the beam search perspective) $\beamwidth{}$ and tree arity $\treearity{}$ define the repair-replace trade-off, where higher $\beamwidth{}$ and $\treearity{}$ correspond to repair over replace. 
 We evaluate four options for these hyperparameters as shown in Table~\ref{tab:seidr:w-n-initial-exploration}. 
 We only run the experiments once, due to the experimental timeline and the discontinuation of model support by the model provider. 
 % The prompt for tree arity experiments is static and set to~\ref{seidr:prompt-0}.
@@ -461,7 +460,7 @@ languages  & \multicolumn{4}{c}{Python, C++} \\
 
 Because we aim to compare tree search parameters, we fix one default debugging instruction~\ref{seidr:prompt-0} and use the INSTRUCT$^{\text{static}}$ agent.  
 Moreover, we set the upper limit for the total number of generated program candidates to 1000 to limit the experimentation time. 
-Although some solutions may not be found within the hard limit, we assume\footnote{~This assumption is later confirmed in Section~\ref{sec:seidr-seidr:rqtreearity}.} that 1000 program candidates form a sufficiently large search space for our experiments.
+Although some solutions may not be found within the hard limit, we assume\footnote{~This assumption is later confirmed in section~\ref{sec:seidr-seidr:rqtreearity}.} that 1000 program candidates form a sufficiently large search space for our experiments.
 $\beamwidth{} = \treearity{} = \infty$ is achieved in implementation by setting equal $\beamwidth{}$ and $\beamwidth{}$ equal to the upper limit of the program count of 1000.
 This ensures that a second generation of programs does not exist.
 
@@ -486,7 +485,7 @@ In the same experiments, the majority of problems in PSB2 were solved within the
 Therefore, the upper limit for the total number of generated program candidates is set here to 100 to limit the experimentation time.
 % Note that the setting $\treearity_\text{draft}=\beamwidth{}=\infty$ ensures that a second generation of programs does not exist.
 
-To account for the stochasticity of language models and the fact that OpenAI's models do not support setting the effective sampling temperature to zero to force deterministic behavior,\footnote{~\url{https://community.openai.com/t/observing-discrepancy-in-completions-with-temperature-0/73380}} we ran the experiments six times with each set of hyperparameters.
+To account for the stochasticity of language models and the fact that OpenAI's models do not support setting the effective sampling temperature to zero to force deterministic behavior \cite{ObservingDiscrepancyCompletions2023}, we ran the experiments six times with each set of hyperparameters.
 This number of runs was selected to hit a sweet spot between the overall running time and costs of the experiments, while at the same time achieving confidence in the stability of the results in the presence of non-determinism. 
 Note that reporting results over six runs is considerably better than the common practice of having only one run for every selection of hyperparameters, and it is in line with the best-of-class practice in the field of LLMs for code generation~\cite{ouyang2023:llm}.
 % but is smaller than tens or hundreds of runs usually seen in the software engineering and genetic improvement domains~\cite{helmuth2022:applying}.
@@ -513,7 +512,7 @@ population size (beam width), $\beamwidth{}$ & 1 & 4 & 8 & 10 & 16 & $\infty$ (1
 \# repairs for each explanation, $\treearity_\text{debug}$ & 1 & 4 & 8 & 10 & 16 & - \\[4pt]
 \midrule
 max programs generated & \multicolumn{6}{c}{100} \\[4pt]
-prompts & \multicolumn{6}{c}{see Section~\ref{sec:seidr-ollama-prompts}} \\[4pt]
+prompts & \multicolumn{6}{c}{see section~\ref{sec:seidr-ollama-prompts}} \\[4pt]
 models  & \multicolumn{6}{c}{
  \parbox{5cm}{
      (a) GPT-3.5 as $\prob_\text{synth,} \; \prob_\text{debug,} \; \prob_\text{explain,}$ \\
@@ -536,7 +535,7 @@ In our experiments, we compare
 the number of fully solved programs obtained with SEIDR with different values of hyperparameters. 
 For a more detailed analysis of results, we use \emph{test pass rate (TPR)} and \emph{Excess Programs Generated (EPG)}.
 TPR reflects the percentage of fully passed test cases based on the exact match of program output and test output. 
-The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see Section~\ref{sec:seidr-execute}). 
+The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see section~\ref{sec:seidr-execute}). 
 
 We define \emph{pass@k} as the number of problems that have $TPR=1$ if SEIDR is stopped after generating $k$ programs, following~\cite{kulal2019:spoc} \emph{``success rate at budget of $k$ programs.''}
 Note that \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} define $k$ as the number of restarts of the iterative method, the budget in terms of trees of programs.
@@ -564,17 +563,17 @@ with Codex-edit (code-davinci-edit-001) as the LLM for writing and debugging pro
 % and GPT-3 (text-davinci-003) for bug summarization via text completion. 
 % We ensure that the program candidates generated from the same parent program are different from each other by changing the temperature parameter of Codex-edit.
 We have referred to these experiments as \emph{Initial Exploration of SEIDR} with Codex and GPT-3, and test the hyperparameter choices only on PSB2 as detailed in Table~\ref{tab:seidr:w-n-initial-exploration}.
-Here, we use wide steps between tree arity values (see Section~\ref{sec:seidr-tree arity-gpt-3}).
+Here, we use wide steps between tree arity values (see section~\ref{sec:seidr-tree arity-gpt-3}).
  
 The second set of experiments mainly focuses on the generalizability (\rqllama{}) of SEIDR
 and its robustness to restarting experiments with the same hyperparameters (\rqmultirun{}).
 The motivation here is to potentially improve on GPT-3 with a newer, generally more powerful version, GPT-3.5, and its smaller open-source competitor, Llama 3.
 GPT-3.5 and Llama 3 are used in more fine-grained repair-replace trade-off exploration and ranking experiments (\rqtreearity{}). 
 We have referred to these experiments as \emph{SEIDR Generalizability Experiments} and test SEIDR both on PSB2 and HumanEval.
-Building on the findings of the initial exploration, we use more fine-grained tree arity values (see Section~\ref{sec:seidr-tree arity-ollama}, Table~\ref{tab:w-n-generalizability}) and use the prompts from Section~\ref{sec:seidr-ollama-prompts}. 
+Building on the findings of the initial exploration, we use more fine-grained tree arity values (see section~\ref{sec:seidr-tree arity-ollama}, Table~\ref{tab:w-n-generalizability}) and use the prompts from section~\ref{sec:seidr-ollama-prompts}. 
 Thus, INSTRUCT is represented by the INSTRUCT$^{\text{LLM}}$ agent and creates $\treearity_\text{debug}$ bug summaries.
 Each program update creates $\treearity{}$ child programs from one parent with the SYNTHESIZE and DEBUG agents.
-We also compare the performance of SEIDR with the current state-of-the-art without SEIDR (see Section~\ref{sec:seidr-results-rqllama}).
+We also compare the performance of SEIDR with the current state-of-the-art without SEIDR (see section~\ref{sec:seidr-results-rqllama}).
 
 The second set of experiments is further updated with an alternative ranking strategy, lexicase selection (\rqlexicase{}). 
 For each model, dataset, and language, we choose the best-performing tree arity from \rqllama{} and exchange the tournament selection algorithm with the lexicase selection. 
@@ -592,7 +591,6 @@ Due to repetitive calls to EXECUTE, we have to resolve the speed of testing vers
 We resolve the trade-off by fixing the validation set size at 100 for the initial experiments and 50 for the generalizability exploration, which has more runs with the same hyperparameters. 
 We have run a preliminary experiment to confirm that we do not lose the final test pass rate points on 2000 tests when we decreased the validation test set size from 100 (which was used in the GECCO-2023  chapter) to 50 for the generalizability exploration.
 Due to a small number of tests in HumanEval-X, all tests are made visible to the debugging LLM and during the validation step.  
-To operate with the chosen LLMs in SEIDR, we use ollama\footnote{~\url{https://ollama.ai/}} and LangChain.\footnote{~\url{https://www.langchain.com/}}  
 To ensure that the program candidates generated from the same parent program are different from each other, we change the temperature parameter of the LLMs. 
  
 
@@ -671,7 +669,7 @@ Around half of the experiments do not generate more than 100 programs.
 However, 5 problems are solved with more than 500 generated programs in Python and 1 problem in C++ (with $N=10$).
 The results imply that the first steps in updating the draft program are crucial for solving the problem. 
 The chances of solving the problem in later stages of the search, such as after 100 programs have been generated, are low.
-This confirms our initial assumption in Section~\ref{sec:seidr-trade-off-settings} that 1000 programs are sufficient.
+This confirms our initial assumption in section~\ref{sec:seidr-trade-off-settings} that 1000 programs are sufficient.
 
 To briefly analyze Figure~\ref{fig:seidr:epg-bf}, we observe that some problems are solved in both languages, whereas some others --- only in Python. 
 In addition, only five problems are not solved in any SEIDR configuration in Python (bouncing-balls, bowling, cut-vector, dice-game and leaders) and seven in C++ (bouncing-balls, cut-vector, dice-game,  leaders, shopping-list, snow-day, and vector-distance).
@@ -888,11 +886,11 @@ However, some solutions are also found later in the tree search.
 
 The EPG distribution results for correctly solved problems with $TPR=1$ imply that the first steps in the update of the draft program are crucial for solving the problem. 
 The chances of solving the problem in the later stages of the search are low.
-This confirms our assumption in Section~\ref{sec:seidr-trade-off-settings} that 100 programs are sufficient in the generalizability experiments.
+This confirms our assumption in section~\ref{sec:seidr-trade-off-settings} that 100 programs are sufficient in the generalizability experiments.
 
 \begin{highlight}
 \textbf{Repair-replace trade-off for SEIDR with GPT-3.5 and Llama~3 in the generalizability experiments (\rqtreearity{}, \rqllama{}, \rqmultirun{}):}
-Unlike for SEIDR with Codex and a fixed debugging instruction (see Section~\ref{sec:seidr-seidr:rqtreearity}), SEIDR with GPT-3.5 and Llama~3 does not show any distinct trend for all the languages and datasets in terms of the preferred tree arity value. 
+Unlike for SEIDR with Codex and a fixed debugging instruction (see section~\ref{sec:seidr-seidr:rqtreearity}), SEIDR with GPT-3.5 and Llama~3 does not show any distinct trend for all the languages and datasets in terms of the preferred tree arity value. 
 Results over a number of runs with the same hyperparameter settings are more condensed for Python than for C++, which can be a result of optimizing LLMs for high performance on popular coding benchmarks in Python.
 If solutions to problems are found by SEIDR, it is done at an earlier tree search step for Python than for C++ (i.e., with a smaller EPG). 
 The majority of solutions are found within the first 10 updates of program candidates. 
@@ -937,7 +935,7 @@ population size (beam width), $\beamwidth{}$ & 2 & 16 & 16 & 16 & 2 & 4 & 10 & 1
 \# repairs for each explanation, $\treearity_\text{debug}$ & 2 & 16 & 16 & 16 & 2 & 4 & 10 & 10 \\
 \midrule
 max programs generated & \multicolumn{8}{c}{100} \\
-prompts & \multicolumn{8}{c}{see Section~\ref{sec:seidr-ollama-prompts}} \\
+prompts & \multicolumn{8}{c}{see section~\ref{sec:seidr-ollama-prompts}} \\
 \# runs per experiment &  \multicolumn{8}{c}{6} \\
 \bottomrule
 \end{tabular}
@@ -1210,7 +1208,7 @@ Experiments with Llama~3 and GPT-3.5 are restarted six times.
 We acknowledge that more restarts can provide a more complete picture of the approach performance,
 although this is not the standard practice in the LLM domain~\cite{ouyang2023:llm} 
 and can come at considerable financial and environmental costs.
-Our temperature-based sampling procedure described in Section\ref{sec:seidr-synth} reduces this stochasticity significantly, especially for low-EPG results, because earlier solutions in the search tree are obtained with lower temperatures, and lower temperature limits the stochasticity.
+Our temperature-based sampling procedure described in section\ref{sec:seidr-synth} reduces this stochasticity significantly, especially for low-EPG results, because earlier solutions in the search tree are obtained with lower temperatures, and lower temperature limits the stochasticity.
 Codex, GPT-3, and GPT-3.5 are black-box models and can generate malicious code~\cite{pearceAsleepKeyboardAssessing2022}. 
 Therefore, when coding in real life, the LLM output should be carefully reviewed before running it.
 % \ag{The Codex model was pre-trained on an unbalanced dataset across programming languages~\cite{chen2021:evaluating}. Thus, 
