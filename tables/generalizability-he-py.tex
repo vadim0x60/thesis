@@ -1,0 +1,34 @@
+\begin{tabular}{lllrrr}
+\toprule
+Model in SEIDR & $\treearity$ & Ranking &  pass@1 &  pass@10 &  pass@100 \\
+\midrule
+GPT-3.5 & 1   &         tournament &    53.4 &     \textbf{60.4} &      63.3 \\
+        & 2   &         tournament &    51.3 &     58.2 &      63.7 \\
+        & 4   &         tournament &    52.1 &     58.4 &      64.8 \\
+        & 4   &           lexicase &    52.5 &     59.6 &      \textbf{66.1} \\
+        & 10  &         tournament &    51.1 &     58.3 &      61.7 \\
+        & 16  &         tournament &    53.0 &     59.6 &      63.5 \\
+        % & 100 &         tournament &    \textbf{54.0} &     56.7 &      62.5 \\[1pt]
+        & 100 &         tournament &    54.0 &     56.7 &      62.5 \\[1pt]
+\cline{2-6}\\[-8pt]
+\multicolumn{3}{l}{solved at least once by SEIDR with GPT-3.5}   & 70.7 &     84.1 &      87.8 \\[1pt]
+\cline{1-6}\\[-8pt]
+Llama 3 & 1   &         tournament &    22.0 &     44.0 &      47.1 \\
+        & 2   &         tournament &    24.0 &     \textbf{48.5 }&      51.8 \\
+        & 4   &         tournament &    22.5 &     43.1 &      51.8 \\
+        & 10  &         tournament &    24.0 &     42.9 &      53.3 \\
+        % & 10  &           lexicase &    \textbf{26.2} &     44.1 &      \textbf{54.1} \\
+        & 10  &           lexicase &    26.2 &     44.1 &      \textbf{54.1} \\
+        & 16  &         tournament &    23.5 &     41.6 &      51.5 \\
+        & 100 &         tournament &    21.4 &     26.3 &      48.0  \\[1pt]
+\cline{2-6}\\[-8pt]
+\multicolumn{3}{l}{solved at least once by SEIDR with Llama~3} & 56.7 &     73.8 &      79.3 \\[1pt]
+\cline{1-6}\\[-8pt]
+\multicolumn{6}{l}{\textbf{LLM results without SEIDR}} \\
+GPT-3.5 (ChatGPT) & - &  - &  48.1  &  -   &    - \\
+GPT-4 & - &  - & 67.0   &  -   &    - \\
+Code Llama 34B & - &  - &  48.8  &  76.8   &    93.0 \\
+Unnatural Code Llama 34B & - &  - &  62.2  &  85.2   &    95.4 \\
+CodeGeeX & - &  - &  22.89  &  39.57   &    60.92 \\[-2pt]
+\bottomrule
+\end{tabular}

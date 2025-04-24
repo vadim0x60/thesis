@@ -402,7 +402,7 @@ The settings for tree arity will also be divided into two experiment sets: the o
 \paragraph{Initial Exploration}
 \label{sec:seidr-tree arity-gpt-3}
 As described in section~\ref{sec:seidr-beam-search}, the population size (number of parents to choose from in the tournament selection or beam width from the beam search perspective) $\beamwidth{}$ and tree arity $\treearity{}$ define the repair-replace trade-off, where higher $\beamwidth{}$ and $\treearity{}$ correspond to repair over replace. 
-We evaluate four options for these hyperparameters as shown in Table~\ref{tab:seidr:w-n-initial-exploration}. 
+We evaluate four options for these hyperparameters as shown in table~\ref{tab:seidr:w-n-initial-exploration}. 
 We only run the experiments once, due to the experimental timeline and the discontinuation of model support by the model provider. 
 % The prompt for tree arity experiments is static and set to~\ref{seidr:prompt-0}.
 
@@ -454,7 +454,7 @@ To balance between a reasonable number of experiments and diverse sets of hyperp
 As a reference, in the experiments with GPT-3 and Codex, we generated only one bug explanation ($\treearity_\text{explain} = 1$) and used $\treearity_\text{draft} = \treearity_\text{debug} = \treearity{}$ setting, too. 
 We evaluate six options of $\treearity{}$ 
 % $ \in \{1,4,8,10,16,100\}$ 
-as shown in Table~\ref{tab:w-n-generalizability} and use tournament selection as the ranking strategy. 
+as shown in table~\ref{tab:w-n-generalizability} and use tournament selection as the ranking strategy. 
 % in the experiments with average quality-first ranking and four non-corner case options for quality-diversity ranking with lexicase selection. 
 
 The choice of these tree branching hyperparameters and the maximum number of generated programs is motivated by the experiments with GPT-3 and Codex, where the best results were obtained for $\treearity{}=10.$ 
@@ -540,7 +540,7 @@ The first group of experiments is dedicated to the initial exploration of \rqtre
 with Codex-edit (code-davinci-edit-001) as the LLM for writing and debugging programs. 
 % and GPT-3 (text-davinci-003) for bug summarization via text completion. 
 % We ensure that the program candidates generated from the same parent program are different from each other by changing the temperature parameter of Codex-edit.
-We have referred to these experiments as \emph{Initial Exploration of SEIDR} with Codex and GPT-3, and test the hyperparameter choices only on PSB2 as detailed in Table~\ref{tab:seidr:w-n-initial-exploration}.
+We have referred to these experiments as \emph{Initial Exploration of SEIDR} with Codex and GPT-3, and test the hyperparameter choices only on PSB2 as detailed in table~\ref{tab:seidr:w-n-initial-exploration}.
 Here, we use wide steps between tree arity values (see section~\ref{sec:seidr-tree arity-gpt-3}).
  
 The second set of experiments mainly focuses on the generalizability (\rqllama{}) of SEIDR
@@ -548,7 +548,7 @@ and its robustness to restarting experiments with the same hyperparameters (\rqm
 The motivation here is to potentially improve on GPT-3 with a newer, generally more powerful version, GPT-3.5, and its smaller open-source competitor, Llama 3.
 GPT-3.5 and Llama 3 are used in more fine-grained repair-replace trade-off exploration and ranking experiments (\rqtreearity{}). 
 We have referred to these experiments as \emph{SEIDR Generalizability Experiments} and test SEIDR both on PSB2 and HumanEval.
-Building on the findings of the initial exploration, we use more fine-grained tree arity values (see section~\ref{sec:seidr-tree arity-ollama}, Table~\ref{tab:w-n-generalizability}) and use the prompts from section~\ref{sec:seidr-ollama-prompts}. 
+Building on the findings of the initial exploration, we use more fine-grained tree arity values (see section~\ref{sec:seidr-tree arity-ollama}, table~\ref{tab:w-n-generalizability}) and use the prompts from section~\ref{sec:seidr-ollama-prompts}. 
 Thus, INSTRUCT is represented by the INSTRUCT$^{\text{LLM}}$ agent and creates $\treearity_\text{debug}$ bug summaries.
 Each program update creates $\treearity{}$ child programs from one parent with the SYNTHESIZE and DEBUG agents.
 We also compare the performance of SEIDR with the current state-of-the-art without SEIDR (see section~\ref{sec:seidr-results-rqllama}).
@@ -668,7 +668,7 @@ The repair component is also crucial for the framework because the replace-only 
 \newpage\subsection{Generalizability Experiments}
 
 In this section, we present and discuss replace-repair trade-off results obtained with GPT-3.5 and Llama 3 and the effect of switching from tournament selection to lexicase selection with the best hyperparameter settings found for the trade-off. 
-We count the number of fully solved problems (i.e., reached $TPR=1$) in experiments with the hyperparameter settings described in Table~\ref{tab:w-n-generalizability} in six runs and present the language-specific results for PSB2 and HumanEval.
+We count the number of fully solved problems (i.e., reached $TPR=1$) in experiments with the hyperparameter settings described in table~\ref{tab:w-n-generalizability} in six runs and present the language-specific results for PSB2 and HumanEval.
 % in Figure~\ref{fig:repair-replace-trade-off-generalizability}. 
 We also explore the total number of programs that need to be generated before a solution is obtained, as well as
 % in Figure~\ref{fig:epg-distribution} 
@@ -881,7 +881,7 @@ SEIDR solves 163 out of 164 HumanEval-C++ problems with GPT-3.5 at least once ov
 \label{sec:seidr-lexicase-results}
 
 Based on the mean TPR over all runs reported in Figure~\ref{fig:mean-tpr-repair-replace-trade-off-generalizability}, we fix the best-performing $\treearity$ for each dataset, language and model and run the experiments with lexicase selection instead of tournament selection as a parent selection strategy. 
-The hyperparameters are shown in Table~\ref{tab:lexicase-selection-hyperparameters}.
+The hyperparameters are shown in table~\ref{tab:lexicase-selection-hyperparameters}.
 We compare the number of problems solved with these settings and two types of parent selection algorithms in Figure~\ref{fig:num-solved-lexicase-selection} and mean TPR in Figure~\ref{fig:mean-tpr-lexicase-selection}.
 Mean TPR with lexicase selection and the best tournament selection configuration are similar for two selection strategies for most of the experiments.
 Similar results are obtained for the number of fully solved problems, with the exception of C++ results of SEIDR with GPT-3.5 on both datasets, where lexicase selection improved the results.
@@ -992,146 +992,37 @@ In the vast majority of experiments where a solution is found and at least one d
 
 \begin{table}[t]
     \centering
-    \caption{Average number of solved PSB2 problems using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. If pass@100 is not available, we cite the best available results in brackets. $\treearity$ stands for the number of debug candidates and debug instructions to generate (tree arity).}\small
-    \label{tab:generalizability-psb2}
-\begin{tabular}{llllrrr}
-\toprule
-Language & Model in SEIDR & $\treearity$ & Parent selection &  pass@1 &  pass@10 &  pass@100 \\
-\midrule
-% 
-Python & GPT-3.5 & 1   &         tournament &    10.5 &     12.0 &      12.0 \\
-&        & 2   &         tournament &     9.3 &     11.5 &      12.0 \\
-&        & 4   &         tournament &     9.8 &     12.2 &      13.3 \\
-&        & 10  &         tournament &    10.7 &     \textbf{12.7} &      \textbf{14.5} \\
-&        & 16  &         tournament &    10.0 &     11.3 &      13.3 \\
-&        & 16  &           lexicase &    10.2 &     12.3 &      14.2 \\
-% &        & 100 &         tournament &    \textbf{10.8} &     12.2 &      13.7 \\
-    &        & 100 &         tournament &    10.8 &     12.2 &      13.7 \\
-\cline{3-7}\\[-8pt]
-&  \multicolumn{3}{l}{solved at least once by SEIDR with GPT-3.5} &  13 &       17 &       18 \\[1pt]
-\cline{2-7}\\[-8pt]
-& Codex  & 10 & tournament &      5 &       10 &        14 (pass@1000=19) \\[1pt]
-\cline{3-7}\\[-8pt]
-&  \multicolumn{3}{l}{solved at least once by SEIDR with Codex}   & 8 &       13 &        17 (pass@1000=20) \\[3pt]
-\cline{2-7}\\[-8pt]
-&  PushGP (no SEIDR)   &    -            &       - &        - &       - &  (17)\\[1pt]
-\cline{2-7}\\[-8pt]
-% 
-& Llama~3 & 1   &         tournament &     1.2 &      1.3 &       2.3 \\
-&        & 2   &         tournament &     1.0 &      1.5 &       1.5 \\
-&        & 4   &         tournament &     1.0 &      1.5 &       2.3 \\
-&        & 10  &         tournament &     1.5 &      2.0 &       2.2 \\
-        % &        & 16  &         tournament &     \textbf{1.7} &      \textbf{2.8} &       2.8 \\
-&        & 16  &         tournament &     1.7 &      \textbf{2.8} &       2.8 \\
-&        & 16  &           lexicase &     1.0 &      1.7 &       2.0 \\
-&        & 100 &         tournament &     1.0 &      1.0 &       \textbf{3.8} \\[1pt]
-\cline{3-7}\\[-8pt]
-&  \multicolumn{3}{l}{solved at least once by SEIDR with Llama~3} &   4 &        5 &       11 \\
-\midrule\\[-8pt]
- C++ & GPT-3.5 & 1   &         tournament &     0.0 &      5.6 &       5.5 \\
-&        & 2   &         tournament &     1.0 &      5.0 &       6.0 \\
-  % &        & 2   &           lexicase &     \textbf{1.3} &     \textbf{ 9.0} &      \textbf{10.0} \\
-&        & 2   &           lexicase &     1.3 &     \textbf{ 9.0} &      \textbf{10.0} \\
-&        & 4   &         tournament &     1.0 &      4.6 &       6.8 \\
-&        & 10  &         tournament &     1.0 &      1.3 &       5.6 \\
-&        & 16  &         tournament &     1.0 &      1.2 &       8.3 \\
-&        & 100 &         tournament &     1.0 &      1.2 &       2.3 \\[1pt]
-\cline{3-7}\\[-8pt]
-& \multicolumn{3}{l}{solved at least once by SEIDR with GPT-3.5}   & 2 &       13 &       13 \\[1pt]
-% 
-\cline{2-7}\\[-8pt]
-& Codex  & 10 & tournament &     3 &       12 &   14 (pass@1000=17)\\[1pt]
-\cline{3-7}\\[-8pt]
-& \multicolumn{3}{l}{solved at least once by SEIDR with Codex}   & 10 &       12 &        15 (pass@1000=18) \\[1pt]
-\cline{2-7}\\[-8pt]
-&  PushGP (no SEIDR) & -   &    -            &       - &        - &      (17)\\[1pt]
-\cline{2-7}\\[-8pt]
-& Llama 3 & 1   &         tournament &     0.0 &      1.0 &       2.0 \\
-&        & 2   &         tournament &     0.0 &      \textbf{2.0} &       2.8 \\
-&        & 4   &         tournament &     1.0 &     \textbf{ 2.0} &       2.6 \\
-&        & 10  &         tournament &     1.0 &      1.4 &       \textbf{4.0} \\
-&        & 16  &         tournament &     0.0 &      1.8 &       3.8 \\
-&        & 16  &           lexicase &    1.0 &      1.4 &       3.5 \\
-&        & 100 &         tournament &     0.0 &      0.0 &       3.7 \\[1pt]
-\cline{3-7}\\[-8pt]
-& \multicolumn{3}{l}{solved at least once by SEIDR with Llama~3}  & 4 &        5 &       11  \\
-  \bottomrule
-\\ %% to make this a one
-\\ %% page filling table
-\end{tabular}
+    \caption{Average number of PSB2 problems solved in \textbf{Python} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. If pass@100 is not available, we cite the best available results in brackets.}\small
+    \label{tab:generalizability-psb2-py}
+\input{tables/generalizability-psb2-py}
+\end{table}
+
+\begin{table}[t]
+  \centering
+  \caption{Average number of PSB2 problems solved in \textbf{C++} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. If pass@100 is not available, we cite the best available results in brackets.}\small
+  \label{tab:generalizability-psb2-cpp}
+\input{tables/generalizability-psb2-cpp}
 \end{table}
 
 
 \begin{table}[t]
     \centering
-    \caption{Percentage of solved tasks in HumanEval-X using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. $\treearity$ stands for the number of debug candidates and debug instructions to generate (tree arity).}\small
-    \label{tab:generalizability-he}
-\begin{tabular}{llllrrr}
-\toprule
-Language & Model in SEIDR & $\treearity$ & Ranking &  pass@1 &  pass@10 &  pass@100 \\
-\midrule
-Python & GPT-3.5 & 1   &         tournament &    53.4 &     \textbf{60.4} &      63.3 \\
-       &        & 2   &         tournament &    51.3 &     58.2 &      63.7 \\
-       &        & 4   &         tournament &    52.1 &     58.4 &      64.8 \\
-       &        & 4   &           lexicase &    52.5 &     59.6 &      \textbf{66.1} \\
-       &        & 10  &         tournament &    51.1 &     58.3 &      61.7 \\
-       &        & 16  &         tournament &    53.0 &     59.6 &      63.5 \\
-       % &        & 100 &         tournament &    \textbf{54.0} &     56.7 &      62.5 \\[1pt]
-       &        & 100 &         tournament &    54.0 &     56.7 &      62.5 \\[1pt]
-\cline{3-7}\\[-8pt]
-       & \multicolumn{3}{l}{solved at least once by SEIDR with GPT-3.5}   & 70.7 &     84.1 &      87.8 \\[1pt]
-\cline{2-7}\\[-8pt]
-    &   Llama 3 & 1   &         tournament &    22.0 &     44.0 &      47.1 \\
-       &        & 2   &         tournament &    24.0 &     \textbf{48.5 }&      51.8 \\
-       &        & 4   &         tournament &    22.5 &     43.1 &      51.8 \\
-       &        & 10  &         tournament &    24.0 &     42.9 &      53.3 \\
-       % &        & 10  &           lexicase &    \textbf{26.2} &     44.1 &      \textbf{54.1} \\
-       &        & 10  &           lexicase &    26.2 &     44.1 &      \textbf{54.1} \\
-       &        & 16  &         tournament &    23.5 &     41.6 &      51.5 \\
-       &        & 100 &         tournament &    21.4 &     26.3 &      48.0  \\[1pt]
-\cline{3-7}\\[-8pt]
-       & \multicolumn{3}{l}{solved at least once by SEIDR with Llama~3} & 56.7 &     73.8 &      79.3 \\[1pt]
-\cline{2-7}\\[-8pt]
-& \multicolumn{6}{l}{\textbf{LLM results without SEIDR}} \\
- & GPT-3.5 (ChatGPT) & - &  - &  48.1  &  -   &    - \\
- & GPT-4 & - &  - & 67.0   &  -   &    - \\
- & Code Llama 34B & - &  - &  48.8  &  76.8   &    93.0 \\
- & Unnatural Code Llama 34B & - &  - &  62.2  &  85.2   &    95.4 \\
- & CodeGeeX & - &  - &  22.89  &  39.57   &    60.92 \\[-2pt]
-\midrule\\[-10pt]
-C++    & GPT-3.5 & 1   &         tournament &     3.4 &    \textbf{ 55.9} &      \textbf{78.5} \\
-       % &        & 2   &         tournament &     \textbf{4.7} &     36.6 &      69.6 \\ 
-       &        & 2   &         tournament &     4.7 &     36.6 &      69.6 \\
-       &        & 2   &           lexicase &     4.3 &     35.9 &      73.6 \\
-       &        & 4   &         tournament &     4.5 &     27.7 &      62.9 \\
-       &        & 10  &         tournament &     3.6 &     13.7 &      49.7 \\
-       &        & 16  &         tournament &     4.5 &     13.2 &      51.1 \\
-       &        & 100 &         tournament &     3.6 &      7.1 &      31.3 \\[1pt]
-\cline{3-7}\\[-8pt]
-       & \multicolumn{3}{l}{solved at least once by SEIDR with GPT-3.5} & 20.1 &     89.0 &      99.4 \\[1pt]
-\cline{2-7}\\[-8pt]
-    &   Llama 3 & 1   &         tournament &    29.6 &     59.5 &      79.5 \\
-    % &   Llama 3 & 1   &         tournament &    \textbf{29.6} &     59.5 &      79.5 \\
-       &        & 2   &         tournament &    18.6 &     51.6 &      71.4 \\
-       &        & 4   &         tournament &    20.0 &     50.6 &      73.9 \\
-       &        & 10  &         tournament &    25.6 &     56.4 &      80.0 \\
-       &        & 10  &           lexicase &    25.9 &     \textbf{60.9} &      \textbf{84.2} \\
-       &        & 16  &         tournament &    20.9 &     53.0 &      75.5 \\
-       &        & 100 &         tournament &    27.1 &     39.7 &      79.2 \\[1pt]
-\cline{3-7}\\[-8pt]
-       & \multicolumn{3}{l}{solved at least once by SEIDR with Llama~3} & 72.0 &     97.6 &      98.8  \\[1pt]
-\cline{2-7}\\[-8pt]
-& \multicolumn{6}{l}{\textbf{LLM results without SEIDR}} \\
-& Code Llama 34B & - &  - &  47.8  &  -   &    - \\
-& CodeGeeX & - &  - &  17.06  &  32.21   &    51.00 \\[-2pt]
-\bottomrule
-\end{tabular}
+    \caption{Percentage HumanEval-X tasks solved in \textbf{Python} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are highlighted in bold.}\small
+    \label{tab:generalizability-he-py}
+\input{tables/generalizability-he-py}
+\end{table}
+
+\begin{table}[t]
+  \centering
+  \caption{Percentage HumanEval-X tasks solved in \textbf{C++} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are highlighted in bold.}\small
+  \label{tab:generalizability-he-cpp}
+\input{tables/generalizability-he-cpp}
 \end{table}
 
 \paragraph{Overall Generalizability}
 \label{sec:seidr-overall-generalizability}
 
-We combine all results in Table~\ref{tab:generalizability-psb2} for PSB2 and Table~\ref{tab:generalizability-he} for HumanEval-X, where we show the number of solved problems at different cutoffs ($k$).  
+We combine all generalizability results in tables \ref{tab:generalizability-psb2-py}, \ref{tab:generalizability-psb2-cpp}, {tab:generalizability-he-py} and \ref{tab:generalizability-he-cpp}, where we show the number of solved problems at different cutoffs ($k$).  
 An average is taken over all runs for the experiments with multiple restarts, and the results for one run are shown for SEIDR with Codex. 
 
 Note that at cutoff $k=1$, iterations of SEIDR are not taken into account, because the first program candidate is the one LLMs generate from a template, and the trees at cutoff $k=1$ have only one program in each of them, regardless of the parent selection strategy or tree arity. 
@@ -1149,7 +1040,7 @@ SEIDR with Codex also outperforms other LLMs on PSB2 in C++.
 No parent selection strategy or tree arity $\treearity$ is leading across all PSB2 experiments. 
 
 In the HumanEval-C++ experiments, SEIDR performs well at larger $k,$ i.e., when debugging steps are made. 
-Remarkably, the union of SEIDR experiments with both GPT-3.5 and a much smaller Llama~3 solve 163 problems (or 99.4\% in Table~\ref{tab:generalizability-he}) and 162 problems (or 98.8\%) in HumanEval-C++, correspondingly.
+Remarkably, the union of SEIDR experiments with both GPT-3.5 and a much smaller Llama~3 solve 163 problems (or 99.4\% in table~\ref{tab:generalizability-he}) and 162 problems (or 98.8\%) in HumanEval-C++, correspondingly.
 SEIDR does not outperform other LLMs on HumanEval-Python, which, as mentioned earlier, could be the effect of HumanEval-Python being a popular benchmark for testing LLMs and indirectly optimizing the models.
 
 Direct comparison of SEIDR results with other iterative program synthesis frameworks is challenging because, in addition to differences in benchmarks used, \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} do not always report the number of generated programs, which is the primary metric that we use to compare iteration against a replace-only baseline.\footnote{\cite{chenTeachingLargeLanguage2023} does have a sentence "Note that typically one debugging turn is sufficient"}
