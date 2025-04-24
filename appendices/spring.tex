@@ -1,13 +1,18 @@
-Consider the following search problem:
+
+\chapter{Spring Sampling}
+\label{apdx:spring}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{images/vaalserberg_lost.png}
+    \includegraphics[width=\linewidth]{images/vaalserberg_lost.png}
     \caption{Vaalserberg elevation map}
+    \label{fig:vaalserberg-q}
 \end{figure}
 
 
-The above elevation map of Vaalserberg\footnote{\url{https://en.wikipedia.org/wiki/Vaalserberg) (the hill that acts as a three-way border between Belgium, the Netherlands and Germany}} contains a telecommunications tower. Can you find it? Hint: in a hilly terrain, telecommunication towers work better when they are higher up.
+Consider the search problem displayed on figure \ref{fig:vaalserberg-q}. 
+This elevation map of Vaalserberg (the hill that acts as a three-way border between Belgium, the Netherlands and Germany) contains a telecommunications tower. 
+Can you find it? Hint: in a hilly terrain, telecommunication towers work better when they are higher up.
 
 If you are anything like me, you would start by looking at the highest points on the map.
 If the tower is not there, you would move your gaze (more or less randomly) around the highest parts of the map.
@@ -50,10 +55,11 @@ A particularly topical (but far from the only) application of spring sampling is
 We use this technique in our program synthesis framework to sample programs that pass a given test suite.
 It improves search speed by making sure the likeliest programs are always tested first, but if they do not pass the test, higher temperatures help collect a diverse sample of programs, thus increasing the probability that one of them is correct.
 
-Meanwhile, did you find the tower? Here it is:
+Meanwhile, did you find the tower? Check figure \ref{fig:vaalserberg-a}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{images/vaalserberg_found.png}
+    \includegraphics[width=\linewidth]{images/vaalserberg_found.png}
     \caption{Vaalserberg elevation map, tower highlighted}
+    \label{fig:vaalserberg-a}
 \end{figure}

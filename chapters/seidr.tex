@@ -40,9 +40,6 @@ We discuss related work in Section~\ref{sec:seidr-related-work}, introduce exper
 strategies for this framework in Section~\ref{sec:seidr-eval}. 
 Finally, in Section~\ref{sec:seidr-results}, we demonstrate that our framework outperforms conventional automatic programming techniques, such as genetic programming and naive application of large language models that generate one solution per problem without updating it iteratively. 
 
-\section{Spring Sampling}
-\input{blogposts/spring.tex}
-
 \section{SEIDR}
 \label{sec:seidr-methodology}
 The proposed five-agent SEIDR framework is summarized in Figure~\ref{fig:method}, which we discuss in detail in Section~\ref{sec:seidr-ingredients}.
@@ -102,7 +99,7 @@ We start with a basic template for a chosen programming language that contains a
 We populate this template with a comment indicating a textual task description and several I/O examples from the training set.
 We design the templates with prompt engineering guidelines\footnote{~\url{https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results}} and prior work~\cite{debruin2021:autoencoders} in mind.
 We then sample $\treearity_\text{draft}$ programs from $ \policy_\text{synth} $, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
-We use spring sampling:\footnote{~\url{https://vadim.me/publications/spring/}} a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
+We use spring sampling (appendix \ref{apdx:spring}) a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
 %Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
 In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
