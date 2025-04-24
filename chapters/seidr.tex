@@ -312,7 +312,7 @@ Therefore, $ \policy_\text{synth} $ and $ \policy_\text{debug} $ can be a chat m
 By analogy, the text-to-text $ \policy_\text{text} $ can be a chat, instruction fine-tuned, a text completion, or a text generation model pre-trained on text and code.
 % In our experiments, all three models are instantiated with the same fixed model. 
 
-In our experiments, we use Open AI Generative Pre-trained Transformer (GPT) models by Open AI and Llama 3 by Meta~\cite{roziere2023:code}. 
+In our experiments, we use Open AI Generative Pre-trained Transformer (GPT) models by Open AI and Llama 3 by Meta~\cite{roziereCodeLlamaOpen2024}. 
 GPT models are auto-regressive transformer models that have the decoder-only architecture as opposed to the original full encoder-decoder transformer.
 They are pre-trained on both text and code and excel at sequence-to-sequence generative tasks, including code-to-code, text-to-code, and code-to-text.
 
@@ -322,7 +322,7 @@ In our generalizability experiments, we use the GPT-3.5 model (\href{https://pla
 The GPT-3.5 model is an improvement over GPT-3 that is optimized for chat and available through an API.
 This switch is mainly motivated by rapid model updates, an OpenAI announcement that GPT-3 was due to become obsolete, i.e., not actively supported by the company, along with the company's recommendation to switch to GPT-3.5. 
 
-To further evaluate the generalization capabilities of SEIDR, we have chosen Llama 3-8B~\cite{roziere2023:code}, an open-source alternative to GPT models with the same standard decoder-only transformer architecture. 
+To further evaluate the generalization capabilities of SEIDR, we have chosen Llama 3-8B~\cite{roziereCodeLlamaOpen2024}, an open-source alternative to GPT models with the same standard decoder-only transformer architecture. 
 Compared to Llama 2~\cite{touvron2023:llama}, Llama 3 introduces improvements to the architecture and the training process, such as grouped query attention.
 
 \newpage\subsection{Prompts}
@@ -349,6 +349,7 @@ The models use a system message that describes the ``role'' of the LLM and a reg
 To provide more context, we always use a problem description, problem name, and programming language to the model as textual input (\texttt{descr}). 
 As code, we also add an initial template depicted in Figure~\ref{fig:template} to $ \policy_\text{synth} $ and the current program candidate to $ \policy_\text{text} $ and $ \policy_\text{debug} $. The resulting prompts are as follows:
 
+\newpage
 The system message is: 
 \begin{lstlisting}
   You are an experienced software developer.
@@ -407,7 +408,7 @@ We only run the experiments once, due to the experimental timeline and the disco
 % The prompt for tree arity experiments is static and set to~\ref{seidr:prompt-0}.
 
 
-\begin{table}[t]
+\begin{table}
 \setlength{\tabcolsep}{20pt}
 \centering
 % % \vspace*{-1ex}
@@ -474,7 +475,7 @@ Moreover, the time to finish one run with several branching factors and all the 
 Overall, we restart experiments with GPT-3.5 six times for each of the tree arities $ N_{\text{synth}} = N_{\text{debug}} = \treearity \in \{1,2, 4,10,16,100\}$ and the same for Llama 3, with a total of $6 \times 6 \times 2 = 72$ experiments. 
 For the lexicase selection experiments, we have 6 runs per model but one best-performing tree arity, which adds $12$ experiments to the total count.
 
-\begin{table}[t]
+\begin{table}
 \setlength{\tabcolsep}{10pt}
 \centering
 \caption{SEIDR generalizability experiments: hyperparameters in the tree arity grid search.}\small
@@ -620,23 +621,19 @@ In addition, we break down the results into each tree arity in Figure~\ref{fig:s
   \caption{0 $\leq$ EPG $\leq$ 10 with step 1.}
   \label{fig:seidr:epg-distrib-solved-10}
 \end{subfigure}
-
-% \vspace{2mm}
-
 \begin{subfigure}{0.5\linewidth}
 \centering
 \includegraphics[width=\linewidth, trim={0mm 4mm 0mm 0mm}]{images/epg_distribution_solved_maxprog_1000_100_v3_zenodo.pdf}
   \caption{0 $\leq$ EPG $\leq$ 1000 with step 100.}
   \label{fig:seidr:epg-distrib-solved-100}
 \end{subfigure}
-% % \vspace{-2mm}
 \caption{Distribution of the number of generated programs during each problem-solving attempt in the experiments with different tree arities where a problem solution is found.}
 \label{fig:seidr:epg-distribution}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth, trim={3mm 1.6mm 3mm 2mm}, clip]{images/num_programs_generated_vs_bf_test_pass_rate_vertical_maxprog_1000_v3.pdf}
+  \includegraphics[width=0.75\textwidth, trim={3mm 1.6mm 3mm 2mm}, clip]{images/num_programs_generated_vs_bf_test_pass_rate_vertical_maxprog_1000_v3.pdf}
   \caption{Number of excess programs generated (in color) and test pass rate (as numbers) depending on tree arity. Higher EPG values are shown in darker shades. We denote solved problems with ``+'' (test pass rate = 1), unsolved problems with ``-'' (test pass rate = 0), and show the test pass rate for partially solved problems. }
   \label{fig:seidr:epg-bf}
 \end{figure}
@@ -676,11 +673,12 @@ in how many of the six runs each problem is fully solved.
 % in Figures~\ref{fig:epg-num-solved-psb2},~\ref{fig:epg-num-solved-he-python}, and~\ref{fig:epg-num-solved-he-c++}. 
 The figures are described in detail in the dedicated sections. 
 
+\newpage
 \paragraph{Repair-replace Trade-off and Robustness}
 \label{sec:seidr-treearity-ollama}\label{sec:seidr-results-rqllama}
 
 We compare the number of solved problems in the experiments with $\treearity_\text{draft}=\treearity_\text{debug}$ values of 1, 2, 4, 10, 16, $\infty$ (100) and $\treearity_\text{explain}=2$ in Python and C++ and tournament selection ranking strategy in Figure~\ref{fig:repair-replace-trade-off-generalizability}. 
-We will refer to the equally set values of $\treearity_\text{draft}$ and $\treearity_\text{debug}$ as $\treearity$ hereafter.
+We will refer to  $\treearity_\text{draft}=\treearity_\text{debug}$ as $\treearity$ hereafter.
 As before, experiments with $\treearity=1$ and $\treearity=\infty$ correspond to ablation studies, where the replace option or the repair option is turned off. 
 The results of SEIDR are compared to the baseline performance of PushGP on the PSB2 benchmark, which solves 17 out of 25 problems. 
 The boxplots show the inter-quartile range between the first and third quartiles observed in six runs and the median values as horizontal lines within the boxes. 
@@ -799,15 +797,14 @@ The trend for both datasets is that, for problems where a solution is found, SEI
 % Given resource constraints, such as the costs of calling GPT-3.5 and the time of running each experiment, we limit restarts to 6 runs in total with each set of hyperparameters.
 % However, t
 
-To explore the capabilities of SEIDR with the studied models, we can take a union over experiments and count the number of problems solved at least once across 36\footnote{~We have 6 runs and 6 different values of $\treearity.$} restarts with a fixed dataset, language and model.
-In this way, in addition to reporting the number of problems solved in each run in the boxplot, we can derive the number of problems solved in any run with any set of hyperparameter using information in Figures~\ref{fig:epg-num-solved-psb2}--\ref{fig:epg-num-solved-he-c++}.
+To explore the capabilities of SEIDR with the studied models, we take a union over experiments and count the number of problems solved at least once across 36\footnote{~We have 6 runs and 6 different values of $\treearity.$} restarts with a fixed dataset, language and model.
+This way, in addition to the number of problems solved in each run in the boxplot, we can report the number of problems solved in any run with any set of hyperparameter using information in Figures~\ref{fig:epg-num-solved-psb2}--\ref{fig:epg-num-solved-he-c++}.
 For example, SEIDR with GPT-3.5 does not solve only 7 problems out of 25 PSB2-Python tasks (see Figure~\ref{fig:epg-num-solved-psb2}).
 Namely, bouncing-balls, cut-vector, dice-game, indices-of-substring, middle-character, solve-boolean, and substitution-cipher are solved in 0 runs with all the variations of $\treearity$.
-% $=N_{synth}=N_{debug}.$
 In other words, 18 unique problems are solved in the collection of all the experiments using SEIDR with GPT-3.5 on PSB2-Python. 
 SEIDR with GPT-3.5 does not solve 12 out of 25 PSB2-C++ tasks with any hyperparameter settings. 
 The number of solved problems in any run with SEIDR and Llama~3 are 10 for PSB2 in both languages. 
-To support the finding about degradation of performance happening in a non-specialized model GPT-3.5 compared to the code-specialized Codex, we calculate the number of solved problems in any run with Codex and obtain 20 problems solved at least once in Python and 18 in C++. 
+To support the finding about performance degradation happening in a non-specialized model GPT-3.5 compared to the code-specialized Codex, we calculate the number of solved problems in any run with Codex: 20 problems solved at least once in Python and 18 in C++. 
 
 Similarly, SEIDR with GPT-3.5 solves 141 out of 164 HumanEval-Python problems at least once in all runs, collectively, and 128 problems with Llama~3 (see Figure~\ref{fig:epg-num-solved-he-python}).
 In HumanEval-C++, SEIDR with GPT-3.5 solves 163 out of 164 problems (except CPP/137) in the union of all runs and 162 with Llama~3 (except CPP/137 and CPP/151) as follows from Figure~\ref{fig:epg-num-solved-he-c++}.
@@ -886,7 +883,7 @@ We compare the number of problems solved with these settings and two types of pa
 Mean TPR with lexicase selection and the best tournament selection configuration are similar for two selection strategies for most of the experiments.
 Similar results are obtained for the number of fully solved problems, with the exception of C++ results of SEIDR with GPT-3.5 on both datasets, where lexicase selection improved the results.
 
-\begin{table}[t]
+\begin{table}
 % \vspace{-2.6ex} 
 \setlength{\tabcolsep}{4pt}
 \centering
@@ -990,31 +987,31 @@ In the vast majority of experiments where a solution is found and at least one d
 \end{highlight}
 
 
-\begin{table}[t]
+\begin{table}
     \centering
-    \caption{Average number of PSB2 problems solved in \textbf{Python} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. If pass@100 is not available, we cite the best available results in brackets.}\small
+    \caption{Average number of PSB2 problems solved in \textbf{Python} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are bolded. If pass@100 is not available, we cite the best available results in brackets.}\small
     \label{tab:generalizability-psb2-py}
 \input{tables/generalizability-psb2-py}
 \end{table}
 
-\begin{table}[t]
+\begin{table}
   \centering
-  \caption{Average number of PSB2 problems solved in \textbf{C++} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are highlighted in bold. If pass@100 is not available, we cite the best available results in brackets.}\small
+  \caption{Average number of PSB2 problems solved in \textbf{C++} using SEIDR with different LLMs and PushGP. The best results among SEIDR-only experiments at each $k$ are bolded. If pass@100 is not available, we cite the best available results in brackets.}\small
   \label{tab:generalizability-psb2-cpp}
 \input{tables/generalizability-psb2-cpp}
 \end{table}
 
 
-\begin{table}[t]
+\begin{table}
     \centering
-    \caption{Percentage HumanEval-X tasks solved in \textbf{Python} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are highlighted in bold.}\small
+    \caption{Percentage HumanEval-X tasks solved in \textbf{Python} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are bolded.}\small
     \label{tab:generalizability-he-py}
 \input{tables/generalizability-he-py}
 \end{table}
 
-\begin{table}[t]
+\begin{table}
   \centering
-  \caption{Percentage HumanEval-X tasks solved in \textbf{C++} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are highlighted in bold.}\small
+  \caption{Percentage HumanEval-X tasks solved in \textbf{C++} using SEIDR with different LLMs. The best results among SEIDR-only experiments at each $k$ are bolded.}\small
   \label{tab:generalizability-he-cpp}
 \input{tables/generalizability-he-cpp}
 \end{table}
@@ -1022,8 +1019,8 @@ In the vast majority of experiments where a solution is found and at least one d
 \paragraph{Overall Generalizability}
 \label{sec:seidr-overall-generalizability}
 
-We combine all generalizability results in tables \ref{tab:generalizability-psb2-py}, \ref{tab:generalizability-psb2-cpp}, {tab:generalizability-he-py} and \ref{tab:generalizability-he-cpp}, where we show the number of solved problems at different cutoffs ($k$).  
-An average is taken over all runs for the experiments with multiple restarts, and the results for one run are shown for SEIDR with Codex. 
+We combine all generalizability results in tables \ref{tab:generalizability-psb2-py}-\ref{tab:generalizability-he-cpp}, where we show the number of solved problems at different cutoffs ($k$). 
+An average is taken over all runs and the results for one run are shown for SEIDR with Codex. 
 
 Note that at cutoff $k=1$, iterations of SEIDR are not taken into account, because the first program candidate is the one LLMs generate from a template, and the trees at cutoff $k=1$ have only one program in each of them, regardless of the parent selection strategy or tree arity. 
 Here, the difference between pass@1 results with different parent selection and tree arity is explained by the stochastic behavior of the underlying LLMs. 
@@ -1031,7 +1028,7 @@ We keep pass@1 results to inform the reader about the stochasticity of the model
 
 We compare the performance of PSB2 solutions synthesized with SEIDR to the PushGP genetic programming system with down-sampled lexicase selection~\cite{helmuth2022:problemsolving}. 
 To compare the performance of SEIDR with other LLMs without SEIDR, we report the average percentage of solved problems for HumanEval-X. 
-For HumanEval-X, we cite the performance of the state-of-the-art models as reported by their authors without SEIDR, such as CodeGeex~\cite{zheng2023:codegeex}, GPT-3.5 and GPT-4~\cite{openai2023:gpt4}, for reference, and compare SEIDR with GPT-3.5 and Code Llama~\cite{roziere2023:code} results at different cutoffs ($k$ for $pass@k$).
+For HumanEval-X, we cite the performance of the state-of-the-art models as reported by their authors without SEIDR, such as CodeGeex~\cite{zheng2023:codegeex}, GPT-3.5 and GPT-4~\cite{achiamGpt4TechnicalReport2023}, for reference, and compare SEIDR with GPT-3.5 and Code Llama~\cite{roziereCodeLlamaOpen2024} results at different cutoffs ($k$ for $pass@k$).
 Furthermore, we report the number of solved problems in the union of all experiments for a given dataset, model, and language, because different problems are solved in different restarts of the method. 
 We refer to these results as ``solved at least once'' hereafter.
 
