@@ -79,6 +79,9 @@ The results will be divided by the two analyzed periods: typical heat day period
 
 In the case of program synthesis, the program is generated using the most demanding conditions, that is, the peak heat day period with highly dynamic price scenario. The winning program generated for this case is simulated for the other scenarios.
 
+\paragraph{Baselines}
+BOPTEST provides a built-in baseline controller.
+
 \newpage
 \section{Implementation}
 \label{sec:boptest-impl}
@@ -91,7 +94,7 @@ In the case of program synthesis, the program is generated using the most demand
 
 \begin{enumerate}
   \item A text description of the problem is provided. A verbatim copy of the reference document for the BESTEST Hydronic Heat Pump emulator is used, followed by a line of text explaining in which format the program can communicate with the environment (via standard input and output streams). This description is inserted into the first message of a simulated chat with a programming assistant.
-  \item A continuation of the chat is sampled from the large language model $\text{LLM}_\text{code}$.
+  \item A continuation of the chat is sampled from the large language model $\policy_\text{code}$.
   \item A candidate solution is extracted from the first code block in the assistant’s response.
   \item The candidate gets to control the thermostat in BOPTEST environment for a full episode (see below). The program receives current indoor temperature and 12 hour forecasts for outside temperature and electricity cost as input and is expected to output the heat pump modulating signal.
   \item A report of the control episode is saved, including the KPIs (thermal discomfort, energy use, energy cost, CO2 emissions) and a timeline of:
@@ -103,7 +106,7 @@ In the case of program synthesis, the program is generated using the most demand
       \item Return water temperature from radiant floor.
   \end{enumerate}
   \item If the timeline is too long to fit into the context window of a language model, the timeline is resampled with average pooling, i.e. an N is selected and every N subsequent observations are replaced with their mean values.
-  \item Another language model $\text{LLM}_\text{summary}$ is used to summarize the report and generate a text report of the control episode. The values of all KPIs are appended to the text report.
+  \item Another language model $\policy_\text{summary}$ is used to summarize the report and generate a text report of the control episode. The values of all KPIs are appended to the text report.
   \item The report is appended to the chat along with a request to assistant "\textit{Can you rewrite the program to lower the costs and/or discomfort?}".
   \item Go to step 2.
 \end{enumerate}
@@ -125,7 +128,7 @@ len, hours & 0.5 & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 169 \\
 
 This way, as candidate solutions get more mature and sophisticated, they are tested more thoroughly and minor imperfections can be detected.
 
-\paragraph{Model and prompt templates} In this  chapter’s experiments we do not use different model weights for $\text{LLM}_\text{code}$ and $\text{LLM}_\text{summary}$.
+\paragraph{Model and prompt templates} In this  chapter’s experiments we do not use different model weights for $\policy_\text{code}$ and $\policy_\text{summary}$.
 Instead we use different prompt templates to make sure GPT-4 acts differently in these 2 roles.
 
 For the coding assistant role, we use the following system message:
