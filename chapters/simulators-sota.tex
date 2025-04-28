@@ -24,7 +24,7 @@ This survey only includes interactive patient simulators where a (human or softw
 
 Any interactive simulator with a prediction model and a reward model (and thus, all simulators in this chapter) can be represented as {\em Episodic Partially Observable Markov Decision Process} (EPOMDP) as described in section \ref{sec:rlcef}, so standard RL algorithms can be used in conjunction with any simulator from this chapter for treatment discovery.
 
-There are 2 notable examples of systems that can be referred to as patient simulators, but do not make it easy to evaluate treatment strategies and fall outside the scope of this survey: 
+There are 2 notable examples of systems that can be referred to as patient simulators, but do not make it easy to evaluate treatment strategies and fall outside the scope of this survey:
 \begin{enumerate}
     \item prediction models without a reward model
     \item synthetic data generators \cite{datagens}
@@ -32,15 +32,15 @@ There are 2 notable examples of systems that can be referred to as patient simul
 
 They former are tools like HumMod \cite{hummod} that help predict how change in one variable of patient health can affect another, for instance, how digoxin intake affects blood pressure.
 A reward model is absolutely necessary for the application area that we focus on in this chapter - development and validation of treatment strategies.
-Developing it is also a non-trivial problem in its own right - which health outcomes are considered \emph{good} depends on severity of the patient's condition (\emph{alive} is a sufficiently successful outcome for the most severe conditions, but not for others) as well as the patient's own preferences \cite{patpreferences1,patpreferences2}.
+Developing it is also a non-trivial problem in its own right - which health outcomes are considered \emph{good} depends on severity of the patient's condition (\emph{alive} is a sufficiently successful outcome for the most severe conditions, but not for others) as well as the patient's own preferences \cite{patpreferences1,muhlbacherPatientPreferencesPhysicians2013}.
 Thus, we view prediction models as components that can be used to develop a full simulator in the future.
 
 The latter simulate clinical scenarios by generating samples of clinical histories.
-They provide a privacy-preserving way to generate a lot of training data for treatment discovery \cite{privacy1,privacy2,privacy3,privacy4}, however, they do not model counterfactuals. That is, they do not answer questions of the sort "How would the patient's health respond to decision X"? For example, Synthea \cite{synthea} is a framework for generation of entire synthetic Electronic Health Records, EHRs, of patients, from the first to the last patient encounter, but the system does not provide ways to test alternative interventions on patients. 
+They provide a privacy-preserving way to generate a lot of training data for treatment discovery \cite{privacy1,privacy2,privacy3,privacy4}, however, they do not model counterfactuals. That is, they do not answer questions of the sort "How would the patient's health respond to decision X"? For example, Synthea \cite{synthea} is a framework for generation of entire synthetic Electronic Health Records, EHRs, of patients, from the first to the last patient encounter, but the system does not provide ways to test alternative interventions on patients.
 
 \subsection{Simulators as models}
 
-What makes an \emph{effective} patient simulator? 
+What makes an \emph{effective} patient simulator?
 We argue that there are two use cases for a patient simulator: {\sl modeling} and {\sl benchmarking}, with divergent effectiveness criteria.
 
 \begin{figure}
@@ -71,9 +71,9 @@ However, MIMIC-IV was collected in one hospital in Boston and thus represents a 
 This bias is likely to percolate into any simulator developed based on MIMIC-IV.
 
 But the most crippling type of simulator bias that makes many simulators completely unsuitable to serve as patient models is \emph{confirmation bias}.
-\emph{Confirmation bias} occurs when the developers of a simulator are aware of state of the art clinical practices and, intentionally or unintentionally, develop a simulator that rewards them and punishes alternatives.  
+\emph{Confirmation bias} occurs when the developers of a simulator are aware of state of the art clinical practices and, intentionally or unintentionally, develop a simulator that rewards them and punishes alternatives.
 In \emph{didactic} simulators used for education of clinical professionals, confirmation bias exists by design: students are, after all, trained to follow established clinical protocols.
-For a particular example of intentional confirmation bias in simulator design see \emph{Virtu-ALS} (section \ref{sec:virtu-als}). 
+For a particular example of intentional confirmation bias in simulator design see \emph{Virtu-ALS} (section \ref{sec:virtu-als}).
 In this simulator, a decision that violates the existing emergence care protocol will be registered as a mistake, explained as such to the student, and \emph{not actually implemented}.
 
 \subsection{Simulators as benchmarks}
@@ -86,18 +86,18 @@ In this simulator, a decision that violates the existing emergence care protocol
 \end{figure}
 
 Benchmarks orient AI \cite{liangHolisticEvaluationLanguage2022}. Whether it's ImageNet \cite{dengImagenetLargescaleHierarchical2009} in Computer Vision or GLUE \cite{wangGLUEMultitaskBenchmark2018} in natural language processing, benchmarks are a core research tool in mature applications of machine learning, enabling quantitative analysis of learning methodologies to guide and orient their development.
-Machine learning in Healthcare, an emergent field with unique challenges in availability of research datasets \cite{Anshik2021Handling, Gilbert2015market, Pahwa2021Big, Yazhini2019State} lacks an accepted benchmarking standard: recent literature reviews \cite{palMachineLearningHealthcare2023,tortorellaHealthcareTrendsChallenges2020} of the field cover a variety of studies that each use their own (often non-public) benchmark. The shortage of standard benchmarks has been consistently identified as a central roadblock for machine learning in Healthcare
-\cite{Crown2015Potential, David2020Evaluating, guSupervisedLearningPervasive2023, harutyunyanMultitaskLearningBenchmarking2019, Kathrin2022Benchmark, mcdermottReproducibilityMachineLearning2021, purushothamBenchmarkingDeepLearning2018, S2017Benchmark}.
+Machine learning in Healthcare, an emergent field with unique challenges in availability of research datasets \cite{Anshik2021Handling,Gilbert2015market,Pahwa2021Big,Yazhini2019State} lacks an accepted benchmarking standard: recent literature reviews \cite{palMachineLearningHealthcare2023,tortorellaHealthcareTrendsChallenges2020} of the field cover a variety of studies that each use their own (often non-public) benchmark. The shortage of standard benchmarks has been consistently identified as a central roadblock for machine learning in Healthcare
+\cite{Crown2015Potential,David2020Evaluating,guSupervisedLearningPervasive2023,harutyunyanMultitaskLearningBenchmarking2019,Kathrin2022Benchmark,mcdermottReproducibilityMachineLearning2021,purushothamBenchmarkingDeepLearning2018,S2017Benchmark}.
 
 \todo{mix}
 
-Heavily biased and otherwise inaccurate simulators should not be used as patient models and should not be used as a basis for treatment recommendations. 
+Heavily biased and otherwise inaccurate simulators should not be used as patient models and should not be used as a basis for treatment recommendations.
 However, they can make a great \emph{benchmarks} for learning algorithms.
-A benchmark is used not to develop a novel treatment strategy and apply it in the real world, but to compare different machine learning algorithms for healthcare against each other. 
-Simulators that exhibit confirmation bias are a good fit for this, since they are similar to true patient models, but unlike in a true patient model, treatments that these simulators evaluate as optimal are known beforehand. 
+A benchmark is used not to develop a novel treatment strategy and apply it in the real world, but to compare different machine learning algorithms for healthcare against each other.
+Simulators that exhibit confirmation bias are a good fit for this, since they are similar to true patient models, but unlike in a true patient model, treatments that these simulators evaluate as optimal are known beforehand.
 One can test a learning algorithm by applying it to a biased simulator and checking that the resulting strategy is equivalent to the strategy that simulator developers had in mind, as displayed on the trust graph in figure \ref{fig:benchmark}.
 
-A crucial metric for effective benchmarks is their \emph{difficulty}. 
+A crucial metric for effective benchmarks is their \emph{difficulty}.
 A \emph{difficult} simulator is one where most learning algorithms fail to discover an effective treatment strategy, i.e. a strategy that leads to positive health outcomes.
 A benchmarks's purpose is separating stronger learning algorithms from weaker ones, hence a good benchmark has to be not too difficult and not too easy.
 To get a grasp on simulator difficulty we train a baseline reinforcement learning model on each, see section \ref{sec:effectiveness}.
@@ -134,7 +134,7 @@ It provides $\prob_o(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | 
 \label{sec:gymic}
 
 \subsubsection{Scope}
-GYMIC \cite{gym-sepsis} is, unlike the previous examples, a fully data-driven simulator. 
+GYMIC \cite{gym-sepsis} is, unlike the previous examples, a fully data-driven simulator.
 It harnesses a subset of MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} dataset to address on one of the most challenging problems in emergency care - sepsis.
 The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{sepsis-motivation1,sepsis-motivation2}.
 
@@ -142,7 +142,7 @@ The authors intentionally limit their scope to just sepsis in order to simplify 
 The prediction model of GYMIC simulator is defined as a solution to the following autoregression task:
 \begin{enumerate}
     \item A clinical history is a sequence of $(\state, \action)$ tuples
-    \item $\action \in 0,\dots 24$ is one of 25 possible vasopressor or intravenous fluid interventions - a cartensian product of 5 types of interventions and 5 dosage quantiles. 
+    \item $\action \in 0,\dots 24$ is one of 25 possible vasopressor or intravenous fluid interventions - a cartensian product of 5 types of interventions and 5 dosage quantiles.
     \item $\state \in \realnums^{46}$ is the patient's state at the moment this intervention was administered.
     \item Predict the conditional state distribution $\prob_s(\state_\step, \action_\step | \state_{\step-1},\state_{\step-2},\dots,\state_1)$
 \end{enumerate}
@@ -169,7 +169,7 @@ However, in order to lower the difficulty of the simulator (delayed gratificatio
 
 \begin{multline}
 \reward\left(\state_{\step}, \state_{\step+1}\right)=C_{0} \mathbb{1}\left(\state_{\step+1}^{\mathrm{SOFA}}=\state_{\step}^{\mathrm{SOFA}} \& \state_{\step+1}^{\text{SOFA }}>0\right) + \\ +
-C_{1}\left(\state_{\step+1}^{\mathrm{SOFA}}-\state_{\step}^{\mathrm{SOFA}}\right) + 
+C_{1}\left(\state_{\step+1}^{\mathrm{SOFA}}-\state_{\step}^{\mathrm{SOFA}}\right) +
 C_{2} \tanh \left(\state_{\step+1}^{\text{Lactate }}-\state_{\step}^{\text{Lactate }}\right)
 \end{multline}
 
