@@ -5,63 +5,6 @@ Now that we've firmly established the background, we can proceed to the topic of
 Namely, implementing a proof-of-concept for Reinforcement Learning from Code Execution in Patient Simulators.
 This was intentionally avoided in the previous chapters, since, while we did find both existing program induction methods (see chapter \ref{ch:ps-methods} and existing patient simulators (see chapter \ref{ch:simulators-sota}) inadequate for the purposes of RLCEPS, testing novel methods on novel benchmarks would render it effectively impossible to meaningfully realate the results to the state of the art.
 
-\begin{comment}
-\section{Selecting the simulator}
-
-\begin{table}[]
-    \centering
-    \begin{tabular}{c|c|c|c}
-         Simulator & $\mathcal{O} $ & $\mathcal{A}$ & $\prob_r(r=0|s) \neq 1$ \\
-         \midrule
-         simglucose & $[0;+\infty)$ & $[0;35]$ & $S_{nt} \cup S_t$ \\
-         GYMIC & $[0;24]^{46}$ & $0,\dots,24$ & $S_{nt} \cup S_t$ \\
-         Virtu-ALS & $[0;256]^{307200}$ & $1,\dots,307200$ & $S_{nt} \cup S_t$ \\
-         Auto-ALS & $[0;+\infty)^{36}$ & $1,\dots,34$ & $S_{nt} \cup S_t$ \\
-         HeartPole & $\mathcal{R}^6$ & $1,\dots,4$ & $S_{nt} \cup S_t$ \\
-         GraphSim & $(-\infty;+\infty)^{26}$ & $[0;1]^{317}$ & $S_t$ \\
-    \end{tabular}
-    \caption{Summary of each simulator: POMDP view}
-    \label{tab:structview}
-\end{table}
-
-\begin{table*}[]
-    \centering
-    \begin{tabular}{c|c|c|c|c|c}
-         Simulator & Scope & data source & sample size & learning algorithm & known biases \\
-         \midrule
-         simglucose \cite{simglucose} & type 1 diabetes & original study & 32 & expert model validated on data & \\
-         GYMIC \cite{gym-sepsis} & sepsis in intensive care & MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} & 40000 & behavior cloning & overfitting \\
-         Virtu-ALS \cite{briskAIEnhanceInteractive2018} & emergency care & & & & confirmation bias \\
-         Auto-ALS & emergency care & & & & confirmation bias \\
-         HeartPole & healthy lifestyle & & & & no factual basis \\
-    \end{tabular}
-    \caption{Summary of each simulator: trust view}
-    \label{tab:trustview}
-\end{table*}
-
-How do these simulators fare with respect to \emph{accuracy} criteria we set out in the introduction? 
-The factors that contribute to a simulator's accuracy are reviewed in table \ref{tab:trustview}.
-\emph{GYMIC} and \emph{GraphSim} are the only simulators trained on a large dataset and GYMIC's accurracy has known overfitting issues.
-\emph{GraphSim} is thus the most accurate of the simulators.
-
-The most \emph{transparent} simulator is clearly \emph{HeartPole}.
-It does not aim to model any real clinical scenario accurately, but it can be a useful development tool to help scrutinize reinforcement learning algorithms.
-
-As far as \emph{difficulty} is concerned, \emph{HeartPole} \cite{heartpole}, \emph{simglucose} \cite{simglucose-baseline}, and \emph{GYMIC} \cite{gym-sepsis} are known to be solvable with relatively small models and standard reinforcement learning algorithms like DQN \cite{dqn}. 
-Thus, the only simulators \emph{difficult} enough to be benchmarks for novel approaches are \emph{Virtu-ALS} and \emph{Auto-ALS} and \emph{Auto-ALS} is the more accessible of the two.
-
-Table \ref{tab:structview} reviews the structural complexity of the simulators, a factor that directly contributes to \emph{difficulty}.
-Note that \emph{Virtu-ALS} is an unusually high-dimensional environment.
-As such, solving it is likely to require more parameters and longer training times.
-
-Automatic discovery of clinical strategies is a nascent field of research that has a potential to considerably improve patient outcomes and become a new modus operandi in healthcare research.
-The goal of this chapter is to provide a solid foundation for further development of this field with better patient simulators and better understanding thereof.
-We have reviewed the state of the art in patient simulators, identified some of the problems the field is facing and proposed novel simulators to address them.
-We believe that \emph{HeartPole} and \emph{Auto-ALS} can become new standard benchmarks for reinforcement learning in healthcare.
-
-\newpage
-\section{Selecting the algorithm}
-\end{comment}
 
 We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
 
