@@ -222,13 +222,13 @@ AssessMonitor &
    DoNothing & & \\
    \midrule
 ABG,     AirwayManoeuvres,     GiveAtropine,     GiveAdenosine,     GiveAdrenaline,     GiveAmiodarone,     GiveMidazolam,     Venflon,     Yankeur,     DrawBloods,     BPCuffOn,     BVM,     Guedel,     NRBMask,     DefibOn,     DefibAttachPads ,     DefibShock,     DefibCharge ,     DefibChangePaceCurrentDown,     DefibChangePaceCurrent,     DefibEnergyDown,     DefibEnergyUp,     DefibChangePaceRateDown,     DefibChangePaceRateUp,     DefibPace& 
-   Blunder & $r_\text{blunder}$
+   Blunder & $\reward_\text{blunder}$
    \\
    \midrule
    \multirow{2}{*}{Finish} & Failure & -1 \\
    & Success & 1 \\
    \midrule
-   - & Tick & $r_\text{tick}$ \\
+   - & Tick & $\reward_\text{tick}$ \\
   \bottomrule
 \end{tabular}
 \caption{All actions and observations of Auto-ALS}
