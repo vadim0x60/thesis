@@ -94,18 +94,12 @@ Implementing Auto-ALS requires grappling with some of the limitations of POMDP f
     \item The agent cannot respond to an observation with less than one (i.e.~zero) or more than one action. This can be fixed by modeling $\action_n)$ as a set of actions.
 \end{enumerate}
 
-Both of these problems have been successfully addresed with artificial time discretization and complex action spaces $\actions$, however this is done on a case by case basis for each particular environment. A general model that addresses these challenges would be very useful.
+Both of these problems have been successfully addressed with artificial time discretization and complex action spaces $\actions$, however this is done on a case by case basis for each particular environment. A general model that addresses these challenges would be very useful.
 
 \paragraph{Message Passing Decision Process}
 
 Let us attach a timestamp $\timepoint$ to every observation, reward and action in the decision process, making them 2-tuples. An action $\langle a, \timepoint\rangle$ is a message from the agent to the environment, an observation $\langle \obs, \timepoint \rangle$ or a reward $\langle r, \timepoint \rangle$ is a message from the environment
 to the agent. Messages can be sent as often or as rare as needed:
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{images/mpdp.png}
-\caption{Message Passing Decision Process}
-\end{figure}
 
 Observations and actions are sampled from the \emph{environment} and conditioned on the timestamp and all actions of the agent before that time:
 
@@ -120,25 +114,11 @@ timestamp and all observations before that time:
 a_\timepoint \sim \policy(a_\timepoint|\timepoint, \{ o, \timepoint_o | \timepoint_o < \timepoint \})
 \end{equation}
 
-where $\obs_\timepoint \in \obss^{+}$
-and $\action_\timepoint \in \actions^{+}$
-
-\begin{equation}
-    \obss^{+} = \{\text{no observation} \} \cup \obss
-\end{equation}
-
-\begin{equation} 
-  \actions^{+} = \{\text{noaction} \} \cup \actions
-\end{equation}
+where $\obs_\timepoint \in \obss^{+} = \{\text{no observation} \} \cup \obss$ and $\action_\timepoint \in \actions^{+} = \{\text{noaction} \} \cup \actions$
 
 \paragraph{Discretization}
 
-Real-world implementation of MPDP 
-Now that we're done with the theory, it is a good time to remember that we live in the real world and, in the real world, unless you plan to run reinforcement learning algorithms on a \href{https://royalsocietypublishing.org/doi/10.1098/rstb.2018.0372}{liquid computer} (in which case, please let us know how it goes!), evaluation of $\policy(a_\timepoint)$ will be done either by a regular computer that can only evaluate it a finite number of times a second or something even slower than that. Hence, discretization is still desirable. However, we need a discretization strategy that will make the resulting discrete decision process equivalent (or at least as equivalent as possible) to the continuous MPDP.
-
-\paragraph{Decision schedules}
-
-So we've established that the practicalities of implementing a reinforcement learning algorithm mean that in any timeframe $\langle \timepoint, \timepoint + \Delta \timepoint \rangle$ a finite number of decisions should be taken. This can be achieved by a decision schedule that is some combination of:
+Apart from liquid computers \cite{adamatzkyBriefHistoryLiquid2019}, computational hardware normally operates on a discrete time clock frequency \cite{publishingCPU2023}, thus, for most real world deployments continuous MPDP will have to be discretized, namely, in any timeframe $\langle \timepoint, \timepoint + \Delta \timepoint \rangle$ a finite number of decisions (evaluations of $\policy(a_\timepoint)$) should be made. This can be achieved by a decision schedule that is some combination of:
 
 \begin{itemize}
 \item   making a decision every time any message from the environment   (observation or reward) is received 
@@ -146,14 +126,14 @@ So we've established that the practicalities of implementing a reinforcement lea
 \item   after making a decision, scheduling a decision time $\timepoint_d$ later in the future
 \end{itemize}
 
-At every decision point the agent has to receive information about the observations that recently occured and output some number of actions (may be zero)
+At every decision point the agent has to receive information about the observations that recently occurred and output some number of actions (may be zero)
 
 \paragraph{Observation space}
 
 When an observation is modeled as $\langle \obs, \timepoint \rangle$, the most faithful way to represent the history of observations to the agent is
 
 \begin{equation} 
-\overrightarrow{\obs} = \langle \obs_1, \timepoint_1, \obs_2, \timepoint_2, \dots \rangle 
+\obs_\text{history} = \langle \obs_1, \timepoint_1, \obs_2, \timepoint_2, \dots \rangle 
 \end{equation}
 
 This representation has 2 issues: 
@@ -162,20 +142,20 @@ This representation has 2 issues:
     \item There is a common type of observation that makes older observations obsolete. For example, in a thermostat a new temperature measurement for all intents and purposes overrides the old one. In a navigation task, a new "location observed" event means you are no longer in the previous location. In Auto-ALS, new measurement of a vital sign, such as heart rate, overrides earlier ones. This has to be taken into account, lest a vast array of outdated information will be fed to the agent at every decision point.
 \end{enumerate}
 
-A solution (probably \emph{the} solution?) to these is to sort observations into \emph{observation classes} $\obs_1 \cup \obs_2 \cup \dots \cup \obs_n = O$ such that if several observations from the same class has been made, only the last of them is important. Then $\overrightarrow\{o\}$ should be a vector of the latest observation in each class
+A solution (probably \emph{the} solution?) to these is to sort observations into \emph{observation classes} $\obs_1 \cup \obs_2 \cup \dots \cup \obs_n = O$ such that if several observations from the same class has been made, only the last of them is important. Then $\obs$ should be a vector of the latest observation in each class
 
 \begin{equation} 
-  \overrightarrow{o} = \langle \obs_1 \in \obs_1, \exp(\timepoint_1-\timepoint), \dots, \obs_n \in \obs_n, \exp(\timepoint_n-\timepoint), \rangle
+  \obs_\text{history} = \langle \obs_1 \in \obs_1, \exp(\timepoint_1-\timepoint), \dots, \obs_n \in \obs_n, \exp(\timepoint_n-\timepoint), \rangle
 \end{equation}
 
 where $\timepoint$ is the decision time. 
 $\exp(\timepoint_n-\timepoint)$ is preferable to the more naive approach of $\timepoint-\timepoint_n$, because if no observation in the observation class $\obs_n$ has occurred yet, $\timepoint=-\infty$ which creates all kinds of problems for actually solving the MDP downstream. 
-$\exp(\timepoint_n-\timepoint)$ in this case would be simply zero and observations that have occured will have an exponentially decaying relevance factor attached to them - a more directly useful value for decision-making then ``time since event''.
+$\exp(\timepoint_n-\timepoint)$ in this case would be simply zero and observations that have occurred will have an exponentially decaying relevance factor attached to them - a more directly useful value for decision-making then ``time since event''.
 
 \paragraph{Action space}
 
 Using one of the decision schedules and the observation system described above, it is fairly trivial to support a variable number of actions. 
-The agent has to output an action $\action \in \actions$ and if that action is not a "no action", action sampling repeats again.
+The agent has to output an action $\action \in \actions^{+}$ and if that action is not a "no action", action sampling repeats again.
 
 \newpage
 \subsection{Observations}
