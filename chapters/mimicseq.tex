@@ -6,22 +6,6 @@
 
 \section{Introduction}
 
-\todo{Connect to other chapters}
-\todo{Make sure there is an explicit research question}
-
-\paragraph{Intensive Care databases: a nano-review}
-
-% Why intensive care is a good source of data
-Intensive Care is the medical speciality that supports patients whose lives are in immediate danger.
-As such, it requires robust real time monitoring of the patient's vital signs due to quickly identify potential deterioration \cite{Bailey2013trial, Blount2010Real, Bockholt2022Real, Dimitrios1999Distributed, Fried2000Some, Mao2012integrated, Prgomet2016Vital, Vincent2018Improving}.
-Monitoring hardware creates a datastream of variables like heart rate and blood oxygenation and, as a result, Intensive Care stands to benefit more than other fields of Healthcare from integration of data-driven models \cite{nunezreizBigDataAnalysis2019}.
-
-% Datasets
-MIMIC IV \cite{johnsonMIMICIVFreelyAccessible2023}, AmsterdamUMCdb \cite{amsterdamumcdb-a}, HiRID \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} and the eICU Collaborative Research Database \cite{pollard2018a} are databases of health records obtained from Intensive Care Units.
-Unlike many machine learning datasets, they avoid setting a standard for the parameters of the task such as which variables of a sample are to be used as features and which are to be predicted by the model, which samples are to be used for training and which are the holdout set - even what is a sample (a patient? an ICU admission? a drug? a diagnosis?). This makes them flexible and suitable for a wide array of tasks, but presents a challenge when seeking to compare different studies \cite{mcdermottReproducibilityMachineLearning2021}.
-
-Derivative benchmarks, such as the MIMIC Benchmark \cite{harutyunyanMultitaskLearningBenchmarking2019} and HiRID-ICU-Benchmark \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} seek to address the reproducibility issue: they put forth multiple datasets (one for each task) where all the information is derived from MIMIC and HiRID-ICU respectively, but is arranged specifically for the learning task at hand. They aim to become standard benchmarks for the tasks of mortality and length of stay prediction, patient fenotyping, prediction of circulatory, respiratory or kidney failure.
-
 \paragraph{Towards foundation models for Healthcare}
 
 Generalist models have demonstrated a superior performance to task specific models in many areas of machine learning \cite{reedGeneralistAgent2022} due to their ability to exploit implicit shared subtasks. 
@@ -30,7 +14,7 @@ This finding has precipitated the birth of a new paradigm known as foundation mo
 The learning tasks typically studied in Healthcare are often interrelated. 
 For example, sepsis presents a high risk of death \cite{schlichtingRecognizingManagingSevere2007} and predicting sepsis is evidently useful for predicting mortality.
 In light of existing research on generalist models, it is likely that considering them separately is counterproductive.
-This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare a particularly important research goal.
+This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare particularly important.
 
 \paragraph{Sequence modeling}
 
@@ -69,15 +53,18 @@ For a planning horizon of 1 (greedy policy) it is defined as:
 
 Thus while the paradigm of Healthcare as a Sequence Modeling task is novel, there is a robust body of research reducing Healthcare to Reinforcement Learning \cite{yuReinforcementLearningHealthcare2021} and Reinforcement Learning to Sequence Modeling \cite{chenDecisionTransformerReinforcement2021, jannerOfflineReinforcementLearning2021, schmidhuberReinforcementLearningUpside2020}. 
 
-\paragraph{Contributions}
+\paragraph{Intensive Care databases: a nano-review}
 
-In this  chapter we introduce
-\begin{itemize}
-    \item the paradigm of Healthcare as Sequence Modeling
-    \item MIMIC-SEQ: a benchmark dataset for Sequence Models of Intensive Care derived from MIMIC-IV
-    \item Evaluation guidelines for a holistic comparison of intensive care forecasting models
-    \item An MLP-based baseline model
-\end{itemize}
+% Why intensive care is a good source of data
+Intensive Care is the medical speciality that supports patients whose lives are in immediate danger.
+As such, it requires robust real time monitoring of the patient's vital signs due to quickly identify potential deterioration \cite{Bailey2013trial, Blount2010Real, Bockholt2022Real, Dimitrios1999Distributed, Fried2000Some, Mao2012integrated, Prgomet2016Vital, Vincent2018Improving}.
+Monitoring hardware creates a datastream of variables like heart rate and blood oxygenation and, as a result, Intensive Care stands to benefit more than other fields of Healthcare from integration of data-driven models \cite{nunezreizBigDataAnalysis2019}.
+
+% Datasets
+MIMIC IV \cite{johnsonMIMICIVFreelyAccessible2023}, AmsterdamUMCdb \cite{amsterdamumcdb-a}, HiRID \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} and the eICU Collaborative Research Database \cite{pollard2018a} are databases of health records obtained from Intensive Care Units.
+Unlike many machine learning datasets, they avoid setting a standard for the parameters of the task such as which variables of a sample are to be used as features and which are to be predicted by the model, which samples are to be used for training and which are the holdout set - even what is a sample (a patient? an ICU admission? a drug? a diagnosis?). This makes them flexible and suitable for a wide array of tasks, but presents a challenge when seeking to compare different studies \cite{mcdermottReproducibilityMachineLearning2021}.
+
+Derivative benchmarks, such as the MIMIC Benchmark \cite{harutyunyanMultitaskLearningBenchmarking2019} and HiRID-ICU-Benchmark \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} seek to address the reproducibility issue: they put forth multiple datasets (one for each task) where all the information is derived from MIMIC and HiRID-ICU respectively, but is arranged specifically for the learning task at hand. They aim to become standard benchmarks for the tasks of mortality and length of stay prediction, patient fenotyping, prediction of circulatory, respiratory or kidney failure.
 
 \newpage
 \section{Related Work}
@@ -91,12 +78,9 @@ Similarly to our approach,
 \section{MIMIC-SEQ}
 \label{sec:mimicsec-dataset}
 
-MIMIC-SEQ is a dataset for training foundational models for Intensive Care in the Sequence Modeling paradigm derived from MIMIC-IV.
+In this chapter we introduce MIMIC-SEQ, a dataset for training foundational models for Intensive Care in the Sequence Modeling paradigm derived from MIMIC-IV.
 It sets out a single machine learning task, with fully standardized train and test sets for reproducible comparisons between methods, while, at the same time, the task is so general that if a model accomplishes it successfully, this model can be used without fine-tuning for many narrow tasks, including mortality and length of stay prediction.
 We also provide a suite of evaluation metrics and 2 baseline models.
-
-\newpage
-\section{Building the timeseries dataset}
 
 \begin{figure}
     \centering
@@ -242,7 +226,6 @@ We test our baseline on the \emph{second day event prediction task} and summariz
         {c100}  & 0.568 & 0.885 & 0.713 & 0.632 \\
         {c1000}  & 0.500  & 0.976 & 0.710  & 0.586 \\
         {c10000}  & 0.509  & 0.996 &  0.703  & 0.589 \\ \midrule
-%        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
     \end{tabular}
   \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, entire dataset}
   \label{tab:mytable2}
@@ -268,16 +251,6 @@ For many patients it is the case that they are in the hospital for only one day.
 \end{table}
 
 
-%\begin{table}[h]
-%  \centering
-%    \begin{tabular}{lcccc} \toprule
-%        {c10000} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-%        {entire dataset}  & 0.495  & 0.996 & 0.711  &  0.583 \\ \midrule
-%        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
-%    \end{tabular}
-%  \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction with c10000 for different subsets, run again!}  \label{tab:mytable}
-%\end{table}
-
 The same setup but with 3 hidden layers and 5000 units each shows improved performance as can be seen in table \ref{tab:mytable3}. Bigger models were tested as well, but showed no further improvement.
 
 
@@ -297,23 +270,3 @@ The same setup but with 3 hidden layers and 5000 units each shows improved perfo
 
 
 Replacing ones in the one-hot encoding with the corresponding events' intensities impaired the models' performance, likely because it introduces a false equivalency between a zero-intensity event and lack of an event, i.e. "average blood pressure" is different from "no blood pressure measurement".
-
-% \begin{table}[h]
-%   \centering
-%     \begin{tabular}{SSSSSSSS} \toprule
-%         {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-%         {c10000}  & 0.339  & 0.995 &  0.687  & 0.452 \\ \midrule
-% %        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
-%     \end{tabular}
-%   \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, 500k dataset with intensity values}
-%   \label{tab:mytable}
-% \end{table}
-
-
-\newpage
-\section{Conclusion}
-
-Narrow tasks in machine learning for intensive care have been a result of technical limitations that have become less relevant with recent advances in the field. 
-We propose a more general approach, publish a dataset to support it and demonstrate its viability with a simple baseline model.
-The long term ambition of this work is to become the basis for training foundation models of intensive care using modern neural network architectures.
-Of particular interest are Transformers \cite{vaswaniAttentionAllYou2023}, Neural Controlled Differential Equations \cite{kidgerNeuralControlledDifferential2020} and Structured State Space Models \cite{guEfficientlyModelingLong2022}.
