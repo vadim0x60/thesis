@@ -71,7 +71,7 @@ Chapter \ref{ch:promise} explains the background and motivation behind the resea
 
 RLCEPS requires 2 ingredients: a patient simulator and an algorithm for Reinforcement Learning from Code Execution Feedback.
 We review the research literature in both areas (chapters \ref{ch:ps-methods} and \ref{ch:simulators-sota}), and argue that the current state of the art in each is inadequate to make RLCEPS a reality.
-In parts \ref{part:proginduction} and \ref{part:simulators} we address this and make novel contributions to RLCEF and patient simulators respectively.
+In parts \ref{part:proginduction} and \ref{part:health} we address this and make novel contributions to RLCEF and patient simulators respectively.
 
 Part \ref{part:proginduction} is dedicated to program induction methodology.
 Chapter \ref{ch:ps-methods} reviews the state of the art and identifies gaps of particular importance to RLCEPS, particularly the nascent state of \emph{Reinforcement Learning from Code Execution Feedback} (RLCEF).
@@ -81,11 +81,10 @@ Chapter \ref{ch:neurogen} improves upon the results of chapter \ref{ch:bfpp} by 
 Chapter \ref{ch:tree2tree} explores an evaluates an alternative approach: training a tree-based autoencoder model for \emph{autoencoder genetic programming} on competitive programming data.
 Finally, chapters \ref{ch:boptest} and \ref{ch:seidr} explore Reinforcement Learning from Code Execution Feedback with Large Language Models: chapter \ref{ch:boptest} argues that the key to successful application of LLMs in program induction is an iterative process of program improvement and demonstrates this in BOPTEST building optimization benchmark, while chapter \ref{ch:seidr} takes an empirical approach to selecting the optimal iterative program induction algorithm with a comprehensive matrix of experiments comparing different resolutions of the \emph{repair-replace tradeoff} on PSB2 and HumanEval datasets.
 
-Part \ref{part:simulators} is dedicated to patient simulators for reinforcement learning.
+Part \ref{part:health} is dedicated to patient simulators for reinforcement learning.
 Chapter \ref{ch:simulators-sota} reviews the existing patient simulators and identifies major issues, particularly the fact they are based on dangerously small datasets.
-Chapter \ref{ch:heartpole} introduces a simple and deliberately clinically inaccurate simulator to be used as a sanity check in part \ref{part:RLCEPS}.
+Chapter \ref{ch:heartpole} introduces a simple and deliberately clinically inaccurate simulator to be used as a sanity check.
 Chapter \ref{ch:auto-als} introduces Auto-ALS: an \emph{antropodidactic} emergency care simulator based on a training software package for junior healthcare professionals.
 Finally, chapter \ref{ch:mimicseq} makes the first step towards a big data driven patient simulator, proposing a sequential dataset for training foundation models in intensive care.
 
-Part \ref{part:RLCEPS} concludes the thesis: chapter \ref{ch:rlceps-eval} implements a limited proof of concept RLCEPS system with program induction methodology proposed in chapter \ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole} and \ref{ch:auto-als}.
-Chapter \ref{ch:conclusion} discusses the results and the implications thereof for the future of program synthesis in healthcare.
+Part \ref{part:conclusion} concludes the thesis: chapter \ref{ch:conclusion} discusses the results and the implications thereof for the future of program synthesis in healthcare.

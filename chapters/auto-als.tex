@@ -1,10 +1,6 @@
 \chapter{Anthropodidactic learning: Auto-ALS}
 \label{ch:auto-als}
 
-\begin{remark}
-  An earlier revision of this chapter \cite[section 3.1]{liventsevEffectivePatientSimulators2021} has been published in Frontiers in Artificial Intelligence. Auto-ALS was unveiled at HEALTHINF 2023.
-\end{remark}
-
 \todo{Make sure a research question is explicitly mentioned}
 \todo{Make sure Aki's comments are copied as TODOs}
 
@@ -44,6 +40,10 @@ Didactic materials are a large class of useful data waiting for someone to turn 
 \newpage
 \section{Auto-ALS}
 \label{sec:auto-als}
+
+\begin{remark}
+  An earlier revision of this section \cite[section 3.1]{liventsevEffectivePatientSimulators2021} has been published in Frontiers in Artificial Intelligence. Auto-ALS was unveiled at HEALTHINF 2023.
+\end{remark}
 
 \todo{Get technical details from github}
 
@@ -254,3 +254,88 @@ ABG,     AirwayManoeuvres,     GiveAtropine,     GiveAdenosine,     GiveAdrenali
 \caption{All actions and observations of Auto-ALS}
 \label{tab:auto-als}
 \end{table}
+
+
+
+We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        model & $\treearity_\text{draft}$ & $\treearity_\text{explain}$ & $\treearity_\text{debug}$ & $\beamwidth$ & selection \\
+        \midrule
+        gpt-4o & 3 & 2 & 2 & 5 & tournament
+    \end{tabular}
+    \caption{Hyperparameter choice for evaluating RLCEPS on Auto-ALS}
+    \label{tab:rlceps-auto-als}
+\end{table}
+
+\newpage
+\section{Auto-ALS results}
+
+\paragraph{Prompts}
+
+Consider the summary table of the ABCDE protocol:
+
+\begin{lstlisting}
++-----------------+---------------------------------------------------+
+| Assessment      | Treatment                                         |
++=================+===================================================+
+| A – Airways     | Voice                                             |
+|                 | Breath sounds                                     |
+|                 | Oxygen (15 l min−1) Suction                       |
++-----------------+---------------------------------------------------+
+| B – Breathing   | Respiratory rate (12–20 min−1)                    |
+|                 | Chest wall movements                              |
+|                 | Chest percussion                                  |
+|                 | Lung auscultation                                 |
+|                 | Pulse oximetry (97%–100%)                         |
++-----------------+---------------------------------------------------+
+|                 | Seat comfortably                                  |
+|                 | Rescue breaths                                    |
+|                 | Inhaled medications                               |
+|                 | Bag-mask ventilation                              |
+|                 | Decompress tension pneumothorax                   |
++-----------------+---------------------------------------------------+
+| C – Circulation | Skin color, sweating                              |
+|                 | Capillary refill time (<2 s)                      |
+|                 | Palpate pulse rate (60–100 min−1)                 |
+|                 | Heart auscultation                                |
+|                 | Blood pressure (systolic 100–140 mmHg)            |
+|                 | Electrocardiography monitoring                    |
++-----------------+---------------------------------------------------+
+|                 | Stop bleeding                                     |
+|                 | Elevate legs                                      |
+|                 | Intravenous access                                |
+|                 | Infuse saline                                     |
++-----------------+---------------------------------------------------+
+| D – Disability  | Level of consciousness – AVPU                     |
+|                 | Alert                                             |
+|                 | Voice responsive                                  |
+|                 | Pain responsive                                   |
+|                 | Unresponsive                                      |
+|                 | Limb movements                                    |
+|                 | Pupillary light reflexes                          |
+|                 | Blood glucose                                     |
++-----------------+---------------------------------------------------+
+|                 | Treat Airway, Breathing, and Circulation problems |
+|                 | Recovery position                                 |
+|                 | Glucose for hypoglycemia                          |
++-----------------+---------------------------------------------------+
+| E - Exposure    | Expose skin                                       |
+|                 | Temperature                                       |
++-----------------+---------------------------------------------------+
+|                 | Treat suspected cause                             |
++-----------------+---------------------------------------------------+
+\end{lstlisting}
+
+Due to the inherent stochasticity of the environment (see chapter \ref{ch:auto-als}) we use 2 tests, which are 2 identical copies of the Auto-ALS environment.
+Since lexicase selection assumes multiple deterministic tests, tournament selection is used instead.
+We add hard limits on the length of the episode in terms of time (3 hours) as well as steps (350 environment steps).
+The initial prompt is as follows:
+
+\lstinputlisting{listings/metanurse_prompt.txt}
+
+and, on iteration 37, the following snippet emerges, that will not be beaten until the end of the experiment (4697 iterations):
+
+\lstinputlisting{listings/auto-als.py}

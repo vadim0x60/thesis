@@ -5,14 +5,12 @@ The field of automatic programming has progressed a lot in the timespan of the w
 Major topics of contention shifted from "can program synthesis be extended from logic and functional to imperative programming languages?" \cite{polikarpovaStructuringSynthesisHeapmanipulating2019} to "should software developers read the code they deploy?" \cite{andrejkarpathy[@karpathy]TheresNewKind2025}.
 Competitive programming is at a historical stage at which chess was in 1996 \cite{pandolfiniKasparovDeepBlue1997} where the top 0.2\% human competitors still outperform the top algorithms \cite{openaiCompetitiveProgrammingLarge2025}.
 Part \ref{part:proginduction} traces these developments like a fossil record, from domain specific languages in chapters \ref{ch:bfpp} and \ref{ch:neurogen} to test time scaling of language models in chapters \ref{ch:boptest} and \ref{ch:seidr}, advancing the state of the art in both areas.
+It concludes with introduction and validation of \emph{Synthesize Execute Debug Instruct Rank} - a program synthesis framework that introduces testing into language model driven program synthesis for the benefit of safety-critical domains such as healthcare.
 
-However, application of program synthesis in safety critical domains such as Healthcare as discussed in chapter \ref{ch:promise} remain rare.
-Chapter \ref{ch:proposal} proposed RLCEPS: a framework for improving quality of care with program synthesis technology.
-Chapters \ref{ch:heartpole}-\ref{ch:mimicseq} introduced a suit of novel benchmarks to train and validate RLCEPS before it can be deployed in real life settings.
+Part \ref{part:health} demonstrates that in conjunction with a patient simulator, SEIDR can be used to automatically discover treatment strategies for healthcare settings.
+At the same time, our RLCEPS (chapter \ref{ch:proposal}) experiments demonstrate the limitations of the method: in particular, the Auto-ALS benchmark remains unsolved.
 
-Finally, with these foundations laid, chapter \ref{ch:rlceps-eval} presented a RLCEPS prototype for HeartPole and Virtu-ALS benchmarks that shows both the great promise of the approach and where it currently falls short.
-Based on these results, one cannot claim that deep program induction for personal healthcare has been \emph{solved}.
-It is not even certain that state-of-the-art methods of \emph{reinforcement learning from code execution feedback} are as of the date of present publication fully ready to be deployed in such sensitive contexts.
-But one can be reasonably certain that they will play a role in the future of healthcare and justifiably hopeful that advances introduced in chapters \ref{ch:bfpp}-\ref{ch:seidr} and \ref{ch:heartpole}-\ref{ch:mimicseq} will play a role in this transition.
+Consequently, one cannot claim that state-of-the-art methods of \emph{reinforcement learning from code execution feedback} are as of the date of present publication ready to be deployed in such sensitive contexts.
+But one can be reasonably certain that they will play a role in the future of healthcare and justifiably hopeful that program synthesis methods introduced in chapters \ref{ch:bfpp}-\ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole}-\ref{ch:mimicseq} will play a role in this transition.
 
 \emph{Finis tantum principium est}.

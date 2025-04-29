@@ -39,7 +39,7 @@ The agent receives small positive rewards for productivity and a very large nega
 
 Every half an hour awake, the agent observes $\state_\step$ and picks an action $\action_\step$ from discrete action space of \emph{just work}, \emph{drink coffee} (increases $\state^\text{alert}$ and $\state^\text{hypert}$), \emph{drink beer} (decreases $\state^\text{alert}$, increases $\state^\text{hypert}$ and $\state^\text{tox}_\step$) and \emph{go to bed} (sleep takes a lot of time, but reduces $\state^\text{hypert}$ and $\state^\text{tox}_\step$ and without it alertness starts to fall very fast)
 
-\section{Experiments}
+\section{Reinforcement Learning}
 \label{sec:heartpole-experiments}
 
 \todo{cite deceptive diversity}
@@ -68,3 +68,25 @@ Scores in table \ref{tab:heartpole-results} are obtained by averaging over total
 We have observed that during first epochs of training the models invariably tend towards high coffee and alcohol consumption (behavior with immediate positive reinforcement but long-term negative side effects), but then converge to more conservative strategies focused on timing sleep correctly and avoiding drinks. 
 This, together with the fact that only one of RL algorithms has outperformed the reference strategy supports our claim that HeartPole is \emph{non-trivial}.
 At the same time it provides a high level of \emph{transparency}, making it easy to develop and analyze algorithms for reinforcement learning in Healthcare.
+
+\newpage
+\section{Program Synthesis}
+\todo{Turn this into actual text}
+
+\paragraph{Prompts}
+
+\paragraph{Generated program}
+
+With a Deepseek model:
+
+\lstinputlisting{listings/metanurse-deepseek.py}
+
+With GPT:
+
+\lstinputlisting{listings/metanurse-gpt.py}
+
+for 2868 iterations
+
+\paragraph{Evaluation}
+
+\input{tables/rlceps-metaheartpole.tex}
