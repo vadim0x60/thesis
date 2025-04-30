@@ -32,7 +32,7 @@ Reinforcement learning on live patients is both unethical and infeasible.
 Instead, one can take a multi-stage learning approach described on figure \ref{fig:RLCEPS}: 
 \begin{enumerate}
   \item Use imitation learning on clinical histories to develop an accurate patient simulator
-  \item Use reinforcement learning to develop a decision support system that can potentially achieve better health outcomes for the patient than the clinican
+  \item Use reinforcement learning to develop a decision support system that can potentially achieve better health outcomes for the patient than the clinician
 \end{enumerate}
 
 \begin{figure}
@@ -51,3 +51,9 @@ Reinforcement Learning from Code Evaluation in Patient Simulators (RLCEPS) is \e
 As the intersection of reinforcement learning and program synthesis in Healthcare, it combines the high degree of expert supervision afforded by program synthesis with the opportunity to exceed human performance in some areas afforded by reinforcement learning.
 This makes RLCEPS a powerful framework for developing decision support systems in Healthcare.
 \end{highlight}
+
+The rest of the thesis is dedicated to developing a proof of concept of RLCEPS.
+Due to the novelty of the paradigm, it will require advances in both program synthesis and patient simulators.
+This potentially puts us in the unfortunate position of testing novel methods in novel settings, which would preclude effective comparison with the state of the art.
+To address this issue, in part \ref{part:proginduction} of the thesis healthcare related reinforcement learning environments are avoided entirely and the proposed program synthesis methodologies are evaluated on existing and widely used benchmarks.
+Part \ref{part:health} addresses the gap in patient simulators and provides both a traditional reinforcement learning baseline and a program synthesis experiment for each of the simulators.
