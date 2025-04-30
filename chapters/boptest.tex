@@ -41,15 +41,29 @@ This chapter is dedicated to \rqboptest:
 \end{highlight}
 
 \newpage
-\section{Evaluation environment}
+\section{Evaluation}
 \label{sec:BOPTEST}
-The Building Optimization Testing (BOPTEST) framework \cite{blumBuildingOptimizationTesting2021} is used for a fair evaluation and benchmarking of both control solutions. The framework provides a simulation environment with different emulator buildings with boundary conditions (weather and electricity pricing) and baseline controllers. The simulation framework provides a series of Key Performance Indicators (KPI) that can be used to address the performance.
+
+\paragraph{Choice of environment}
+
+To evaluate \emph{Synthesize, Execute, Debug} we select the Building Optimization Testing (BOPTEST) framework \cite{blumBuildingOptimizationTesting2021}.
+The framework provides a simulation environment with different emulator buildings with boundary conditions (weather and electricity pricing) and baseline controllers. 
+The simulation framework provides a series of Key Performance Indicators (KPI) that can be used to address the performance.
+
+The choice of BOPTEST is motivated by 
+\begin{enumerate}
+\item its extraordinary \emph{transparency}. As will be discussed further in section \ref{sec:simulators-as-benchmarks}, transparency is crucial for the researcher's capability to validate and improve the algorithm.
+The developers of BOPTEST provide code, (interpretable) formulas and documentation for both the physics model, predicting the effects of various interventions on a building, and the reward model that consists of several independent key performance indicators.
+\item the analogous nature of healthcare and building optimization: in both tasks one strives to keep a complex organism (a patient or a building) within a certain healthy range of parameters with minimal intervention (to control costs and avoid side effects). This makes BOPTEST an important study case for RLCEPS.
+\item some helpful institutional connections we had to BOPTEST researchers.
+\end{enumerate}
 
 \paragraph{Scenarios}
 
-In this study, the BESTEST Hydronic Heat Pump emulator is selected. This emulator represents a residential dwelling of 192 m2 for a family of 5 members located in Brussels (Belgium).  The heating system, depicted in \ref{fig:bestest-heatpump}, is composed of a 15 kW air-to-water modulating heat pump to absorb energy from the surrounding air in order to heat the floor heating system. During the operation of a heat pump, the evaporator fan facilitates the circulation of ambient air through the heat pump evaporator. The floor heating system uses water as the working fluid to transfer heat into the floor. The building envelope model is implemented using the IDEAS~\cite{jorissenImplementationVerificationIDEAS2018} library. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The building further contains 24 m2 of windows on the south facade.
-%
-Figure \ref{fig:bestest-heatpump} shows an schematic of the bestest hydronic heat pump emulator, reflecting the variables that are considered for this study.
+In this study, the BESTEST Hydronic Heat Pump emulator is selected. This emulator represents a residential dwelling of 192 m2 for a family of 5 members located in Brussels (Belgium). 
+The heating system is composed of a 15 kW air-to-water modulating heat pump to absorb energy from the surrounding air in order to heat the floor heating system. During the operation of a heat pump, the evaporator fan facilitates the circulation of ambient air through the heat pump evaporator. 
+The floor heating system uses water as the working fluid to transfer heat into the floor. The building envelope model is implemented using the IDEAS~\cite{jorissenImplementationVerificationIDEAS2018} library. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The building further contains 24 m2 of windows on the south facade.
+
 Two different testing periods are available for this emulator:
 \begin{itemize}
     \item \emph{The peak heat day period}. A two-week testing period preceded by a one.week warmup period during which the baseline control is utilized. The two weeks for testing are centered arounf the day of the year that experiences the highest 15-minute system heating demand. This period runs from day 16 to day 30 of the year.
