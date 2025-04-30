@@ -67,7 +67,7 @@ The design intention is to allow higher layers to capture longer-term dependenci
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{pooling.pdf}
-    \caption[RNN pooling]{\textbf{Top}: Typical architecture of encoder model of VAE in which only the last hidden state from the RNN is used to compute the mean $\mean$ and variance $\stddev^2$. \textbf{Bottom}: A pooling method to aggregate RNN hidden states to compute the mean $\mean$ and variance $\stddev^2$.}
+    \caption[RNN pooling]{\textbf{Top}: Typical architecture of encoder model of VAE in which only the last hidden state from the RNN is used to compute mean $\mean$ and variance $\stddev^2$. \textbf{Bottom}: A pooling method to aggregate RNN hidden states to compute mean $\mean$ and variance $\stddev^2$.}
     \label{fig:pooling}
 \end{figure}
 
@@ -334,7 +334,7 @@ We also measure program size in terms of number of tokens: keywords, identifiers
 \end{figure}
 
 The programs in the dataset generally contain a main function, standard input and output stream elements, computation and memory optimizations, and possibly other elements such as helper functions/classes. Due to this general structure, the programs tend to overlap in their content, in contrast to, for example, natural language sentences. 
-Due to the limitations on performance imposed by code contests, these programs contain an unusually high amount of low-level optimizations, such as \verb|sync_wit\hidden_stdio(false); cin.tie(nullptr);| for faster input and output \cite{FastInputOutput}.
+Due to the limitations on performance imposed by code contests, these programs contain an unusually high amount of low-level optimizations, such as \verb|sync_wit\hidden_stdio(false); cin.tie(nullptr);| for faster input and output \cite{usacoFastInputOutput}.
 
 \subsection{Pre-processing}
 \label{sec:tree2tree-preprocessing}
