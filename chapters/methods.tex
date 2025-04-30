@@ -122,7 +122,7 @@ Modern copilot tools largely owe their power to unsupervised pretraining, descri
 \label{sec:pretrain}
 
 In \emph{unsupervised pretraining} a model is first trained on an unstructured dataset.
-This model that acts as a \emph{foundation model} \cite{yangFoundationModelsDecision2023, yuanPowerFoundationModels2023, zhouComprehensiveSurveyPretrained2023} that can be adapted to solving more specific practical tasks via fine tuning \cite{panTransferLearning2020, weissSurveyTransferLearning2016a, zhuangComprehensiveSurveyTransfer2020} or composition \cite{shivakumarStudyImpactLanguage2017}.
+This model that acts as a \emph{foundation model} \cite{yangFoundationModelsDecision2023, yuanPowerFoundationModels2023, zhouComprehensiveSurveyPretrained2023} that can be adapted to solving more specific practical tasks via fine tuning \cite{panTransferLearning2020, weissSurveyTransferLearning2016, zhuangComprehensiveSurveyTransfer2020} or composition \cite{shivakumarStudyImpactLanguage2017}.
 In practice, foundation models of code are usually \emph{autoregressive} models trained to carry out \emph{next-token prediction} \cite{shlegerisLanguageModelsAre2024} - a task that does not require a structured dataset (a corpus of programs is enough) and has clear downstream applications such as programming copilots (see section \ref{sec:sketching}).
 This paradigm is an attractive solution to the \emph{sparsity problem}, as it allows for a model to learn a subspace of the space of all possible strings that contains known programs in a data driven fashion.
 
