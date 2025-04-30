@@ -276,13 +276,14 @@ Our experiments use the Program Synthesis Benchmark~2 (PSB2)~\cite{helmuth2022:a
 The key criteria for this choice are the availability of task descriptions in English and unit tests in Python and C++ or language-agnostic unit tests as well as the wide acceptance of these benchmarks in the areas of generative LLMs (HumanEval) and genetic programming (PSB2). 
 
 \paragraph{PSB2}
-The first dataset is a benchmark suite of 25 problems for program synthesis that resemble small real-world tasks. PSB2 was developed as a more realistic and challenging version of PSB1~\cite{helmuth2015:general}, the latter consisting of textbook problems and is widely used in genetic programming~\cite{sobania2022:choose}. 
+The first dataset is a benchmark suite of 25 problems for program synthesis that resemble small real-world tasks. 
+PSB2 was developed as a more realistic and challenging version of PSB1~\cite{helmuth2015:general}, the latter consisting of textbook problems and is widely used in genetic programming~\cite{sobania2022:choose}. 
 The problems require different data structures and control flows to be used for effective solutions and are taken from sources, such as competitive programming platforms and educational courses. 
 The problems have descriptions in English, as well as 1 million~(M) tests (as I/O pairs) for training and 1M testing-stage tests, including edge or corner cases that test the resulting program on complicated inputs. 
+Additionally, PSB2 provides baseline scores achieved by PushGP~\cite{spectorAutoconstructiveEvolutionPush2001}, a genetic programming framework that combines the built-in code manipulation capabilities of programming languages of the LISP family~\cite{b.HowStrengthsLispfamily2016a, c.LispSmallPieces2003a, e.SyntacticExtensionsProgramming1986a, grahamHundredYearLanguage, j.RecursiveFunctionsSymbolic1960a} with state-of-the-art evolutionary optimization techniques.
 
-In PSB1, the training set consists of the edge test cases and is augmented by random test cases if the number of edge tests is not enough. The test set is formed by random test cases. 
-This terminology is preserved in PSB2.
 We use the PSB2 training set for ranking and selection of programs (validation) within an experiment and the test set for reporting the result thereof (testing).
+We use exclusively edge test cases (since they tend to be more informative) and only augment random test cases if the number of cases is not enough.
 Thus, we will refer to the PSB2 training set as the \emph{validation set}, to be more consistent with how it is used in SEIDR.
 
 \paragraph{HumanEval-X}
@@ -296,7 +297,6 @@ The test functions of HumanEval-X contain all tests in one function. We split th
 On average, the number of tests in HumanEval-Python is 7.25 and 6.95 in HumanEval-C++, which is appointed to a repeated additional test present in some HumanEval-Python examples of the following type: \texttt{assert True, "This prints if this assert fails 1 (good for debugging!)"}.
 This test type is not present in HumanEval-C++.
 
-To reiterate, we keep the original HumanEval-Python setup for direct comparison with the models tested on this benchmark without SEIDR. 
 Because of the limited number of tests, we pass up to five tests to the draft prompt and make all tests visible to SEIDR for the debugging loop. 
 In other words, we do not have a held-out test split for HumanEval-X in the same manner as we do for PSB2.
 

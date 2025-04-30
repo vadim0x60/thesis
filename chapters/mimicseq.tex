@@ -9,7 +9,7 @@
 \paragraph{Towards foundation models for Healthcare}
 
 Generalist models have demonstrated a superior performance to task specific models in many areas of machine learning \cite{reedGeneralistAgent2022} due to their ability to exploit implicit shared subtasks. 
-This finding has precipitated the birth of a new paradigm known as foundation models \cite{zhouComprehensiveSurveyPretrained2023} - models trained on an all-encompassing dataset (such as the dataset that attempts to approximate all written text \cite{chelbaOneBillionWord2013}) and designed to be adapted to a broad array of specific downstream tasks.
+This finding has precipitated the birth of a new paradigm known as foundation models (see section \ref{sec:pretrain}) - models trained on an all-encompassing dataset (such as the dataset that attempts to approximate all written text \cite{chelbaOneBillionWord2013}) and designed to be adapted to a broad array of specific downstream tasks.
 
 The learning tasks typically studied in Healthcare are often interrelated. 
 For example, sepsis presents a high risk of death \cite{schlichtingRecognizingManagingSevere2007} and predicting sepsis is evidently useful for predicting mortality.
@@ -18,7 +18,7 @@ This, together with the vital societal importance of access to healthcare amidst
 
 \paragraph{Sequence modeling}
 
-Foundation models (see section \ref{sec:pretrain}) tend to be sequence models: estimating the probability a sequence of fixed-size elements $\hat{p}(t_1, \dots, t_n)$ typically modeled as conditional probability of one (usually last) element given others $\hat{p}(t_n | t_1, \dots, t_n)$ since most tasks in machine learning can be represented as sequence modeling. 
+Foundation models tend to be sequence models: estimating the probability a sequence of fixed-size elements $\hat{p}(t_1, \dots, t_n)$ typically modeled as conditional probability of one (usually last) element given others $\hat{p}(t_n | t_1, \dots, t_n)$ since most tasks in machine learning can be represented as sequence modeling. 
 There is evidence that this generality is a fundamental property of sequence models: see proofs that Recurrent Neural Networks \cite{siegelmannComputationTuringLimit1995} and Attention \cite{perezAttentionTuringComplete} are Turing-complete.
 
 \paragraph{Healthcare as Sequence Modeling}

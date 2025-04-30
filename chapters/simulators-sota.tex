@@ -77,6 +77,7 @@ For a particular example of intentional confirmation bias in simulator design se
 In this simulator, a decision that violates the existing emergence care protocol will be registered as a mistake, explained as such to the student, and \emph{not actually implemented}.
 
 \subsection{Simulators as benchmarks}
+\label{sec:simulators-as-benchmarks}
 
 \begin{remark}
     Parts of this section have been included in a preprint \cite{liventsevPhilHumansBenchmarkingMachine2024}
@@ -108,8 +109,9 @@ When a learning algorithm fails to discover an effective treatment strategy, it 
 Any information output by the simulator other than its predictions as well as having easy access to its internal logic can be useful for developers.
 
 Didactic simulators can be particularly good benchmarks (to be discussed in chapter \ref{ch:auto-als}), but synthetic games akin to CartPole \cite{cartpole} and MountainCar \cite{mountain_car} (commonly used as benchmarks for Reinforcement Learning algorithms) that aim to mimic only certain aspects of real life healthcare tasks can also be used.
-A particularly illustrative example is \emph{Healing MNIST} \cite{healing-mnist} - a modified version of the industry standard MNIST Handwritten Digits \cite{mnist} dataset to which rotations and random noise have been added.
+One particularly illustrative example is \emph{Healing MNIST} \cite{healing-mnist} - a modified version of the industry standard MNIST Handwritten Digits \cite{mnist} dataset to which rotations and random noise have been added.
 The authors argue that this dataset reflects important properties of healthcare tasks: rotations represent evolution of patient state over time, while the randomised "squares within the sequences are intended to be analogous to seasonal flu or other ailments that a patient could exhibit that are independent of the actions and which last several timesteps."
+Another example is indeed this thesis, and the use of the BOPTEST framework in chapter \ref{ch:boptest} motivated by some acute similarities between the tasks of building optimization and healthcare.
 Due to the data shortage in Healthcare many proposals for data-driven clinical decision support systems are tested on such relatively unrealistic benchmarks with the assumption that the system can be retrained on real patient data and simulators shall they arrive in the future.
 
 \newpage

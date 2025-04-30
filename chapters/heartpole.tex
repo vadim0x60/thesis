@@ -44,7 +44,7 @@ Every half an hour awake, the agent observes $\state_\step$ and picks an action 
 
 \todo{cite deceptive diversity}
 
-We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{cem}, SARSA \cite[Chapter 6]{thebook} and DQN \cite{dqn1,dqn2} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
+We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{cem}, SARSA \cite[Chapter 6]{suttonReinforcementLearningSecond2018} and DQN \cite{dqn1,dqn2} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
 
 We train all models with \texttt{keras-rl} \cite{kerasrl}, limiting all episodes to 1000 steps, and test 20 times.
 Scores in table \ref{tab:heartpole-results} are obtained by averaging over total rewards for the 20 test episodes.
