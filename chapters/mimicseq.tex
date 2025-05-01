@@ -6,7 +6,7 @@
 
 \section{Introduction}
 
-\paragraph{Towards foundation models for Healthcare}
+\subsection{Towards foundation models for Healthcare}
 
 Generalist models have demonstrated a superior performance to task specific models in many areas of machine learning \cite{reedGeneralistAgent2022} due to their ability to exploit implicit shared subtasks. 
 This finding has precipitated the birth of a new paradigm known as foundation models (see section \ref{sec:pretrain}) - models trained on an all-encompassing dataset (such as the dataset that attempts to approximate all written text \cite{chelbaOneBillionWord2013}) and designed to be adapted to a broad array of specific downstream tasks.
@@ -16,12 +16,12 @@ For example, sepsis presents a high risk of death \cite{schlichtingRecognizingMa
 In light of existing research on generalist models, it is likely that considering them separately is counterproductive.
 This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare particularly important.
 
-\paragraph{Sequence modeling}
+\subsection{Sequence modeling}
 
 Foundation models tend to be sequence models: estimating the probability a sequence of fixed-size elements $\hat{p}(t_1, \dots, t_n)$ typically modeled as conditional probability of one (usually last) element given others $\hat{p}(t_n | t_1, \dots, t_n)$ since most tasks in machine learning can be represented as sequence modeling. 
 There is evidence that this generality is a fundamental property of sequence models: see proofs that Recurrent Neural Networks \cite{siegelmannComputationTuringLimit1995} and Attention \cite{perezAttentionTuringComplete} are Turing-complete.
 
-\paragraph{Healthcare as Sequence Modeling}
+\subsection{Healthcare as Sequence Modeling}
 \label{sec:sequencemodel}
 
 As discussed in chapter \ref{sec:pretrain}, sequence modeling is one of the most generally applicable formalisms in machine learning.
@@ -53,7 +53,7 @@ For a planning horizon of 1 (greedy policy) it is defined as:
 
 Thus while the paradigm of Healthcare as a Sequence Modeling task is novel, there is a robust body of research reducing Healthcare to Reinforcement Learning \cite{yuReinforcementLearningHealthcare2021} and Reinforcement Learning to Sequence Modeling \cite{chenDecisionTransformerReinforcement2021, jannerOfflineReinforcementLearning2021, schmidhuberReinforcementLearningUpside2020}. 
 
-\paragraph{Intensive Care databases: a nano-review}
+\subsection{Intensive Care databases: a nano-review}
 
 % Why intensive care is a good source of data
 Intensive Care is the medical speciality that supports patients whose lives are in immediate danger.
@@ -116,7 +116,7 @@ Intensities may represent dosages of drugs or other quantitative measures (chart
 Events that have a duration, such as medication administrations, are recorded as 2 events: "start X" and "end X". 
 Demographic information, including ethnicity, gender, and age, is recorded as a dummy event ocurring the time of admission.
 
-\paragraph{Resulting dataset}
+\subsection{Resulting dataset}
 
 \begin{remark}
     Use the replication package \cite{liventsevVadim0x60Mimicseq2024} to generate a copy of MIMIC-SEQ
@@ -169,7 +169,7 @@ MIMIC-SEQ contains 481374190 clinical events in 522740 train and 10000 test epis
 It is publicly available, subject to (no cost, open to everyone) MIMIC-IV data use agreement.
 See the dataset repository.
 
-\paragraph{Clustering}
+\subsection{Clustering}
 
 87899 event types is a very fine-grained view of the intensive care scenario that differentiates, for example, between different versions of the same drug (say, pills and tablets).
 This is done intentionally to pave the way for sophisticated models, however, we recognize that a simplified version of the task can be helpful.
@@ -177,7 +177,7 @@ To that end, we enrich the dataset with 4 \emph{clusterings}: c10, c100, c1000 a
 They are achieved by embedding each event type label with OpenAI's \emph{ada2} embedding model and running a k-means clustering algorithm in the induced latent space.
 As a result, one can train a model for simplified \emph{clustered} versions the task making predictions in terms of broad event categories, not individual event types.
 
-\paragraph{Evaluation guidelines}
+\subsection{Evaluation guidelines}
 
 We suggest evaluating forecasting models on 2 test tasks using the holdout patient histories:
 \begin{description}
@@ -198,7 +198,7 @@ The latter is a \emph{regression task} and the recommended metric is $R^2$ coeff
 \emph{Event prediction} can be done in the space of concrete events or in the space of clusters c10, c100, c1000, c10000.
 So, in total, a model evaluation includes 10 binary classification tasks (second day prediction and last day prediction for each event granularity) and 2 regression tasks.
 
-\paragraph{Relationship to existing benchmarks}
+\subsection{Relationship to existing benchmarks}
 
 A predictive model trained on \emph{MIMIC-SEQ} can perform the standard tasks used in current benchmarks \cite{harutyunyanMultitaskLearningBenchmarking2019}, such as
 \begin{itemize}
