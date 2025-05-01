@@ -37,7 +37,7 @@ The advantages of \emph{Synthesize, Execute, Debug} are two-fold:
 This chapter is dedicated to \rqboptest:
 
 \begin{highlight}
-  Can \emph{Synthesize, Execute, Debug} with a large language model outperform traditional methods such as model predictive control in a realistic simulated environment?
+  How does \emph{Synthesize, Execute, Debug} compare to traditional methods such as model predictive control in a realistic simulated environment?
 \end{highlight}
 
 \newpage
@@ -75,7 +75,8 @@ and 3 electricity pricing regimes:
     \item \emph{Highly dynamic electricity price}. The power price scenario is determined by the day-ahead energy prices in the BELPEX wholesale electricity market in Belgium during the year 2019.  It should be noted that the prices mentioned above are subject to additional charges in the form of constant gearbox fees and taxes, which amount to 0.20 EUR per kilowatt-hour.
 \end{enumerate} 
 
-We use all 6 available scenarios for algorithm evaluation. 
+We use only the most challenging scenario, namely, \emph{peak heat day period} with \emph{highly dynamic electricity price}, for feedback in the iterative development loop. 
+We then proceed to use all 6 available scenarios for final evaluation. 
 For each scenario, the second week is chosen for testing, that is, from day 23 to 30 in the peak heat period, and between days 115 and 122 for typical heat day period.
 
 \subsection{Reward model}
@@ -89,9 +90,8 @@ For each scenario, the KPIs provided by the BOPTEST framework are evaluated.
  \end{description}
 The KPIs on which the results analysis will focus are thermal discomfort and energy cost, as they assess the performance of the controllers for the two defined objectives: guarantee thermal comfort and minimize the energy cost.
 
-The results will be divided by the two analyzed periods: typical heat day period and peak heat day period.
-
-In the case of program synthesis, the program is generated using the most demanding conditions, that is, the peak heat day period with highly dynamic price scenario. The winning program generated for this case is simulated for the other scenarios.
+A reward $\reward$ can be computed as a weighted sum of the KPIs depending on the priorities of the researcher/developer.
+However, in our case, interestingly, this is not required by the program induction algorithm nor the baseline: KPIs can be communicated to the algorithm separately.
 
 \subsection{Baselines}
 
