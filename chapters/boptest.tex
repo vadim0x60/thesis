@@ -46,8 +46,6 @@ This chapter is dedicated to \rqboptest:
 
 \subsection{Evaluation environment}
 
-\paragraph{Choice of environment}
-
 To evaluate \emph{Synthesize, Execute, Debug} we select the Building Optimization Testing (BOPTEST) framework \cite{blumBuildingOptimizationTesting2021}.
 The framework provides a simulation environment with different emulator buildings with boundary conditions (weather and electricity pricing) and baseline controllers. 
 The simulation framework provides a series of Key Performance Indicators (KPI) that can be used to address the performance.
@@ -60,34 +58,33 @@ The developers of BOPTEST provide code, (interpretable) formulas and documentati
 \item some helpful institutional connections we had to BOPTEST researchers.
 \end{enumerate}
 
-\paragraph{Scenarios}
+BOPTEST framework includes several \emph{test cases}, each of which is a model of a specific building with its own layout and climate control installations and each test case can have multiple \emph{scenarios} that represent different (often seasonal) weather and electricity grid conditions.
 
-In this study, the BESTEST Hydronic Heat Pump emulator is selected. This emulator represents a residential dwelling of 192 m2 for a family of 5 members located in Brussels (Belgium). 
-The heating system is composed of a 15 kW air-to-water modulating heat pump to absorb energy from the surrounding air in order to heat the floor heating system. During the operation of a heat pump, the evaporator fan facilitates the circulation of ambient air through the heat pump evaporator. 
-The floor heating system uses water as the working fluid to transfer heat into the floor. The building envelope model is implemented using the IDEAS~\cite{jorissenImplementationVerificationIDEAS2018} library. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The building further contains 24 m2 of windows on the south facade.
+In this study, we use the \emph{BESTEST Hydronic Heat Pump} test case: a 12-room residential dwelling of 192 m2 for a family of 5 located in Brussels (Belgium) with 24 m2 of windows on the south facade. 
+The action space $\actions = \realnums$, i.e. at every step the agent outputs one real-valued number: a modulating signal to control the 15 kW air-to-water heat pump connected to the floor heating system. 
 
-Two different testing periods are available for this emulator:
-\begin{itemize}
-    \item \emph{The peak heat day period}. A two-week testing period preceded by a one.week warmup period during which the baseline control is utilized. The two weeks for testing are centered arounf the day of the year that experiences the highest 15-minute system heating demand. This period runs from day 16 to day 30 of the year.
+\emph{BESTEST Hydronic Heat Pump} has 6 available scenarios, being the cartesian product of 2 weather regimes:
+\begin{enumerate}
+    \item \emph{The peak heat day period}. A two-week testing period preceded by a one-week warmup period during which the baseline control is utilized. The two weeks for testing are centered around the day of the year that experiences the highest 15-minute system heating demand. This period runs from day 16 to day 30 of the year.
     \item \emph{The typical heat day period}. This testing period also spans two weeks and includes a one-week warmup phase of one additional week. The two testing weeks, running from day 108 to day 122 of the year, is centered on the day with the highest 15-minute system heating load that is nearest, but not exceeding, the median of all 15-minute maximum heating loads throughout the year.
-\end{itemize}
-Regarding the energy pricing, there are three pricing scenarios: 
-\begin{itemize}
+\end{enumerate}
+and 3 electricity pricing regimes: 
+\begin{enumerate}
     \item \emph{Constant electricity price}. The constant electricity pricing scenario employs a fixed rate of 0.0535 EUR/kWh, sourced from the "Easy Indexed" electricity deal (standard rate) available at https://www.energyprice.be/products-list/Engie \cite{Engie}.  The total electricity price, including transmission fees and taxes, is 0.2535 EUR/kWh.
     \item \emph{Dynamic electricity price}. The dynamic electricity pricing model employs a dual rate structure, with a rate of 0.0666 EUR/kWh during the day and 0.0383 EUR/kWh during the night. This information was acquired from the "Easy Indexed" electricity deal (dual rate) available at \cite{Engie}.   The on-peak daily time occurs from 7:00 a.m. to 10:00 p.m.   The off-peak daily time occurs from 10:00 p.m. to 7:00 a.m.  The total power prices, including transmission fees and taxes, amount to 0.2666 EUR/kWh during on-peak periods and 0.2383 EUR/kWh during off-peak periods.
     \item \emph{Highly dynamic electricity price}. The power price scenario is determined by the day-ahead energy prices in the BELPEX wholesale electricity market in Belgium during the year 2019 \cite{Elexys}.  It should be noted that the prices mentioned above are subject to additional charges in the form of constant gearbox fees and taxes, which amount to 0.20 EUR per kilowatt-hour.
-\end{itemize} 
-The profile of the Electricity Emissions Factor considered in this test case is a constant emission factor of 0.167 kgCO2/kWh, which corresponds to the grid power emission factor provided by the Association of Issuing Bodies (AIB) for the year 2018. 
+\end{enumerate} 
 
-\paragraph{KPIs}
+We use all 6 available scenarios, combining the both demand periods (peak heat day period and typical heat day period) with the three energy pricing scenarios (constant, dynamic and highly dynamic). For each scenario, the second week is chosen for testing, that is, from day 23 to 30 in the peak heat period, and between days 115 and 122 for typical heat day period.
 
-The MPC and the program generated by program synthesis with large language models are simulated using the BOPTEST testbed hydronic heat pump emulator for all the available scenarios, combining the both demand periods (peak heat day period and typical heat day period) with the three energy pricing scenarios (constant, dynamic and highly dynamic). For each scenario, the second week is chosen for testing, that is, from day 23 to 30 in the peak heat period, and between days 115 and 122 for typical heat day period.
+\subsection{Reward model}
+
 For each scenario, the KPIs provided by the BOPTEST framework are evaluated.
  \begin{description}
      \item[Thermal discomfort]: describes the cumulative deviation of indoor zone temperature from upper and lower thermal comfort limits. These comfort limits are defined for the selected emulator.
      \item[Energy use]: corresponds the heat pump energy use.
      \item[Cost]: reports the operational cost associated with the heat pump energy usage considering the pricing.
-     \item[Emissions]: defined the CO2 emissions from the heat pump energy use.
+     \item[Emissions]: defined the CO2 emissions from the heat pump energy use, calculated with a constant emission factor of 0.167 kgCO2/kWh, which corresponds to the grid power emission factor provided by the Association of Issuing Bodies (AIB) for the year 2018. 
  \end{description}
 The KPIs on which the results analysis will focus are the thermal discomfort and energy cost, as they assess the performance of the controllers for the two defined objectives: guarantee thermal comfort and minimize the energy cost.
 
@@ -95,9 +92,9 @@ The results will be divided by the two analyzed periods: typical heat day period
 
 In the case of program synthesis, the program is generated using the most demanding conditions, that is, the peak heat day period with highly dynamic price scenario. The winning program generated for this case is simulated for the other scenarios.
 
-\newpage
 \subsection{Baselines}
-BOPTEST provides a built-in baseline controller.
+
+We benchmark the program synthesis algorithm against a simple rule-based baseline controller provided by BOPTEST as well as a state-of-the-art model predictive control algorithm~\cite{zabalaComparisonProgramSynthesis2023}.
 
 \newpage
 \subsection{Program Synthesis Implementation}
@@ -200,40 +197,7 @@ with the user prompt below (the actual episode history is inserted in place of \
 
 \subsection{Qualitative assessment}
 
-\begin{lstlisting}
-  while True:
-    # Read input variables
-    reaTZon_y = float(input())
-    PriceElectricPowerDynamic = [float(input()) for _ in range(49)]
-    TDryBul= [float(input()) for _ in range(49)]
-
-    # Normalized Desired Zone Temperature (21 C for comfort temp in residential buildings)
-    desired_temp = 21 + 273.15
-    tem\prob_diff = desired_temp - reaTZon_y
-
-    # Energy price forecast, absolute minimum price in the next hours
-    min_price = min(PriceElectricPowerDynamic)
-
-    # Increase the weight of the temperature difference in the formula
-    # Reduce the impact of the minimum price and outdoor temperature
-    if tem\prob_diff >= 0.000000000000000000000000001:  # Lower the threshold to react as early as possible
-        tem\prob_diff *= 160  # Increase the weight of tem\prob_diff to make the pump work more
-
-    # Outdoor temperature forecast, absolute minimum in the next hours
-    min_outdoor_temp = min(TDryBul)
-
-    # Control based on the temperature difference, price and outdoor temperature
-    oveHeaPumY_u = tem\prob_diff*165 - min_price*0.000000000000000000000000001 - min_outdoor_temp  # Reduce the impact of min_price and outdoor temp
-
-    # Compressor speed saturation
-    if oveHeaPumY_u < 0:
-        oveHeaPumY_u = 0
-    elif oveHeaPumY_u > 1:
-        oveHeaPumY_u = 1
-
-    # Output the control signal
-    print(oveHeaPumY_u)
-\end{lstlisting}
+\lstinputlisting{listings/boptest.py}
 
 \newpage
 \subsection{Quantitative assessment}
