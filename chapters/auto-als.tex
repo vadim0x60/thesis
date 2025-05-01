@@ -251,60 +251,6 @@ We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) w
     \label{tab:rlceps-auto-als}
 \end{table}
 
-Consider the summary table of the ABCDE protocol:
-
-\begin{lstlisting}
-+-----------------+---------------------------------------------------+
-| Assessment      | Treatment                                         |
-+=================+===================================================+
-| A – Airways     | Voice                                             |
-|                 | Breath sounds                                     |
-|                 | Oxygen (15 l min−1) Suction                       |
-+-----------------+---------------------------------------------------+
-| B – Breathing   | Respiratory rate (12–20 min−1)                    |
-|                 | Chest wall movements                              |
-|                 | Chest percussion                                  |
-|                 | Lung auscultation                                 |
-|                 | Pulse oximetry (97%–100%)                         |
-+-----------------+---------------------------------------------------+
-|                 | Seat comfortably                                  |
-|                 | Rescue breaths                                    |
-|                 | Inhaled medications                               |
-|                 | Bag-mask ventilation                              |
-|                 | Decompress tension pneumothorax                   |
-+-----------------+---------------------------------------------------+
-| C – Circulation | Skin color, sweating                              |
-|                 | Capillary refill time (<2 s)                      |
-|                 | Palpate pulse rate (60–100 min−1)                 |
-|                 | Heart auscultation                                |
-|                 | Blood pressure (systolic 100–140 mmHg)            |
-|                 | Electrocardiography monitoring                    |
-+-----------------+---------------------------------------------------+
-|                 | Stop bleeding                                     |
-|                 | Elevate legs                                      |
-|                 | Intravenous access                                |
-|                 | Infuse saline                                     |
-+-----------------+---------------------------------------------------+
-| D – Disability  | Level of consciousness – AVPU                     |
-|                 | Alert                                             |
-|                 | Voice responsive                                  |
-|                 | Pain responsive                                   |
-|                 | Unresponsive                                      |
-|                 | Limb movements                                    |
-|                 | Pupillary light reflexes                          |
-|                 | Blood glucose                                     |
-+-----------------+---------------------------------------------------+
-|                 | Treat Airway, Breathing, and Circulation problems |
-|                 | Recovery position                                 |
-|                 | Glucose for hypoglycemia                          |
-+-----------------+---------------------------------------------------+
-| E - Exposure    | Expose skin                                       |
-|                 | Temperature                                       |
-+-----------------+---------------------------------------------------+
-|                 | Treat suspected cause                             |
-+-----------------+---------------------------------------------------+
-\end{lstlisting}
-
 Due to the inherent stochasticity of the environment (see chapter \ref{ch:auto-als}) we use 2 tests, which are 2 identical copies of the Auto-ALS environment.
 Since lexicase selection assumes multiple deterministic tests, tournament selection is used instead.
 We add hard limits on the length of the episode in terms of time (3 hours) as well as steps (350 environment steps).

@@ -84,7 +84,55 @@ Note that observations don't usually occur passively, you have to actively seek 
 
 In response, print ONLY the number of the action to be taken, from the list below:
 
-{act_txt}
+0 - DoNothing
+1 - CheckSignsOfLife
+2 - CheckRhythm
+3 - ExamineAirway
+4 - ExamineBreathing
+5 - ExamineCirculation
+6 - ExamineDisability
+7 - ExamineExposure
+8 - ExamineResponse
+9 - GiveAdenosine
+10 - GiveAdrenaline
+11 - GiveAmiodarone
+12 - GiveAtropine
+13 - GiveMidazolam
+14 - UseVenflonIVCatheter
+15 - GiveFluids
+16 - ViewMonitor
+17 - StartChestCompression
+18 - OpenAirwayDrawer
+19 - OpenBreathingDrawer
+20 - OpenCirculationDrawer
+21 - OpenDrugsDrawer
+22 - BagDuringCPR
+23 - ResumeCPR
+24 - UseMonitorPads
+25 - UseSatsProbe
+26 - UseAline
+27 - UseBloodPressureCuff
+28 - AttachDefibPads
+29 - UseBagValveMask
+30 - UseNonRebreatherMask
+31 - UseYankeurSucionCatheter
+32 - UseGuedelAirway
+33 - TakeBloodForArtherialBloodGas
+34 - TakeRoutineBloods
+35 - PerformAirwayManoeuvres
+36 - PerformHeadTiltChinLift
+37 - PerformJawThrust
+38 - TakeBloodPressure
+39 - TurnOnDefibrillator
+40 - DefibrillatorCharge
+41 - DefibrillatorCurrentUp
+42 - DefibrillatorCurrentDown
+43 - DefibrillatorPace
+44 - DefibrillatorPacePause
+45 - DefibrillatorRateUp
+46 - DefibrillatorRateDown
+47 - DefibrillatorSync
+48 - Finish
 
 Note, in particular, the `Examine` actions. These actions, just like `DoNothing` are guaranteed to have no effect on the patient state. However, some observation events will not trigger unless you go looking for them. To check the blood pressure, one needs to attach the blood pressure cuff to the patient and look at the monitor. Hence, the `MeasuredMAP` event will only trigger after you `BPCuffOn` and `ExamineMonitor`. Examinement skills (knowing where to look and how to establish the patient's state) are crucial for patient resusciation.
 
@@ -93,7 +141,55 @@ If you don't do so in {EPISODE_STEPS} steps, the game will be resolved as a tech
 
 For your reference, the recommended protocol for ABCDE assessment is presented below:
 
-{tabulate(abcde, headers='firstrow', tablefmt='grid')}
++-----------------+---------------------------------------------------+
+| Assessment      | Treatment                                         |
++=================+===================================================+
+| A – Airways     | Voice                                             |
+|                 | Breath sounds                                     |
+|                 | Oxygen (15 l min−1) Suction                       |
++-----------------+---------------------------------------------------+
+| B – Breathing   | Respiratory rate (12–20 min−1)                    |
+|                 | Chest wall movements                              |
+|                 | Chest percussion                                  |
+|                 | Lung auscultation                                 |
+|                 | Pulse oximetry (97%–100%)                         |
++-----------------+---------------------------------------------------+
+|                 | Seat comfortably                                  |
+|                 | Rescue breaths                                    |
+|                 | Inhaled medications                               |
+|                 | Bag-mask ventilation                              |
+|                 | Decompress tension pneumothorax                   |
++-----------------+---------------------------------------------------+
+| C – Circulation | Skin color, sweating                              |
+|                 | Capillary refill time (<2 s)                      |
+|                 | Palpate pulse rate (60–100 min−1)                 |
+|                 | Heart auscultation                                |
+|                 | Blood pressure (systolic 100–140 mmHg)            |
+|                 | Electrocardiography monitoring                    |
++-----------------+---------------------------------------------------+
+|                 | Stop bleeding                                     |
+|                 | Elevate legs                                      |
+|                 | Intravenous access                                |
+|                 | Infuse saline                                     |
++-----------------+---------------------------------------------------+
+| D – Disability  | Level of consciousness – AVPU                     |
+|                 | Alert                                             |
+|                 | Voice responsive                                  |
+|                 | Pain responsive                                   |
+|                 | Unresponsive                                      |
+|                 | Limb movements                                    |
+|                 | Pupillary light reflexes                          |
+|                 | Blood glucose                                     |
++-----------------+---------------------------------------------------+
+|                 | Treat Airway, Breathing, and Circulation problems |
+|                 | Recovery position                                 |
+|                 | Glucose for hypoglycemia                          |
++-----------------+---------------------------------------------------+
+| E - Exposure    | Expose skin                                       |
+|                 | Temperature                                       |
++-----------------+---------------------------------------------------+
+|                 | Treat suspected cause                             |
++-----------------+---------------------------------------------------+
 
 A – Airway: is the airway patent?
 If the patient responds in a normal voice, then the airway is patent. Airway obstruction can be partial or complete. Signs of a partially obstructed airway include a changed voice, noisy breathing (eg, stridor), and an increased breathing effort. With a completely obstructed airway, there is no respiration despite great effort (ie, paradox respiration, or “see-saw” sign). A reduced level of consciousness is a common cause of airway obstruction, partial or complete. A common sign of partial airway obstruction in the unconscious state is snoring. Untreated airway obstruction can rapidly lead to cardiac arrest. All health care professionals, regardless of the setting, can assess the airway as described and use a head-tilt and chin-lift maneuver to open the airway (Figure 2). With the proper equipment, suction of the airways to remove obstructions, for example, blood or vomit, is recommended. If possible, foreign bodies causing airway obstruction should be removed. In the event of a complete airway obstruction, treatment should be given according to current guidelines.9 In brief, to conscious patients give five back blows alternating with five abdominal thrusts until the obstruction is relieved. If the victim becomes unconscious, call for help and start cardiopulmonary resuscitation according to guidelines.9 Importantly, high-flow oxygen should be provided to all critically ill persons as soon as possible.
