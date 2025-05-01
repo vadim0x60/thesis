@@ -5,7 +5,7 @@
   An earlier revision of this chapter was included in a paper~\cite{zabalaComparisonProgramSynthesis2023} presented at SDEWES 2023.
 \end{remark}
 
-\section{Background}
+\section{Motivation}
 
 The chronological order of work that went into this thesis is intentionally kept somewhat secret, but in this case it is too relevant to omit: OpenAI Codex \cite{chenEvaluatingLargeLanguage2021}, the first autoregressive foundation model (section \ref{sec:pretrain}) for program synthesis, was unveiled concurrently with the preparation of chapter \ref{ch:tree2tree}, \emph{prompting} the field to of program synthesis to rethink many (if not most) of its methodological assumptions.
 This thesis is no exception.
@@ -41,8 +41,10 @@ This chapter is dedicated to \rqboptest:
 \end{highlight}
 
 \newpage
-\section{Evaluation}
+\section{Experimental design}
 \label{sec:BOPTEST}
+
+\subsection{Evaluation environment}
 
 \paragraph{Choice of environment}
 
@@ -53,8 +55,8 @@ The simulation framework provides a series of Key Performance Indicators (KPI) t
 The choice of BOPTEST is motivated by 
 \begin{enumerate}
 \item its extraordinary \emph{transparency}. As will be discussed further in section \ref{sec:simulators-as-benchmarks}, transparency is crucial for the researcher's capability to validate and improve the algorithm.
-The developers of BOPTEST provide code, (interpretable) formulas and documentation for both the physics model, predicting the effects of various interventions on a building, and the reward model that consists of several independent key performance indicators.
-\item the analogous nature of healthcare and building optimization: in both tasks one strives to keep a complex organism (a patient or a building) within a certain healthy range of parameters with minimal intervention (to control costs and avoid side effects). This makes BOPTEST an important study case for RLCEPS.
+The developers of BOPTEST provide code, (interpretable) formulas and documentation for both the physics model predicting the effects of various interventions on a building and the reward model that consists of several independent key performance indicators.
+\item the analogous nature of healthcare and building optimization: in both tasks one strives to keep a complex organism (a patient or a building) within a certain healthy range of parameters with minimal intervention (to control costs and avoid iatrogenic side effects). This makes BOPTEST an important study case for RLCEPS.
 \item some helpful institutional connections we had to BOPTEST researchers.
 \end{enumerate}
 
@@ -93,11 +95,12 @@ The results will be divided by the two analyzed periods: typical heat day period
 
 In the case of program synthesis, the program is generated using the most demanding conditions, that is, the peak heat day period with highly dynamic price scenario. The winning program generated for this case is simulated for the other scenarios.
 
-\paragraph{Baselines}
+\newpage
+\subsection{Baselines}
 BOPTEST provides a built-in baseline controller.
 
 \newpage
-\section{Implementation}
+\subsection{Program Synthesis Implementation}
 \label{sec:boptest-impl}
 
 \begin{remark}
@@ -142,7 +145,7 @@ len, hours & 0.5 & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 169 \\
 
 This way, as candidate solutions get more mature and sophisticated, they are tested more thoroughly and minor imperfections can be detected.
 
-\paragraph{Model and prompt templates} In this  chapter’s experiments we do not use different model weights for $\policy_\text{code}$ and $\policy_\text{summary}$.
+\paragraph{Model and prompts} In this chapter's experiments we do not use different model weights for $\policy_\text{code}$ and $\policy_\text{summary}$.
 Instead we use different prompt templates to make sure GPT-4 acts differently in these 2 roles.
 
 For the coding assistant role, we use the following system message:
@@ -154,7 +157,7 @@ For the coding assistant role, we use the following system message:
 and the following user prompt:
 
 \begin{lstlisting}
-  Write a program to control a Hydronic Heat Pump in a simplified residential dwelling for a family of 5 members, modeled as a single thermal zone, located in Brussels, Belgium. The building envelope model is based on the BESTEST case 900 test case. but it is scaled to an area that is four times larger. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The builiding further contains 24 m2 of windows on the south facade.
+  Write a program to control a Hydronic Heat Pump in a simplified residential dwelling for a family of 5 members, modeled as a single thermal zone, located in Brussels, Belgium. The building envelope model is based on the BESTEST case 900 test case. but it is scaled to an area that is four times larger. The rectangular floor plan is 12 m by 16 m. Internal walls are configured such that there are around 12 rooms in the building. The building further contains 24 m2 of windows on the south facade.
 
   An air-to-water modulating heat pump of 15 kW nominal heating capacity extracts energy from the ambient air to heat up the floor heating emission system. A fan blows ambient air through the heat pump evaporator and circulation pump pumps water from the heat pump to the floorr when the heat pump is operating. 
   
@@ -195,7 +198,7 @@ with the user prompt below (the actual episode history is inserted in place of \
 \section{Results}
 \label{sec:boptest-results}
 
-\subsection{Listing}
+\subsection{Qualitative assessment}
 
 \begin{lstlisting}
   while True:
@@ -233,12 +236,13 @@ with the user prompt below (the actual episode history is inserted in place of \
 \end{lstlisting}
 
 \newpage
-\subsection{Peak heat day period simulations}
-\label{'results_peak'}
-The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were runned for the three electricity price scenarios. As the baseline controller's logic is independent from the pricing scheme, its performance is not influences by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
+\subsection{Quantitative assessment}
+
+\paragraph{Peak heat period}
+The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were runned for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:2} depicts the KPI corresponding to each simulation.
 
 \begin{table}
-    \caption{Overview of KPI of each controller in the peak heat day period.}
+    \caption{Overview of KPI of each controller in the peak heat period.}
     \label{tab:2}
     
     \centering
@@ -274,19 +278,17 @@ In terms of emissions, MPC in the diverse scenarios increases the emissions rang
 Figure \ref{fig:temp-peak} represents the indoor zone temperature for the baseline controller, the MPC and program synthesis methodology for the three price scenarios being compared. The figure includes the setpoint defined for the baseline controller, and the thermal comfort upper and lower limits that are used to calculate the thermal discomfort.
 
 \begin{figure}
-  \includegraphics[scale=.4]{images/boptest/Fig4.eps}
+  \includegraphics[width=\linewidth]{images/boptest/Fig4.eps}
 % figure caption is below the figure
 \caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{peak heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
 \label{fig:temp-peak}       % Give a unique label
 \end{figure}
 
-\newpage
-\subsection{Typical heat day period simulations}
-\label{'results_typical'}
-The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were run for the three electricity price scenarios. As the baseline controller's logic is independent from the pricing scheme, its performance is not influences by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
+\paragraph{Typical heat period}
+The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were run for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
 
 \begin{table}
-    \caption{Overview of KPI of each controller in the typical heat day period.}
+    \caption{Overview of KPI of each controller in the typical heat period.}
     \label{tab:3}
     
     \centering
@@ -317,7 +319,7 @@ The evolution of the indoor zone temperature along the simulation for the baseli
 
 % For one-column wide figures use
 \begin{figure}
-  \includegraphics[scale=.4]{images/boptest/Fig7.eps}
+  \includegraphics[width=\linewidth]{images/boptest/Fig7.eps}
 % figure caption is below the figure
 \caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{typical heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
 \label{fig:temp-typical}       % Give a unique label

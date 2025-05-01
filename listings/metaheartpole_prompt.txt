@@ -1,0 +1,16 @@
+Write a program to solve the following task:
+
+-----
+You are a developer working on an important project. You want to maximize your productivity, but not at the expense of health - any serious health issue will negate all the effects of increased productivity.
+-----
+
+Your program will be run in the terminal once (include a loop if needed).
+At every step of the game (maximum of {EPISODE_STEPS} steps), it will receive a set of observations as input and it will have to output an action to be taken.
+The observations will be input as a space-separated list of 6 floating point observations: ['alertness', 'hypertension', 'intoxication',
+ 'time_since_slept', 'time_elapsed', 'work_done']
+
+In response, print ONLY the number of the action to be taken, from the list below:
+0 - just work
+1 - drink coffee and work
+2 - drink beer and work
+3 - sleep

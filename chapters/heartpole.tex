@@ -39,14 +39,40 @@ The agent receives small positive rewards for productivity and a very large nega
 
 Every half an hour awake, the agent observes $\state_\step$ and picks an action $\action_\step$ from discrete action space of \emph{just work}, \emph{drink coffee} (increases $\state^\text{alert}$ and $\state^\text{hypert}$), \emph{drink beer} (decreases $\state^\text{alert}$, increases $\state^\text{hypert}$ and $\state^\text{tox}_\step$) and \emph{go to bed} (sleep takes a lot of time, but reduces $\state^\text{hypert}$ and $\state^\text{tox}_\step$ and without it alertness starts to fall very fast)
 
-\section{Reinforcement Learning}
+\section{Experimental design}
 \label{sec:heartpole-experiments}
 
-\todo{cite deceptive diversity}
-
+\subsection{Reinforcement Learning}
 We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{cem}, SARSA \cite[Chapter 6]{suttonReinforcementLearningSecond2018} and DQN \cite{dqn1,dqn2} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
 
 We train all models with \texttt{keras-rl} \cite{kerasrl}, limiting all episodes to 1000 steps, and test 20 times.
+
+We have observed that during first epochs of training the models invariably tend towards high coffee and alcohol consumption (behavior with immediate positive reinforcement but long-term negative side effects), but then converge to more conservative strategies focused on timing sleep correctly and avoiding drinks. 
+This, together with the fact that only one of RL algorithms has outperformed the reference strategy supports our claim that HeartPole is \emph{non-trivial}.
+At the same time it provides a high level of \emph{transparency}, making it easy to develop and analyze algorithms for reinforcement learning in Healthcare.
+
+\newpage
+\subsection{Program Synthesis}
+
+\lstinputlisting{listings/metaheartpole_prompt.txt}
+
+\newpage
+\section{Results}
+
+\subsection{Qualitative assessment}
+
+With a Deepseek model:
+
+\lstinputlisting{listings/metanurse-deepseek.py}
+
+With GPT:
+
+\lstinputlisting{listings/metanurse-gpt.py}
+
+for 2868 iterations
+
+\subsection{Quantitative assessment}
+
 Scores in table \ref{tab:heartpole-results} are obtained by averaging over total rewards for the 20 test episodes.
 
 \begin{table}[]
@@ -65,28 +91,7 @@ Scores in table \ref{tab:heartpole-results} are obtained by averaging over total
     \label{tab:heartpole-results}
 \end{table}
 
-We have observed that during first epochs of training the models invariably tend towards high coffee and alcohol consumption (behavior with immediate positive reinforcement but long-term negative side effects), but then converge to more conservative strategies focused on timing sleep correctly and avoiding drinks. 
-This, together with the fact that only one of RL algorithms has outperformed the reference strategy supports our claim that HeartPole is \emph{non-trivial}.
-At the same time it provides a high level of \emph{transparency}, making it easy to develop and analyze algorithms for reinforcement learning in Healthcare.
+\input{tables/rlceps-metaheartpole.tex}
 
 \newpage
-\section{Program Synthesis}
-\todo{Turn this into actual text}
-
-\paragraph{Prompts}
-
-\paragraph{Generated program}
-
-With a Deepseek model:
-
-\lstinputlisting{listings/metanurse-deepseek.py}
-
-With GPT:
-
-\lstinputlisting{listings/metanurse-gpt.py}
-
-for 2868 iterations
-
-\paragraph{Evaluation}
-
-\input{tables/rlceps-metaheartpole.tex}
+\section{Discussion}

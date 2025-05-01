@@ -1,9 +1,6 @@
 \chapter{Anthropodidactic learning: Auto-ALS}
 \label{ch:auto-als}
 
-\todo{Make sure a research question is explicitly mentioned}
-\todo{Make sure Aki's comments are copied as TODOs}
-
 \section{Anthropodidactic learning: a modest proposal}
 \label{sec:anthropodidactic}
 
@@ -235,7 +232,11 @@ ABG,     AirwayManoeuvres,     GiveAtropine,     GiveAdenosine,     GiveAdrenali
 \label{tab:auto-als}
 \end{table}
 
+\section{Experimental Design}
+\subsection{Reinforcement Learning baseline}
 
+\newpage
+\subsection{Program Synthesis}
 
 We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
 
@@ -249,11 +250,6 @@ We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) w
     \caption{Hyperparameter choice for evaluating RLCEPS on Auto-ALS}
     \label{tab:rlceps-auto-als}
 \end{table}
-
-\newpage
-\section{Auto-ALS results}
-
-\paragraph{Prompts}
 
 Consider the summary table of the ABCDE protocol:
 
@@ -316,6 +312,29 @@ The initial prompt is as follows:
 
 \lstinputlisting{listings/metanurse_prompt.txt}
 
+\newpage
+\section{Results}
+
+\subsection{Qualitative assessment}
+
 and, on iteration 37, the following snippet emerges, that will not be beaten until the end of the experiment (4697 iterations):
 
 \lstinputlisting{listings/auto-als.py}
+
+\newpage
+\subsection{Quantitative assessment}
+
+\begin{figure}
+    \begin{subfigure}{0.48\linewidth}
+      \includegraphics[width=\linewidth]{images/auto-als-ppo-len.png}
+      \caption{length of episodes}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+      \includegraphics[width=\linewidth]{images/auto-als-ppo-rew.png}
+      \caption{total episode reward}
+    \end{subfigure}
+    \caption{Evolution of PPO agent's performance over the course of the training run}
+\end{figure}
+
+\newpage
+\section{Discussion}
