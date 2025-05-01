@@ -235,7 +235,9 @@ ABG,     AirwayManoeuvres,     GiveAtropine,     GiveAdenosine,     GiveAdrenali
 \section{Experimental Design}
 \subsection{Reinforcement Learning baseline}
 
-\newpage
+Auto-ALS is a more expensive environment than HeartPole when it comes to computation per episode.
+For this reason, in lieu of 3 reinforcement learning algorithms with diverse characteristics that we used for HeartPole, for Auto-ALS we use a single algorithm known for its versatility~\cite{alaghaTargetLocalizationUsing2022, bilbanOptimizingAutonomousVehicle2025, bohnDeepReinforcementLearning2019, coreccoProximalPolicyOptimizationbased2023, funikaAutomatedCloudResources2023, hasankhaniIntegratedPathPlanning2023, huangImprovingTrafficSignal2023, kalusivalingamOptimizingIndustrialSystems2020, kleinOptimizingParametersSwarm2024, liIntelligentDecisionJoint2025, liuApplicationAdvancedTree2022, lopesIntelligentControlQuadrotor2018, luAdaptiveEnergyManagement2024, maMultiuserMobileEdge2024, maTaskOffloadingScheme2025, mayerModularProductionControl2021, meloLearningHumanoidRobot2019, mengProximalPolicyOptimization2023, ouyangTokenlevelProximalPolicy2024, pinciroliDeepReinforcementLearning2021, proctorProximalPolicyOptimization2021, quangtranProximalPolicyOptimization2020, rehmanReinforcementLearningdrivenProximal2024, silvaControlConventionalContinuous2024, silvaTemporalGraphTraversals2020, vanvuchelenUseProximalPolicy2020, weiMixedautonomyTrafficControl2019, wuCombustionOptimizationStudy2024, wuProximalPolicyOptimization2023, yeAutomatedLaneChange2020, yinHyperheuristicAlgorithmProximal2024, zhangProximalPolicyOptimization2024, zhangRealtimeAutonomousLine2020, zhaoPPOTAAdaptiveTask2023}, namely, Proximal Policy Optimization (PPO) \cite{schulmanProximalPolicyOptimization2017}. 
+
 \subsection{Program Synthesis}
 
 We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
