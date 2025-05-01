@@ -70,12 +70,13 @@ The action space $\actions = \realnums$, i.e. at every step the agent outputs on
 \end{enumerate}
 and 3 electricity pricing regimes: 
 \begin{enumerate}
-    \item \emph{Constant electricity price}. The constant electricity pricing scenario employs a fixed rate of 0.0535 EUR/kWh, sourced from the "Easy Indexed" electricity deal (standard rate) available at https://www.energyprice.be/products-list/Engie \cite{Engie}.  The total electricity price, including transmission fees and taxes, is 0.2535 EUR/kWh.
-    \item \emph{Dynamic electricity price}. The dynamic electricity pricing model employs a dual rate structure, with a rate of 0.0666 EUR/kWh during the day and 0.0383 EUR/kWh during the night. This information was acquired from the "Easy Indexed" electricity deal (dual rate) available at \cite{Engie}.   The on-peak daily time occurs from 7:00 a.m. to 10:00 p.m.   The off-peak daily time occurs from 10:00 p.m. to 7:00 a.m.  The total power prices, including transmission fees and taxes, amount to 0.2666 EUR/kWh during on-peak periods and 0.2383 EUR/kWh during off-peak periods.
-    \item \emph{Highly dynamic electricity price}. The power price scenario is determined by the day-ahead energy prices in the BELPEX wholesale electricity market in Belgium during the year 2019 \cite{Elexys}.  It should be noted that the prices mentioned above are subject to additional charges in the form of constant gearbox fees and taxes, which amount to 0.20 EUR per kilowatt-hour.
+    \item \emph{Constant electricity price}. The constant electricity pricing scenario employs a fixed rate of 0.0535 EUR/kWh, sourced from the "Easy Indexed" electricity deal (standard rate).  The total electricity price, including transmission fees and taxes, is 0.2535 EUR/kWh.
+    \item \emph{Dynamic electricity price}. The dynamic electricity pricing model employs a dual rate structure, with a rate of 0.0666 EUR/kWh during the day and 0.0383 EUR/kWh during the night. This information was acquired from the "Easy Indexed" electricity deal (dual rate).   The on-peak daily time occurs from 7:00 a.m. to 10:00 p.m.   The off-peak daily time occurs from 10:00 p.m. to 7:00 a.m.  The total power prices, including transmission fees and taxes, amount to 0.2666 EUR/kWh during on-peak periods and 0.2383 EUR/kWh during off-peak periods.
+    \item \emph{Highly dynamic electricity price}. The power price scenario is determined by the day-ahead energy prices in the BELPEX wholesale electricity market in Belgium during the year 2019.  It should be noted that the prices mentioned above are subject to additional charges in the form of constant gearbox fees and taxes, which amount to 0.20 EUR per kilowatt-hour.
 \end{enumerate} 
 
-We use all 6 available scenarios, combining the both demand periods (peak heat day period and typical heat day period) with the three energy pricing scenarios (constant, dynamic and highly dynamic). For each scenario, the second week is chosen for testing, that is, from day 23 to 30 in the peak heat period, and between days 115 and 122 for typical heat day period.
+We use all 6 available scenarios for algorithm evaluation. 
+For each scenario, the second week is chosen for testing, that is, from day 23 to 30 in the peak heat period, and between days 115 and 122 for typical heat day period.
 
 \subsection{Reward model}
 
@@ -86,7 +87,7 @@ For each scenario, the KPIs provided by the BOPTEST framework are evaluated.
      \item[Cost]: reports the operational cost associated with the heat pump energy usage considering the pricing.
      \item[Emissions]: defined the CO2 emissions from the heat pump energy use, calculated with a constant emission factor of 0.167 kgCO2/kWh, which corresponds to the grid power emission factor provided by the Association of Issuing Bodies (AIB) for the year 2018. 
  \end{description}
-The KPIs on which the results analysis will focus are the thermal discomfort and energy cost, as they assess the performance of the controllers for the two defined objectives: guarantee thermal comfort and minimize the energy cost.
+The KPIs on which the results analysis will focus are thermal discomfort and energy cost, as they assess the performance of the controllers for the two defined objectives: guarantee thermal comfort and minimize the energy cost.
 
 The results will be divided by the two analyzed periods: typical heat day period and peak heat day period.
 
@@ -199,11 +200,19 @@ with the user prompt below (the actual episode history is inserted in place of \
 
 \lstinputlisting{listings/boptest.py}
 
+A few details stand out about the resulting program (above):
+\begin{enumerate}
+    \item A lot of available data is not used. For example, a detailed temperature forecast for the next 49 iterations is provided, but the program only uses a minimum value over all 49.
+    \item Unused data includes all the energy price forecasts: they are technically in the formula, but multiplied by a vanishingly small coefficient. Interestingly, the energy costs of this algorithm are very competitive (see section \ref{sec:boptest-results-quantitative}) through effective minimization of energy use (regardless of current price) alone.
+    \item Vanishingly small coefficients are used instead of zero or removing a term from the formula entirely. This is a consequence of iteration: based on the feedback from the environment, the coefficient was reduced step by step until it was effectively zero.
+\end{enumerate}
+
 \newpage
 \subsection{Quantitative assessment}
+\label{sec:boptest-results-quantitative}
 
 \paragraph{Peak heat period}
-The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were runned for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:2} depicts the KPI corresponding to each simulation.
+The second week from the typical heat day period was simulated for the baseline, MPC and the program synthesis. Both MPC and program synthesis were runned for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:2} depicts the KPI corresponding to each simulation.
 
 \begin{table}
     \caption{Overview of KPI of each controller in the peak heat period.}
@@ -231,7 +240,7 @@ The second week from the typical heat day period was simulated for the baseline,
 
  The results from \ref{tab:2} reveal substantial variations in the performance of MPC and Program Synthesis (PS) compared to the baseline for the second week of the peak heat day period.
 
-Table \ref{tab:2} shows that regarding thermal discomfort, the MPC scenarios, including constant, dynamic, and highly dynamic, exhibit substantial reductions of approximately 88.93\%, 89.55\%, and 88.83\%, respectively, compared to the baseline. In the same way, the program synthesis scenarios also show an improvement in the thermal comfort, reporting a significant decrease in thermal discomfort of approximately 70.03\% for both the constant and highly dynamic scenarios. The dynamic pricing scenario is not included in Table \ref{tab:2} as the simulation crashed at the beginning due to initialization problems.
+Table \ref{tab:2} shows that regarding thermal discomfort, MPC scenarios, including constant, dynamic, and highly dynamic, exhibit substantial reductions of approximately 88.93\%, 89.55\%, and 88.83\%, respectively, compared to the baseline. In the same way, the program synthesis scenarios also show an improvement in thermal comfort, reporting a significant decrease in thermal discomfort of approximately 70.03\% for both the constant and highly dynamic scenarios. The dynamic pricing scenario is not included in Table \ref{tab:2} as the simulation crashed at the beginning due to initialization problems.
 
 Moving on to energy use, MPC shows a higher energy consumption compared to the baseline, with increases ranging from 3.14\% to 3.82\%. On the other hand, program synthesis scenarios exhibit mixed outcomes. The analyzed program synthesis scenario achieves an slight increase of the energy use equal to 5.91\%.
 
@@ -239,17 +248,17 @@ Analyzing the economic perspective, as indicated by energy cost, MPC scenarios d
 
 In terms of emissions, MPC in the diverse scenarios increases the emissions ranging from 2.15\% to 3.42\%, while program synthesis produces 5.75\% more CO2 emissions compared to the baseline controller.
 
-Figure \ref{fig:temp-peak} represents the indoor zone temperature for the baseline controller, the MPC and program synthesis methodology for the three price scenarios being compared. The figure includes the setpoint defined for the baseline controller, and the thermal comfort upper and lower limits that are used to calculate the thermal discomfort.
+Figure \ref{fig:temp-peak} represents the indoor zone temperature for the baseline controller, MPC and program synthesis methodology for the three price scenarios being compared. The figure includes the setpoint defined for the baseline controller, and thermal comfort upper and lower limits that are used to calculate thermal discomfort.
 
 \begin{figure}
   \includegraphics[width=\linewidth]{images/boptest/Fig4.eps}
 % figure caption is below the figure
-\caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{peak heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
+\caption{Indoor zone temperature through the simulation for the baseline, MPC and program synthesis in \emph{peak heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
 \label{fig:temp-peak}       % Give a unique label
 \end{figure}
 
 \paragraph{Typical heat period}
-The second week from the typical heat day period was simulated for the baseline, the MPC and the program synthesis. Both the MPC and program synthesis were run for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
+The second week from the typical heat day period was simulated for the baseline, MPC and the program synthesis. Both MPC and program synthesis were run for the three electricity price scenarios. As the baseline controller's logic is independent of the pricing scheme, its performance is not influenced by the prices, and thus just a simulation of the baseline controller is considered for each period. Table \ref{tab:3} depicts the KPI corresponding to each simulation.
 
 \begin{table}
     \caption{Overview of KPI of each controller in the typical heat period.}
@@ -275,16 +284,16 @@ The second week from the typical heat day period was simulated for the baseline,
     \end{tabular}
 \end{table}
 
-The MPC shows an overall improvement in the thermal comfort with respect to the baseline controller in the three scenarios, as well as a reduction in energy use, energy cost and CO2 emissions. The thermal discomfort decrease compared to the baseline is of 96.44\% for the constant price scenario, 96.62\% when the price is dynamic, and 96.65\% for highly dynamic prices. The energy use savings range between 30.23\%-30.7\%, the energy cost reduction is very similar, being 30.8\%, 30.36\% and 35.5\% for constant, dynamic and highly dynamic respectively. CO2 emissions reduction are also achieved, up to 30.16\% in the most favourable scenario.
+MPC shows an overall improvement in thermal comfort with respect to the baseline controller in the three scenarios, as well as a reduction in energy use, energy cost and CO2 emissions. thermal discomfort decrease compared to the baseline is of 96.44\% for the constant price scenario, 96.62\% when the price is dynamic, and 96.65\% for highly dynamic prices. The energy use savings range between 30.23\%-30.7\%, the energy cost reduction is very similar, being 30.8\%, 30.36\% and 35.5\% for constant, dynamic and highly dynamic respectively. CO2 emissions reduction are also achieved, up to 30.16\% in the most favourable scenario.
 
-In the case of program synthesis, the thermal discomfort is 78.56\% greater than with the baseline controller. On the other hand, the energy use reduction is up to 31.77\%, the energy cost is 31.91\% lower with program synthesis and the emissions are also 31.86\% lower.
+In the case of program synthesis, thermal discomfort is 78.56\% greater than with the baseline controller. On the other hand, the energy use reduction is up to 31.77\%, the energy cost is 31.91\% lower with program synthesis and the emissions are also 31.86\% lower.
 
-The evolution of the indoor zone temperature along the simulation for the baseline controller, the MPC and program synthesis in the three price scenarios is shown in Figure \ref{fig:temp-peak}. The baseline setpoint is depicted, which is equal to 21.2ºC during occupation hours, and it is lowered to 20.2ºC when there are no occupants. The low and high limits that are used to calculate the thermal discomfort are also depicted in Figure \ref{fig:temp-typical}.
+The evolution of the indoor zone temperature along the simulation for the baseline controller, MPC and program synthesis in the three price scenarios is shown in Figure \ref{fig:temp-peak}. The baseline setpoint is depicted, which is equal to 21.2ºC during occupation hours, and it is lowered to 20.2ºC when there are no occupants. The low and high limits that are used to calculate thermal discomfort are also depicted in Figure \ref{fig:temp-typical}.
 
 % For one-column wide figures use
 \begin{figure}
   \includegraphics[width=\linewidth]{images/boptest/Fig7.eps}
 % figure caption is below the figure
-\caption{Indoor zone temperature through the simulation for the baseline, the MPC and program synthesis in \emph{typical heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
+\caption{Indoor zone temperature through the simulation for the baseline, MPC and program synthesis in \emph{typical heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
 \label{fig:temp-typical}       % Give a unique label
 \end{figure}
