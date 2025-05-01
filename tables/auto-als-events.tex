@@ -1,0 +1,52 @@
+\begin{tabular}{|p{0.45\linewidth}|p{0.45\linewidth}|c|}
+\toprule
+Agent actions &
+    Patient reactions & Rewards
+    \\
+    \midrule
+AssessResponse &
+    ResponseVerbal,     ResponseGroan,     ResponseNone &
+    \multirow{9}{*}{0} \\
+AssessAirway &
+    AirwayClear,     AirwayVomit,     AirwayBlood,     AirwayTongue &
+    \\
+AssessBreathing &
+    BreathNone,     BreathSnoring,     BreathSeeSaw,     BreathEqualChestExpansion,     BreathBibasalCrepitations,     BreathWheeze,     BreathCoarseCrepitationsAtBase,     BreathPneumothoraxSymptoms,  VentilationResistance, \emph{MeasuredRespRate} &
+    \\
+AssessCirculation &
+    RadialPulsePalpable,     RadialPulseNonPalpable, \emph{MeasuredHeartRate} &
+    \\
+AssessDisability &
+    \verb|AVPU_A|,     \verb|AVPU_U|,     \verb|AVPU_V|, PupilsPinpoint,     PupilsNormal, \emph{MeasuredCapillaryGlucose} &
+    \\
+AssessExposure &
+    ExposureRash,     ExposurePeripherallyShutdown,     ExposureStainedUnderwear, \emph{MeasuredTemperature} &
+    \\
+AssessDefibrillator &
+    &
+    \\
+AssessMonitor &
+    HeartNSR,
+    HeartSVT,
+    HeartAF,
+    HeartAtrialFlutter,
+    HeartVT,
+    HeartMobitzI,
+    HeartMobitzII,
+    HeartCompleteBlock,
+    HeartTorsades,
+    HeartBigeminy,
+    HeartVF, \emph{MeasuredHeartRate}, \emph{MeasuredMAP}, \emph{MeasuredSats}, \emph{MeasuredResps} &
+    \\
+    DoNothing & & \\
+    \midrule
+ABG,     AirwayManoeuvres,     GiveAtropine,     GiveAdenosine,     GiveAdrenaline,     GiveAmiodarone,     GiveMidazolam,     Venflon,     Yankeur,     DrawBloods,     BPCuffOn,     BVM,     Guedel,     NRBMask,     DefibOn,     DefibAttachPads ,     DefibShock,     DefibCharge ,     DefibChangePaceCurrentDown,     DefibChangePaceCurrent,     DefibEnergyDown,     DefibEnergyUp,     DefibChangePaceRateDown,     DefibChangePaceRateUp,     DefibPace& 
+    Blunder & $\reward_\text{blunder}$
+    \\
+    \midrule
+    \multirow{2}{*}{Finish} & Failure & -1 \\
+    & Success & 1 \\
+    \midrule
+    - & Tick & $\reward_\text{tick}$ \\
+    \bottomrule
+\end{tabular}
