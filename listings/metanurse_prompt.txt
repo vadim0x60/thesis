@@ -200,8 +200,7 @@ In all settings, it is possible to determine the respiratory rate, inspect movem
 C – Circulation: is the circulation sufficient?
 The capillary refill time and pulse rate can be assessed in any setting. Inspection of the skin gives clues to circulatory problems. Color changes, sweating, and a decreased level of consciousness are signs of decreased perfusion. If a stethoscope is available, heart auscultation should be performed. Electrocardiography monitoring and blood pressure measurements should also be performed as soon as possible. Hypotension is an important adverse clinical sign. The effects of hypovolemia can be alleviated by placing the patient in the supine position and elevating the patient’s legs. An intravenous access should be obtained as soon as possible and saline should be infused.
 
-D – Disability: what is the level
-of consciousness?
+D – Disability: what is the level of consciousness?
 The level of consciousness can be rapidly assessed using the AVPU method, where the patient is graded as alert (A), voice responsive (V), pain responsive (P), or unresponsive (U). Alternatively, the Glasgow Coma Score can be used.16 Limb movements should be inspected to evaluate potential signs of lateralization. The best immediate treatment for patients with a primary cerebral condition is stabilization of the airway, breathing, and circulation. In particular, when the patient is only pain responsive or unresponsive, airway patency must be ensured, by placing the patient in the recovery position, and summoning personnel qualified to secure the airway. Ultimately, intubation may be required. Pupillary light reflexes should be evaluated and blood glucose measured. A decreased level of consciousness due to low blood glucose can be corrected quickly with oral or infused glucose.
 
 E – Exposure: any clues to explain the patient’s condition? 

@@ -65,7 +65,6 @@ While SEIDR is described here as a multi-agent system, it can equally be seen as
 Throughout this chapter, we use agent-oriented programming terminology~\cite{shoham1993:agentoriented} and evolutionary optimization terminology interchangeably to try to bridge the gaps between these domains.
 
 \paragraph{Synthesize}
-\label{sec:seidr-synth}
 
 The framework starts with the SYNTHESIZE agent, which is responsible for generating initial draft solutions.
 % to programming tasks to be repaired in later stages of SEIDR.
@@ -87,7 +86,6 @@ Thus, the sampling procedure for the first programs approximates a deterministic
 In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
 
 \paragraph{Execute}
-\label{sec:seidr-execute}
 
 The EXECUTE agent compiles the programs (if necessary) and launches them using the standard tools for the programming language.
 The program is run once for every I/O pair in the validation set. 
@@ -99,7 +97,6 @@ We then measure the \emph{score} of the program defined as the accuracy over the
 unless \texttt{stderr} is non-empty during compilation or execution, which is considered to indicate failure and is assigned a score of 0.
 
 \paragraph{Instruct}
-\label{sec:seidr-instruct}
 
 The goal of the INSTRUCT agent is to provide instructions that summarize bugs in a candidate program and suggest a solution for $ \policy_\text{debug} $. 
 The resulting instructions with the bug summary should indicate what requirement is violated and instruct the LLM to edit the candidate program accordingly. 
@@ -514,7 +511,7 @@ In our experiments, we compare
 the number of fully solved programs obtained with SEIDR with different values of hyperparameters. 
 For a more detailed analysis of results, we use \emph{test pass rate (TPR)} and \emph{Excess Programs Generated (EPG)}.
 TPR reflects the percentage of fully passed test cases based on the exact match of program output and test output. 
-The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see section~\ref{sec:seidr-execute}). 
+The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see section~\ref{sec:seidr-ingredients}). 
 
 We define \emph{pass@k} as the number of problems that have $TPR=1$ if SEIDR is stopped after generating $k$ programs, following~\cite{kulal2019:spoc} \emph{``success rate at budget of $k$ programs.''}
 Note that \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} define $k$ as the number of restarts of the iterative method, the budget in terms of trees of programs.
@@ -1074,7 +1071,7 @@ Experiments with Llama~3 and GPT-3.5 are restarted six times.
 We acknowledge that more restarts can provide a more complete picture of the approach performance,
 although this is not the standard practice in the LLM domain~\cite{ouyangLLMBoxChocolates2023} 
 and can come at considerable costs.
-Our temperature-based sampling procedure described in section\ref{sec:seidr-synth} reduces this stochasticity significantly, especially for low-EPG results, because earlier solutions in the search tree are obtained with lower temperatures, and lower temperature limits the stochasticity.
+Our temperature-based sampling procedure described in section\ref{sec:seidr-ingredients} reduces this stochasticity significantly, especially for low-EPG results, because earlier solutions in the search tree are obtained with lower temperatures, and lower temperature limits the stochasticity.
 Codex, GPT-3, and GPT-3.5 are black-box models and can generate malicious code~\cite{pearceAsleepKeyboardAssessing2022}. 
 Therefore, when coding in real life, the LLM output should be carefully reviewed before running it.
 % \ag{The Codex model was pre-trained on an unbalanced dataset across programming languages~\cite{chen2021:evaluating}. Thus, 

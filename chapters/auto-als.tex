@@ -169,8 +169,8 @@ Assessment skills (knowing where to look and how to establish the patient's stat
 
 \paragraph{Implementation}
 
-This is achieved by attaching an event listener to Virtu-ALS that registers all observable events that can occur in the simulator in response to the user's actions.
-The events are listed in table \ref{tab:auto-als}, organized by which agent action can trigger which event.
+Auto-ALS is impemented as an OpenAI Gym~\cite{liventsevVadim0x60Autoals2024} environment using Unity ML Agents~\cite{almon-manzanoDeepReinforcementLearning2022, julianiUnityGeneralPlatform2020, lanhamLearnUnityMLAgentsfundamentals2018, nandyUnityMLAgents2018} framework via forking Virtu-ALS~\cite{liventsevVadim0x60Virtualsplus2024} and editing it to attach an event listener and an action executor.
+Text messages displayed to the user are included in the \texttt{info} metadata dictionary returned by the environment.
 
 \newpage
 \section{Experimental Design}
@@ -183,7 +183,7 @@ For this reason, in lieu of 3 reinforcement learning algorithms with diverse cha
 
 \subsection{Program Synthesis}
 
-We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) with hyperparameters as desribed in table \ref{tab:rlceps-auto-als}
+We use the better of the 2 hyperparameter setups explored in chapter \ref{ch:heartpole}, see table \ref{tab:rlceps-auto-als}.
 
 \begin{table}
     \centering
@@ -199,6 +199,8 @@ We run a program synthesis experiment using SEIDR (see chapter \ref{ch:seidr}) w
 Due to the inherent stochasticity of the environment (see chapter \ref{ch:auto-als}) we use 2 tests, which are 2 identical copies of the Auto-ALS environment.
 Since lexicase selection assumes multiple deterministic tests, tournament selection is used instead.
 We add hard limits on the length of the episode in terms of time (3 hours) as well as steps (350 environment steps).
+Text messages displayed to the user are fed into the INSTRUCT agent (section \ref{sec:seidr-ingredients}) as \texttt{stderr}.
+This means the agent has no access to them at runtime, but the synthesis algorithm uses them to evolve the agent.
 The initial prompt is as follows:
 
 \lstinputlisting{listings/metanurse_prompt.txt}
