@@ -25,13 +25,13 @@ Machine learning community is undoubtedly interested in taking lessons from huma
 machine learning} \cite{angelovAnthropomorphicMachineLearning2018}. The prime example is curiculum learning \cite{sovianyCurriculumLearningSurvey2022, zhouCurBenchCurriculumLearning2024}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so it is likely a difference for machines as well.
 
 However, examples of directly reusing learning aids developed for human students are hard to come by. A notable exception is Reinforcement Learning where decision-making agents are often trained on games initially intended for people. And while the claim that \emph{Atari games} \cite{mnihPlayingAtariDeep2013} and 
-\emph{Minecraft} \cite{hofmannMinecraftAIPlayground2019} are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include \emph{X-plane} \cite{staudingerXPlaneMLEnvironmentLearning2018} (used for training pilots) and Virtu-ALS (used for training nurses), to be introduced in section \ref{sec:auto-als}. 
+\emph{Minecraft} \cite{hofmannMinecraftAIPlayground2019} are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include \emph{X-plane} \cite{staudingerXPlaneMLEnvironmentLearning2018} (used for training pilots) and Virtu-ALS (used for training nurses), to be discussed in section \ref{sec:virtu-als}. 
 Some antropodidactic work has also been done in natural language processing, training language models on children's books \cite{mayhewSimultaneousTranslationParaphrase2020} and exercises for language learning from \emph{Duolingo} \cite{mayhewSimultaneousTranslationParaphrase2020}
 More recently, curated datasets with a focus on educational materials like FineWeb-EDU \cite{penedoFineWebDatasetsDecanting2024} have been used to improve the quality of large language model pretraining.
 
 \newpage
-\section{Auto-ALS}
-\label{sec:auto-als}
+\section{Virtu-ALS}
+\label{sec:virtu-als}
 
 \begin{remark}
   An earlier revision of this section \cite[section 3.1]{liventsevEffectivePatientSimulators2021} appeared in Frontiers in Artificial Intelligence. Auto-ALS \cite{liventsevVadim0x60Autoals2024} was unveiled at HEALTHINF 2023.
@@ -137,8 +137,9 @@ Using one of the decision schedules and the observation system described above, 
 The agent has to output an action $\action \in \actions^{+}$ and if that action is not a "no action", action sampling repeats again.
 
 \newpage
-\section{Auto-ALS events}
+\section{Auto-ALS}
 
+\paragraph{Events}
 
 \begin{table}
 \input{tables/auto-als-events.tex}
@@ -146,28 +147,35 @@ The agent has to output an action $\action \in \actions^{+}$ and if that action 
 \label{tab:auto-als}
 \end{table}
 
-\emph{Auto-ALS} is a Message Passing Decision Process from section \ref{sec:mpdp}.
+\emph{Auto-ALS} is a Message Passing Decision Process environment as described in section \ref{sec:mpdp}, developed by identifying all meaningful events that occur in \emph{Virtu-ALS} and registering them as actions and observations in lieu of screen images and mouse clicks.
+This effort resulted in table \ref{tab:auto-als}, the first column of which describes the action space $\actions^{+}$.
+For each of the actions, the second column lists possible observations the agent could receive in response to it.
 
-The first column of table \ref{tab:auto-als} describes the action space $\actions^{+}$.
-For each of the actions, the second column lists possible observations that could happen in response to it.
-It's important to note that observations only get registered if the agent has \emph{learnt} some piece of information, meaning that, for example, \verb|AirwayVomit| will only occur if the patient has vomit in their airway \emph{and} the agent checked the airway (which is part of the standard protocol \cite{thimInitialAssessmentTreatment2012}).
-Assessment skills (knowing where to look and how to establish the patient's state) are crucial for patient resuscitation, hence revealing all known health variables to the agent would jeopardize the simulation.
+\emph{Tick} is a special event that occurs every time the simulator is advanced a timestep, and is negatively reinforced, which when used with reinforcement learning algorithms discourages clinically unnecessary actions.
 
-\texttt{MeasuredHeartRate, MeasuredRespRate, MeasuredCapillaryGlucose, MeasuredTemperature, MeasuredMAP, MeasuredSats, MeasuredResps} are \emph{measurements}, events that have a value $(-\infty, +\infty)$ associated with them.
+Finally, the third column indicates the reward $\reward$ the agent will receive after completing the action.
+$\reward_\text{blunder}$ and $\reward_\text{tick}$ are hyperparameters that control the priorities of acting in a way that stabilizes the patient versus acting fast.
+Note that acting fast is not merely a matter of efficiency: in emergency care settings it's very much clinically relevant.
+We recommend using a reward schedule where $\reward_\text{tick}$ is initially set to zero and once the agent has learned to reliably stabilize the patient, $\reward_\text{tick}$ is introduced to \emph{prune} the policy, i.e. remove all unnecessary steps that cost valuable time.
+Note that in experiments in section \ref{sec:auto-als-exp} $\reward_\text{tick}=0$ always, since none of the methods we study achieve robust enough performance to proceed to the pruning stage.
 
-For \emph{measurements}, the $\obs_i$ equals the magnitude of the measurement, however, for binary obsevations $\obs_i$ would always be equal to one.
+Most of the observations are binary events.
+The exceptions to this rule are \emph{measurements} \texttt{MeasuredHeartRate, MeasuredRespRate, MeasuredCapillaryGlucose, MeasuredTemperature, MeasuredMAP, MeasuredSats, MeasuredResps}, each of which has a value $(-\infty, +\infty)$ associated with it.
+For \emph{measurements}, the $\obs_i$ equals the magnitude of the measurement, however, for binary observations $\obs_i$ would always be equal to one.
 For memory efficiency, for all $i$ that correspond to binary observations, $\obs_i$ is skipped from the $o^{+} $ vector and the actual observation vector $o$ has size $36+7*2=50$, as opposed to $36+7)*2=86$
 
-\emph{Tick} is a special event that occurs every time the simulator is advanced a timestep, and is negatively reinforced, which when used with reinforcement learning algorithms discourages clinicaly unnecessary actions.
+It's important to note that observations only get registered if the player agent has \emph{learnt} some piece of information, meaning that, for example, \verb|AirwayVomit| will only occur if the patient has vomit in their airway \emph{and} the player agent has checked the airway (which is part of the standard protocol \cite{thimInitialAssessmentTreatment2012}).
+Assessment skills (knowing where to look and how to establish the patient's state) are crucial for patient resuscitation, so revealing all known health variables to the agent automatically would jeopardize the simulation.
 
-\newpage
-\section{Implementation}
+\paragraph{Implementation}
 
 This is achieved by attaching an event listener to Virtu-ALS that registers all observable events that can occur in the simulator in response to the user's actions.
 The events are listed in table \ref{tab:auto-als}, organized by which agent action can trigger which event.
 
 \newpage
 \section{Experimental Design}
+\label{sec:auto-als-exp}
+
 \subsection{Reinforcement Learning baseline}
 
 Auto-ALS is a more expensive environment than HeartPole when it comes to computation per episode.
