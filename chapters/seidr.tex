@@ -4,27 +4,14 @@
   An earlier revision of this chapter was presented at GECCO 2023 \cite{liventsevFullyAutonomousProgramming2023} and subsequently extended for TELO \cite{grishinaFullyAutonomousProgramming2025}
 \end{remark}
 
-\section{Introduction}
-\label{sec:seidr-intro}
-
-These innovations have led to the proposal of a framework, \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR,\footnote{~Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.}. 
-%The current  chapter partly reiterates the methodology and findings of~\cite{liventsev2023:fully} and expands on them in this extended version of the original  chapter.
-SEIDR is a multi-agent iterative framework that uses feedback from code execution and failing test cases to update the initially generated buggy code. 
-Our initial explorations cover SEIDR with GPT-3 as the bug summarization model and Codex (or GPT-3 trained on code) as the program generation and debugging model.  
-% We test a number of prompting strategies for LLMs to fix a working prompt.
-In addition, by modifying the tree arity parameter (see section~\ref{sec:seidr-beam-search}), we investigate the trade-off between generating and repairing only one program versus regenerating any program that does not pass all the tests, as well as intermediate configurations, where we build a tree of programs and update the best ones.
-
-While Codex is an early code generation model, the emergence of new models that score better in programming and natural languages motivates further research into the use of SEIDR with newer models. 
-To study the generalizability of the initial SEIDR results, we use two other LLMs, Llama 3~\cite{grattafioriLlama3Herd2024} and GPT-3.5~\cite{yeComprehensiveCapabilityAnalysis2023} and an additional dataset, HumanEval-X, with different tree arity parameters~\cite{brown2020:language,chenEvaluatingLargeLanguage2021,zheng2023:codegeex}. 
-Moreover, we build up on the initial experiments with Codex and zoom in on the area with the best-performing tree arities in a hyperparameter search for a better repair-replace trade-off resolution. 
-
-To reflect on the parent selection strategies used in the Rank agent of SEIDR, we also explore whether the programs should be chosen based on the average performance across all tests or whether SEIDR can benefit from keeping such programs in the loop that fully cover individual tests, but do not perform well on average.
-Therefore, as an alternative to the tournament selection, we test the best tree arity setups with lexicase selection-based ranking~\cite{helmuth2015:solving}.
-Moreover, since language models bring in stochasticity, we run the experiments several times to measure the variability of results obtained with fixed hyperparameters and reflect on the results repeatability.
-
-\newpage\section{SEIDR}
+\section{SEIDR}
 \label{sec:seidr-methodology}
-The proposed five-agent SEIDR framework is summarized in Figure~\ref{fig:method}, which we discuss in detail in section~\ref{sec:seidr-ingredients}.
+
+In chapter \ref{ch:boptest}, we have deliberately avoided the issue of efficient algorithm design for iterative programming with LLMs and the trade-offs involved therein.
+Instead, we implemented the simplest possible approach to show that the paradigm can work and merits further investigation.
+In other words, chapter \ref{ch:boptest} explores \emph{whether teaching language models for code to iterate is a good idea}, while chapter \ref{ch:seidr} explores \emph{how to do it right}.
+
+To this end, we propose \emph{Synthesize, Execute, Instruct, Debug and Rank}, or SEIDR\footnote{Seiðr also refers to a type of Norse magic~\cite{blain2002:nine} pertaining to predicting and controlling the future, which we deem thematically appropriate.}, a framework summarized in Figure~\ref{fig:method}, which we discuss in detail in section~\ref{sec:seidr-ingredients}.
 In essence, to solve a programming task defined as a text description and a collection of I/O examples, we split I/O examples into prompt and validation sets and use the prompt set in a large language model to SYNTHESIZE a population of candidate solutions.
 We EXECUTE the solutions, test them against the validation set, generate a text description of the identified problems used to INSTRUCT a large language model to produce repaired candidate solutions similar to the way a human developer DEBUGs a program.
 We RANK the candidates
