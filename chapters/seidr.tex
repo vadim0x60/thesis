@@ -62,7 +62,7 @@ Moreover, each model generates the most probable and less probable outputs in ea
 In the following implementation-related subsections, we explain how we vary the number of candidate solutions, debug instructions, and repairs generated in a batch by each LLM in SEIDR.
 
 While SEIDR is described here as a multi-agent system, it can equally be seen as a form of evolutionary algorithm or genetic programming, where the initialization and mutation steps of the system are performed by LLMs, $ \policy_\text{synth} $ and $ \policy_\text{debug} $, correspondingly.
-Throughout this chapter, we use agent-oriented programming terminology~\cite{shoham1993:agentoriented} and evolutionary optimization terminology interchangeably to try to bridge the gaps between these domains.
+Throughout this chapter, we use agent-oriented programming terminology~\cite{shohamAgentorientedProgramming1993} and evolutionary optimization terminology interchangeably to try to bridge the gaps between these domains.
 
 \paragraph{Synthesize}
 
@@ -83,7 +83,7 @@ We then sample $\treearity_\text{draft}$ programs from $ \policy_\text{synth} $,
 We use \emph{spring sampling} (appendix \ref{apdx:spring}), a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
 %Ultimately, this approach ensures that samples are diverse, but always contain the likeliest programs.
-In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiang2022:bugs}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
+In combination with the naturalness principle of source code \cite{allamanis2018:survey,jiangBugsLeadUnnaturalness2022}, this approach ensures that the samples are diverse, but always contain the most likely programs for the given task.
 
 \paragraph{Execute}
 
@@ -191,7 +191,7 @@ We refer to this problem as the \emph{repair-replace trade-off}, by analogy with
 How does the choice of hyperparameters $\treearity{},$ the total number of candidate programs in each generation, and $\beamwidth{},$ the number of selected repairs to be preserved in a generation, influence the flow of SEIDR?
 $\treearity$ and $\beamwidth{}$ act as upper bounds on the \emph{replace} option by limiting the size of the population.
 In the edge cases, $\treearity{} = \beamwidth{} = 1$ corresponds to a repair-only process, while $\treearity{} = \beamwidth{} = \infty$ corresponds to replace-only, as illustrated in Figure~\ref{fig:beam-search}. 
-Here, the repair-only scenario can also be seen as an LLM-guided random walk~\cite{xia2020:random} and replace-only as random sampling from the LLM.
+Here, the repair-only scenario can also be seen as an LLM-guided random walk~\cite{xiaRandomWalksReview2019} and replace-only as random sampling from the LLM.
 Strategies with tree arities between $1$ and $\infty$ are similar to population-based evolutionary algorithms.
 Note that $\treearity{}$ is defined by $\treearity_\text{draft}$ for the initial draft solutions in the first generation and $\treearity_\text{explain} \cdot \treearity_\text{debug}$ for later generations. 
 
@@ -513,7 +513,7 @@ For a more detailed analysis of results, we use \emph{test pass rate (TPR)} and 
 TPR reflects the percentage of fully passed test cases based on the exact match of program output and test output. 
 The TPR metric is used for the final evaluation of generated programs and does not reflect partial passing of the I/O test as opposed to the \emph{score} as calculated by the RANK agent (see section~\ref{sec:seidr-ingredients}). 
 
-We define \emph{pass@k} as the number of problems that have $TPR=1$ if SEIDR is stopped after generating $k$ programs, following~\cite{kulal2019:spoc} \emph{``success rate at budget of $k$ programs.''}
+We define \emph{pass@k} as the number of problems that have $TPR=1$ if SEIDR is stopped after generating $k$ programs, following~\cite{kulalSpocSearchbasedPseudocode2019} \emph{``success rate at budget of $k$ programs.''}
 Note that \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} define $k$ as the number of restarts of the iterative method, the budget in terms of trees of programs.
 We choose against this approach, since it threatens the validity of the comparison between iterative tree-based program synthesis and repair-only baseline by giving the iterative approach additional budget in terms of the number of programs it can generate.
 
@@ -1034,7 +1034,7 @@ SEIDR with Codex also outperforms other LLMs on PSB2 in C++.
 No parent selection strategy or tree arity $\treearity$ is leading across all PSB2 experiments. 
 
 In the HumanEval-C++ experiments, SEIDR performs well at larger $k,$ i.e., when debugging steps are made. 
-Remarkably, the union of SEIDR experiments with both GPT-3.5 and a much smaller Llama~3 solve 163 problems (or 99.4\% in table~\ref{tab:generalizability-he}) and 162 problems (or 98.8\%) in HumanEval-C++, correspondingly.
+Remarkably, the union of SEIDR experiments with both GPT-3.5 and a much smaller Llama~3 solve 163 problems (or 99.4\% in table~\ref{tab:generalizability-he-py}) and 162 problems (or 98.8\% in table~\ref{tab:generalizability-he-cpp}) in HumanEval-C++, correspondingly.
 SEIDR does not outperform other LLMs on HumanEval-Python, which, as mentioned earlier, could be the effect of HumanEval-Python being a popular benchmark for testing LLMs and indirectly optimizing the models.
 
 Direct comparison of SEIDR results with other iterative program synthesis frameworks is challenging because, in addition to differences in benchmarks used, \cite{jiangSelfEvolveCodeEvolution2023} and \cite{chenTeachingLargeLanguage2023} do not always report the number of generated programs, which is the primary metric that we use to compare iteration against a replace-only baseline.\footnote{\cite{chenTeachingLargeLanguage2023} does have a sentence "Note that typically one debugging turn is sufficient"}
