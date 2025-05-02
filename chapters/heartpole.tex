@@ -46,7 +46,7 @@ Every half an hour awake, the agent observes $\state_\step$ and picks an action 
 \subsection{Reinforcement Learning baseline}
 We train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) with 3 industry-standard algorithms: CEM \cite{szitaLearningTetrisUsing2006}, SARSA \cite[Chapter 6]{suttonReinforcementLearningSecond2018} and DQN \cite{mnihPlayingAtariDeep2013,dqn} and compare the resulting agents with a reference strategy of sleep every night followed by a cup of coffee.
 
-We train all models with \texttt{keras-rl} \cite{KerasrlKerasrlDeep}, limiting all episodes to 1000 steps, and test 20 times.
+We train all models with \texttt{keras-rl} \cite{KerasrlKerasrlDeep2025}, limiting all episodes to 1000 steps, and test 20 times.
 
 We have observed that during first epochs of training the models invariably tend towards high coffee and alcohol consumption (behavior with immediate positive reinforcement but long-term negative side effects), but then converge to more conservative strategies focused on timing sleep correctly and avoiding drinks. 
 This, together with the fact that only one of RL algorithms has outperformed the reference strategy supports our claim that HeartPole is \emph{non-trivial}.
@@ -58,7 +58,7 @@ At the same time it provides a high level of \emph{transparency}, making it easy
 For our first baseline, we employ an expert\footnote{the author of the present thesis} to write a maximally simple reference implementation of a HeartPole agent.
 The resulting code is as follows:
 
-\lstinputlisting{listings/vadim.py}
+\lstinputlisting{listings/metanurse-vadim.py}
 
 \newpage
 \subsection{Program Synthesis}
