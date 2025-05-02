@@ -1,8 +1,13 @@
-\begin{tabular}{lrr}
-\toprule
-model & avg score & best avg score \\
-\midrule
-deepseek-coder & -149.952560 & 0.400517 \\
-gpt-4o & -99.885775 & 0.348758 \\
-\bottomrule
+\begin{tabular}{c|c|c|c|c}
+    Algorithm & Score & Sleep & Coffee & Alcohol \\
+    \midrule
+    CEM 0 & -524.12 &  & & \\
+    CEM 3x16 & -523.88 & & & \\
+    SARSA 0 & -130.9 & Yes & & \\
+    SARSA 3x16 & -134.95 & Yes & & \\
+    DQN 0 & -119.95 & Yes & & \\
+    DQN 3x16 & \textbf{-84.96} & Yes & & \\
+    Vadim & -104.93 & Yes & Yes & \\
+    deepseek-coder & -109.61 & Yes & Yes & Yes \\
+    gpt-4o & -104.65 & Yes & Yes & \\
 \end{tabular}
