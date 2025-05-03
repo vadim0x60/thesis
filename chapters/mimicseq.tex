@@ -218,55 +218,63 @@ Our baseline model consists of a two-layer multilayer perceptron (MLP) with 1000
 
 We test our baseline on the \emph{second day event prediction task} and summarize the results for different clusterings in table \ref{tab:mytable2}. It can be seen that the more classes are in the clustering, the harder the prediction task becomes. As noted above, accuracy is a deceptive metric in this scenario.
 
-\begin{table}[H]
-  \centering
-    \begin{tabular}{lcccc} \toprule
-        {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-        {c10}  & 0.903 & 0.840 & 0.790 & 0.827 \\
-        {c100}  & 0.568 & 0.885 & 0.713 & 0.632 \\
-        {c1000}  & 0.500  & 0.976 & 0.710  & 0.586 \\
-        {c10000}  & 0.509  & 0.996 &  0.703  & 0.589 \\ \midrule
-    \end{tabular}
-  \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, entire dataset}
-  \label{tab:mytable2}
-\end{table}
-
-
-
 For many patients it is the case that they are in the hospital for only one day. For these patients, the model should predict no event on the second day. However, evaluation of the models showed that this is almost never the case. However, one can argue that it is more important to get problematic patients correct than the ones who leave the hospital after one day. Therefore, we evaluated the model also only on patients which are in the hospital for at least 2 days. Since the data is roughly ordered according to length of stay, we achieved this by skipping the first 100k samples in the training and the first 1k samples in the test data. The models shows improved performance here, as can be seen in Table \ref{tab:mytable1}.
-
-
-\begin{table}[H]
-  \centering
-    \begin{tabular}{lcccc} \toprule
-        {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-        {c10}  & 0.942  & 0.854 & 0.850  &  0.890 \\ 
-        {c100}  & 0.633  & 0.878 & 0.765  &  0.692 \\ 
-        {c1000}  & 0.548  & 0.974 & 0.770  &  0.640 \\ 
-        {c10000}  &  0.539  & 0.995 & 0.771  &  0.634 \\ \midrule
-        
-%        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
-    \end{tabular}
-  \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, skipping first 100k train / 1k test samples}  \label{tab:mytable1}
-\end{table}
 
 
 The same setup but with 3 hidden layers and 5000 units each shows improved performance as can be seen in table \ref{tab:mytable3}. Bigger models were tested as well, but showed no further improvement.
 
 
-\begin{table}[H]
-  \centering
-    \begin{tabular}{lcccc} \toprule
-        {configuration} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-        {1}  & 0.505  & 0.996 &  0.727  & 0.595 \\
-        {2} & 0.544  & 0.9959 &  0.784  & 0.642 \\  \midrule
-%        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
-    \end{tabular}
-  \caption{All evaluations with c10000; 1: Evaluation results of 3 x 5000 MLP for first day - second day  prediction, entire dataset; 2: Evaluation results of 3 x 5000 MLP for first day - second day prediction, skip first 100k train / 1k test samples}
-  \label{tab:mytable3}
-\end{table}
-
-
-
-
 Replacing ones in the one-hot encoding with the corresponding events' intensities impaired the models' performance, likely because it introduces a false equivalency between a zero-intensity event and lack of an event, i.e. "average blood pressure" is different from "no blood pressure measurement".
+
+
+\begin{table}
+    \centering
+      \begin{tabular}{lcccc} \toprule
+          {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
+          {c10}  & 0.903 & 0.840 & 0.790 & 0.827 \\
+          {c100}  & 0.568 & 0.885 & 0.713 & 0.632 \\
+          {c1000}  & 0.500  & 0.976 & 0.710  & 0.586 \\
+          {c10000}  & 0.509  & 0.996 &  0.703  & 0.589 \\ \midrule
+      \end{tabular}
+    \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, entire dataset}
+    \label{tab:mytable2}
+  \end{table}
+
+\begin{table}
+    \centering
+      \begin{tabular}{lcccc} \toprule
+          {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
+          {c10}  & 0.942  & 0.854 & 0.850  &  0.890 \\ 
+          {c100}  & 0.633  & 0.878 & 0.765  &  0.692 \\ 
+          {c1000}  & 0.548  & 0.974 & 0.770  &  0.640 \\ 
+          {c10000}  &  0.539  & 0.995 & 0.771  &  0.634 \\ \midrule
+          
+  %        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
+      \end{tabular}
+    \caption{Evaluation results of 2 x 1000 MLP for first day - second day  prediction, skipping first 100k train / 1k test samples}  \label{tab:mytable1}
+  \end{table}
+  
+  \begin{table}
+    \centering
+      \begin{tabular}{lcccc} \toprule
+          {configuration} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
+          {1}  & 0.505  & 0.996 &  0.727  & 0.595 \\
+          {2} & 0.544  & 0.9959 &  0.784  & 0.642 \\  \midrule
+  %        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
+      \end{tabular}
+    \caption{All evaluations with c10000; 1: Evaluation results of 3 x 5000 MLP for first day - second day  prediction, entire dataset; 2: Evaluation results of 3 x 5000 MLP for first day - second day prediction, skip first 100k train / 1k test samples}
+    \label{tab:mytable3}
+  \end{table}
+
+\newpage
+\section{Future work}
+
+Training an effective foundational model of intensive care requires a combination of data, algorithms and large computational resources. 
+In this chapter, we proposed a dataset and validate this proposal with a simple model architecture and a small computational investment.
+The next step is \emph{scaling}: increasing model size and hardware investment to predictably \cite{alabdulmohsinRevisitingNeuralScaling2022, henighanScalingLawsAutoregressive2020, liMisFittingScaling2024, rosenfeldScalingLawsDeep2021} increase model performance.
+
+Once scaled, a foundational model for intensive care can be used in place of HeartPole or Auto-ALS as a patient simulator for RLCEPS.
+This simulator will be completely data-driven and, as such, minimize the risk of \emph{confirmation bias} (see section \ref{sec:bias}), enabling the discovery of treatment strategies that go beyond existing scientific knowledge in healthcare.
+
+Scaling requires a different focus and a different set of resources from initial research and exploration.
+As such, we leave scaling as a direction of future work.
