@@ -7,10 +7,15 @@ Competitive programming is at a historical stage at which chess was in 1996 \cit
 Part \ref{part:proginduction} traces these developments like a fossil record, from domain specific languages in chapters \ref{ch:bfpp} and \ref{ch:neurogen} to test time scaling of language models in chapters \ref{ch:boptest} and \ref{ch:seidr}, advancing the state of the art in both areas.
 It concludes with introduction and validation of \emph{Synthesize Execute Debug Instruct Rank} - a program synthesis framework that introduces testing into language model driven program synthesis for the benefit of safety-critical domains such as healthcare.
 
-Part \ref{part:health} demonstrates that in conjunction with a patient simulator, SEIDR can be used to automatically discover treatment strategies for healthcare settings.
-At the same time, our RLCEPS (chapter \ref{ch:proposal}) experiments demonstrate the limitations of the method: in particular, the Auto-ALS benchmark remains unsolved.
+Part \ref{part:health} advances the state of the art in patient simulators and demonstrates that in conjunction with such a simulator, SEIDR can be used to automatically discover treatment strategies for healthcare settings and often do so \emph{better than traditional reinforcement learning methods}, in addition to scientific discovery potential of interpretable strategies.
 
-Consequently, one cannot claim that state-of-the-art methods of \emph{reinforcement learning from code execution feedback} are as of the date of present publication ready to be deployed in such sensitive contexts.
-But one can be reasonably certain that they will play a role in the future of healthcare and justifiably hopeful that program synthesis methods introduced in chapters \ref{ch:bfpp}-\ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole}-\ref{ch:mimicseq} will play a role in this transition.
+At the same time, our headline benchmark for Reinforcement Learning from Code Execution in Patient Simulators, Auto-ALS, remains unsolved, raising an important question: \emph{what's the missing ingredient?}
+
+This question shall be subject of future research, as the research body of this thesis does not support anything more than an educated guess.
+Namely, what if the missing ingredient is simply a more advanced language model?
+Given SEIDR's ability to get much more out of a language model than naive sampling would suggest possible and the never-ending progress of models, it is reasonable to assume that SEIDR with the latest model will soon solve Auto-ALS and could be used to discover treatment strategies for datasets such as MIMIC-SEQ.
+
+In other words, I regret to inform you that this thesis has not solved healthcare.
+But one can be reasonably certain that RLCEPS will play a role in the future of healthcare and justifiably hopeful that program synthesis methods introduced in chapters \ref{ch:bfpp}-\ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole}-\ref{ch:mimicseq} will play a role in this transition.
 
 \emph{Finis tantum principium est}.
