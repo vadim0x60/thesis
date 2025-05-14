@@ -127,11 +127,11 @@ We correct for this and train a specialized language model for FizzBuzz task, be
          FizzBuzzLM & 13177 & 853.2 ms ± 6.8 ms
          %\footnote{GPU (NeuralEngine) accelerated runtime was even slower, at 1.596 s ± 0.037 s}
     \end{tabular}
-    \caption{Performance charecteristics of different FizzBuzz implementations}
+    \caption{Performance characteristics of different FizzBuzz implementations}
     \label{tab:my_label}
 \end{table}
 
-We can see that the programming language implementations are somewhat faster than \emph{FizzBuzzLM} and much more expressive with at least \emph{FizzBuzzLM} 2 orders of magnitude behind the true Kolmogorov complexity \cite{kolmogorov} of the problem.
+We can see that the programming language implementations are somewhat faster than \emph{FizzBuzzLM} and much more expressive with at least 2 orders of magnitude behind the true Kolmogorov complexity \cite{kolmogorov} of the problem.
 The only reason these performance costs are accepted is that it's easier to implement optimization in the space of possible neural network parameters than in the space of possible programs. 
 When the problem of optimal program synthesis is solved, it becomes the "best of both worlds" approach: data-driven and trainable, but using an expressive and performant representation.
  
