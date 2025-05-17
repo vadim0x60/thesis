@@ -121,14 +121,14 @@ UVA/Padova \cite{manUVAPADOVAType2014} is a set of equations used to model type 
 The equations were developed by clinical experts and validated on a dataset of 32 people aged 38 ± 12 years.
 It is widely used in Healthcare and even approved in the United States as a replacement for clinical trials.
 It provides $\prob_o(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$ (see section \ref{sec:scope}), so to be a full-fledged Markov Decision Process it only need $\prob_r(\reward|\state,\action)$.
-\cite{simglucose} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{diabetesrisk} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
+\emph{Simglucose}~\cite{simglucose} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{diabetesrisk} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
 
 \newpage
 \section{GYMIC}
 \label{sec:gymic}
 
 \subsection{Scope}
-GYMIC \cite{gym-sepsis} is, unlike \emph{simglucose}, a fully data-driven simulator.
+GYMIC \cite{gym-sepsis} is, unlike examples in section \ref{sec:simglucose}, a fully data-driven simulator.
 It harnesses a subset of MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} dataset to address on one of the most challenging problems in emergency care - sepsis.
 The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{sepsis-motivation1,sepsis-motivation2}.
 

@@ -195,20 +195,18 @@ Until recently, the tasks of neural program synthesis~\cite{gulwaniProgramSynthe
 However, results from genetic programming~\cite{sobaniaRecentDevelopmentsProgram2021} suggest that evolution is a crucial step in synthesis.
 A number of important studies bridging this gap in the application of large language models have been carried out concurrently with this chapter, discussed below.
 
-The use of large language models for a program repair step within a program synthesis pipeline has been studied by \cite{joshi2022:repair} and \cite{guptaSynthesizeExecuteDebug2020}, 
-while the specific case of instruction-driven LLMs has been explored by \cite{fanAutomatedRepairPrograms2023}, where the initial synthesis is done by the Codex model~\cite{chenEvaluatingLargeLanguage2021} and for program repair both Codex and state-of-the-art specialized repair tools such as TBar and Recoder~\cite{justDefects4JDatabaseExisting2014} are considered and compared. 
-\cite{zhangSelfEditFaultAwareCode2023} do the same, but fine-tune PyCodeGPT-110M~\cite{zanCERTContinualPretraining2022} to use it as a repair model. 
+The use of large language models for a program repair step within a program synthesis pipeline has been studied by \cite{joshi2022:repair} and \cite{guptaSynthesizeExecuteDebug2020},  while the specific case of instruction-driven LLMs has been explored in \cite{fanAutomatedRepairPrograms2023}, where the initial synthesis is done by the Codex model~\cite{chenEvaluatingLargeLanguage2021} and for program repair both Codex and state-of-the-art specialized repair tools such as TBar and Recoder~\cite{justDefects4JDatabaseExisting2014} are considered and compared. 
+In~\cite{zhangSelfEditFaultAwareCode2023}, PyCodeGPT-110M~\cite{zanCERTContinualPretraining2022} is fine-tuned to be used as a repair model. 
 The resulting framework is a two-step process (1 draft step and 1 debug step), while iterative evolution and search are not explored. 
 
-Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model~\cite{DiffModelsNew2023}.
-%~\cite{DiffModelsNew2023}. 
+Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model~\cite{DiffModelsNew2023}. 
 However, the model is directed neither to solve the programming problem at hand nor to fix bugs.
 Instead, it is provided with generic instructions such as ``Change function f.'' 
 This approach is meant for the cases where creative freedom~\cite{stanleyWhyGreatnessCannot2015a} is encouraged rather than satisfying concrete requirements.
 \cite{liu2023algorithm} demonstrate the advantages of applying ELM to modular components of a solution, rather than the entire solution to the given problem.
 
 Some related work is explicitly guided by the metaphor of conversation between agents. 
-\cite{zhang2023steam} implements a repair-only program synthesis loop as a conversation between an analyst agent, a coder, and a tester, while \cite{dongSelfcollaborationCodeGeneration2023} does the same for tester, developer, and reviewer. 
+A repair-only program synthesis loop can be implemented as a conversation between an analyst agent, a coder, and a tester~\cite{zhang2023steam} or between a tester, a developer, and a reviewer~\cite{dongSelfcollaborationCodeGeneration2023}. 
 The coder and the developer are roughly equivalent to SYNTHESIZE, the tester to EXECUTE, and the reviewer to INSTRUCT, while the analyst is an agent that prepares a generation prompt for the coder. 
 Both testers are language models that predict the output of a program without actual compilation, execution, or testing, which makes \cite{dongSelfcollaborationCodeGeneration2023} and \cite{zhang2023steam} specific cases of chain-of-thought prompting~\cite{yuBetterChainofThoughtPrompting2023} for program synthesis.
 
