@@ -183,7 +183,7 @@ Initial thresholds $\threshold_\stepp$ can be arbitrary.
 With each new observation, thresholds $\threshold_\stepp$ are readjusted so that among $\historylen$ prior observations, roughly $\stepp$ out of $\discretebins$  observations are lower values that $\threshold_\stepp$:
 
 \begin{equation}
-\underset{\threshold}{\text{minimize}} \sum_{\stepp \in 0,1,\dots \discretebins} |\frac{\stepp}{\discretebins} - \frac{\sum_{\step' \in \step-\historylen,\step-\historylen+1,\dots,\step-1} \mathbb{I}(\obs_{\step'}^\steppp < \threshold_\stepp)}{\historylen}|
+\underset{\threshold}{\text{minimize}} \sum_{\stepp \in 0,1,\dots \discretebins} |\frac{\stepp}{\discretebins} - \frac{\sum_{\step' \in \step-\historylen,\step-\historylen+1,\dots,\step-1} \indicator (\obs_{\step'}^\steppp < \threshold_\stepp)}{\historylen}|
 \end{equation}
 
 To solve this optimization problem, one has to sort previous $\discretebins$ observations in ascending order so that 

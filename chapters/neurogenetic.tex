@@ -150,7 +150,7 @@ We define two empirical metrics of overall program fitness.
 The first is \emph{empirical total reward}:
 
 \begin{equation}
-    \reward(\code|\codebase) = \frac{\sum\limits_{\step=1}^{|\codebase|} \mathbb{I}[\code_\code^{(\step)}=\code] \returntot^{(\step)}}{\sum\limits_{\step=1}^{|\codebase|} \mathbb{I}[\code_\code^{(\step)}=\code]}
+    \reward(\code|\codebase) = \frac{\sum\limits_{\step=1}^{|\codebase|} \indicator [\code_\code^{(\step)}=\code] \returntot^{(\step)}}{\sum\limits_{\step=1}^{|\codebase|} \indicator [\code_\code^{(\step)}=\code]}
 \end{equation}
 
 If a program has been tested in the environment ($\textit{Eval()}$ function) several times, there will be several copies of it in the codebase with different fitness samples.
@@ -159,7 +159,7 @@ Averaging over them yields an unbiased estimate of $\expectation(\returntot)$, t
 The second is \emph{empirical program fitness}, defined as
 
 \begin{equation}
-    \obj(\code|\codebase) = \frac{\sum\limits_{\step=1}^{|\codebase|} \mathbb{I}[\codebase_\code^{(\step)}=\code] e^{\returntot^{(\step)}}}{\sum\limits_{\step=1}^{|\codebase|} \mathbb{I}[\code_\code^{(\step)}=\code]}
+    \obj(\code|\codebase) = \frac{\sum\limits_{\step=1}^{|\codebase|} \indicator [\codebase_\code^{(\step)}=\code] e^{\returntot^{(\step)}}}{\sum\limits_{\step=1}^{|\codebase|} \indicator [\code_\code^{(\step)}=\code]}
     \label{eq:empfitness}
 \end{equation}
 
@@ -228,7 +228,7 @@ Then
 
 \begin{equation}
     \policy_\text{shuffle}(\code_\text{child}|\code_1,\code_2) =
-            \frac{\sum\limits_{\action \in \mathrm{A}} \mathbb{I}[\action(\code_\text{parent}) = \code_\text{child}]}{|\code_1|!}
+            \frac{\sum\limits_{\action \in \mathrm{A}} \indicator [\action(\code_\text{parent}) = \code_\text{child}]}{|\code_1|!}
 \end{equation}
 
 Another approach is \emph{uniform mutation} where a loaded coin is tossed for every token in $\code_1$. 
@@ -236,14 +236,14 @@ With probability $\policy_\text{ind}$ it is replaced with a random token from th
 The evolution of a single token under shuffle mutation is defined by distribution
 
 \begin{equation}
-    \prob(\code^\text{new} | \code^\text{old}) = \frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \mathbb{I}[\code^\text{new} = \code^\text{old}]
+    \prob(\code^\text{new} | \code^\text{old}) = \frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \indicator [\code^\text{new} = \code^\text{old}]
 \end{equation}
 
 Hence over full programs the operator is defined as
 
 \begin{equation}
-    \policy_\text{unimut}(\code_\text{child}|\code_1,\code_2) = \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ 
-    \prod\limits_{\step=0}^{|\code_1|}  \left(\frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
+    \policy_\text{unimut}(\code_\text{child}|\code_1,\code_2) = \indicator [|\code_\text{child}|=|\code_1|] \\ 
+    \prod\limits_{\step=0}^{|\code_1|}  \left(\frac{\policy_\text{ind}}{|L|} +  (1 - \policy_\text{ind}) \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
 \end{equation}
 
 \paragraph{Combination operators}
@@ -265,33 +265,33 @@ Hence the probability of $\code_\text{child}$ being born out of \emph{one-point 
 
 \begin{equation}
     \policy_\text{1ptcx}(\code_\text{child}|\code_1,\code_2) =
-        \frac{\mathbb{I}[|\code_\text{child}|=|\code_2|]}{|\code_1,\code_2|-1}
-        \sum\limits_{k=2}^{|\code_1,\code_2|} \prod\limits_{\step=1}^{k-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=k}^{|\code_2|} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}]
+        \frac{\indicator [|\code_\text{child}|=|\code_2|]}{|\code_1,\code_2|-1}
+        \sum\limits_{k=2}^{|\code_1,\code_2|} \prod\limits_{\step=1}^{k-1} \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=k}^{|\code_2|} \indicator [\code_\text{child}^{(\step)} = \code_2^{(\step)}]
 \end{equation}
 
 \emph{Two-point crossover} is similar, but instead of swapping the trailing ends of programs, a section in the middle of the programs is chosen, determined by randomly selected cut-off indices $k_1$ and $k_2$ and swapped:
 
 \begin{multline}
     \policy_\text{2ptcx}(\code_\text{child}|\code_1,\code_2) =
-        \frac{2 \mathbb{I}[|\code_\text{child}|=|\code_1|]}{(|\code_1,\code_2|-2)(|\code_1,\code_2|-1)} 
+        \frac{2 \indicator [|\code_\text{child}|=|\code_1|]}{(|\code_1,\code_2|-2)(|\code_1,\code_2|-1)} 
         \cdot \\ \cdot
         \sum\limits_{k_1=2}^{|\code_1,\code_2|-1}
         \sum\limits_{k_2=k_1+1}^{|\code_1,\code_2|} 
-        \prod\limits_{\step=1}^{k_1-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=k_1}^{k_2-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}]
-        \prod\limits_{\step=k_2}^{|\code_1|} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}]
+        \prod\limits_{\step=1}^{k_1-1} \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=k_1}^{k_2-1} \indicator [\code_\text{child}^{(\step)} = \code_2^{(\step)}]
+        \prod\limits_{\step=k_2}^{|\code_1|} \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}]
 \end{multline}
 
 \emph{Uniform crossover} mirrors \emph{uniform mutation} in that a loaded coin is tossed for each token in $\code_1$. With probability $\policy_\text{ind}$ the token is replaced, but the replacement is not drawn randomly from the alphabet. Instead, the replacement comes from $\code_2$:
 
 \begin{equation}
-    \policy_\text{unicx}(\code_\text{child}|\code_1,\code_2) = \prod\limits_{\step=0}^{|\code_1|} \mathbb{I}[|\code_\text{child}|=|\code_1|] \\ \left(\policy_\text{ind} \mathbb{I}[\code_\text{child}^{(\step)} = \code_2^{(\step)}] + (1 - \policy_\text{ind}) \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
+    \policy_\text{unicx}(\code_\text{child}|\code_1,\code_2) = \prod\limits_{\step=0}^{|\code_1|} \indicator [|\code_\text{child}|=|\code_1|] \\ \left(\policy_\text{ind} \indicator [\code_\text{child}^{(\step)} = \code_2^{(\step)}] + (1 - \policy_\text{ind}) \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}] \right)
 \end{equation}
 
 Finally, \emph{messy crossover} is a version of \emph{one-point crossover} without the assumption that both parent programs have to be cut at the same index $k$.
 In \emph{messy crossover}, one parent is cut at index $k_1$, another is cut at index $k_2$ and the head of one is attached to the tail of the other:
 
 \begin{multline}
-    \policy_\text{messy}(\code_\text{child}|\code_1,\code_2) = \frac{1}{(|\code_1,\code_2|-1)^2} \cdot \\ \cdot \sum\limits_{k_1=2}^{|\code_1,\code_2|} \sum\limits_{k_2=2}^{|\code_1,\code_2|} \mathbb{I}[|\code_\text{child}|=k_1+|\code_2|-k_2] \prod\limits_{\step=1}^{k_1-1} \mathbb{I}[\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=1}^{|\code_2|-k_2} \mathbb{I}[\code_\text{child}^{(k_1+\step)} = \code_2^{(k_2+\step)}]
+    \policy_\text{messy}(\code_\text{child}|\code_1,\code_2) = \frac{1}{(|\code_1,\code_2|-1)^2} \cdot \\ \cdot \sum\limits_{k_1=2}^{|\code_1,\code_2|} \sum\limits_{k_2=2}^{|\code_1,\code_2|} \indicator [|\code_\text{child}|=k_1+|\code_2|-k_2] \prod\limits_{\step=1}^{k_1-1} \indicator [\code_\text{child}^{(\step)} = \code_1^{(\step)}] \prod\limits_{\step=1}^{|\code_2|-k_2} \indicator [\code_\text{child}^{(k_1+\step)} = \code_2^{(k_2+\step)}]
 \end{multline}
 
 \begin{table}
@@ -367,7 +367,7 @@ The $\mathit{Update}_\text{genetic}$ procedure recalculates values $\statevalue$
 
 \begin{equation}
     \learnables_i = \frac{\greed}{|\probs_\text{genetic}^{(\step)}|} +
-    \mathbb{I}[\step = \underset{\step}{\arg\max} \statevalue^{(\step)}] (1 - \greed)
+    \indicator [\step = \underset{\step}{\arg\max} \statevalue^{(\step)}] (1 - \greed)
 \end{equation}
 
 where $\greed$ is a hyperparameter that controls the \emph{exploration-exploitation tradeoff} \cite{banditsexplo}
@@ -396,7 +396,7 @@ Then
 \begin{equation}
     \policy_\text{neural}(\code | \learnables, \codebase) = \hidden_{(|\code|+1)}^{\alphabet+1}
     \prod\limits_{\step=1}^{|\code|}
-    \sum\limits_{j=1}^{|\alphabet|} \mathbb{I}[\code^{(\step)}=\alphabet^{(j)}]
+    \sum\limits_{j=1}^{|\alphabet|} \indicator [\code^{(\step)}=\alphabet^{(j)}]
     \hidden_i(\learnables)
 \end{equation}
 

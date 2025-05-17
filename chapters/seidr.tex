@@ -78,9 +78,11 @@ The EXECUTE agent compiles the programs (if necessary) and launches them using t
 The program is run once for every I/O pair in the validation set. 
 Its \texttt{stdin} stream receives all input lines in a given input pair, and its \texttt{stdout} and \texttt{stderr} streams are captured and saved.
 We then measure the \emph{score} of the program defined as the accuracy over the output lines, with $\mloutputvec{}$ being the expected output, and $n=\max\{|\mloutputvec{}|, |\text{stdout}|\}$:
-\[    
-\text{score}(\mloutputvec{}, \text{stdout}) = \frac{\sum^{n}_\step{\mathbb{I}[\text{stdout}_\step = \mloutputvec_\step]}}{n} 
-\]
+
+\begin{equation}
+    \text{score}(\mloutputvec{}, \text{stdout}) = \frac{\sum^{n}_\step{\indicator [\text{stdout}_\step = \mloutputvec_\step]}}{n} 
+\end{equation}
+
 unless \texttt{stderr} is non-empty during compilation or execution, which is considered to indicate failure and is assigned a score of 0.
 
 \paragraph{Instruct}
