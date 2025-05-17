@@ -114,19 +114,11 @@ The authors argue that this dataset reflects important properties of healthcare 
 Another example is indeed this thesis, and the use of the BOPTEST framework in chapter \ref{ch:boptest} motivated by some acute similarities between the tasks of building optimization and healthcare.
 Due to the data shortage in Healthcare many proposals for data-driven clinical decision support systems are tested on such relatively unrealistic benchmarks with the assumption that the system can be retrained on real patient data and simulators shall they arrive in the future.
 
-\newpage
 \section{simglucose}
 \label{sec:simglucose}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{uvapadova.jpg}
-    \caption{UVA/PADOVA equations, visualised}
-    \label{fig:uvapadova}
-\end{figure}
-
 UVA/Padova \cite{manUVAPADOVAType2014} is a set of equations used to model type 1 diabetes.
-The equations, outlined on figure \ref{fig:uvapadova}, were developed by clinical experts and validated on a dataset of 32 people aged 38 ± 12 years.
+The equations were developed by clinical experts and validated on a dataset of 32 people aged 38 ± 12 years.
 It is widely used in Healthcare and even approved in the United States as a replacement for clinical trials.
 It provides $\prob_o(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$ (see section \ref{sec:scope}), so to be a full-fledged Markov Decision Process it only need $\prob_r(\reward|\state,\action)$.
 \cite{simglucose} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{diabetesrisk} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
@@ -136,7 +128,7 @@ It provides $\prob_o(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | 
 \label{sec:gymic}
 
 \subsection{Scope}
-GYMIC \cite{gym-sepsis} is, unlike the previous examples, a fully data-driven simulator.
+GYMIC \cite{gym-sepsis} is, unlike \emph{simglucose}, a fully data-driven simulator.
 It harnesses a subset of MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} dataset to address on one of the most challenging problems in emergency care - sepsis.
 The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{sepsis-motivation1,sepsis-motivation2}.
 
