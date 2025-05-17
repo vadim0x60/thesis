@@ -214,19 +214,15 @@ A genetic developer writes programs by
     \item Using the operator to modify the parents and yield a new (child) program
 \end{enumerate}
 
-A genetic operator is a probability distribution $\policy_\text{op}$ over child programs given 2 parent programs. 
+A genetic operator is a probability distribution $\policy_\text{op}(\code_\text{child}|\code_1,\code_2)$ over child programs. 
 
-\begin{equation}
-    \policy_\text{op}(\code_\text{child}|\code_1,\code_2)
-\end{equation}
-
-Operators whose $\policy_\text{op}$ is invariant to $\code_2$ and depends on $\code_1$ only are called \emph{mutation} operators: they generate a new program by \emph{mutating} one program $\code_1$.
+If $\policy_\text{op}$ is invariant to $\code_2$ and depends on $\code_1$ only, it is called a \emph{mutation} operator: it generates a new program by \emph{mutating} $\code_1$.
 The rest are called \emph{combination} operators as they \emph{combine} 2 existing programs to generate a new one.
 The choice of operators follows from DEAP \cite{deap, derainvilleDEAPEnablingNimbler2014, derainvilleDEAPPythonFramework2012} which we also use to implement the experiments.
 
 \paragraph{Mutation operators}
 
-The simplest method for randomly modifying a program is \emph{shuffle mutation}: randomly re-order the tokens of $\code_1$.
+The genetic operator is \emph{shuffle mutation}: randomly re-ordering the tokens of $\code_1$.
 Let $\mathrm{A}$ be the set of all possible permutations of size $|\code_1|$. $|\mathrm{A}|=|\code_1|!$. 
 Then
 
@@ -330,7 +326,6 @@ Implementation of the pruning operator depends on the programming language at ha
         \end{cases}
 \end{equation}
 
-\newpage
 \paragraph{Operator and parent selection}
 
 Let $\probs_\text{genetic}$ be a tuple of all available genetic operators, in order of introduction, i.e. $\probs_\text{genetic}^{(1)}=\policy_\text{shuffle}$ and $\probs_\text{genetic}^{(4)}=\policy_\text{2ptcx}$
