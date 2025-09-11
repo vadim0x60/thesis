@@ -561,7 +561,7 @@ Then the active cell is decremented and the resulting number is put onto the act
 There is 1 read operation and 2 write operations to the end of the action stack, which introduces a delay before the actions get executed.
 When it's time to act, the number on the action stack is coerced to one of the actions possible in this environment (0 for going left, 1 for doing nothing, 2 for right). 
 
-A strategy emerges, illustrated on figure \ref{fig:mountaincarwinner}, in which the car puts "going right" onto the agenda if it's on the far left or the center right of the landscape, puts "going left" onto the agenda when it's on the far right or center left and schedules doing nothing if it's in the center.
+A strategy emerges, illustrated in figure \ref{fig:mountaincarwinner}, in which the car puts "going right" onto the agenda if it's on the far left or the center right of the landscape, puts "going left" onto the agenda when it's on the far right or center left and schedules doing nothing if it's in the center.
 This strategy helps the car successfully reach the right fringe every time it is applied.
 
 \newpage

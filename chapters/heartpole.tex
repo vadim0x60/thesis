@@ -30,7 +30,7 @@ However, many decisions that would help in the short term (not sleeping, consumi
 
 \emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $\state_\step$ consists of alertness $\state^\text{alert}_\step$, hypertension $\state^\text{hypert}_\step$, intoxication $\state^\text{tox}_\step$ time since slept $\state^\text{tawake}_\step$, \emph{total time elapsed} $\state^\text{ttotal}_\step$ and \emph{total work done} $\state^\text{done}_\step$.
 
-Over these parameters, we define \emph{productivity} function $\eta(\state^\text{alert}_\step, \state^\text{tox}_\step)$ presented graphically on figure \ref{fig:productivity} and \emph{heart attack probability} $r(\state^\text{hypert}_\step)=\frac{\text{sigmoid}(\state^\text{hypert}_\step)}{2}$.
+Over these parameters, we define \emph{productivity} function $\eta(\state^\text{alert}_\step, \state^\text{tox}_\step)$ presented graphically in figure \ref{fig:productivity} and \emph{heart attack probability} $r(\state^\text{hypert}_\step)=\frac{\text{sigmoid}(\state^\text{hypert}_\step)}{2}$.
 The agent receives small positive rewards for productivity and a very large negative reward if a heart attack occurs.
 
 Every half an hour awake, the agent observes $\state_\step$ and picks an action $\action_\step$ from discrete action space of \emph{just work}, \emph{drink coffee} (increases $\state^\text{alert}$ and $\state^\text{hypert}$), \emph{drink beer} (decreases $\state^\text{alert}$, increases $\state^\text{hypert}$ and $\state^\text{tox}_\step$) and \emph{go to bed} (sleep takes a lot of time, but reduces $\state^\text{hypert}$ and $\state^\text{tox}_\step$ and without it alertness starts to fall very fast)

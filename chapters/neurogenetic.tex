@@ -21,7 +21,7 @@ Using methods from single variable calculus \cite{antonCalculusSingleVariable202
 
 However, a lot of functions we would like to optimize in real life (phone battery life, travel time, QALYs \cite{ryenWillingnessPayQuality2015, torranceUtilitiesQualityadjustedLife1989}, profits) do not have a formula attached. 
 So, for this thought experiment, consider $ \obj(\mlinput) $ as an opaque function to be explored only via querying the values of $ \obj(\mlinput) $ for some $\mlinput$.
-This function is visualized on figure \ref{fig:neuropt-f}
+This function is visualized in figure \ref{fig:neuropt-f}
     
 \begin{figure}
     \centering
@@ -38,7 +38,7 @@ Let us begin with an intitial population of 2 instances of $ \mlinput $ and, At 
 This offspring sampling procedure is repeated for 10000 iterations and from the resulting population of 10002 pick $ \mlinput $ with the maximal $ \obj(\mlinput) $.
 
 By generating new solutions as modifications of existing successful solutions we focus the search on the most promising part of the search space. 
-Note that the darker colored points of the visualization on figure \ref{fig:neuropt-search} were added to the population after the light colored ones. 
+Note that the darker colored points of the visualization in figure \ref{fig:neuropt-search} were added to the population after the light colored ones. 
 
 \begin{figure}
     \centering
@@ -77,7 +77,7 @@ We start with an empty population and, at every step, sample $ \latent $ from $ 
 \end{figure}
 
 Now, what if we alternate between neural steps and genetic steps?
-On figure \ref{fig:neuropt-combined} we do exactly that: add one element to the population by sampling it from the actor distribution $ \mlinput_{\learnables}(\latent) $, update the actor and the critic, then sample a pair $\langle x1,x2 \rangle$ as we did in the evolutionary approach and add their average.
+In figure \ref{fig:neuropt-combined} we do exactly that: add one element to the population by sampling it from the actor distribution $ \mlinput_{\learnables}(\latent) $, update the actor and the critic, then sample a pair $\langle x1,x2 \rangle$ as we did in the evolutionary approach and add their average.
 One can see that in the hybrid neural-genetic mode, the search process zeros in on the maximum really fast and finds it within 4000 iterations, faster than both pure neural and pure genetic approaches 
 
 \newpage
