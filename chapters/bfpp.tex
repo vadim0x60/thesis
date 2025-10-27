@@ -422,6 +422,7 @@ A more rigorous way to confirm it would be employing several human experts to de
 Developing BF++ programs for \textbf{Bipedal Walker} manually is very challenging and left outside the scope.
 
 \subsection{Program synthesis model}
+\label{sec:bfpp-ps-model}
 
 In order to train a generative model $\policy$ to write \textbf{BF++} programs we treat the writing process as a reinforcement learning episode in its own right \cite{abolafiaNeuralProgramSynthesis2018} .
 Every character of a program is an action taken by the \emph{writer agent}, the programs are terminated by a NULL character.
@@ -519,14 +520,14 @@ GPU resources were not used, because the performance bottleneck of the system is
 The table above presents the quality metric (average 100-episode reward) of the best program in every category, compared to that of a fully random agent and the result required to join the OpenAI gym leaderboard for context.
 Note that the expert programs used a lot of optional operators (shorthands and \verb|@^!|), so it was not possible to implement expert inspiration with limited command sets.
 
-These results support positive answers to (see section \ref{sec:exgoals}) \rqbfpp - we have obtained functional programs for all environments, and \rqbfppexpert - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and \rqbfppablation - ablation studies for optional operators do indeed show that those operators are useful.
+These results support positive answers to (see section \ref{sec:exgoals}) \rqbfpp{} - we have obtained functional programs for all environments, and \rqbfppexpert{} - when expert inspiration was used the resulting programs were better than expert programs and better than programs generated without expert inspiration and \rqbfppablation - ablation studies for optional operators do indeed show that those operators are useful.
 
 \subsection{Case studies}
 \label{sec:casestudies}
 % Need to make sure that this paragraph and "expert programs" paragraph help each other (same style, same terms)
 
 We have established that the program synthesis model is able to learn from human experts.
-But can experts learn from the model? (\rqbfppexplainable) 
+But can experts learn from the model? (\rqbfppexplainable{}) 
 To confirm this, we offer a detailed explanation of the most successful program of all experiments listed in section \ref{sec:bfpp-experiments}.
 
 This program scored \emph{91.39} on \textbf{Mountain Car}:
@@ -566,6 +567,7 @@ This strategy helps the car successfully reach the right fringe every time it is
 
 \newpage
 \section{Conclusions}
+\label{sec:bfpp-conclusion}
 
 In this chapter, we have introduced a new programming language tailored to the task of Reinforcement Learning from Code Execution Feedback.
 We have shown experimentally that this language can facilitate program synthesis as well as knowledge transfer between expert-based systems and data-driven systems. 

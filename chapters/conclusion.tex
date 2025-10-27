@@ -1,21 +1,86 @@
 \chapter{Conclusion: the Future}
 \label{ch:conclusion}
+\newcommand{\prevchap}{\fpeval{\getrefnumber{ch:conclusion} - 1}}
+
+\section{Highlights of results}
 
 The field of automatic programming has progressed a lot in the timespan of the writing of this thesis\footnote{ensuring a very fun and totally unstressful writing experience}.
 Major topics of contention shifted from "can program synthesis be extended from logic and functional to imperative programming languages?" \cite{polikarpovaStructuringSynthesisHeapmanipulating2019} to "should software developers read the code they deploy?" \cite{andrejkarpathy[@karpathy]TheresNewKind2025}.
 Competitive programming is at a historical stage at which chess was in 1996 \cite{pandolfiniKasparovDeepBlue1997} where the top 0.2\% human competitors still outperform the top algorithms \cite{openaiCompetitiveProgrammingLarge2025}.
 Part \ref{part:proginduction} traces these developments like a fossil record, from domain specific languages in chapters \ref{ch:bfpp} and \ref{ch:neurogen} to test time scaling of language models in chapters \ref{ch:boptest} and \ref{ch:seidr}, advancing the state of the art in both areas.
-It concludes with introduction and validation of \emph{Synthesize Execute Debug Instruct Rank} - a program synthesis framework that introduces testing into language model driven program synthesis for the benefit of safety-critical domains such as healthcare.
+Methodological proposals advanced in chapters \ref{ch:bfpp}-\ref{ch:seidr} achieve favourable results on standard benchmarks, but perhaps a more important contribution is the broader conclusions.
+From \emph{expert inspiration} experiments in chapters \ref{ch:bfpp} and \ref{ch:neurogen} we know that
 
-Part \ref{part:health} advances the state of the art in patient simulators and demonstrates that in conjunction with such a simulator, SEIDR can be used to automatically discover treatment strategies for healthcare settings and often do so \emph{better than traditional reinforcement learning methods}, in addition to scientific discovery potential of interpretable strategies.
+\begin{highlight}
+Import of expert knowledge into a neural and/or evolutionary data-driven system by way of an example program introduced into its training process lets it outperform both the expert and a purely data-driven approach
+\end{highlight}
 
-At the same time, our headline benchmark for Reinforcement Learning from Code Execution in Patient Simulators, Auto-ALS, remains unsolved, raising an important question: \emph{what's the missing ingredient?}
+The ability of deep program induction systems to benefit from \emph{importing expert knowledge} (introduced in section \ref{sec:importexport}) was a core motivation for this thesis and it is great to see this ability go from a research hypothesis to a research result.
 
-This question shall be subject of future research, as the research body of this thesis does not support anything more than an educated guess.
-Namely, what if the missing ingredient is simply a more advanced language model?
-Given SEIDR's ability to get much more out of a language model than naive sampling would suggest possible and the never-ending progress of models, it is reasonable to assume that SEIDR with the latest model will soon solve Auto-ALS and could be used to discover treatment strategies for datasets such as MIMIC-SEQ.
+Another major theme of part \ref{part:proginduction} is
+
+\begin{highlight}
+Program synthesis challenges are often best solved with hybrid approaches on the verge of neural, symbolic and evolutionary methods
+\end{highlight}
+
+a verdict that goes against more radical interpretations of \emph{the bitter lesson} \cite{BitterLesson2019, traskBitterLessonsBitter2025}.
+
+Part \ref{part:proginduction} concludes with \emph{Synthesize Execute Debug Instruct Rank} - a novel program synthesis framework that introduces testing into language model driven program synthesis for the benefit of safety-critical domains such as healthcare.
+
+Part \ref{part:health} advances the state of the art in patient simulators and introduces a suite of benchmarks for reinforcement learning methods in healthcare. It demonstrates that 
+
+\begin{highlight}
+in conjunction a simulator, SEIDR can be used to automatically discover treatment strategies for healthcare settings and often do so \textbf{better than traditional reinforcement learning methods}, while also providing interpretable strategies that enable scientific discovery
+\end{highlight}
+
+At the same time, our headline benchmark for Reinforcement Learning from Code Execution in Patient Simulators, Auto-ALS (chapter \ref{ch:auto-als}), remains unsolved.
+
+\newpage
+\section{Future Work}
+
+The negative result on Auto-ALS raises an important question, namely, \emph{what's the missing ingredient?}
+What further improvements to RLCEPS are required to validate the method for real world application in healthcare?
+Which questions require further research?
+The results in chapters 1 - \prevchap{} do not provide a final answer, but do suggest multiple hypotheses:
+
+\paragraph{Neurosymbolic methods}
+
+Chapter \ref{ch:tree2tree} demonstrates how a relatively straightforward combination of language modeling and grammatical parsing can be highly beneficial for downstream tasks.
+It also demonstrates how underexplored neurosymbolic program synthesis methods are: abstract syntax trees are not the only information that can be extracted from source code by means of static analysis and a tree based model is not the only way to combine it with deep learning.
+
+This might be due to the popularity of programming copilots (see \ref{sec:sketching}): a copilot tool built into a developer's interactive environment has to be able to process a document that was intended as a program, but does not necessarily amount to a valid program due to possible mistake: a challenge for some static analysis case.
+
+In any case, further advances in neurosymbolic methods can undoubtably accelerate RLCEPS.
+
+\paragraph{Pre-training curricula}
+
+Many of the methods propose here-in utilize some form of pre-training: prior to facing the patient simulator of choice, a model is trained on a generalist dataset such as a large language model pretraining corpus.
+This pipeline could be improved with intermediate steps: something more relevant to the task at hand, but not as challenging as a patient simulator.
+One way to achieve that would be to develop a specialized language model for clinical coding through training on specialized repositories (and perhaps clinical textbook) and use it with SEIDR (chapter \ref{ch:seidr}) to tackle a patient simulator.
+
+\paragraph{Protocol digitalisation}
+
+RLCEPS was designed to enable \emph{expert inspiration} in training data driven models of healthcare (proposed in section \ref{sec:importexport}, operationalized in section \ref{sec:bfpp-ps-model}).
+Just like in chapters \ref{ch:bfpp} and \ref{ch:neurogen} an expert-written program is introduced early into the training process, a program written by an expert in intensive care could be introduced as a starting point for solving \emph{MIMIC-SEQ} (chapter \ref{ch:mimicseq}).
+This program would describe an accepted clinical protocol for an intensive care ward.
+
+During research into this topic one limitation became (more) apparent, namely, clinical protocols are not typically represented as code.
+To be used in RLEPS context, a clinical protocol has to be translated from some source material (e.g. a clinical textbook) into code.
+This translation is a challenging program synthesis task on its own, particularly due to the complexity of source material: note that some important information in textbooks is presented in diagram format, making it some of the most challenging input formats for deep learning models \cite{hauriletMoQAMultimodalQuestion2019, heTextbookQuestionAnswering2021, jamiesonDeepLearningText2020, jamiesonReviewDeepLearning2024, novakDiagramsTextComputer1993, shiinokiOvercomingVisionLanguage2025}.
+Shall it be done manually, it requires the attention of a programming expert as well as an expert in the clinical field to avoid misinterpretation.
+
+Representing clinical protocols in a format amenable to digital analysis and execution in simulators is an important stepping stone to RLCEPS.
+
+\paragraph{Scaling}
+
+Finally, one cannot discount the possibility that the only missing ingredient is the \textbf{scale} of computation, i.e. applying the same technique for longer with more hardware will solve Auto-ALS and more.
+After all, this has been the case for many deep learning methods at the time of publication, including neural networks themselves \cite{schmidhuberAnnotatedHistoryModern2022}.
+With that in mind, all experiments in this thesis were designed to be scaling-friendly.
+Chapter \ref{ch:mimicseq} in particular lays out a plan for what the next steps in RLCEPS should be given enough computational resources.
+
+\section{Farewell}
 
 In other words, I regret to inform you that this thesis has not solved healthcare.
 But one can be reasonably certain that RLCEPS will play a role in the future of healthcare and justifiably hopeful that program synthesis methods introduced in chapters \ref{ch:bfpp}-\ref{ch:seidr} and patient simulators proposed in chapters \ref{ch:heartpole}-\ref{ch:mimicseq} will play a role in this transition.
 
-\emph{Finis tantum principium est}.
+\emph{Finis tantum principium est}
