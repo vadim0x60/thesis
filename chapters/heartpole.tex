@@ -2,7 +2,7 @@
 \label{ch:heartpole}
 
 \begin{remark}
-    An earlier revision \cite{heartpole} of this chapter was presented at HEALTHINF 2021. An implementation of HeartPole is available at \cite{liventsevVadim0x60Heartpole2024} 
+    An earlier revision \cite{liventsevHeartPoleTransparentTask} of this chapter was presented at HEALTHINF 2021. An implementation of HeartPole is available at \cite{liventsevVadim0x60Heartpole2024} 
 \end{remark}
 
 
@@ -23,12 +23,12 @@
     \caption{HeartPole model. Not for clinical use.}
 \end{figure}
 
-We introduce a patient simulator inspired by \emph{CartPole} \cite{cartpole} that trades clinical accuracy off for \emph{simplicity} and \emph{transparency}, while still being \emph{non-trivial} to solve.
+We introduce a patient simulator inspired by \emph{CartPole} \cite{bartoNeuronlikeAdaptiveElements1983} that trades clinical accuracy off for \emph{simplicity} and \emph{transparency}, while still being \emph{non-trivial} to solve.
 
 \emph{HeartPole} simulates a creative professional trying to become more productive.
 However, many decisions that would help in the short term (not sleeping, consuming coffee and alcohol) can create long-term health issues that negate all short term gains.
 
-\emph{HeartPole} is a fully observable Markov Decision Process \cite{mdp} where state $\state_\step$ consists of alertness $\state^\text{alert}_\step$, hypertension $\state^\text{hypert}_\step$, intoxication $\state^\text{tox}_\step$ time since slept $\state^\text{tawake}_\step$, \emph{total time elapsed} $\state^\text{ttotal}_\step$ and \emph{total work done} $\state^\text{done}_\step$.
+\emph{HeartPole} is a fully observable Markov Decision Process \cite{bertsekasDynamicProgrammingOptimal2011} where state $\state_\step$ consists of alertness $\state^\text{alert}_\step$, hypertension $\state^\text{hypert}_\step$, intoxication $\state^\text{tox}_\step$ time since slept $\state^\text{tawake}_\step$, \emph{total time elapsed} $\state^\text{ttotal}_\step$ and \emph{total work done} $\state^\text{done}_\step$.
 
 Over these parameters, we define \emph{productivity} function $\eta(\state^\text{alert}_\step, \state^\text{tox}_\step)$ presented graphically in figure \ref{fig:productivity} and \emph{heart attack probability} $r(\state^\text{hypert}_\step)=\frac{\text{sigmoid}(\state^\text{hypert}_\step)}{2}$.
 The agent receives small positive rewards for productivity and a very large negative reward if a heart attack occurs.
@@ -43,12 +43,12 @@ We compare 3 different approaches to develop a HeartPole agent: manual programmi
 Training procedure depends on the approach, while testing procedure is the same: calculating total return $\returntot$ average over 20 re-runs, limiting all episodes to 1000 steps.
 
 \subsection{Reinforcement Learning baseline}
-To make sure that the reinforcement learning baseline does not turned out to be unfairly weak due to the wrong choice of model or algorithm, we train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) each with 3 different industry-standard algorithms: CEM \cite{szitaLearningTetrisUsing2006}, SARSA \cite[Chapter 6]{suttonReinforcementLearningSecond2018} and DQN \cite{mnihPlayingAtariDeep2013,dqn}.
+To make sure that the reinforcement learning baseline does not turned out to be unfairly weak due to the wrong choice of model or algorithm, we train 2 models (a neural network with 0 hidden layers against one with 3 hidden layers of size 16) each with 3 different industry-standard algorithms: Cross-Entropy Method \cite{szitaLearningTetrisUsing2006}, State-Action-Reward-State-Action \cite[Chapter 6]{suttonReinforcementLearningSecond2018} and Deep Q-Network \cite{mnihPlayingAtariDeep2013,mnihHumanlevelControlDeep2015}.
 All models are trained with \texttt{keras-rl} \cite{KerasrlKerasrlDeep2025}. 
 
 \subsection{Vadim baseline}
 
-For our first baseline, we employ an expert\footnote{the author of the present thesis} to write a maximally simple reference implementation of a HeartPole agent.
+For our first baseline, we (the author of the present thesis) write a maximally simple reference implementation of a HeartPole agent.
 The resulting code is as follows:
 
 \lstinputlisting{listings/metanurse-vadim.py}
@@ -103,3 +103,6 @@ Table \ref{tab:heartpole-results} summarizes the results of our experiment. Over
     \item At the same time, performance of different approaches is very similar.
     \item Program synthesis can indeed be a powerful tool for scientific discovery: the resulting programs are highly interpretable and interesting.
 \end{enumerate}
+
+% TODO [R2]: Add a labeled \section{Conclusion} summarizing what this chapter achieved and discussing limitations/future work.
+

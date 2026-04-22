@@ -1,60 +1,5 @@
-\chapter{Preface: the Road Ahead}
+\chapter{Introduction}
 \label{ch:preface}
-
-\section{Acknowledgments}
-
-\paragraph{The people}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.55\linewidth]{images/soldiers_meme.jpg}
-    \caption{The role of supervisors in the PhD endeavour}
-    \label{fig:soldiers-meme}
-\end{figure}
-
-First and foremost, I am lucky to be supervised by Aki H{\"a}rm{\"a} and Milan Petkovi{\'c}, who, in addition to their vast technical experience and managerial skills, including keeping a straight face when listening to my ideas (and time estimates), took care of grant writing, consortium meetings, financial planning and other unglamorous aspects of the work.
-The role of supervisors, in my experience, can be best illustrated by figure \ref{fig:soldiers-meme}.
-
-I would like to acknowledge Lut van Kollenburg and Staff Immigration Team at the Eindhoven University of Technology for supporting me through several rare edge cases of immigration law at a time when I would strongly prefer not to be deported to Russia. 
-
-Finally, I cannot thank my friends, family and love ones\footnote{these sets have considerable intersections} enough for stoically bearing the brunt of the mental health impact of writing this thesis.
-
-\paragraph{The funding}
-
-This work was funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement n° 812882. This work is part of "Personal Health Interfaces Leveraging HUman-MAchine Natural interactionS" (PhilHumans) project: \url{https://www.philhumans.eu}
-
-\newpage
-\section{Disclaimers}
-
-\paragraph{Text overlap}
-
-Some chapters of this thesis overlap with my previous publications.
-Such overlaps are clearly marked in advance of the text in question, using the following warning box:
-
-\begin{remark}
-    An earlier revision of this chapter \cite{liventsev2021neurogenetic} was presented at SCIENCE 2023
-\end{remark}
-
-Some of these publications have been prepared in collaboration with other researchers: as a result, some passages written by my co-authors could make their way into this thesis.
-Outside of these specifically designated exceptions, all text in this thesis is by me, Vadim Liventsev.
-As a matter of principle (and perhaps misplaced personal pride), no text in this thesis has been generated with a large language model.
-Some text in this thesis has been recorded in spoken language and transcribed with the help of OpenAI Whisper \cite{radfordRobustSpeechRecognition2022}.
-
-\paragraph{Reproducibility}
-
-To facilitate reproducibility of the research presented herein, all the code repositories and datasets developed in relation to the experiments discussed in this thesis have been released to the public. Look for the following box:
-
-\begin{remark}
-    A reproducibility package for this experiment has been published at \cite{liventsevReplicationPackageFully2023}
-\end{remark}
-
-\paragraph{Contact}
-
-Please feel free to reach out to me at \url{phd@vadim.me} with comments, questions, remarks, corrections, suggestions, offers, proposals, counter-arguments, clarifications, follow-ups and such: starting conversations is an intended goal of writing.
-
-\paragraph{Playlist}
-
-For readers of auditory persuasion, a playlist of thematically appropriate songs to go with every chapter is provided in appendix \ref{apdx:playlist}.
 
 \section{Objective}
 \label{sec:objective}
@@ -67,11 +12,11 @@ Everything in the following chapters serves the main research goal of this thesi
 
 \section{Outline and contributions}
 
-Chapter \ref{ch:promise} explains the background and motivation behind the research project: what is deep program induction and why is it a promising approach in safety-critical fields like healthcare. Chapter \ref{ch:proposal} proposes and motivates a reference architecture for harnessing the power of deep program induction in the field of healthcare: \emph{Patient Simulator Reinforcement Learning from Code Execution Feedback} (RLCEPS).
+Chapter \ref{ch:promise} explains the background and motivation behind the research: what is deep program induction and why is it a promising approach in safety-critical fields like healthcare. Chapter \ref{ch:proposal} proposes a reference architecture to apply deep program induction in healthcare: \emph{Patient Simulator Reinforcement Learning from Code Execution Feedback} (RLCEPS).
 
 RLCEPS requires 2 ingredients: a patient simulator and an algorithm for Reinforcement Learning from Code Execution Feedback.
-We review the research literature in both areas (chapters \ref{ch:ps-methods} and \ref{ch:simulators-sota}), and argue that the current state of the art in each is inadequate to make RLCEPS a reality.
-In parts \ref{part:proginduction} and \ref{part:health} we address this and make novel contributions to RLCEF and patient simulators respectively.
+We review the literature in both areas (chapters \ref{ch:ps-methods} and \ref{ch:simulators-sota}), and argue that the state of the art in each is inadequate to make RLCEPS a reality.
+In parts \ref{part:proginduction} and \ref{part:health} we address this with novel contributions to both fields.
 
 Part \ref{part:proginduction} is dedicated to program induction methodology.
 Chapter \ref{ch:ps-methods} reviews the state of the art and identifies gaps of particular importance to RLCEPS, particularly the nascent state of \emph{Reinforcement Learning from Code Execution Feedback} (RLCEF).
@@ -82,9 +27,9 @@ Chapter \ref{ch:tree2tree} explores an evaluates an alternative approach: traini
 Finally, chapters \ref{ch:boptest} and \ref{ch:seidr} explore Reinforcement Learning from Code Execution Feedback with Large Language Models: chapter \ref{ch:boptest} argues that the key to successful application of LLMs in program induction is an iterative process of program improvement and demonstrates this in BOPTEST building optimization benchmark, while chapter \ref{ch:seidr} takes an empirical approach to selecting the optimal iterative program induction algorithm with a comprehensive matrix of experiments comparing different resolutions of the \emph{repair-replace tradeoff} on PSB2 and HumanEval datasets.
 
 Part \ref{part:health} is dedicated to patient simulators for reinforcement learning.
-Chapter \ref{ch:simulators-sota} reviews the existing patient simulators and identifies major issues, particularly the fact they are based on dangerously small datasets.
+Chapter \ref{ch:simulators-sota} reviews existing patient simulators and identifies major issues, particularly that they are based on dangerously small datasets.
 Chapter \ref{ch:heartpole} introduces a simple and deliberately clinically inaccurate simulator to be used as a sanity check.
-Chapter \ref{ch:auto-als} introduces Auto-ALS: an \emph{antropodidactic} emergency care simulator based on a training software package for junior healthcare professionals.
-Finally, chapter \ref{ch:mimicseq} makes the first step towards a big data driven patient simulator, proposing a sequential dataset for training foundation models in intensive care.
+Chapter \ref{ch:auto-als} introduces Auto-ALS: an \emph{anthropodidactic} emergency care simulator based on a training software package for junior healthcare professionals.
+Finally, chapter \ref{ch:mimicseq} makes the first step towards a big data driven patient simulator with a sequential dataset for foundation models in intensive care.
 
 Part \ref{part:conclusion} concludes the thesis: chapter \ref{ch:conclusion} discusses the results and the implications thereof for the future of program synthesis in healthcare.

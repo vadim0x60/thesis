@@ -9,10 +9,9 @@ Examples of anthropodidactic learning include using language textbooks to train 
 
 \paragraph{Motivation}
 
-The education industry puts a lot of effort into curating and systematizing knowledge in ways that can be reasonably expected to be useful for a learner of any biological substrate
-For example: 
+The education industry puts a lot of effort into curating and systematizing knowledge in ways that can be reasonably expected to be useful for a learner of any biological substrate:
 \begin{itemize}
-    \item Exercise sets in mathematics, physics and language learning, to name a few fields, are explicitly designed to cover all important clusters/corner cases of the subject area, something that is not guaranteed in most datasets like logs, business records or text corpora.
+    \item Exercise sets in mathematics, physics and language learning, to name a few fields, are designed to cover all important clusters/corner cases of the subject area, something not guaranteed in regular datasets like logs, business records or text corpora.
     \item Exercise sets tend to be sorted by difficulty. This creates a useful curriculum to follow when training a machine learning model.
     \item Educational software aims to give users immediate and precise feedback on their mistakes: delayed gratification (also known as \emph{temporal credit assignment problem}), as it turns out, is hard for people \cite{tobinDelayGratificationReview2010} and reinforcement learning algorithms alike.
 \end{itemize}
@@ -22,7 +21,7 @@ See \cite{brownArtProblemPosing2005} for more on the art of problem posing.
 \paragraph{Related Work}
 
 Machine learning community is undoubtedly interested in taking lessons from human learning, efforts to do so bear the umbrella term of \emph{antropomorphic
-machine learning} \cite{angelovAnthropomorphicMachineLearning2018}. The prime example is curiculum learning \cite{sovianyCurriculumLearningSurvey2022, zhouCurBenchCurriculumLearning2024}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so it is likely a difference for machines as well.
+machine learning} \cite{angelovAnthropomorphicMachineLearning2018}. The prime example is curiculum learning \cite{sovianyCurriculumLearningSurvey2022,zhouCurBenchCurriculumLearning2024}: it was born with the observation that the order in which data is presented to human students is crucial for them achieving their learning goals, so it is likely a difference for machines as well.
 
 However, examples of directly reusing learning aids developed for human students are hard to come by. A notable exception is Reinforcement Learning where decision-making agents are often trained on games initially intended for people. And while the claim that \emph{Atari games} \cite{mnihPlayingAtariDeep2013} and 
 \emph{Minecraft} \cite{hofmannMinecraftAIPlayground2019} are educational material may be somewhat stretching the definition of education, interactive simulators first developed for people and later adapted for reinforcement learning include \emph{X-plane} \cite{staudingerXPlaneMLEnvironmentLearning2018} (used for training pilots) and Virtu-ALS (used for training nurses), to be discussed in section \ref{sec:virtu-als}. 
@@ -169,7 +168,7 @@ Assessment skills (knowing where to look and how to establish the patient's stat
 
 \paragraph{Implementation}
 
-Auto-ALS~\cite{liventsevVadim0x60Autoals2024} is impemented as an OpenAI Gym~\cite{openai-gym} environment using Unity ML Agents~\cite{almon-manzanoDeepReinforcementLearning2022, julianiUnityGeneralPlatform2020, lanhamLearnUnityMLAgentsfundamentals2018, nandyUnityMLAgents2018} framework via forking Virtu-ALS~\cite{liventsevVadim0x60Virtualsplus2024} and editing it to attach an event listener and an action executor.
+Auto-ALS~\cite{liventsevVadim0x60Autoals2024} is impemented as an OpenAI Gym~\cite{brockmanOpenaiGym2016} environment using Unity ML Agents~\cite{almon-manzanoDeepReinforcementLearning2022,julianiUnityGeneralPlatform2020,lanhamLearnUnityMLAgentsfundamentals2018,nandyUnityMLAgents2018} framework via forking Virtu-ALS~\cite{liventsevVadim0x60Virtualsplus2024} and editing it to attach an event listener and an action executor.
 Text messages displayed to the user are included in the \texttt{info} metadata dictionary returned by the environment.
 
 \newpage
@@ -179,7 +178,7 @@ Text messages displayed to the user are included in the \texttt{info} metadata d
 \subsection{Reinforcement Learning baseline}
 
 Auto-ALS is a more expensive environment than HeartPole when it comes to computation per episode.
-For this reason, in lieu of 3 reinforcement learning algorithms with diverse characteristics that we used for HeartPole, for Auto-ALS we use a single algorithm known for its versatility~\cite{alaghaTargetLocalizationUsing2022, bilbanOptimizingAutonomousVehicle2025, bohnDeepReinforcementLearning2019, coreccoProximalPolicyOptimizationbased2023, funikaAutomatedCloudResources2023, hasankhaniIntegratedPathPlanning2023, huangImprovingTrafficSignal2023, kalusivalingamOptimizingIndustrialSystems2020, kleinOptimizingParametersSwarm2024, liIntelligentDecisionJoint2025, liuApplicationAdvancedTree2022, lopesIntelligentControlQuadrotor2018, luAdaptiveEnergyManagement2024, maMultiuserMobileEdge2024, maTaskOffloadingScheme2025, mayerModularProductionControl2021, meloLearningHumanoidRobot2019, mengProximalPolicyOptimization2023, ouyangTokenlevelProximalPolicy2024, pinciroliDeepReinforcementLearning2021, proctorProximalPolicyOptimization2021, quangtranProximalPolicyOptimization2020, rehmanReinforcementLearningdrivenProximal2024, silvaControlConventionalContinuous2024, silvaTemporalGraphTraversals2020, vanvuchelenUseProximalPolicy2020, weiMixedautonomyTrafficControl2019, wuCombustionOptimizationStudy2024, wuProximalPolicyOptimization2023, yeAutomatedLaneChange2020, yinHyperheuristicAlgorithmProximal2024, zhangProximalPolicyOptimization2024, zhangRealtimeAutonomousLine2020, zhaoPPOTAAdaptiveTask2023}, namely, PPO \cite{schulmanProximalPolicyOptimization2017}. 
+For this reason, in lieu of 3 reinforcement learning algorithms with diverse characteristics that we used for HeartPole, for Auto-ALS we use a single algorithm known for its versatility~\cite{alaghaTargetLocalizationUsing2022,bilbanOptimizingAutonomousVehicle2025,bohnDeepReinforcementLearning2019,coreccoProximalPolicyOptimizationbased2023,funikaAutomatedCloudResources2023,hasankhaniIntegratedPathPlanning2023,huangImprovingTrafficSignal2023,kalusivalingamOptimizingIndustrialSystems2020,kleinOptimizingParametersSwarm2024,liIntelligentDecisionJoint2025,liuApplicationAdvancedTree2022,lopesIntelligentControlQuadrotor2018,luAdaptiveEnergyManagement2024,maMultiuserMobileEdge2024,maTaskOffloadingScheme2025,mayerModularProductionControl2021,meloLearningHumanoidRobot2019,mengProximalPolicyOptimization2023,ouyangTokenlevelProximalPolicy2024,pinciroliDeepReinforcementLearning2021,proctorProximalPolicyOptimization2021,quangtranProximalPolicyOptimization2020,rehmanReinforcementLearningdrivenProximal2024,silvaControlConventionalContinuous2024,silvaTemporalGraphTraversals2020,vanvuchelenUseProximalPolicy2020,weiMixedautonomyTrafficControl2019,wuCombustionOptimizationStudy2024,wuProximalPolicyOptimization2023,yeAutomatedLaneChange2020,yinHyperheuristicAlgorithmProximal2024,zhangProximalPolicyOptimization2024,zhangRealtimeAutonomousLine2020,zhaoPPOTAAdaptiveTask2023}, Proximal Policy Optimization \cite{schulmanProximalPolicyOptimization2017}. 
 
 \subsection{Program Synthesis}
 
@@ -217,7 +216,7 @@ Looking at the program gives us some insight as to why this could be the case: i
 
 Version 0 (score \textbf{-63}), generated by \texttt{gpt-4o} with no feedback from \emph{Auto-ALS}, based on prompt only, follows ABCDE assessment procedure much more closely.
 This is a counterintuitive result: a learning aid designed specifically to promote the ABCDE protocol, encourages SEIDR to follow it less.
-This can be seen as \emph{mode collapse}~\cite{kossaleModeCollapseGenerative2022, zhangModeCollapseGenerative2021} or \emph{reward hacking} (discussed in section \ref{sec:alignment}): the agent learns to avoid blunders by avoiding important parts of its work entirely.
+This can be seen as \emph{mode collapse}~\cite{kossaleModeCollapseGenerative2022,zhangModeCollapseGenerative2021} or \emph{reward hacking} (discussed in section \ref{sec:alignment}): the agent learns to avoid blunders by avoiding important parts of its work entirely.
 
 \begin{figure}
     \begin{subfigure}{0.48\linewidth}

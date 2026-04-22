@@ -4,26 +4,31 @@
 \section{Program Synthesis in Healthcare}
 \label{sec:ps-health}
 
-Automation tools that make use of Machine Learning (also known as Healthcare 4.0 \cite{tortorellaHealthcareTrendsChallenges2020}) have been consistently identified as crucial for reducing the workload of Healthcare professionals and improving the quality of care \cite{agrawalMachineLearningHealthcare2020, deviDesignImplementationAdvanced2022, g.kumarSurveyMachineLearning2016, ganguliMachineLearningPursuit2020, maityMachineLearningImproved2017, mitraMachineLearningHealthcare2021, pianykhImprovingHealthcareOperations2020, xhaferraRoleMachineLearning2022} especially as healthcare systems struggle with understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016,SurveyShowsHidden1993,UnderstaffingSignificantIssue2012,campbellUniversalHealthCoverage2013, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, r.stanleyUnderstaffedOverwhelmed2010, munnUnderstaffingWardsCompromising2017, thelancetHealthcareSystemStaffing2018}.
+Automation tools that make use of Machine Learning (also known as Healthcare 4.0 \cite{tortorellaHealthcare40Trends2020}) have been consistently identified as crucial for reducing the workload of Healthcare professionals and improving the quality of care \cite{agrawalMachineLearningHealthcare2020,deviDesignImplementationAdvanced2022,g.kumarSurveyMachineLearning2016,ganguliMachineLearningPursuit2020,maityMachineLearningImproved2017,mitraMachineLearningHealthcare2021,pianykhImprovingHealthcareOperations2020,xhaferraRoleMachineLearning2022} especially as healthcare systems struggle with understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016,SurveyShowsHidden1993,UnderstaffingSignificantIssue2012,campbellUniversalHealthCoverage2013,hudsonUnderstaffing2015,mercerMessageEditorinChief2008,r.stanleyUnderstaffedOverwhelmed2010,munnUnderstaffingWardsCompromising2017,thelancetHealthcareSystemStaffing2018}.
 
 Healthcare is also a domain where the advantages of program synthesis (as introduced in section \ref{sec:impacts}) are particularly relevant.
 \begin{itemize}
     \item Inadequate \emph{capabilities} of decision systems in Healthcare present particularly challenging risks as patient's health and life can be at stake.
     \item No less dangerous is the risk of perverse incentives and insufficient \emph{alignment} of decision systems with the interests of the patient.
-    \item Due to the risks above, Healthcare is a highly regulated domain~\cite{asamoahRoleHealthServices2025, barbosaActorsHealthcareRegulation2021, beaussierAccountingFailureRiskbased2016, brennanNewRulesRegulation1996, brownPoliticalEvolutionFederal1992, buschAIRegulationHealthcare2025, changHealthCareRegulation2004, flodgrenExternalInspectionCompliance, kwonSecurityPracticesRegulatory2013, nunesPublicAccountabilitySunshine2011, oikonomouPatientSafetyRegulation2019, oyriHealthcareRegulationResiliencea2021, schaumansEntryRegulationEvidence2008, seddonCloudComputingTransborder2013, sheikhWhatExplainsRegulatory2015, steinkampRegulationHealthcareEthics2007, terryRegulatingHealthcareAI2019} and \emph{compliance by design} is a crucial feature of any decision systems deployed therein
+    \item Due to the risks above, Healthcare is a highly regulated domain~\cite{asamoahRoleHealthServices2025,barbosaActorsHealthcareRegulation2021,beaussierAccountingFailureRiskbased2016,brennanNewRulesRegulation1996,brownPoliticalEvolutionFederal1992,buschAIRegulationHealthcare2025,changHealthCareRegulation2004,flodgrenExternalInspectionCompliance,kwonSecurityPracticesRegulatory2013,nunesPublicAccountabilitySunshine2011,oikonomouPatientSafetyRegulation2019,oyriHealthcareRegulationResiliencea2021,schaumansEntryRegulationEvidence2008,seddonCloudComputingTransborder2013,sheikhWhatExplainsRegulatory2015,steinkampRegulationHealthcareEthics2007,terryRegulatingHealthcareAI2019} and \emph{compliance by design} is a crucial feature of any decision systems deployed therein
     \item As a consequence, decision systems in Healthcare are never deployed fully autonomously. Instead, they have to support doctors in making the final decisions and have to be \emph{good team-players}, explaining the rationale behind every suggestion and supporting dialogue.
     \item \emph{Privacy} of clinical data is of utmost importance.
     \item Novel \emph{scientific discoveries} in healthcare have a particularly positive social impact.
 \end{itemize}
 
-This makes program synthesis a promising tool for improving the quality of decision systems in Healthcare.
+Program Synthesis in Healthcare is an emerging field, but some prior art can be found in the adjacent field of process mining~\cite{reinkemeyerProcessMiningAction2020, vanderaalstProcessMining2012, vanderaalstProcessMining3602022, vanderaalstProcessMiningHandbook2022, vanderaalstProcessMiningManifesto2012, vanderaalstProcessMiningOverview2012, vanderaalstProcessMiningResearch2004}: a family of methods used to infer interpretable (typically graph-based) models of a clinical process from data using representations such as Directly-Follows Graphs~\cite{lischkaDirectlyFollowsGraphs2025, vanderaalstPractitionersGuideProcess2019} and Petri Nets~\cite{davidPetriNetsModeling1994, murataPetriNetsProperties2002, netsPetriNetsDynamic2007, petersonPetriNets1977, petriPetriNet2008, prothPetriNets1998, reisigPetriNets2011, reisigUnderstandingPetriNets2013, silvaIntroducingPetriNets1993, thongSurveyPetriNet2015, zurawskiPetriNetsIndustrial1994}. 
+Process mining is widely applied in health care~\cite{aversanoProcessMiningApplications2025, batistaProcessMiningHealthcare2018, dallagassaOpportunitiesChallengesApplying2022, erdoganSystematicMappingProcess2018, ghasemiProcessMiningHealthcare2016, guzzoProcessMiningApplications2022, kaymakProcessMiningHealth2012, mansProcessMiningHealth2008, martinUsingProcessMining2022, rojasProcessMiningHealthcare2016, salasCombiningProcessMining2024}, especially for finding bottlenecks and optimising the efficiency of hospital processes. 
+Process mining can be viewed as program synthesis where the domain-specific programming language is a Petri Net or a similar formalism.
+Note that with the exception of Petri Nets with inhibitor arcs~\cite{busiAnalysisIssuesPetri2002, reinhardtReachabilityPetriNets2008} these programming languages aren't Turing-complete.
 
+\newpage
 \section{Reinforcement learning in Healthcare}
 \label{sec:rl-health}
 
 As discussed in chapter \ref{ch:promise} program synthesis can be applied in imitation learning and reinforcement learning settings.
 Imitation learning does not require a complex interplay between learning and collecting experiences and, as a result, is easier and faster.
-However, imitation learning has a fundamental limitation: a student can never exceed their master through imitation alone.
+For this reason, most process mining work discussed above focuses on imitation learning: learning how clinical processes operate, not how they ought to operate.
+This setting has a fundamental limitation: a student can never exceed their master through imitation alone.
 
 We argue that this limitation makes reinforcement learning a necessity for forward-looking healthcare research, and indeed it is gaining traction across a wide variety of healthcare fields \cite{yuReinforcementLearningHealthcare2021}.
 Note in particular that program synthesis driven scientific discovery is not possible in a pure imitation learning setting.
@@ -41,8 +46,6 @@ Instead, one can take a multi-stage learning approach described in figure \ref{f
   \caption{Patient simulator reinforcement learning}
   \label{fig:RLCEPS}
 \end{figure}
-
-\newpage
 \section{RLCEPS}
 \label{sec:patient-sRLCEF}
 

@@ -8,13 +8,13 @@
 In chapters \ref{ch:bfpp} and \ref{ch:neurogen} we used \text{BF++}, a \emph{domain-specific language} (section \ref{sec:dsl}) to prevent the optimization space from growing unmanageably sparse (as discussed in section \ref{sec:ps-challenge}).
 Extending these techniques to work with an arbitrarily complex programming language would offer numerous benefits in terms of expressivity and compatibility with the rest of the software ecosystem.
 
-Can we combine the simplicity of neurogenetic optimization in \emph{BF++} space with the advantages of a popular language \cite{tiobe2017tiobe}?
-One approach would be to train a foundational (section \ref{sec:pretrain}) autoencoder \cite{autoencoders} model for code.
+Can we combine the simplicity of neurogenetic optimization in \emph{BF++} space with the advantages of a popular language \cite{tiobeTiobeIndex2017}?
+One approach would be to train a foundational (section \ref{sec:pretrain}) autoencoder \cite{bankAutoencoders2020} model for code.
 Such a model can be trained in an unsupervised fashion on a corpus of code and be used to represent a complex program as a vector in a latent space of lower dimensionality.
 Then, neural, genetic and/or neurogenetic optimization methods could operate directly on this low-dimensional representation, i.e. a program can be mutated by adding random noise to its embedding vector and several can be merged by averaging their embedding vectors.
 
-Indeed, Autoencoder Genetic Programming has been studied previously \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt}, though often with underwhelming results \cite{autoenc-gp}.
-Following the success of structural models of code (see section \ref{sec:grammar-guided}), we hypothesize that the difficulties facing Autoencoder Genetic Programming can be addressed by harnessing the grammatical structure of code that can be trivially obtained from a compiler, but gets ignored in \cite{wittenbergDenoisingAutoencoderGenetic2023,latentspaceopt,autoenc-gp}.
+Indeed, Autoencoder Genetic Programming has been studied previously \cite{wittenbergDenoisingAutoencoderGenetic2023,liskowskiProgramSynthesisLatent2020}, though often with underwhelming results \cite{mcdermottWhyAutoencodingDifficult2019}.
+Following the success of structural models of code (see section \ref{sec:grammar-guided}), we hypothesize that the difficulties facing Autoencoder Genetic Programming can be addressed by harnessing the grammatical structure of code that can be trivially obtained from a compiler, but gets ignored in \cite{wittenbergDenoisingAutoencoderGenetic2023,liskowskiProgramSynthesisLatent2020,mcdermottWhyAutoencodingDifficult2019}.
 
 In this chapter we develop a variational autoencoder for code that operates on programs as abstract syntax trees rather than sequences of tokens to explore \rqtree{}:
 
@@ -23,13 +23,13 @@ In this chapter we develop a variational autoencoder for code that operates on p
 \end{highlight}
 
 To the best of our knowledge the advantage of structural models has not been tested in autoencoders for genetic programming. 
-According to \cite{kusner2017grammar,grammar-vae}, it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
+According to \cite{kusnerGrammarVariationalAutoencoder2017,kostajrProgramSynthesisVulnerability2019}, it is beneficial to include grammatical metadata in token representations for a traditional sequence model, but do not employ a tree-based encoder-decoder architechure.
 
 \newpage
 \section{Proposed architecture}
 
 The proposed model, \emph{Tree2Tree}, is a variational autoencoder with a Child-sum TreeLSTM as the encoder (section \ref{sec:encoder}) and a Doubly Recurrent Neural Network (section \ref{sec:decoder}) extended with add gate mechanism as the decoder.
-Variational autoencoder \cite{kingma2013auto} is chosen since its Kullback-Leibner component encourages the model to use the smallest subspace of the latent space possible, making the model less brittle with respect to the dimensionality of the latent space than its deterministic counterpart.
+Variational autoencoder \cite{kingmaAutoencodingVariationalBayes2013} is chosen since its Kullback-Leibner component encourages the model to use the smallest subspace of the latent space possible, making the model less brittle with respect to the dimensionality of the latent space than its deterministic counterpart.
 However, our experiments in section \ref{sec:tree2tree-results} indicate that latent vector size remains important.
 
 \subsection{Encoder}
@@ -39,7 +39,7 @@ The encoder network aims to capture the most relevant information in a program a
 \paragraph{Embedding layer} The first layer of the encoder network convert tokens into dense representations, which can be initialized randomly or with pre-trained parameters and then fine-tuned further.
 
 
-\paragraph{Tree-LSTM} We employ the Child-Sum Tree-LSTM \cite{tai2015improved} which is defined as follows. Given some tree, we use $\treenode$ to denote a node, $\mlinputvec^\treenode$ to denote its vector representation, $\treenode(\treenode')$ to state that $\treenode$ is a parent of $\treenode'$ and $\treenode < \treenode'$ to state that $\treenode$ is to the left of $\treenode'$ because the part of the program $\treenode$ represents occurred before the part of the program represented by $\treenode'$.
+\paragraph{Tree-LSTM} We employ the Child-Sum Tree-LSTM \cite{taiImprovedSemanticRepresentations2015} which is defined as follows. Given some tree, we use $\treenode$ to denote a node, $\mlinputvec^\treenode$ to denote its vector representation, $\treenode(\treenode')$ to state that $\treenode$ is a parent of $\treenode'$ and $\treenode < \treenode'$ to state that $\treenode$ is to the left of $\treenode'$ because the part of the program $\treenode$ represents occurred before the part of the program represented by $\treenode'$.
 Given these inputs, Child-Sum Tree-LSTM computes a hidden state $\hidden^\treenode$ for every node of the tree as follows:
 
 \begin{align}\label{eq:tree_lstm_encoder}
@@ -61,7 +61,7 @@ Note that node $\treenode$ depends on the hidden states of its children.
 In other words, Tree-LSTM is computed bottom-up. 
 
 Just like the standard LSTM model, Tree-LSTM can be stacked to create a multilayer Tree-LSTM. 
-We use a 3-layer architecture, in which the hidden state of a Tree-LSTM unit in layer $l$ is then used as input to the Tree-LSTM unit in layer $l + 1$ in the same time step, the same as with the standard LSTM \cite{graves2013hybrid}. 
+We use a 3-layer architecture, in which the hidden state of a Tree-LSTM unit in layer $l$ is then used as input to the Tree-LSTM unit in layer $l + 1$ in the same time step, the same as with the standard LSTM \cite{gravesHybridSpeechRecognition2013}. 
 The design intention is to allow higher layers to capture longer-term dependencies of the input, which in the case of Tree-LSTMs translates to capturing longer-term dependencies along the paths of a tree.
 
 \begin{figure}
@@ -75,7 +75,7 @@ The design intention is to allow higher layers to capture longer-term dependenci
 
 
 \paragraph{Neural attention} Tree-LSTM layers are followed by an attention layer. 
-The node importance calculation is based on \cite{winata2018attention}, and updates the hidden states as follows:
+The node importance calculation is based on \cite{winataAttentionbasedLstmPsychological2018}, and updates the hidden states as follows:
 \begin{align}
     \hidden_{at} = \hidden \odot tanh(\weights^\mlinputvec \cdot \hidden + \biases)
 \end{align}
@@ -85,10 +85,10 @@ Here, $\hidden$ denotes the hidden states of the last Tree-LSTM layer. This addi
 
 \paragraph{Pooling} 
 The last step in the architecture is the pooling layer responsible for compressing the sequence of $\hidden_{at}$ into a fixed size vector $\hidden_\text{pooled}$. 
-We reject a common \cite{fabius2015variational} approach of only taking the last hidden state of the RNN as the input to the decoder due to the long-term memory loss problem \cite{kao2020comparison} and use max pooling instead.
+We reject a common \cite{fabiusVariationalRecurrentAutoencoders2015} approach of only taking the last hidden state of the RNN as the input to the decoder due to the long-term memory loss problem \cite{kaoComparisonPoolingMethods2020} and use max pooling instead.
 See fig. \ref{fig:pooling}.
 
-\paragraph{Sampling latent code} The pooled vector is then used to compute the mean and variance of the approximate posterior to sample a latent code $\latent \sim \normaldistr(\mean, \stddev)$ with the help of the reparametrization trick \cite{kingma2013auto}. The mean and variance are computed using linear layers with learnable weights $\weights_{\mean}$, $\weights_{\stddev}$ and biases $\biases_{\mean}$, $\biases_{\stddev}$:
+\paragraph{Sampling latent code} The pooled vector is then used to compute the mean and variance of the approximate posterior to sample a latent code $\latent \sim \normaldistr(\mean, \stddev)$ with the help of the reparametrization trick \cite{kingmaAutoencodingVariationalBayes2013}. The mean and variance are computed using linear layers with learnable weights $\weights_{\mean}$, $\weights_{\stddev}$ and biases $\biases_{\mean}$, $\biases_{\stddev}$:
 
 \begin{align}
 \mean& = \weights_{\mean} \hidden_\text{pooled} + \biases_{\mean} \\
@@ -100,13 +100,13 @@ See fig. \ref{fig:pooling}.
 \label{sec:decoder}
 
 \paragraph{Tree decoding} We use the same tree structure for decoding as we used for encoding. 
-Having the order of the input sequence reversed compared to the reconstructed sequence has been shown in \cite{fabius2015variational} to improve the performance of the model. 
+Having the order of the input sequence reversed compared to the reconstructed sequence has been shown in \cite{fabiusVariationalRecurrentAutoencoders2015} to improve the performance of the model. 
 We employ this technique in our model, which means that since our encoder processes trees bottom-up, the decoder will produce trees top-down. 
 The idea here is that the first steps of decoding the tree are more related to the latent space than the last steps.
 
 
 
-A method known as Doubly-Recurrent Neural Network (DRNN) \cite{alvarezmelis2017tree} allows for top-down tree generation from an encoded vector representation. This method operates solely on the vector representation and does not require that either the tree structure or the nodes are given. The DRNN is based on two recurrent neural networks, breadth and depth-wise, to model ancestral and fraternal information flow. For some node $\treenode$ with parent $pa(\treenode)$ and previous sibling $s(\treenode)$, the ancestral and fraternal hidden states are computed as follows:
+A method known as Doubly-Recurrent Neural Network (DRNN) \cite{alvarez-melisTreestructuredDecodingDoublyrecurrent2017} allows for top-down tree generation from an encoded vector representation. This method operates solely on the vector representation and does not require that either the tree structure or the nodes are given. The DRNN is based on two recurrent neural networks, breadth and depth-wise, to model ancestral and fraternal information flow. For some node $\treenode$ with parent $pa(\treenode)$ and previous sibling $s(\treenode)$, the ancestral and fraternal hidden states are computed as follows:
 
 \begin{align}
     \hidden_a^\treenode &= rnn_a(\hidden_a^{pa(\treenode)}, \hidden_i^{pa(\treenode)}) \\ \label{eq:ancestral_update}
@@ -134,7 +134,7 @@ During training, we use the actual values for whether a node has children and su
 During inference, we can randomly sample from $\prob_a^\treenode,\prob_f^\treenode$ or choose a confidence level to continue creating offspring and succeeding siblings as long as the probability stays above the chosen threshold. 
 
 \paragraph{Constrained decoding}
-Applying DRNN \cite{alvarezmelis2017tree} to code entails special advantages: grammatical constraints of the programming language can be used to narrow down the token vocabulary for the model to select from.
+Applying DRNN \cite{alvarez-melisTreestructuredDecodingDoublyrecurrent2017} to code entails special advantages: grammatical constraints of the programming language can be used to narrow down the token vocabulary for the model to select from.
 We identify 3 Abstract Syntax Tree parent nodes that impose specific constraints onto possible children:
 
 \begin{enumerate}
@@ -154,7 +154,7 @@ to predict the value of a child token. Its token probability distribution over t
     \hidden_o^\treenode =  softmax\left(\weights_o \cdot \hidden_{pred}^\treenode + \biases_{o}\right) \label{eq:label_pred}
 \end{align}
 
-For literal tokens, the vocabulary can, in theory, be infinitely large. We employ adaptive softmax \cite{grave2017efficient} to use a vocabulary consisting of many unique literal tokens without a considerable increase in computational complexity.
+For literal tokens, the vocabulary can, in theory, be infinitely large. We employ adaptive softmax \cite{graveEfficientSoftmaxApproximation2017} to use a vocabulary consisting of many unique literal tokens without a considerable increase in computational complexity.
 
 A leaf node that does not have one of the 3 special parents is either a \textbf{reserved token} (for, if, while, ...) or an \textbf{identifier}. We predict whether it's a reserved token using another linear layer, the same way as the topology predictions using the predictive hidden state of the node: 
 
@@ -165,7 +165,7 @@ A leaf node that does not have one of the 3 special parents is either a \textbf{
 For reserved tokens, another linear layer $\langle W_o,b_o \rangle = \langle W_\text{reserved},b_\text{reserved} \rangle$ is used to predict the value.
 
 \paragraph{Identifier tokens}
-Since program behavior is invariant to identifier replacement, instead of attempting to accurately predict identifier names we map each unique identifier to a reusable ID \cite{tufano2019learning} and treat the prediction of identifiers as a clustering problem. 
+Since program behavior is invariant to identifier replacement, instead of attempting to accurately predict identifier names we map each unique identifier to a reusable ID \cite{tufanoLearningMeaningfulCode2019} and treat the prediction of identifiers as a clustering problem. 
 
 The model can keep track of a list of the declared identifiers while generating an AST. Each time a new identifier is declared, a new reusable ID is added to the list. Then for each reference, we can compute the similarity to each of the declared identifiers using some similarity function and predict the most similar identifier. Let $D$ be the set of currently declared identifier nodes and $\treenode$ be the current reference node we are trying to predict, the most similar declared identifier can be computed as follows:
 
@@ -174,7 +174,7 @@ The model can keep track of a list of the declared identifiers while generating 
     \mathbf{r}^\treenode &= \min_{\treenode' \in D}(\mathbf{s}^{\treenode \treenode'})
 \end{align}
 
-\paragraph{Add gate} \label{par:addgate} The DRNN model has a large flaw, where it is not able to differentiate between paths with the same prefix. For example, consider two function declarations named `add' and `main' depicted in the upper part of figure \ref{fig:treeAddGate}. In the original formulation of DRNN \cite{alvarezmelis2017tree} there is no information flow from the left sibling of the parent to the child, resulting in both name nodes having the exact same hidden state and thus the same label. To solve this issue, we would like to incorporate fraternal states in the downwards flow for the model. Hence, we revise equation \ref{eq:ancestral_update}, where we take inspiration from the LSTM model and apply the idea of the add gate to our ancestral update formula:
+\paragraph{Add gate} \label{par:addgate} The DRNN model has a large flaw, where it is not able to differentiate between paths with the same prefix. For example, consider two function declarations named `add' and `main' depicted in the upper part of figure \ref{fig:treeAddGate}. In the original formulation of DRNN \cite{alvarez-melisTreestructuredDecodingDoublyrecurrent2017} there is no information flow from the left sibling of the parent to the child, resulting in both name nodes having the exact same hidden state and thus the same label. To solve this issue, we would like to incorporate fraternal states in the downwards flow for the model. Hence, we revise equation \ref{eq:ancestral_update}, where we take inspiration from the LSTM model and apply the idea of the add gate to our ancestral update formula:
 
 \begin{align}
     &\hidden_{mf}^\treenode = \stddev(\weights^\mlinputvec_m \cdot \hidden_f^\treenode + \biases_m)\\
@@ -224,8 +224,8 @@ The middle tree in figure figure \ref{fig:treeBatchingDecoder} is such an exampl
 
 \paragraph{Mitigating KL vanishing}
 KL vanishing is a common issue when dealing with VAEs with a decoder parameterized by an auto-regressive model.
-We mitigate it using cyclical KL cost annealing \cite{fu2019cyclical}. 
-Furthermore, we apply pooling to the hidden states of the RNN network in the encoder. Long \textit{et al.} \cite{long2019preventing} show this pooling method can effectively prevent posterior collapse. 
+We mitigate it using cyclical KL cost annealing \cite{fuCyclicalAnnealingSchedule2019}. 
+Furthermore, we apply pooling to the hidden states of the RNN network in the encoder. Long \textit{et al.} \cite{longPreventingPosteriorCollapse2019} show this pooling method can effectively prevent posterior collapse. 
 
 \paragraph{Loss function}
 We use binary cross-entropy loss for the binary classification problems of predicting whether a node $\treenode$ has offspring
@@ -264,7 +264,7 @@ Hence, we can compute the cross entropy loss (or negative log likelihood):
 
 \noindent where we $l^\treenode$ is the index of the true label, and hence $\hidden_o^\treenode[l^\treenode]$ retrieves the softmax value at the index of the correct class. 
 
-Lastly, since identifier prediction is a clustering problem, we can use triplet loss \cite{chechik2010large}. 
+Lastly, since identifier prediction is a clustering problem, we can use triplet loss \cite{chechikLargeScaleOnline2010}. 
 To compute the loss of a reference node $\treenode$, we select the true declaration node $\treenode'$ and sample a negative declaration node $x$; the loss is then defined as
 
 \begin{align}
@@ -347,7 +347,7 @@ We use CLANG C++ compiler to expand macros, as well as parse the programs as Abs
 
 \subsection{Baseline}
 
-Our baseline model is a maximally simple sequence to sequence (Seq2Seq) autoencoder based on a single layer Gated Recurrent Unit \cite{chung2014empirical} architecture. Similar to Tree2Tree, we employ methods to mitigate KL-vanishing, namely, cyclic KL annealing \cite{fu2019cyclical} and word dropout \cite{bowman2015generating}.
+Our baseline model is a maximally simple sequence to sequence (Seq2Seq) autoencoder based on a single layer Gated Recurrent Unit \cite{chungEmpiricalEvaluationGated2014} architecture. Similar to Tree2Tree, we employ methods to mitigate KL-vanishing, namely, cyclic KL annealing \cite{fuCyclicalAnnealingSchedule2019} and word dropout \cite{bowmanGeneratingSentencesContinuous2015}.
 
 \subsection{Training parameters}
 
@@ -361,7 +361,7 @@ Our baseline model is a maximally simple sequence to sequence (Seq2Seq) autoenco
 Table \ref{tab:params} lists the hyperparameters selected for training the baseline and the proposed model.
 Note that the only difference is the learning rate (set experimentally) and pre-trained embeddings.
 Since we use word vectors designed for English\footnote{The only token embedding effort for C++ we are aware of \cite{harerAutomatedSoftwareVulnerability2018} does not publish the coefficients}, not C++, we do not expect their use to be beneficial for embedding leaf nodes (tokens that occur in the code directly, i.e. \verb|+|).
-However, non-leaf nodes of the AST have interpretable labels such as "function declaration", so we expect GLoVe \cite{pennington2014glove} embeddings in the Tree2Tree model to be meaningful.
+However, non-leaf nodes of the AST have interpretable labels such as "function declaration", so we expect GLoVe \cite{penningtonGloveGlobalVectors2014} embeddings in the Tree2Tree model to be meaningful.
 
 \newpage
 \section{Results}
@@ -375,7 +375,7 @@ First, we look at how accurately the autoencoders can reconstruct programs. We u
 
 We compute ground truth similarity scores for both models on the original representation of the source code to obtain comparable results, i.e., we do not use the tree representation.
 The Tree2Tree model thus has an extra step to use the data parser to transform the tree representation back to source code. This extra step is disadvantageous for the Tree2Tree model as it may introduce errors due to imperfections in the parsing process. 
-We choose BLEU \cite{papineni2002bleu} as the similarity metric to maintain consistency with recent code generation literature \cite[table I]{evtikhievOutBLEUHow2023}.
+We choose BLEU \cite{papineniBleuMethodAutomatic2002} as the similarity metric to maintain consistency with recent code generation literature \cite[table I]{evtikhievOutBLEUHow2023}.
 The BLEU scores are then computed on each token in a program: keywords, identifiers, operators, and special symbols such as semicolons or braces. 
 We report on the cumulative BLEU-1 through BLEU-4 scores to indicate the overlap between original and reconstructed programs, as well as present the percentage of reconstructed programs that compile to indicate how well the models have learned the programming language's syntax. We experiment with different combinations of latent sizes $|\latent|$ and hidden RNN dimensions $|\hidden|$:  ($|\latent|$:10,  $|\hidden|$:50), ($|\latent|$:50, $|\hidden|$:100), ($|\latent|$:100, $|\hidden|$:200), ($|\latent|$:150, $|\hidden|$:300), ($|\latent|$:300, $|\hidden|$:500), ($|\latent|$:500, $|\hidden|$:800), ($|\latent|$:800, $|\hidden|$:1200).
 
@@ -469,7 +469,7 @@ To see how well autoencoders can generate reasonable samples from any point in l
 
 
 
-We employ two decoding strategies to test the generative capabilities of the models: greedy decoding and sampling. The sampling strategy we apply is a combination of top-$k$, nucleus, and temperature sampling \cite{holtzman2019curious}. 
+We employ two decoding strategies to test the generative capabilities of the models: greedy decoding and sampling. The sampling strategy we apply is a combination of top-$k$, nucleus, and temperature sampling \cite{holtzmanCuriousCaseNeural2019}. 
 We first use temperature sampling to scale the logits to control the shape of the probability distribution. Then we discard all but the top $k$ samples, after which we filter tokens on their cumulative probability using nucleus sampling (top-$p$). Lastly, we sample a token from the resulting distribution. The selected sampling hyperparameters for this experiment are: $k=40$, $p=0.9$, $temperature=0.7$. The results are displayed in table \ref{tab:gen_results}.
 
 \begin{table}
@@ -532,7 +532,7 @@ The Seq2Seq model displays similar behavior as with the reconstructions, multipl
 
 The Tree2Tree model makes minor alterations to the programs each interpolation step, transforming it closer to the other data point. This slow shift from one program to another shows how in the latent space of the Tree2Tree model, similar points in latent space also map to similar programs. This is a valuable property for GP, as this allows for a directed search over the latent space. Furthermore, a large part of the interpolations is compile-able, which is also a valuable property for searching over the latent space of new programs. Only the fourth program down is not compile-able due to the model treating the identifier $a$ as an array while it is declared an integer. This result is interesting, as in both the data points, the identifier $a$ is not declared an integer. In conclusion, the Tree2Tree model has a structured latent space, however, it is not guaranteed that all interpolations between two compile-able programs also result in compile-able programs.
 \newpage
-\section{Conclusion}
+\section{Discussion}
 
 Our results indicate that Tree Variational Autoencoders have a significant advantage over sequence-to-sequence models in low-dimensional latent spaces, achieving both a higher compilation rate and a higher reconstruction quality.
 In higher-dimensional latent spaces seq2seq programs offer a higher compilation rate, but corrected BLEU scores indicate that this benefit is often achieved by sacrificing reconstruction quality, even to the point of ignoring the input completely.
@@ -542,4 +542,5 @@ We believe this result to be a significant step towards an autoencoder-based fou
 
 Employing this method in Genetic Programming and Reinforcement Learning from Code Execution Feedback environments, however, requires further research and development.
 In particular, the trend of the models to sometimes generate the same output for different (highlighted in section \ref{sec:tree2tree-results-qual}) inputs limits their utilitly as exploration tools within evolutionary algorithms.
-So, while Tree2Tree does advance the state of the art in autoencoders for code, for the purposes of RLCEPS (see chapter \ref{ch:proposal}) we have to concur with \cite{autoenc-gp}: autoencoder genetic programming remains hard.
+So, while Tree2Tree does advance the state of the art in autoencoders for code, for the purposes of RLCEPS (see chapter \ref{ch:proposal}) we have to concur with \cite{mcdermottWhyAutoencodingDifficult2019}: autoencoder genetic programming remains hard.
+

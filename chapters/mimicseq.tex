@@ -14,7 +14,7 @@ This finding has precipitated the birth of a new paradigm known as foundation mo
 The learning tasks typically studied in Healthcare are often interrelated. 
 For example, sepsis presents a high risk of death \cite{schlichtingRecognizingManagingSevere2007} and predicting sepsis is evidently useful for predicting mortality.
 In light of existing research on generalist models, it is likely that considering them separately is counterproductive.
-This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016, hudsonUnderstaffing2015, mercerMessageEditorinChief2008, munnUnderstaffingWardsCompromising2017, r.stanleyUnderstaffedOverwhelmed2010, SurveyShowsHidden1993, thelancetHealthcareSystemStaffing2018, UnderstaffingSignificantIssue2012} and population ageing \cite{2012health, Aslam2021Ageing, L1991aging, Lloyd2012Population, Mahishale2015Ageing, Mann2004aging, Sammy2019global, Suzman2015Health}, makes a foundation model for Healthcare particularly important.
+This, together with the vital societal importance of access to healthcare amidst understaffing \cite{ashleyy.metcalfHospitalUnitUnderstaffing2016,hudsonUnderstaffing2015,mercerMessageEditorinChief2008,munnUnderstaffingWardsCompromising2017,r.stanleyUnderstaffedOverwhelmed2010,SurveyShowsHidden1993,thelancetHealthcareSystemStaffing2018,UnderstaffingSignificantIssue2012} and population ageing \cite{HealthcareChallengesPosed2012,aslamAgeingPopulationHealthcare2021,l.weckerAgingPopulationCritical1991,lloyd-sherlockPopulationAgeingHealth2012,mahishaleAgeingWorldHealth2015,mannAgingPopulationIts2004,sammyGlobalChallengeAgeing2019,suzmanHealthAgeingWorld2015}, makes a foundation model for Healthcare particularly important.
 
 \subsection{Sequence modeling}
 
@@ -51,17 +51,17 @@ For a planning horizon of 1 (greedy policy) it is defined as:
     a_{n+1} = \arg \max_a \mathbb{E} [r_{n+1} \sim \hat{p}(r_{n+1} | \dots a_n, r_n, o_{n+1}, a)]
 \end{equation}
 
-Thus while the paradigm of Healthcare as a Sequence Modeling task is novel, there is a robust body of research reducing Healthcare to Reinforcement Learning \cite{yuReinforcementLearningHealthcare2021} and Reinforcement Learning to Sequence Modeling \cite{chenDecisionTransformerReinforcement2021, jannerOfflineReinforcementLearning2021, schmidhuberReinforcementLearningUpside2020}. 
+Thus while the paradigm of Healthcare as a Sequence Modeling task is novel, there is a robust body of research reducing Healthcare to Reinforcement Learning \cite{yuReinforcementLearningHealthcare2021} and Reinforcement Learning to Sequence Modeling \cite{chenDecisionTransformerReinforcement2021,jannerOfflineReinforcementLearning2021,schmidhuberReinforcementLearningUpside2020}. 
 
 \subsection{Intensive Care databases: a nano-review}
 
 % Why intensive care is a good source of data
 Intensive Care is the medical speciality that supports patients whose lives are in immediate danger.
-As such, it requires robust real time monitoring of the patient's vital signs due to quickly identify potential deterioration \cite{Bailey2013trial, Blount2010Real, Bockholt2022Real, Dimitrios1999Distributed, Fried2000Some, Mao2012integrated, Prgomet2016Vital, Vincent2018Improving}.
+As such, it requires robust real time monitoring of the patient's vital signs due to quickly identify potential deterioration \cite{baileyTrialRealtimeAlert2013,blountRealTimeAnalysisIntensive2010,bockholtRealTimeMonitoringBlood2022,dimitriosg.katehakisDistributedAgentBasedArchitecture1999,friedStatisticalMethodsIntensive2000,maoIntegratedDataMining2012,prgometVitalSignsMonitoring2016,vincentImprovingDetectionPatient2018}.
 Monitoring hardware creates a datastream of variables like heart rate and blood oxygenation and, as a result, Intensive Care stands to benefit more than other fields of Healthcare from integration of data-driven models \cite{nunezreizBigDataAnalysis2019}.
 
 % Datasets
-MIMIC IV \cite{johnsonMIMICIVFreelyAccessible2023}, AmsterdamUMCdb \cite{amsterdamumcdb-a}, HiRID \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} and the eICU Collaborative Research Database \cite{pollard2018a} are databases of health records obtained from Intensive Care Units.
+MIMIC IV \cite{johnsonMIMICIVFreelyAccessible2023}, AmsterdamUMCdb \cite{amsterdamumcdb}, HiRID \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} and the eICU Collaborative Research Database \cite{pollardEICUCollaborativeResearch2018} are databases of health records obtained from Intensive Care Units.
 Unlike many machine learning datasets, they avoid setting a standard for the parameters of the task such as which variables of a sample are to be used as features and which are to be predicted by the model, which samples are to be used for training and which are the holdout set - even what is a sample (a patient? an ICU admission? a drug? a diagnosis?). This makes them flexible and suitable for a wide array of tasks, but presents a challenge when seeking to compare different studies \cite{mcdermottReproducibilityMachineLearning2021}.
 
 Derivative benchmarks, such as the MIMIC Benchmark \cite{harutyunyanMultitaskLearningBenchmarking2019} and HiRID-ICU-Benchmark \cite{yecheHiRIDICUBenchmarkComprehensiveMachine} seek to address the reproducibility issue: they put forth multiple datasets (one for each task) where all the information is derived from MIMIC and HiRID-ICU respectively, but is arranged specifically for the learning task at hand. They aim to become standard benchmarks for the tasks of mortality and length of stay prediction, patient fenotyping, prediction of circulatory, respiratory or kidney failure.
@@ -83,7 +83,7 @@ We also provide a suite of evaluation metrics and 2 baseline models.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{mimiciv.png}
+    \includegraphics[width=0.5\linewidth]{mimiciv.png}
     \caption{Entity-Relationship diagram of MIMIC-IV}
     \label{fig:mimic}
 \end{figure}
@@ -123,9 +123,9 @@ Demographic information, including ethnicity, gender, and age, is recorded as a 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{mimicseq.png}
+    \includegraphics[width=0.6\linewidth]{mimicseq.png}
     \caption{Entity-Relationship diagram of MIMIC-SEQ}
-    \label{fig:enter-label}
+    \label{fig:mimicseq-er}
 \end{figure}
 
 \begin{table}[H]
@@ -228,9 +228,7 @@ Replacing ones in the one-hot encoding with the corresponding events' intensitie
 
 \begin{table}
     \centering
-      \begin{tabular}{lcccc} \toprule
-          {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-          {c10}  & 0.903 & 0.840 & 0.790 & 0.827 \\
+      \begin{tabular}{lcccc} \toprule{clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule{c10}  & 0.903 & 0.840 & 0.790 & 0.827 \\
           {c100}  & 0.568 & 0.885 & 0.713 & 0.632 \\
           {c1000}  & 0.500  & 0.976 & 0.710  & 0.586 \\
           {c10000}  & 0.509  & 0.996 &  0.703  & 0.589 \\ \midrule
@@ -241,9 +239,7 @@ Replacing ones in the one-hot encoding with the corresponding events' intensitie
 
 \begin{table}
     \centering
-      \begin{tabular}{lcccc} \toprule
-          {clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-          {c10}  & 0.942  & 0.854 & 0.850  &  0.890 \\ 
+      \begin{tabular}{lcccc} \toprule{clustering} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule{c10}  & 0.942  & 0.854 & 0.850  &  0.890 \\ 
           {c100}  & 0.633  & 0.878 & 0.765  &  0.692 \\ 
           {c1000}  & 0.548  & 0.974 & 0.770  &  0.640 \\ 
           {c10000}  &  0.539  & 0.995 & 0.771  &  0.634 \\ \midrule
@@ -255,9 +251,7 @@ Replacing ones in the one-hot encoding with the corresponding events' intensitie
   
   \begin{table}
     \centering
-      \begin{tabular}{lcccc} \toprule
-          {configuration} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule
-          {1}  & 0.505  & 0.996 &  0.727  & 0.595 \\
+      \begin{tabular}{lcccc} \toprule{configuration} & {recall} & {accuracy} & {precision} & {F1}  \\ \midrule{1}  & 0.505  & 0.996 &  0.727  & 0.595 \\
           {2} & 0.544  & 0.9959 &  0.784  & 0.642 \\  \midrule
   %        {average performance}  & \textbf{0.598}  & -0.597 & 0.598  & 0.052 \\ \bottomrule
       \end{tabular}
@@ -270,10 +264,11 @@ Replacing ones in the one-hot encoding with the corresponding events' intensitie
 
 Training an effective foundational model of intensive care requires a combination of data, algorithms and large computational resources. 
 In this chapter, we proposed a dataset and validate this proposal with a simple model architecture and a small computational investment.
-The next step is \emph{scaling}: increasing model size and hardware investment to predictably \cite{alabdulmohsinRevisitingNeuralScaling2022, henighanScalingLawsAutoregressive2020, liMisFittingScaling2024, rosenfeldScalingLawsDeep2021} increase model performance.
+The next step is \emph{scaling}: increasing model size and hardware investment to predictably \cite{alabdulmohsinRevisitingNeuralScaling2022,henighanScalingLawsAutoregressive2020,liMisFittingScaling2024,rosenfeldScalingLawsDeep2021} increase model performance.
 
 Once scaled, a foundational model for intensive care can be used in place of HeartPole or Auto-ALS as a patient simulator for RLCEPS.
 This simulator will be completely data-driven and, as such, minimize the risk of \emph{confirmation bias} (see section \ref{sec:bias}), enabling the discovery of treatment strategies that go beyond existing scientific knowledge in healthcare.
 
 Scaling requires a different focus and a different set of resources from initial research and exploration.
 As such, we leave scaling as a direction of future work.
+

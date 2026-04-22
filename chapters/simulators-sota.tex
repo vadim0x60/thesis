@@ -5,10 +5,11 @@
     An earlier revision of this chapter \cite[section 2]{liventsevEffectivePatientSimulators2021} has been published in Frontiers in Artificial Intelligence
 \end{remark}
 
+
 \section{Introduction}
 \label{sec:intro}
 
-Patient simulators have been applied extensively in nursing education \cite{didactic-sims1,didactic-sims2,didactic-sims3}, both as physical mannequins and as digital patient simulation software \cite{didactic-virtual}.
+Patient simulators have been applied extensively in nursing education \cite{mcfetrichStructuredLiteratureReview2006,nehringHumanPatientSimulators2001,nehringCurrentUseOpinions2004}, both as physical mannequins and as digital patient simulation software \cite{leeEffectiveVirtualPatient2020}.
 However, patient simulators have another important application: they can be used to predict how patients' health would respond to various treatments and thus evaluate proposals for novel treatment strategies.
 And now, with the advent of machine learning, one can use reinforcement learning \cite{yuReinforcementLearningHealthcare2021}, genetic programming or both (see chapter \ref{ch:neurogen}) to generate treatment strategies that lead to the best outcomes for the patient according to a certain simulator.
 In this chapter we review the field of interactive patient simulators and evaluate their potential to be used for automated treatment discovery (RLCEPS).
@@ -16,7 +17,7 @@ In this chapter we review the field of interactive patient simulators and evalua
 \subsection{Scope of this survey}
 \label{sec:scope}
 
-This survey only includes interactive patient simulators where a (human or software) agent communicates its clinical intervention decisions to the simulator and the simulator, in turn,
+The term \emph{patient simulator} does not have one rigorous definition, but in present thesis we focus specifically on interactive systems where a (human or software) agent communicates its clinical intervention decisions to the simulator and the simulator, in turn,
 \begin{enumerate}
     \item \emph{Predicts} future patient state given current patient state and clinical interventions.
     \item \emph{Rewards} or punishes (negatively rewards) that judges if the result of the treatment is positive or negative. The model can be as simple as just negatively rewarding patient deaths or as complex as using the predictions of the \emph{prediction model} to help the agent recognize during the episode whether they are on the right track to a positive outcome.
@@ -27,16 +28,16 @@ Any interactive simulator with a prediction model and a reward model (and thus, 
 There are 2 notable examples of systems that can be referred to as patient simulators, but do not make it easy to evaluate treatment strategies and fall outside the scope of this survey:
 \begin{enumerate}
     \item prediction models without a reward model
-    \item synthetic data generators \cite{datagens}
+    \item synthetic data generators \cite{chenSyntheticDataMachine2021}
 \end{enumerate}
 
-The former are tools like HumMod \cite{hummod} that help predict how change in one variable of patient health can affect another, for instance, how digoxin intake affects blood pressure.
+The former are tools like HumMod \cite{hesterHumModModelingEnvironment2011} that help predict how change in one variable of patient health can affect another, for instance, how digoxin intake affects blood pressure.
 A reward model is absolutely necessary for the application area that we focus on in this chapter - development and validation of treatment strategies.
-Developing it is also a non-trivial problem in its own right - which health outcomes are considered \emph{good} depends on severity of the patient's condition (\emph{alive} is a sufficiently successful outcome for the most severe conditions, but not for others) as well as the patient's own preferences \cite{patpreferences1,muhlbacherPatientPreferencesPhysicians2013}.
+Developing it is also a non-trivial problem in its own right - which health outcomes are considered \emph{good} depends on severity of the patient's condition (\emph{alive} is a sufficiently successful outcome for the most severe conditions, but not for others) as well as the patient's own preferences \cite{streetPatientPreferencesHealthcare2012,muhlbacherPatientPreferencesPhysicians2013}.
 Thus, we view prediction models as components that can be used to develop a full simulator in the future.
 
 The latter simulate clinical scenarios by generating samples of clinical histories.
-They provide a privacy-preserving way to generate a lot of training data for treatment discovery \cite{privacy1,privacy2,privacy3,privacy4}, however, they do not model counterfactuals. That is, they do not answer questions of the sort "How would the patient's health respond to decision X"? For example, Synthea \cite{synthea} is a framework for generation of entire synthetic Electronic Health Records, EHRs, of patients, from the first to the last patient encounter, but the system does not enable testing alternative interventions on patients.
+They provide a privacy-preserving way to generate a lot of training data for treatment discovery \cite{gongSurveyDifferentiallyPrivate2020,wangGeneratingEvaluatingCrosssectional2021,jordonPATEGANGeneratingSynthetic2018,rankinReliabilitySupervisedMachine2020}, however, they do not model counterfactuals. That is, they do not answer questions of the sort "How would the patient's health respond to decision X"? For example, Synthea \cite{walonoskiSyntheaApproachMethod2017} is a framework for generation of entire synthetic Electronic Health Records, EHRs, of patients, from the first to the last patient encounter, but the system does not enable testing alternative interventions on patients.
 
 \subsection{Simulators as models}
 
@@ -53,7 +54,7 @@ We argue that there are two use cases for a patient simulator: {\sl modeling} an
 Firstly, a simulator can be used as a \emph{patient model} aiming to represent the real world evolution of patient health in response to various treatments as closely as possible.
 The effectiveness criterion for a patient model is simple - \emph{accuracy}.
 Accuracy can be measured by comparing the simulator's predictions against a dataset of clinical histories.
-One metric in particular that has been used for simulator validation is \emph{mean predictive error over dynamic transitions} \cite{mdpe}.
+One metric in particular that has been used for simulator validation is \emph{mean predictive error over dynamic transitions} \cite{summersValidationComputationalPlatform2009}.
 If the simulator was obtained with machine learning, the data also has to be different from the training data: a different dataset or a holdout set can be used for that purpose.
 
 The trust graph (see figure \ref{fig:model}) for a model is equally simple: if the data used for development of the simulator is a representative sample of the true distribution of the patients and the methodology used to turn build an interactive simulator based on these data is sound, the simulator is an accurate representation of a real world patient.
@@ -91,8 +92,8 @@ In this simulator, a decision that violates the existing emergence care protocol
 \end{figure}
 
 Benchmarks orient AI \cite{liangHolisticEvaluationLanguage2022}. Whether it's ImageNet \cite{dengImagenetLargescaleHierarchical2009} in Computer Vision or GLUE \cite{wangGLUEMultitaskBenchmark2018} in natural language processing, benchmarks are a core research tool in mature applications of machine learning, enabling quantitative analysis of learning methodologies to guide and orient their development.
-Machine learning in Healthcare, an emergent field with unique challenges in availability of research datasets \cite{Anshik2021Handling,Gilbert2015market,Pahwa2021Big,Yazhini2019State} lacks an accepted benchmarking standard: recent literature reviews \cite{palMachineLearningHealthcare2023,tortorellaHealthcareTrendsChallenges2020} of the field cover a variety of studies that each use their own (often non-public) benchmark. The shortage of standard benchmarks has been consistently identified as a central roadblock for machine learning in Healthcare
-\cite{Crown2015Potential,David2020Evaluating,guSupervisedLearningPervasive2023,harutyunyanMultitaskLearningBenchmarking2019,Kathrin2022Benchmark,mcdermottReproducibilityMachineLearning2021,purushothamBenchmarkingDeepLearning2018,S2017Benchmark}.
+Machine learning in Healthcare, an emergent field with unique challenges in availability of research datasets \cite{anshikHandlingAvailabilityLowTraining2021,gilbertMarketHealthcareData2015,pahwaBigDataMachine2021,yazhiniStateArtApproaches2019} lacks an accepted benchmarking standard: recent literature reviews \cite{palMachineLearningHealthcare2023,tortorellaHealthcare40Trends2020} of the field cover a variety of studies that each use their own (often non-public) benchmark. The shortage of standard benchmarks has been consistently identified as a central roadblock for machine learning in Healthcare
+\cite{crownPotentialApplicationMachine2015,davidbellamyEvaluatingProgressMachine2020,guSupervisedLearningPervasive2023,harutyunyanMultitaskLearningBenchmarking2019,kathrinblagecBenchmarkDatasetsDriving2022,mcdermottReproducibilityMachineLearning2021,purushothamBenchmarkingDeepLearning2018,s.purushothamBenchmarkDeepLearning2017}.
 
 Heavily biased and otherwise inaccurate simulators should not be used as patient models and should not be used as a basis for treatment recommendations.
 However, they can make a great \emph{benchmarks} for learning algorithms.
@@ -108,8 +109,8 @@ Another desideratum for benchmarks is \emph{transparency}.
 When a learning algorithm fails to discover an effective treatment strategy, it is very useful to understand what went wrong in detail.
 Any information output by the simulator other than its predictions as well as having easy access to its internal logic can be useful for developers.
 
-Didactic simulators can be particularly good benchmarks (to be discussed in chapter \ref{ch:auto-als}), but synthetic games akin to CartPole \cite{cartpole} and MountainCar \cite{mountain_car} (commonly used as benchmarks for Reinforcement Learning algorithms) that aim to mimic only certain aspects of real life healthcare tasks can also be used.
-One particularly illustrative example is \emph{Healing MNIST} \cite{healing-mnist} - a modified version of the industry standard MNIST Handwritten Digits \cite{mnist} dataset to which rotations and random noise have been added.
+Didactic simulators can be particularly good benchmarks (to be discussed in chapter \ref{ch:auto-als}), but synthetic games akin to CartPole \cite{bartoNeuronlikeAdaptiveElements1983} and MountainCar \cite{mooreEfficientMemorybasedLearning1990} (commonly used as benchmarks for Reinforcement Learning algorithms) that aim to mimic only certain aspects of real life healthcare tasks can also be used.
+One particularly illustrative example is \emph{Healing MNIST} \cite{krishnanDeepKalmanFilters2015} - a modified version of the industry standard MNIST Handwritten Digits \cite{dengMNISTDatabaseHandwritten2012} dataset to which rotations and random noise have been added.
 The authors argue that this dataset reflects important properties of healthcare tasks: rotations represent evolution of patient state over time, while the randomised "squares within the sequences are intended to be analogous to seasonal flu or other ailments that a patient could exhibit that are independent of the actions and which last several timesteps."
 Another example is indeed this thesis, and the use of the BOPTEST framework in chapter \ref{ch:boptest} motivated by some acute similarities between the tasks of building optimization and healthcare.
 Due to the data shortage in Healthcare many proposals for data-driven clinical decision support systems are tested on such relatively unrealistic benchmarks with the assumption that the system can be retrained on real patient data and simulators shall they arrive in the future.
@@ -121,16 +122,16 @@ UVA/Padova \cite{manUVAPADOVAType2014} is a set of equations used to model type 
 The equations were developed by clinical experts and validated on a dataset of 32 people aged 38 ± 12 years.
 It is widely used in Healthcare and even approved in the United States as a replacement for clinical trials.
 It provides $\prob_o(\obs | \state, \action)$ and $\prob_s(\state_\text{next} | \state_\text{prev}, \action)$ (see section \ref{sec:scope}), so to be a full-fledged Markov Decision Process it only need $\prob_r(\reward|\state,\action)$.
-\emph{Simglucose}~\cite{simglucose} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{diabetesrisk} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
+\emph{Simglucose}~\cite{xieSimglucoseV0212018} solves exactly that by adding a reward function based on diabetes risk index as defined in \cite{clarkeStatisticalToolsAnalyze2009} to the UVA/Padova simulator, providing a Reinforcement Learning environment for type 1 diabetes.
 
 \newpage
 \section{GYMIC}
 \label{sec:gymic}
 
 \subsection{Scope}
-GYMIC \cite{gym-sepsis} is, unlike examples in section \ref{sec:simglucose}, a fully data-driven simulator.
+GYMIC \cite{kianiGYMICOpenAIGym} is, unlike examples in section \ref{sec:simglucose}, a fully data-driven simulator.
 It harnesses a subset of MIMIC \cite{johnsonMIMICIVFreelyAccessible2023} dataset to address on one of the most challenging problems in emergency care - sepsis.
-The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{sepsis-motivation1,sepsis-motivation2}.
+The authors intentionally limit their scope to just sepsis in order to simplify the modelling task as well as because sepsis prevention has been identified as an area where doctors would particularly benefit from electronic decision support \cite{raghuDeepReinforcementLearning2017,walonoskiDeepReinforcementLearning2018}.
 
 \subsection{Prediction model}
 The prediction model of GYMIC simulator is defined as a solution to the following autoregression task:
@@ -143,9 +144,9 @@ The prediction model of GYMIC simulator is defined as a solution to the followin
 
 The dataset of clinical histories is produced by a preprocessing algorithm combining together all clinical records from MIMIC that relate to sepsis patients.
 
-Autoregressive tasks of this nature arise in many fields like stock market prediction \cite{stonks1,stonks2} or language modelling \cite{langmodels} where state of the art solutions can be found.
+Autoregressive tasks of this nature arise in many fields like stock market prediction \cite{cavalcanteComputationalIntelligenceFinancial2016,jiangApplicationsDeepLearning2021} or language modelling \cite{jozefowiczExploringLimitsLanguage2016} where state of the art solutions can be found.
 The authors of \emph{GYMIC} solve it with an LSTM \cite{hochreiterLongShorttermMemory1997} neural network with 2 additional dense layers attached, see figure \ref{fig:gymic} for the diagram.
-Faced with some of the mode collapse issues described in section \ref{sec:gymic-results} the authors also experimented with semi-supervised learning \cite{learningSemisupervisedLearning2006}: they trained a variational autoencoder \cite{kingma2019introduction} on all patient states to replace the 46-vector representations of patient state $\state$ with learned representations from the latent space of the VAE $\text{encoder}(\state)$.
+Faced with some of the mode collapse issues described in section \ref{sec:gymic-results} the authors also experimented with semi-supervised learning \cite{learningSemisupervisedLearning2006}: they trained a variational autoencoder \cite{kingmaIntroductionVariationalAutoencoders2019} on all patient states to replace the 46-vector representations of patient state $\state$ with learned representations from the latent space of the VAE $\text{encoder}(\state)$.
 The issues persisted.
 
 \begin{figure}
@@ -159,7 +160,7 @@ The issues persisted.
 
 Highlighting the gravity of contracting sepsis, \emph{GYMIC} has only 2 outcomes: patient is discharged from intensive care or patient dies.
 Its reward model reflects that, giving the agent a large positive or negative reward at the end of the episode, depending on the outcome.
-However, in order to lower the difficulty of the simulator (delayed gratification makes training significantly harder \cite{delayedgrat-humans,gulwaniProgramSynthesis2017}) an additional reward is provided during the episode, based on the evolution of the patient's SOFA score \cite{sofa} - a commonly used measure of sepsis severity:
+However, in order to lower the difficulty of the simulator (delayed gratification makes training significantly harder \cite{mischelAttentionDelayGratification1970,gulwaniProgramSynthesis2017}) an additional reward is provided during the episode, based on the evolution of the patient's SOFA score \cite{lambdenSOFAScoreDevelopment2019} - a commonly used measure of sepsis severity:
 
 \begin{multline}
 \reward\left(\state_{\step}, \state_{\step+1}\right)=C_{0} \mathbb{1}\left(\state_{\step+1}^{\mathrm{SOFA}}=\state_{\step}^{\mathrm{SOFA}} \& \state_{\step+1}^{\text{SOFA }}>0\right) + \\ +
@@ -175,3 +176,4 @@ A third reward component is proposed to negatively reinforce action severity and
 Unfortunately, the experiments performed by the authors of \emph{GYMIC} indicate extreme overfitting.
 Due to \emph{sampling bias} and simply inadequate size of the dataset there are treatments that have only occurred a few times in the training data and have always resulted in a positive health outcome.
 In \emph{GYMIC} these treatments are silver bullets that guarantee a successful outcome while in real life they are risky and potentially very harmful.
+

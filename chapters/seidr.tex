@@ -65,7 +65,7 @@ We start with a basic template for a chosen programming language that contains a
 \end{figure}
 
 We populate this template with a comment indicating a textual task description and several I/O examples from the training set.
-We design the templates with prompt engineering guidelines~\cite{PromptEngineering} and prior work from chapter \ref{ch:tree2tree} in mind.
+We design the templates with prompt engineering guidelines~\cite{openaiPromptEngineering} and prior work from chapter \ref{ch:tree2tree} in mind.
 We then sample $\treearity_\text{draft}$ programs from $ \policy_\text{synth} $, setting \texttt{code} to the populated template and \texttt{description} to the natural language description of what the model should generate.
 We use \emph{spring sampling} (appendix \ref{apdx:spring}), a temperature-based sampling with a monotonically increasing temperature schedule where the $i$-th program is sampled with temperature $t_\step \approx \frac{i-1}{\treearity_\text{draft}}$ (we use approximate equality to enable efficient implementation by means of batching).
 Thus, the sampling procedure for the first programs approximates a deterministic maximum-likelihood estimation.
@@ -193,7 +193,7 @@ Observe that a mutation-only genetic algorithm with tournament selection with fi
 
 % Changes: explicit author surnames, order and some phrasing
 
-Until recently, the tasks of neural program synthesis~\cite{gulwaniProgramSynthesis2017} and program repair~\cite{gouesAutomatedProgramRepair2019,petke2018:genetic,bugfixing,zhang2024systematic} have been considered separately.
+Until recently, the tasks of neural program synthesis~\cite{gulwaniProgramSynthesis2017} and program repair~\cite{gouesAutomatedProgramRepair2019,petke2018:genetic,legouesSystematicStudyAutomated2012,zhangSystematicLiteratureReview2024} have been considered separately.
 However, results from genetic programming~\cite{sobaniaRecentDevelopmentsProgram2021} suggest that evolution is a crucial step in synthesis.
 A number of important studies bridging this gap in the application of large language models have been carried out concurrently with this chapter, discussed below.
 
@@ -204,13 +204,13 @@ The resulting framework is a two-step process (1 draft step and 1 debug step), w
 Evolution through Large Models (ELM)~\cite{lehmanEvolutionLargeModels2022} proposes to use a language model in place of a mutation operator within a traditional genetic programming framework~\cite{koza1994:genetic}. They use a type of instruction fine-tuned model trained on git commit messages known as a diff model~\cite{DiffModelsNew2023}. 
 However, the model is directed neither to solve the programming problem at hand nor to fix bugs.
 Instead, it is provided with generic instructions such as ``Change function f.'' 
-This approach is meant for the cases where creative freedom~\cite{stanleyWhyGreatnessCannot2015a} is encouraged rather than satisfying concrete requirements.
-\cite{liu2023algorithm} demonstrate the advantages of applying ELM to modular components of a solution, rather than the entire solution to the given problem.
+This approach is meant for the cases where creative freedom~\cite{stanleyWhyGreatnessCannot2015} is encouraged rather than satisfying concrete requirements.
+\cite{liuAlgorithmEvolutionUsing2023} demonstrate the advantages of applying ELM to modular components of a solution, rather than the entire solution to the given problem.
 
 Some related work is explicitly guided by the metaphor of conversation between agents. 
-A repair-only program synthesis loop can be implemented as a conversation between an analyst agent, a coder, and a tester~\cite{zhang2023steam} or between a tester, a developer, and a reviewer~\cite{dongSelfcollaborationCodeGeneration2023}. 
+A repair-only program synthesis loop can be implemented as a conversation between an analyst agent, a coder, and a tester~\cite{zhangSTEAMSimulatingInteractive2023} or between a tester, a developer, and a reviewer~\cite{dongSelfcollaborationCodeGeneration2023}. 
 The coder and the developer are roughly equivalent to SYNTHESIZE, the tester to EXECUTE, and the reviewer to INSTRUCT, while the analyst is an agent that prepares a generation prompt for the coder. 
-Both testers are language models that predict the output of a program without actual compilation, execution, or testing, which makes \cite{dongSelfcollaborationCodeGeneration2023} and \cite{zhang2023steam} specific cases of chain-of-thought prompting~\cite{yuBetterChainofThoughtPrompting2023} for program synthesis.
+Both testers are language models that predict the output of a program without actual compilation, execution, or testing, which makes \cite{dongSelfcollaborationCodeGeneration2023} and \cite{zhangSTEAMSimulatingInteractive2023} specific cases of chain-of-thought prompting~\cite{yuBetterChainofThoughtPrompting2023} for program synthesis.
 
 Several studies explore an iterative approach to program synthesis in a manner similar to SEIDR~\cite{xiaConversationalAutomatedProgram2023,chenTeachingLargeLanguage2023,shinnReflexionLanguageAgents2023}. 
 However, they do not explore the repair-replace trade-off and exclusively implement the repair-only approach that is prone to local minima.
@@ -264,7 +264,7 @@ The first dataset is a benchmark suite of 25 problems for program synthesis that
 PSB2 was developed as a more realistic and challenging version of PSB1~\cite{helmuth2015:general}, the latter consisting of textbook problems and is widely used in genetic programming~\cite{sobania2022:choose}. 
 The problems require different data structures and control flows to be used for effective solutions and are taken from sources, such as competitive programming platforms and educational courses. 
 The problems have descriptions in English, as well as 1 million~(M) tests (as I/O pairs) for training and 1M testing-stage tests, including edge or corner cases that test the resulting program on complicated inputs. 
-Additionally, PSB2 provides baseline scores achieved by PushGP~\cite{spectorAutoconstructiveEvolutionPush2001}, a genetic programming framework that combines the built-in code manipulation capabilities of programming languages of the LISP family~\cite{b.HowStrengthsLispfamily2016a, c.LispSmallPieces2003, e.SyntacticExtensionsProgramming1986a, grahamHundredYearLanguage, j.RecursiveFunctionsSymbolic1960a} with state-of-the-art evolutionary optimization techniques.
+Additionally, PSB2 provides baseline scores achieved by PushGP~\cite{spectorAutoconstructiveEvolutionPush2001}, a genetic programming framework that combines the built-in code manipulation capabilities of programming languages of the LISP family~\cite{b.HowStrengthsLispfamily2016,c.LispSmallPieces2003,e.SyntacticExtensionsProgramming1986,grahamHundredYearLanguage,j.RecursiveFunctionsSymbolic1960} with state-of-the-art evolutionary optimization techniques.
 
 We use the PSB2 training set for ranking and selection of programs (validation) within an experiment and the test set for reporting the result thereof (testing).
 We use exclusively edge test cases (since they tend to be more informative) and only augment random test cases if the number of cases is not enough.
@@ -549,7 +549,7 @@ For the first set of experiments, we set $M = 1000,$ and for the generalizabilit
 
 
 
-Following~\cite{psb2}, we use 2000 I/O pairs ($\left(I, O\right)_{test}$ in Figure~\ref{fig:method}) from the test split of PSB2 to evaluate the candidate program that has passed all validation test cases ($\left(I, O\right)_{val}$ in Figure~\ref{fig:method}) during debugging. 
+Following~\cite{helmuthPSB2SecondProgram2021}, we use 2000 I/O pairs ($\left(I, O\right)_{test}$ in Figure~\ref{fig:method}) from the test split of PSB2 to evaluate the candidate program that has passed all validation test cases ($\left(I, O\right)_{val}$ in Figure~\ref{fig:method}) during debugging. 
 Due to repetitive calls to EXECUTE, we have to resolve the speed of testing versus precision trade-off while choosing the number of validation test pairs.
 We resolve the trade-off by fixing the validation set size at 100 for the initial experiments and 50 for the generalizability exploration, which has more runs with the same hyperparameters. 
 We have run a preliminary experiment to confirm that we do not lose the final test pass rate points on 2000 tests when we decreased the validation test set size from 100 (which was used in the GECCO-2023  chapter) to 50 for the generalizability exploration.
@@ -557,7 +557,7 @@ Due to a small number of tests in HumanEval-X, all tests are made visible to the
 To ensure that the program candidates generated from the same parent program are different from each other, we change the temperature parameter of the LLMs. 
  
 
-\newpage\section{Results and Discussion}
+\newpage\section{Results}
 \label{sec:seidr-results}
 
 In this section, we present the results of the initial exploration, where we investigate the repair-replace trade-off in SEIDR with Codex and GPT-3 (\rqtreearity{}) using the PSB2 benchmark.
@@ -1069,7 +1069,7 @@ these problems would have been solved from the first attempt.
 Since we observe $EPG>1$ values, data contamination is likely to have only a partial effect on the results.
 Moreover, the results can be affected by popular evaluation benchmarks: even though the benchmarks themselves are usually not parts of the pre-training dataset, the published LLMs are likely to be optimized for high performance on these benchmarks.   
 
-\newpage\section{Conclusion}
+\newpage\section{Discussion}
 \label{sec:seidr-conclusion}
 
 In this study, we propose SEIDR, a multi-agent framework to solve the challenge of fully autonomous programming. 
@@ -1102,3 +1102,4 @@ The union of SEIDR runs has solved 18 PSB2 problems in C++ and 20 in Python with
 % Moreover, the method achieves the state-of-the-art result for pass@10 (74.44\%) with Code Llama 34B and for pass@100 (93.29\%) with GPT-3.5 on HumanEval-C++. 
 % The approach requires under 100 program executions to obtain the reported results with GPT-3.5 and Code Llama.
 % SEIDR with moderate number of generated programs for each bug explanation is favorable both for obtaining a solution and for the speed of solving a task. 
+

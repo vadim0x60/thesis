@@ -7,10 +7,10 @@
 
 \section{Motivation}
 
-The chronological order of work that went into this thesis is intentionally kept somewhat secret, but in this case it is too relevant to omit: OpenAI Codex \cite{chenEvaluatingLargeLanguage2021}, the first autoregressive foundation model (section \ref{sec:pretrain}) for program synthesis, was unveiled concurrently with the preparation of chapter \ref{ch:tree2tree}, \emph{prompting} the field to of program synthesis to rethink many (if not most) of its methodological assumptions.
+OpenAI Codex \cite{chenEvaluatingLargeLanguage2021}, the first autoregressive foundation model (section \ref{sec:pretrain}) for program synthesis, was unveiled concurrently with the preparation of chapter \ref{ch:tree2tree}, \emph{prompting} the field of program synthesis to rethink many (if not most) of its methodological assumptions.
 This thesis is no exception.
 
-Codex was \emph{promptly} followed by a wave of instruction fine-tuned models~\cite{zhangInstructionTuningLarge2023} that use human feedback \cite{chaudhariRLHFDecipheredCritical2024, kaufmannSurveyReinforcementLearning2024} in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
+Codex was \emph{promptly} followed by a wave of instruction fine-tuned models~\cite{zhangInstructionTuningLarge2023} that use human feedback \cite{chaudhariRLHFDecipheredCritical2024,kaufmannSurveyReinforcementLearning2024} in their training process and are designed to explicitly or implicitly admit two inputs: a source text (or code) and a textual command instructing the model to edit the source in a particular way, e.g., ``summarize'' or ``translate to Python.''
 These models have been shown to be highly successful in automatic program repair~\cite{fanAutomatedRepairPrograms2023}. 
 However, given the free-form nature of these instructions, how one should engineer instructions that maximize repair performance is an open question. 
 
@@ -18,7 +18,7 @@ All the above models, whether instruction-tuned or not, operate in \emph{code tr
 In contrast with RLCEF (section \ref{sec:rlcef}), this paradigm imposes significant constraints on how the task can be specified.
 In particular, it is incompatible with our proposed approach (chapter \ref{ch:proposal}) of using a patient simulator as specification.
 
-The disadvantages of textual \emph{prompts} as the only form of specification are supported by the research literature as well: large language models for code can be very brittle with respect to the input \emph{prompt} \cite{Chen2024NLPerturbator, Erik2022Capturing, Hossen2024On, Shirafuji2023Exploring, Shivagunde2024Deconstructing, Verma2024On, Wang2022ReCode, Zhuo2023On} and display something known as "near-miss syndrome" or "last mile problem" \cite{bavishi2022:neurosymbolic, liuYourCodeGenerated2023, renCodeBLEUMethodAutomatic2020}, i.e. generate solutions that are superficially similar to the desired code, but fail when tested in the real world due to, for example, incorrect input output format.
+The disadvantages of textual \emph{prompts} as the only form of specification are supported by the research literature as well: large language models for code can be very brittle with respect to the input \emph{prompt} \cite{chenNLPerturbatorStudyingRobustness2024,erikCapturingFailuresLarge2022,hossenAdversarialRobustnessInstructionTuned2024,shirafujiExploringRobustnessLarge2023,shivagundeDeconstructingInContextLearning2024,vermaBrittleFoundationsReAct2024,wangReCodeRobustnessEvaluation2022,zhuoRobustnessPromptbasedSemantic2023} and display something known as "near-miss syndrome" or "last mile problem" \cite{bavishi2022:neurosymbolic,liuYourCodeGenerated2023,renCodeBLEUMethodAutomatic2020}, i.e. generate solutions that are superficially similar to the desired code, but fail when tested in the real world due to, for example, incorrect input output format.
 
 \newpage
 \section{Synthesize, Execute, Debug}
@@ -297,3 +297,4 @@ The evolution of the indoor zone temperature along the simulation for the baseli
 \caption{Indoor zone temperature through the simulation for the baseline, MPC and program synthesis in \emph{typical heat period}, together with the lower and upper comfort limits and temperature setpoint for baseline controller.}
 \label{fig:temp-typical}       % Give a unique label
 \end{figure}
+
